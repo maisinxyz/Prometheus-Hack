@@ -133,5 +133,59 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": ["financial_district_office", "chelsea_office", "wall_street_office", "times_square"]
+  },
+  {
+    "id": "soda_liquid",
+    "displayName": "Soda Liquid",
+    "spriteKey": "item_soda_liquid",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["mackenzie_cafe"]
+  },
+  {
+    "id": "plastic_container",
+    "displayName": "Plastic Container",
+    "spriteKey": "item_plastic_container",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["mackenzie_cafe"]
+  },
+  {
+    "id": "soda_can_full",
+    "displayName": "Full Soda Can",
+    "spriteKey": "item_soda_can_full",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": ["soda_liquid", "aluminum_can"],
+    "venueIds": ["mackenzie_cafe"]
+  },
+  {
+    "id": "takeout_box_with_food",
+    "displayName": "Full Takeout Box",
+    "spriteKey": "item_takeout_box_with_food",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": ["food_scraps", "plastic_container"],
+    "venueIds": ["mackenzie_cafe"]
+  },
+  {
+    "id": "paper_container",
+    "displayName": "Paper Container",
+    "spriteKey": "item_paper_container",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["mackenzie_cafe"]
+  },
+  {
+    "id": "plastic_lining",
+    "displayName": "Plastic Lining",
+    "spriteKey": "item_plastic_lining",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["mackenzie_cafe"]
   }
 ]

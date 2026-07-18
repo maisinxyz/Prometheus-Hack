@@ -17,8 +17,8 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
   public readonly itemDef: TrashItemDef;
 
   /** Position the item was in before the current drag (for snap-back) */
-  public originX: number;
-  public originY: number;
+  public startX: number;
+  public startY: number;
 
   /** Timestamp when the current drag started (for velocity scoring) */
   public dragStartTimeMs: number = 0;
@@ -44,8 +44,8 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
     super(scene, x, y, itemDef.spriteKey);
 
     this.itemDef = itemDef;
-    this.originX = x;
-    this.originY = y;
+    this.startX = x;
+    this.startY = y;
     this.componentIds = itemDef.componentIds;
 
     // Add to scene and enable drag input
@@ -94,6 +94,27 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
       this.hintText.setDepth(12);
     }
 
+    // --- Cluster B: Click detection ---
+    this.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
+      this.setData('downX', pointer.x);
+      this.setData('downY', pointer.y);
+    });
+
+    this.on('pointerup', (pointer: Phaser.Input.Pointer) => {
+      const downX = this.getData('downX');
+      const downY = this.getData('downY');
+      
+      if (downX !== undefined && downY !== undefined) {
+        const dist = Phaser.Math.Distance.Between(downX, downY, pointer.x, pointer.y);
+        // If moved less than 10 pixels, treat as a click
+        if (dist < 10) {
+          gameEvents.emit(GAME_EVENTS.ITEM_CLICKED, { item: this });
+        }
+      }
+      this.setData('downX', undefined);
+      this.setData('downY', undefined);
+    });
+
     // --- B.3: Drag input ---
     this.scene.input.on(
       'drag',
@@ -117,8 +138,8 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
       (_pointer: Phaser.Input.Pointer, gameObject: Phaser.GameObjects.GameObject) => {
         if (gameObject === this) {
           this.dragStartTimeMs = Date.now();
-          this.originX = this.x;
-          this.originY = this.y;
+          this.startX = this.x;
+          this.startY = this.y;
           this.setDepth(20); // Bring to front while dragging
 
           // Emit lock-on event

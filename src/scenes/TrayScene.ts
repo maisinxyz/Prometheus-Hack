@@ -80,10 +80,8 @@ export class TrayScene extends Phaser.Scene {
     // Track E: Wire timer and item counts to active tier
     this.roundTimerMs = this.currentTier.trayTimerSec * 1000;
     
-    // Determine items per tray (E.6)
-    if (this.currentTier.tier === 'beginner') this.itemsPerTray = 4;
-    else if (this.currentTier.tier === 'intermediate') this.itemsPerTray = 6;
-    else this.itemsPerTray = 9;
+    // Determine items per tray (Cluster B override: 10-15)
+    this.itemsPerTray = Phaser.Math.Between(10, 15);
 
     // Track E: Enable Dual Targeting (E.5)
     if (this.currentTier.dualTargeting) {
@@ -101,6 +99,12 @@ export class TrayScene extends Phaser.Scene {
 
     // Set up drag-end overlap detection (B.5)
     this.setupDropDetection();
+    
+    // Set up click detection (Cluster B)
+    gameEvents.on(GAME_EVENTS.ITEM_CLICKED, this.handleItemClicked, this);
+    this.events.once('shutdown', () => {
+      gameEvents.off(GAME_EVENTS.ITEM_CLICKED, this.handleItemClicked, this);
+    });
 
     // Start the round timer (B.8)
     this.startTimer();
@@ -175,16 +179,17 @@ export class TrayScene extends Phaser.Scene {
     const venueData = venuesData.find((v) => v.id === this.venueId);
     if (!venueData) return;
 
-    // Get all valid item definitions for this venue (exclude composites per Track E step E.6)
+    // Get all valid item definitions for this venue
     // Use the policy-patched items data from the registry, fallback to static if not set
     const allItems = (this.registry.get('itemsData') as TrashItemDef[]) || (itemsData as TrashItemDef[]);
     const pool = allItems.filter(
-      (item) => venueData.itemPoolIds.includes(item.id) && !item.isComposite
+      (item) => venueData.itemPoolIds.includes(item.id)
     );
 
     if (pool.length === 0) return;
 
-    // Pick random items for this tray
+    // Pick random items for this tray (10-15 as requested)
+    this.itemsPerTray = Phaser.Math.Between(10, 15);
     const count = Math.min(this.itemsPerTray, pool.length);
     const shuffled = [...pool].sort(() => Math.random() - 0.5);
     const selected = shuffled.slice(0, count);
@@ -238,10 +243,10 @@ export class TrayScene extends Phaser.Scene {
           // Snap back to original position
           this.tweens.add({
             targets: item,
-            x: item.originX,
-            y: item.originY,
-            duration: 200,
-            ease: 'Back.easeOut',
+            x: item.startX,
+            y: item.startY,
+            duration: 300,
+            ease: 'Power2',
             onUpdate: () => {
               item.syncAttachments();
             }
@@ -251,6 +256,58 @@ export class TrayScene extends Phaser.Scene {
     );
   }
 
+  /**
+   * Cluster B: Handle composite item clicks.
+   */
+  private handleItemClicked(data: { item: TrashItem }): void {
+    if (this.roundEnded) return;
+    const { item } = data;
+
+    // Only respond to clicks if the item is a composite
+    if (!item.itemDef.isComposite) return;
+
+    // Pause this scene
+    this.scene.pause('TrayScene');
+    this.scene.pause('HUDScene');
+
+    // Launch the separation minigame scene
+    this.scene.launch('SeparationMinigameScene', {
+      item,
+      onComplete: (success: boolean) => {
+        // Callback when minigame finishes
+        this.scene.resume('TrayScene');
+        this.scene.resume('HUDScene');
+        
+        // Remove the composite item from tray visually
+        const index = this.items.indexOf(item);
+        if (index !== -1) {
+          this.items.splice(index, 1);
+        }
+        item.destroy();
+
+        // Apply scoring based on minigame result
+        if (success) {
+          // Award massive bonus for properly separating items!
+          this.roundScore += 500;
+          this.correctDrops++;
+          this.comboSystem.registerCorrect();
+          this.cameras.main.shake(100, 0.005);
+        } else {
+          // Normal penalty for failing the minigame
+          const penalty = this.scoringSystem.resolveDrop('none', 'none', 0, 0, this.currentTier.errorPenaltyMultiplier, false).pointsAwarded;
+          this.roundScore += penalty; // it's already negative
+          this.comboSystem.registerIncorrect();
+          this.cameras.main.shake(80, 0.002);
+        }
+        
+        // Tell HUD to update (we simulate a round-ended/update event, or just wait for next drop)
+        // Actually, just emit a fake drop to trigger HUD updates, or HUD polls it.
+        // HUDScene listens to ITEM_DROPPED and ROUND_ENDED. Let's emit a combo-changed to update HUD.
+        gameEvents.emit(GAME_EVENTS.COMBO_CHANGED, { combo: this.comboSystem.getCombo() });
+      }
+    });
+  }
+
   /** Handle a resolved drop — scoring, combo, events, cleanup */
   private handleDrop(item: TrashItem, bin: Bin): void {
     const result = this.scoringSystem.resolveDrop(
@@ -258,7 +315,8 @@ export class TrayScene extends Phaser.Scene {
       bin.binDef.id,
       item.dragStartTimeMs,
       undefined,
-      this.currentTier.errorPenaltyMultiplier // Pass penalty scaling (E.3)
+      this.currentTier.errorPenaltyMultiplier, // Pass penalty scaling (E.3)
+      item.itemDef.isComposite // Pass composite flag (Cluster B)
     );
 
     // Update score

@@ -6,7 +6,8 @@
     "itemPoolIds": [
       "paper_plate", "plastic_fork", "food_scraps", "coffee_cup",
       "coffee_cup_lid", "napkin_clean", "napkin_greasy", "apple_core",
-      "plastic_water_bottle", "aluminum_can", "paper_straw_wrapper", "plastic_straw"
+      "plastic_water_bottle", "aluminum_can", "paper_straw_wrapper", "plastic_straw",
+      "soda_liquid", "plastic_container", "soda_can_full", "takeout_box_with_food"
     ],
     "backgroundKeys": {
       "clean": "venue_mackenzie_cafe_bg_clean",

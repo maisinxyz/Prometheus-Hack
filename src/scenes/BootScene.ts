@@ -51,10 +51,15 @@ export class BootScene extends Phaser.Scene {
     for (const item of updatedItems) {
       const key = item.spriteKey;
       if (this.failedLoads.has(key) || !this.textures.exists(key)) {
-        // Simple color hash based on ID
-        const color = item.correctBinId === 'compost' ? 0x22C55E : 
-                      item.correctBinId === 'paper' ? 0x3B82F6 : 0xEAB308;
-        generatePlaceholderTexture(this, key, color, item.id.toUpperCase(), 128, 128);
+        // Use hash of item ID to generate a consistent placeholder color
+        let color = 0x888888;
+        if (item.correctBinId === 'compost') color = 0x22c55e;
+        else if (item.correctBinId === 'plastic') color = 0x3b82f6;
+        else if (item.correctBinId === 'paper') color = 0xeab308;
+        else if (item.correctBinId === 'landfill') color = 0x4b5563;
+        else if (item.correctBinId === 'none') color = 0xef4444; // Composites
+        
+        generatePlaceholderTexture(this, key, color, item.id.toUpperCase(), 128, 128, item.isComposite);
       }
     }
 
