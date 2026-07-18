@@ -11,6 +11,11 @@ import { BinDef } from '../data/schemas/binSchema';
 import itemsData from '../data/items.json';
 import binsData from '../data/bins.json';
 import venuesData from '../data/venues.json';
+import { ChiSystem } from '../systems/ChiSystem';
+import { VenueDecayState, DecayState } from '../systems/VenueDecayState';
+import { ParallaxLayer } from '../entities/ParallaxLayer';
+import { DifficultySystem } from '../systems/DifficultySystem';
+import { DifficultyTierDef } from '../data/schemas/difficultyTierSchema';
 
 /**
  * TrayScene — Core disposal loop.
@@ -27,6 +32,10 @@ export class TrayScene extends Phaser.Scene {
   private comboSystem!: ComboSystem;
   private particleFX!: ParticleFXManager;
   private audioManager: AudioLayerManager = new AudioLayerManager();
+  private chiSystem!: ChiSystem;
+  private venueDecayState!: VenueDecayState;
+  private difficultySystem!: DifficultySystem;
+  private currentTier!: DifficultyTierDef;
 
   private venueId: string = 'mackenzie_cafe';
   private roundScore: number = 0;
@@ -60,7 +69,26 @@ export class TrayScene extends Phaser.Scene {
     this.scoringSystem = new ScoringSystem();
     this.comboSystem = new ComboSystem();
     this.particleFX = new ParticleFXManager(this);
-    this.audioManager.init();
+    this.chiSystem = new ChiSystem();
+    this.venueDecayState = new VenueDecayState();
+    this.difficultySystem = new DifficultySystem();
+
+    // Track E: Determine Difficulty Tier based on current CHI
+    const currentChi = this.chiSystem.getChi(this.venueId);
+    this.currentTier = this.difficultySystem.getTierForChi(currentChi);
+
+    // Track E: Wire timer and item counts to active tier
+    this.roundTimerMs = this.currentTier.trayTimerSec * 1000;
+    
+    // Determine items per tray (E.6)
+    if (this.currentTier.tier === 'beginner') this.itemsPerTray = 4;
+    else if (this.currentTier.tier === 'intermediate') this.itemsPerTray = 6;
+    else this.itemsPerTray = 9;
+
+    // Track E: Enable Dual Targeting (E.5)
+    if (this.currentTier.dualTargeting) {
+      this.input.addPointer(1); // Adds a second pointer for multi-touch
+    }
 
     // Draw venue background
     this.createBackground();
@@ -97,24 +125,32 @@ export class TrayScene extends Phaser.Scene {
     });
   }
 
-  /** Create a simple background for the venue */
+  /** Create the venue background using ParallaxLayer */
   private createBackground(): void {
-    // Gradient-style background using graphics (placeholder until Track F parallax)
-    const bg = this.add.graphics();
-    bg.fillGradientStyle(0x1a1a2e, 0x1a1a2e, 0x16213e, 0x16213e, 1);
-    bg.fillRect(0, 0, 1920, 1080);
-    bg.setDepth(0);
+    const venueData = venuesData.find((v) => v.id === this.venueId);
+    
+    // We will use the same image for fg/mid/bg just to test the ParallaxLayer logic
+    // since we only have single texture keys defined in venues.json per state.
+    // In a real art integration (Track F.1), you'd have 3 separate keys.
+    const state = this.venueDecayState.getState(this.venueId);
+    let bgKey = 'nyc_map_bg'; // Fallback if no venues data matches
+
+    if (venueData) {
+      if (state === DecayState.CLEAN) bgKey = venueData.backgroundKeys.clean;
+      else if (state === DecayState.DECLINING) bgKey = venueData.backgroundKeys.grimy;
+      else if (state === DecayState.RUINED) bgKey = venueData.backgroundKeys.ruined;
+    }
+
+    new ParallaxLayer(this, bgKey, bgKey, bgKey);
 
     // Venue name in the corner
-    const venueData = venuesData.find((v) => v.id === this.venueId);
     const venueName = venueData?.displayName ?? this.venueId;
     const venueLabel = this.add.text(30, 20, venueName, {
       fontFamily: 'Arial, sans-serif',
       fontSize: '28px',
       color: '#ffffff',
       fontStyle: 'bold',
-      alpha: 0.6,
-    });
+    }).setAlpha(0.6);
     venueLabel.setDepth(50);
   }
 
@@ -128,7 +164,7 @@ export class TrayScene extends Phaser.Scene {
     for (let i = 0; i < binCount; i++) {
       const binDef = binDefs[i]!;
       const x = spacing * (i + 1);
-      const y = 900; // Near bottom of canvas
+      const y = 200; // Near top of canvas (back of the page)
       const bin = new Bin(this, x, y, binDef);
       this.bins.push(bin);
     }
@@ -140,7 +176,8 @@ export class TrayScene extends Phaser.Scene {
     if (!venueData) return;
 
     // Get all valid item definitions for this venue (exclude composites per Track E step E.6)
-    const allItems = itemsData as TrashItemDef[];
+    // Use the policy-patched items data from the registry, fallback to static if not set
+    const allItems = (this.registry.get('itemsData') as TrashItemDef[]) || (itemsData as TrashItemDef[]);
     const pool = allItems.filter(
       (item) => venueData.itemPoolIds.includes(item.id) && !item.isComposite
     );
@@ -152,21 +189,20 @@ export class TrayScene extends Phaser.Scene {
     const shuffled = [...pool].sort(() => Math.random() - 0.5);
     const selected = shuffled.slice(0, count);
 
-    // Position items in a grid in the upper area of the screen
-    const cols = Math.min(count, 4);
-    const rows = Math.ceil(count / cols);
-    const startX = 960 - ((cols - 1) * 200) / 2;
-    const startY = 250;
-    const gapX = 200;
-    const gapY = 180;
+    for (let i = 0; i < this.itemsPerTray; i++) {
+      const randomItemDef = selected[i % selected.length]!;
 
-    for (let i = 0; i < selected.length; i++) {
-      const col = i % cols;
-      const row = Math.floor(i / cols);
-      const x = startX + col * gapX;
-      const y = startY + row * gapY;
+      // Random spread in the bottom half of the screen
+      const x = 300 + Math.random() * 1320;
+      const y = 600 + Math.random() * 300;
 
-      const item = new TrashItem(this, x, y, selected[i]!);
+      const item = new TrashItem(
+        this, 
+        x, 
+        y, 
+        randomItemDef, 
+        this.currentTier.visualCuesActive // Pass visual cues setting (E.4)
+      );
       this.items.push(item);
     }
   }
@@ -206,6 +242,9 @@ export class TrayScene extends Phaser.Scene {
             y: item.originY,
             duration: 200,
             ease: 'Back.easeOut',
+            onUpdate: () => {
+              item.syncAttachments();
+            }
           });
         }
       }
@@ -217,7 +256,9 @@ export class TrayScene extends Phaser.Scene {
     const result = this.scoringSystem.resolveDrop(
       item.itemDef.correctBinId,
       bin.binDef.id,
-      item.dragStartTimeMs
+      item.dragStartTimeMs,
+      undefined,
+      this.currentTier.errorPenaltyMultiplier // Pass penalty scaling (E.3)
     );
 
     // Update score
@@ -232,7 +273,7 @@ export class TrayScene extends Phaser.Scene {
       // Track C: Particle FX on correct sort (C.1)
       this.particleFX.playCorrectSortFX(
         { x: bin.x, y: bin.y },
-        bin.binDef.id,
+        item.itemDef.id,
         this.comboSystem.getCombo()
       );
 
@@ -248,8 +289,8 @@ export class TrayScene extends Phaser.Scene {
       this.cameras.main.shake(80, 0.002);
     }
 
-    // Track C: Thud SFX on every drop (C.8)
-    this.audioManager.playThud();
+    // Track C: Item-specific SFX on drop (C.8)
+    this.audioManager.playDropSFX(item.itemDef.id, result.correct);
 
     // Emit item-dropped event for Tracks C and D
     gameEvents.emit(GAME_EVENTS.ITEM_DROPPED, { item, bin, result });
@@ -317,6 +358,10 @@ export class TrayScene extends Phaser.Scene {
       accuracyPct,
       venueId: this.venueId,
     });
+
+    // Track D: Meta-game updates
+    this.chiSystem.updateChi(this.venueId, accuracyPct);
+    this.venueDecayState.registerRound(this.venueId, accuracyPct);
 
     // Disable all remaining items
     for (const item of this.items) {

@@ -52,6 +52,8 @@ export function generatePlaceholderTexture(
     ctx.fillText(label, width / 2, height / 2, width - 16);
 
     // Refresh the texture so Phaser picks up the canvas changes
-    canvasTexture.refresh();
+    if ('refresh' in canvasTexture) {
+      (canvasTexture as any).refresh();
+    }
   }
 }

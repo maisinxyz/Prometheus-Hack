@@ -106,5 +106,32 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": ["mackenzie_cafe"]
+  },
+  {
+    "id": "smartphone",
+    "displayName": "Broken Smartphone",
+    "spriteKey": "item_smartphone",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["financial_district_office", "chelsea_office", "wall_street_office"]
+  },
+  {
+    "id": "laptop_battery",
+    "displayName": "Swollen Laptop Battery",
+    "spriteKey": "item_laptop_battery",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["financial_district_office", "chelsea_office", "wall_street_office"]
+  },
+  {
+    "id": "confidential_document",
+    "displayName": "Confidential Document",
+    "spriteKey": "item_document",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["financial_district_office", "chelsea_office", "wall_street_office", "times_square"]
   }
 ]

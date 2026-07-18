@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { generatePlaceholderTexture } from '../util/PlaceholderArtGenerator';
+
 
 /**
  * ParticleFXManager — Particle effects for correct sorts.
@@ -57,33 +57,52 @@ export class ParticleFXManager {
    */
   playCorrectSortFX(
     position: { x: number; y: number },
-    binId: string,
+    itemId: string,
     comboCount: number
   ): void {
-    const particleInfo = ParticleFXManager.PARTICLE_MAP[binId] ?? {
-      key: 'particle_dust',
-      color: 0xaaaaaa,
-    };
+    // Map item IDs to specific particle effects, fallback to bin-based effects
+    let particleKey = 'particle_dust';
+    let pColor = 0xaaaaaa;
+    let effectType = 'burst'; // 'burst' or 'glow'
+    let lifespanFactor = 400 + Math.min(comboCount, 5) * 100;
+    
+    // Check for specific item overrides
+    if (itemId === 'smartphone' || itemId === 'laptop_battery') {
+      particleKey = 'particle_fire'; // Reusing fire particle for glow
+      pColor = 0x00ff00; // Green glow
+      effectType = 'glow';
+      lifespanFactor = 800; // Glow lasts longer
+    } else if (itemId.includes('paper') || itemId.includes('napkin') || itemId.includes('document')) {
+      particleKey = 'particle_confetti';
+      pColor = 0x3B82F6;
+    } else if (itemId.includes('plastic')) {
+      particleKey = 'particle_splash';
+      pColor = 0xEAB308;
+    } else if (itemId.includes('food') || itemId.includes('apple') || itemId.includes('coffee')) {
+      particleKey = 'particle_sparkle';
+      pColor = 0x22C55E;
+    }
 
     // Ensure the texture exists
-    if (!this.scene.textures.exists(particleInfo.key)) {
+    if (!this.scene.textures.exists(particleKey)) {
       this.ensureTextures();
     }
 
     // Scale with combo: larger and longer-lived at higher combos
     const scaleFactor = 0.5 + Math.min(comboCount, 5) * 0.15;
-    const lifespanFactor = 400 + Math.min(comboCount, 5) * 100;
-    const quantity = 8 + Math.min(comboCount, 5) * 4;
+    const quantity = effectType === 'glow' ? 4 : (8 + Math.min(comboCount, 5) * 4);
 
-    const emitter = this.scene.add.particles(position.x, position.y, particleInfo.key, {
-      speed: { min: 80, max: 200 },
-      scale: { start: scaleFactor, end: 0 },
+    const emitter = this.scene.add.particles(position.x, position.y, particleKey, {
+      speed: effectType === 'glow' ? { min: 20, max: 50 } : { min: 80, max: 200 },
+      scale: effectType === 'glow' ? { start: scaleFactor * 2, end: 0 } : { start: scaleFactor, end: 0 },
       lifespan: lifespanFactor,
       quantity: quantity,
-      gravityY: 150,
-      alpha: { start: 1, end: 0 },
+      gravityY: effectType === 'glow' ? -50 : 150, // Glow floats up, burst falls down
+      alpha: { start: effectType === 'glow' ? 0.8 : 1, end: 0 },
+      tint: pColor,
       angle: { min: 0, max: 360 },
       emitting: false,
+      blendMode: effectType === 'glow' ? 'ADD' : 'NORMAL'
     });
     emitter.setDepth(50);
 
@@ -93,6 +112,24 @@ export class ParticleFXManager {
     // Auto-destroy after particles are done
     this.scene.time.delayedCall(lifespanFactor + 100, () => {
       emitter.destroy();
+    });
+
+    // Track 11: Accessibility pass - Checkmark icon
+    const checkText = this.scene.add.text(position.x, position.y - 20, '✓', {
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '48px',
+      color: '#22c55e',
+      fontStyle: 'bold',
+      stroke: '#000000',
+      strokeThickness: 6
+    }).setOrigin(0.5).setDepth(60);
+
+    this.scene.tweens.add({
+      targets: checkText,
+      y: position.y - 80,
+      alpha: 0,
+      duration: lifespanFactor,
+      onComplete: () => checkText.destroy()
     });
   }
 
@@ -117,8 +154,27 @@ export class ParticleFXManager {
 
     emitter.explode(5);
 
-    this.scene.time.delayedCall(400, () => {
+    // Clean up
+    this.scene.time.delayedCall(600, () => {
       emitter.destroy();
+    });
+
+    // Track 11: Accessibility pass - X icon
+    const crossText = this.scene.add.text(position.x, position.y - 20, '✗', {
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '48px',
+      color: '#ef4444',
+      fontStyle: 'bold',
+      stroke: '#000000',
+      strokeThickness: 6
+    }).setOrigin(0.5).setDepth(60);
+
+    this.scene.tweens.add({
+      targets: crossText,
+      y: position.y - 60,
+      alpha: 0,
+      duration: 600,
+      onComplete: () => crossText.destroy()
     });
   }
 }

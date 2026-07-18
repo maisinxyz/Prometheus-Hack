@@ -13,6 +13,7 @@ export class Bin extends Phaser.GameObjects.Zone {
   public readonly binDef: BinDef;
   public readonly binSprite: Phaser.GameObjects.Sprite;
   private readonly labelText: Phaser.GameObjects.Text;
+  private readonly dropShadow: Phaser.GameObjects.Sprite;
 
   constructor(scene: Phaser.Scene, x: number, y: number, binDef: BinDef) {
     // Zone size matches bin sprite display area (scaled down for gameplay)
@@ -42,21 +43,30 @@ export class Bin extends Phaser.GameObjects.Zone {
     this.labelText.setOrigin(0.5);
     this.labelText.setDepth(6);
 
+    // --- F.4: Procedural Drop Shadow ---
+    this.dropShadow = scene.add.sprite(x + 6, y + 8, `bin_${binDef.id}`);
+    this.dropShadow.setDisplaySize(192 * 0.95, 256 * 0.95);
+    this.dropShadow.setTint(0x000000);
+    this.dropShadow.setAlpha(0.35);
+    this.dropShadow.setDepth(4); // Behind the main sprite
+
     // Set zone depth
     this.setDepth(5);
   }
 
   /**
    * Returns the bounding rectangle of this bin's zone for overlap detection.
-   * Override to ensure we get the zone bounds (not default empty bounds).
+   * Override to ensure we get the zone bounds
    */
-  getBounds(): Phaser.Geom.Rectangle {
-    return new Phaser.Geom.Rectangle(
+  getBounds<O extends Phaser.Geom.Rectangle>(output?: O): O {
+    const rect = output || new Phaser.Geom.Rectangle();
+    rect.setTo(
       this.x - this.width / 2,
       this.y - this.height / 2,
       this.width,
       this.height
     );
+    return rect as O;
   }
 
   /**

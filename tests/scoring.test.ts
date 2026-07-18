@@ -65,6 +65,14 @@ describe('ScoringSystem.resolveDrop', () => {
       expect(result.correct).toBe(false);
       expect(result.pointsAwarded).toBe(SCORING.CONTAMINATION_PENALTY); // -100
     });
+
+    it('scales penalty with errorPenaltyMultiplier', () => {
+      const dropTime = startTime + 3000;
+      const result = system.resolveDrop('plastic', 'paper', startTime, dropTime, 1.5);
+
+      expect(result.correct).toBe(false);
+      expect(result.pointsAwarded).toBe(SCORING.CONTAMINATION_PENALTY * 1.5); // -150
+    });
   });
 
   // --- Boundary conditions ---

@@ -20,7 +20,8 @@ export class ScoringSystem {
     itemCorrectBinId: string,
     binId: string,
     dragStartTimeMs: number,
-    dropTimeMs?: number
+    dropTimeMs?: number,
+    errorPenaltyMultiplier: number = 1.0
   ): DropResult {
     const now = dropTimeMs ?? Date.now();
     const correct = itemCorrectBinId === binId;
@@ -37,7 +38,7 @@ export class ScoringSystem {
 
     const pointsAwarded = correct
       ? SCORING.CORRECT_BIN_POINTS * velocityMultiplier
-      : SCORING.CONTAMINATION_PENALTY;
+      : SCORING.CONTAMINATION_PENALTY * errorPenaltyMultiplier;
 
     return { correct, pointsAwarded, velocityMultiplier };
   }

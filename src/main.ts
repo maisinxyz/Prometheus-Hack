@@ -6,6 +6,8 @@ import { TrayScene } from './scenes/TrayScene';
 import { HUDScene } from './scenes/HUDScene';
 import { CorrectionOverlayScene } from './scenes/CorrectionOverlayScene';
 
+import { TitleScene } from './scenes/TitleScene';
+
 /**
  * TrashDash: NYC Echo — Main entry point.
  * Bootstraps the Phaser game with all registered scenes.
@@ -16,6 +18,7 @@ const config: Phaser.Types.Core.GameConfig = {
   ...gameConfig,
   scene: [
     BootScene,
+    TitleScene,
     LevelSelectScene,
     TrayScene,
     HUDScene,
