@@ -522,7 +522,7 @@ screen-shake behavior — all driven purely by subscribing to Track B's events
   present with zero changes to Track B's files (diff should show only new
   files + `HUDScene.ts`/`TrayScene.ts`/`Bin.ts` event-subscription additions).
 
----
+--- 
 
 ## 6. Track D — CHI & Venue Meta-Game (PRD Section 5)
 **Owner:** 1 person. **Blocking dependency:** Track A (`venues.json`) + Track B
