@@ -32,14 +32,17 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
   /** Text label for the hint (E.4) */
   private hintLabel: Phaser.GameObjects.Text | null = null;
   private visualCuesActive: boolean;
+  private dualTargeting: boolean;
+  public isDragging: boolean = false;
 
   /** Cluster B stub — see PRD Track G, step G.2 */
   public readonly componentIds: string[];
 
-  constructor(scene: Phaser.Scene, x: number, y: number, itemDef: TrashItemDef, visualCuesActive: boolean = false) {
+  constructor(scene: Phaser.Scene, x: number, y: number, itemDef: TrashItemDef, visualCuesActive: boolean = false, dualTargeting: boolean = false) {
     super(scene, x, y, itemDef.spriteKey);
 
     this.visualCuesActive = visualCuesActive;
+    this.dualTargeting = dualTargeting;
 
     this.itemDef = itemDef;
     this.originX = x;
@@ -66,6 +69,8 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
         dragY: number
       ) => {
         if (gameObject === this) {
+          if (!this.isDragging) return; // Prevent drag if we gated it on dragstart
+          
           this.x = dragX;
           this.y = dragY;
           // Move reticle and hint with item
@@ -92,6 +97,18 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
       'dragstart',
       (_pointer: Phaser.Input.Pointer, gameObject: Phaser.GameObjects.GameObject) => {
         if (gameObject === this) {
+          const trayScene = this.scene as any;
+          const maxDrags = this.dualTargeting ? 2 : 1;
+          
+          if (trayScene.activeDrags >= maxDrags) {
+            // Cancel this drag interaction
+            this.scene.input.setDraggable(this, false);
+            this.scene.input.setDraggable(this, true);
+            return;
+          }
+          
+          trayScene.activeDrags++;
+          this.isDragging = true;
           this.dragStartTimeMs = Date.now();
           this.originX = this.x;
           this.originY = this.y;
@@ -107,6 +124,11 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
       'dragend',
       (_pointer: Phaser.Input.Pointer, gameObject: Phaser.GameObjects.GameObject) => {
         if (gameObject === this) {
+          if (this.isDragging) {
+            this.isDragging = false;
+            const trayScene = this.scene as any;
+            trayScene.activeDrags = Math.max(0, trayScene.activeDrags - 1);
+          }
           this.setDepth(10); // Restore normal depth
         }
       }

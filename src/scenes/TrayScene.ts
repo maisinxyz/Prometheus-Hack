@@ -46,8 +46,9 @@ export class TrayScene extends Phaser.Scene {
   private roundStartTimeMs: number = 0;
   private roundEnded: boolean = false;
 
-  /** Number of items per tray — default 6, overridden by Track E */
+  /** Number of items per tray — overridden by Track E */
   private itemsPerTray: number = 6;
+  public activeDrags: number = 0;
 
   constructor() {
     super({ key: 'TrayScene' });
@@ -58,6 +59,7 @@ export class TrayScene extends Phaser.Scene {
     this.roundScore = 0;
     this.totalDrops = 0;
     this.correctDrops = 0;
+    this.activeDrags = 0;
     this.roundEnded = false;
     this.items = [];
     this.bins = [];
@@ -74,6 +76,14 @@ export class TrayScene extends Phaser.Scene {
     const currentChi = metaGameController.chiSystem.getChi(this.venueId);
     this.activeTier = this.difficultySystem.getTierForChi(currentChi);
     this.roundTimerMs = this.activeTier.trayTimerSec * 1000;
+
+    // E.6: Volume escalation
+    if (this.activeTier.tier === 'expert') this.itemsPerTray = 9;
+    else if (this.activeTier.tier === 'intermediate') this.itemsPerTray = 6;
+    else this.itemsPerTray = 4;
+
+    // E.5: Enable multi-touch for expert dual-targeting
+    this.input.addPointer(1);
 
     // Draw venue background
     this.createBackground();
@@ -181,7 +191,7 @@ export class TrayScene extends Phaser.Scene {
       const x = startX + col * gapX;
       const y = startY + row * gapY;
 
-      const item = new TrashItem(this, x, y, selected[i]!, this.activeTier.visualCuesActive);
+      const item = new TrashItem(this, x, y, selected[i]!, this.activeTier.visualCuesActive, this.activeTier.dualTargeting);
       this.items.push(item);
     }
   }
