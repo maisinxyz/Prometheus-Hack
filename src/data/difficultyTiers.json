@@ -1,0 +1,5 @@
+[
+  { "tier": "beginner",     "chiMin": 0,  "chiMax": 30,  "trayTimerSec": 45, "errorPenaltyMultiplier": 0.5, "visualCuesActive": true,  "dualTargeting": false },
+  { "tier": "intermediate", "chiMin": 31, "chiMax": 70,  "trayTimerSec": 30, "errorPenaltyMultiplier": 1.0, "visualCuesActive": false, "dualTargeting": false },
+  { "tier": "expert",       "chiMin": 71, "chiMax": 100, "trayTimerSec": 20, "errorPenaltyMultiplier": 1.5, "visualCuesActive": false, "dualTargeting": true  }
+]

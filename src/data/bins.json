@@ -1,0 +1,6 @@
+[
+  { "id": "paper", "displayName": "Paper", "color": "#3B82F6" },
+  { "id": "compost", "displayName": "Compost", "color": "#22C55E" },
+  { "id": "plastic", "displayName": "Plastic", "color": "#EAB308" },
+  { "id": "landfill", "displayName": "Landfill", "color": "#6B7280" }
+]

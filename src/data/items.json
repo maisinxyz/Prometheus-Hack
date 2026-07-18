@@ -1,0 +1,110 @@
+[
+  {
+    "id": "paper_plate",
+    "displayName": "Paper Plate",
+    "spriteKey": "item_paper_plate",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["mackenzie_cafe"]
+  },
+  {
+    "id": "plastic_fork",
+    "displayName": "Plastic Fork",
+    "spriteKey": "item_plastic_fork",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["mackenzie_cafe"]
+  },
+  {
+    "id": "food_scraps",
+    "displayName": "Food Scraps",
+    "spriteKey": "item_food_scraps",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["mackenzie_cafe"]
+  },
+  {
+    "id": "coffee_cup",
+    "displayName": "Coffee Cup",
+    "spriteKey": "item_coffee_cup",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["mackenzie_cafe"]
+  },
+  {
+    "id": "coffee_cup_lid",
+    "displayName": "Coffee Cup Lid",
+    "spriteKey": "item_coffee_cup_lid",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["mackenzie_cafe"]
+  },
+  {
+    "id": "napkin_clean",
+    "displayName": "Clean Napkin",
+    "spriteKey": "item_napkin_clean",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["mackenzie_cafe"]
+  },
+  {
+    "id": "napkin_greasy",
+    "displayName": "Greasy Napkin",
+    "spriteKey": "item_napkin_greasy",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["mackenzie_cafe"]
+  },
+  {
+    "id": "apple_core",
+    "displayName": "Apple Core",
+    "spriteKey": "item_apple_core",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["mackenzie_cafe"]
+  },
+  {
+    "id": "plastic_water_bottle",
+    "displayName": "Plastic Water Bottle",
+    "spriteKey": "item_plastic_water_bottle",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["mackenzie_cafe"]
+  },
+  {
+    "id": "aluminum_can",
+    "displayName": "Aluminum Can",
+    "spriteKey": "item_aluminum_can",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["mackenzie_cafe"]
+  },
+  {
+    "id": "paper_straw_wrapper",
+    "displayName": "Paper Straw Wrapper",
+    "spriteKey": "item_paper_straw_wrapper",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["mackenzie_cafe"]
+  },
+  {
+    "id": "plastic_straw",
+    "displayName": "Plastic Straw",
+    "spriteKey": "item_plastic_straw",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["mackenzie_cafe"]
+  }
+]

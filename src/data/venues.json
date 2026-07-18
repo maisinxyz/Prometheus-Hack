@@ -1,0 +1,47 @@
+[
+  {
+    "id": "mackenzie_cafe",
+    "displayName": "Mackenzie Cafe",
+    "unlockChiThreshold": 0,
+    "itemPoolIds": [
+      "paper_plate", "plastic_fork", "food_scraps", "coffee_cup",
+      "coffee_cup_lid", "napkin_clean", "napkin_greasy", "apple_core",
+      "plastic_water_bottle", "aluminum_can", "paper_straw_wrapper", "plastic_straw"
+    ],
+    "backgroundKeys": {
+      "clean": "venue_mackenzie_cafe_bg_clean",
+      "grimy": "venue_mackenzie_cafe_bg_grimy",
+      "ruined": "venue_mackenzie_cafe_bg_ruined"
+    }
+  },
+  {
+    "id": "financial_district_office",
+    "displayName": "Financial District Office",
+    "unlockChiThreshold": 40,
+    "itemPoolIds": [
+      "paper_plate", "plastic_fork", "coffee_cup", "coffee_cup_lid",
+      "napkin_clean", "napkin_greasy", "plastic_water_bottle",
+      "aluminum_can", "paper_straw_wrapper", "plastic_straw"
+    ],
+    "backgroundKeys": {
+      "clean": "venue_financial_district_office_bg_clean",
+      "grimy": "venue_financial_district_office_bg_grimy",
+      "ruined": "venue_financial_district_office_bg_ruined"
+    }
+  },
+  {
+    "id": "times_square",
+    "displayName": "Times Square",
+    "unlockChiThreshold": 70,
+    "itemPoolIds": [
+      "paper_plate", "plastic_fork", "food_scraps", "coffee_cup",
+      "coffee_cup_lid", "napkin_clean", "napkin_greasy", "apple_core",
+      "plastic_water_bottle", "aluminum_can", "paper_straw_wrapper", "plastic_straw"
+    ],
+    "backgroundKeys": {
+      "clean": "venue_times_square_bg_clean",
+      "grimy": "venue_times_square_bg_grimy",
+      "ruined": "venue_times_square_bg_ruined"
+    }
+  }
+]

@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "howler": "^2.2.4",
-    "phaser": "^3.80.0"
+    "phaser": "^3.80.0",
+    "zod": "^3.23.0"
   }
 }
