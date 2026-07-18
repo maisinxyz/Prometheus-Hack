@@ -1,6 +1,8 @@
 import Phaser from 'phaser';
 import { TrashItemDef } from '../data/schemas/itemSchema';
 import { gameEvents, GAME_EVENTS } from '../systems/GameEvents';
+import binsData from '../data/bins.json';
+import { BinDef } from '../data/schemas/binSchema';
 
 /**
  * TrashItem — Draggable trash item sprite.
@@ -27,11 +29,17 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
   private reticle: Phaser.GameObjects.Graphics | null = null;
   private reticleTween: Phaser.Tweens.Tween | null = null;
 
+  /** Text label for the hint (E.4) */
+  private hintLabel: Phaser.GameObjects.Text | null = null;
+  private visualCuesActive: boolean;
+
   /** Cluster B stub — see PRD Track G, step G.2 */
   public readonly componentIds: string[];
 
-  constructor(scene: Phaser.Scene, x: number, y: number, itemDef: TrashItemDef) {
+  constructor(scene: Phaser.Scene, x: number, y: number, itemDef: TrashItemDef, visualCuesActive: boolean = false) {
     super(scene, x, y, itemDef.spriteKey);
+
+    this.visualCuesActive = visualCuesActive;
 
     this.itemDef = itemDef;
     this.originX = x;
@@ -60,16 +68,26 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
         if (gameObject === this) {
           this.x = dragX;
           this.y = dragY;
-          // Move reticle with item
+          // Move reticle and hint with item
           if (this.reticle) {
             this.reticle.x = dragX;
             this.reticle.y = dragY;
+          }
+          if (this.hintLabel) {
+            this.hintLabel.x = dragX;
+            this.hintLabel.y = dragY + 80;
           }
         }
       }
     );
 
-    // --- B.4: Lock-on reticle on drag-start ---
+    // E.4: Permanent visual cues if active
+    if (this.visualCuesActive) {
+      this.createReticle();
+      this.createHintLabel();
+    }
+
+    // --- B.4: Lock-on reticle on drag-start (Overridden by E.4) ---
     this.scene.input.on(
       'dragstart',
       (_pointer: Phaser.Input.Pointer, gameObject: Phaser.GameObjects.GameObject) => {
@@ -81,9 +99,6 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
 
           // Emit lock-on event
           gameEvents.emit(GAME_EVENTS.ITEM_LOCKED_ON, { item: this });
-
-          // Create pulsing cyan reticle
-          this.createReticle();
         }
       }
     );
@@ -93,10 +108,26 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
       (_pointer: Phaser.Input.Pointer, gameObject: Phaser.GameObjects.GameObject) => {
         if (gameObject === this) {
           this.setDepth(10); // Restore normal depth
-          this.destroyReticle();
         }
       }
     );
+  }
+
+  /** Create a small text label under the item (E.4) */
+  private createHintLabel(): void {
+    const binDefs = binsData as BinDef[];
+    const targetBin = binDefs.find((b) => b.id === this.itemDef.correctBinId);
+    const text = targetBin ? targetBin.displayName : this.itemDef.correctBinId;
+    
+    this.hintLabel = this.scene.add.text(this.x, this.y + 80, text, {
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '18px',
+      color: '#ffffff',
+      backgroundColor: '#000000aa',
+      padding: { x: 4, y: 2 }
+    });
+    this.hintLabel.setOrigin(0.5, 0);
+    this.hintLabel.setDepth(19);
   }
 
   /**
@@ -144,6 +175,10 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
   /** Clean up event listeners when this item is destroyed */
   destroy(fromScene?: boolean): void {
     this.destroyReticle();
+    if (this.hintLabel) {
+      this.hintLabel.destroy();
+      this.hintLabel = null;
+    }
     super.destroy(fromScene);
   }
 }

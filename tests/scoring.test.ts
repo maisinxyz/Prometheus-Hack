@@ -62,8 +62,23 @@ describe('ScoringSystem.resolveDrop', () => {
       const dropTime = startTime + 6000;
       const result = system.resolveDrop('plastic', 'paper', startTime, dropTime);
 
-      expect(result.correct).toBe(false);
       expect(result.pointsAwarded).toBe(SCORING.CONTAMINATION_PENALTY); // -100
+    });
+
+    it('scales penalty based on penaltyMultiplier (expert = 1.5x)', () => {
+      const dropTime = startTime + 3000;
+      const result = system.resolveDrop('compost', 'plastic', startTime, dropTime, 1.5);
+
+      expect(result.correct).toBe(false);
+      expect(result.pointsAwarded).toBe(SCORING.CONTAMINATION_PENALTY * 1.5); // -150
+    });
+
+    it('scales penalty based on penaltyMultiplier (beginner = 0.5x)', () => {
+      const dropTime = startTime + 3000;
+      const result = system.resolveDrop('compost', 'plastic', startTime, dropTime, 0.5);
+
+      expect(result.correct).toBe(false);
+      expect(result.pointsAwarded).toBe(SCORING.CONTAMINATION_PENALTY * 0.5); // -50
     });
   });
 

@@ -5,14 +5,15 @@ import { ScoringSystem } from '../systems/ScoringSystem';
 import { ComboSystem } from '../systems/ComboSystem';
 import { ParticleFXManager } from '../systems/ParticleFXManager';
 import { AudioLayerManager } from '../systems/AudioLayerManager';
-import { gameEvents, GAME_EVENTS } from '../systems/GameEvents';
 import { TrashItemDef } from '../data/schemas/itemSchema';
 import { BinDef } from '../data/schemas/binSchema';
+import { gameEvents, GAME_EVENTS } from '../systems/GameEvents';
 import itemsData from '../data/items.json';
 import binsData from '../data/bins.json';
 import venuesData from '../data/venues.json';
 import { metaGameController } from '../systems/MetaGameController';
 import { ParallaxLayer } from '../entities/ParallaxLayer';
+import { DifficultySystem, DifficultyTier } from '../systems/DifficultySystem';
 
 /**
  * TrayScene — Core disposal loop.
@@ -36,7 +37,10 @@ export class TrayScene extends Phaser.Scene {
   private correctDrops: number = 0;
   private parallaxLayer: ParallaxLayer | null = null;
 
-  /** Timer values — defaults to 30s, overridden by Track E's difficulty system */
+  private difficultySystem!: DifficultySystem;
+  private activeTier!: DifficultyTier;
+
+  /** Timer values — overridden by Track E's difficulty system */
   private roundTimerMs: number = 30000;
   private timerEvent: Phaser.Time.TimerEvent | null = null;
   private roundStartTimeMs: number = 0;
@@ -63,7 +67,13 @@ export class TrayScene extends Phaser.Scene {
     this.scoringSystem = new ScoringSystem();
     this.comboSystem = new ComboSystem();
     this.particleFX = new ParticleFXManager(this);
+    this.difficultySystem = new DifficultySystem();
     this.audioManager.init();
+
+    // Determine active difficulty tier
+    const currentChi = metaGameController.chiSystem.getChi(this.venueId);
+    this.activeTier = this.difficultySystem.getTierForChi(currentChi);
+    this.roundTimerMs = this.activeTier.trayTimerSec * 1000;
 
     // Draw venue background
     this.createBackground();
@@ -171,7 +181,7 @@ export class TrayScene extends Phaser.Scene {
       const x = startX + col * gapX;
       const y = startY + row * gapY;
 
-      const item = new TrashItem(this, x, y, selected[i]!);
+      const item = new TrashItem(this, x, y, selected[i]!, this.activeTier.visualCuesActive);
       this.items.push(item);
     }
   }
@@ -222,7 +232,9 @@ export class TrayScene extends Phaser.Scene {
     const result = this.scoringSystem.resolveDrop(
       item.itemDef.correctBinId,
       bin.binDef.id,
-      item.dragStartTimeMs
+      item.dragStartTimeMs,
+      undefined,
+      this.activeTier.errorPenaltyMultiplier
     );
 
     // Update score
