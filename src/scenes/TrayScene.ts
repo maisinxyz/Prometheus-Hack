@@ -11,6 +11,8 @@ import { BinDef } from '../data/schemas/binSchema';
 import itemsData from '../data/items.json';
 import binsData from '../data/bins.json';
 import venuesData from '../data/venues.json';
+import { metaGameController } from '../systems/MetaGameController';
+import { ParallaxLayer } from '../entities/ParallaxLayer';
 
 /**
  * TrayScene — Core disposal loop.
@@ -32,6 +34,7 @@ export class TrayScene extends Phaser.Scene {
   private roundScore: number = 0;
   private totalDrops: number = 0;
   private correctDrops: number = 0;
+  private parallaxLayer: ParallaxLayer | null = null;
 
   /** Timer values — defaults to 30s, overridden by Track E's difficulty system */
   private roundTimerMs: number = 30000;
@@ -99,22 +102,25 @@ export class TrayScene extends Phaser.Scene {
 
   /** Create a simple background for the venue */
   private createBackground(): void {
-    // Gradient-style background using graphics (placeholder until Track F parallax)
-    const bg = this.add.graphics();
-    bg.fillGradientStyle(0x1a1a2e, 0x1a1a2e, 0x16213e, 0x16213e, 1);
-    bg.fillRect(0, 0, 1920, 1080);
-    bg.setDepth(0);
+    const venueData = venuesData.find((v) => v.id === this.venueId);
+    if (!venueData) return;
+
+    const decayState = metaGameController.venueDecayState.getState(this.venueId);
+    let bgKey = venueData.backgroundKeys.clean;
+    if (decayState === 'DECLINING') bgKey = venueData.backgroundKeys.grimy;
+    if (decayState === 'RUINED') bgKey = venueData.backgroundKeys.ruined;
+
+    this.parallaxLayer = new ParallaxLayer(this, bgKey, 'placeholder_mid', 'placeholder_fg');
 
     // Venue name in the corner
-    const venueData = venuesData.find((v) => v.id === this.venueId);
-    const venueName = venueData?.displayName ?? this.venueId;
+    const venueName = venueData.displayName;
     const venueLabel = this.add.text(30, 20, venueName, {
       fontFamily: 'Arial, sans-serif',
       fontSize: '28px',
       color: '#ffffff',
-      fontStyle: 'bold',
-      alpha: 0.6,
+      fontStyle: 'bold'
     });
+    venueLabel.setAlpha(0.6);
     venueLabel.setDepth(50);
   }
 
@@ -154,7 +160,6 @@ export class TrayScene extends Phaser.Scene {
 
     // Position items in a grid in the upper area of the screen
     const cols = Math.min(count, 4);
-    const rows = Math.ceil(count / cols);
     const startX = 960 - ((cols - 1) * 200) / 2;
     const startY = 250;
     const gapX = 200;
@@ -317,6 +322,16 @@ export class TrayScene extends Phaser.Scene {
       accuracyPct,
       venueId: this.venueId,
     });
+
+    // Update parallax background based on new decay state (D.5)
+    const newDecayState = metaGameController.venueDecayState.getState(this.venueId);
+    const venueData = venuesData.find((v) => v.id === this.venueId);
+    if (venueData && this.parallaxLayer) {
+      let bgKey = venueData.backgroundKeys.clean;
+      if (newDecayState === 'DECLINING') bgKey = venueData.backgroundKeys.grimy;
+      if (newDecayState === 'RUINED') bgKey = venueData.backgroundKeys.ruined;
+      this.parallaxLayer.setBackgroundTexture(bgKey);
+    }
 
     // Disable all remaining items
     for (const item of this.items) {
