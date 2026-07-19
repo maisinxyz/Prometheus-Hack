@@ -79,3 +79,39 @@ export function generatePlaceholderTexture(
     }
   }
 }
+
+/**
+ * Generates an emoji-based circular logo texture for venues.
+ */
+export function generateEmojiLogo(scene: Phaser.Scene, key: string, emoji: string, isUnlocked: boolean, size: number = 80): void {
+  if (scene.textures.exists(key)) return;
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  if (ctx) {
+    // Circle background
+    ctx.beginPath();
+    ctx.arc(size / 2, size / 2, size / 2 - 4, 0, 2 * Math.PI);
+    ctx.fillStyle = isUnlocked ? '#ffffff' : '#374151'; // White vs Dark grey
+    ctx.fill();
+    
+    // Border
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = isUnlocked ? '#22c55e' : '#9ca3af'; // Green vs Light grey
+    ctx.stroke();
+
+    // Draw Emoji
+    ctx.font = `${size * 0.55}px Arial`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    
+    if (!isUnlocked) {
+      // Grayed out for locked
+      ctx.filter = 'grayscale(100%) opacity(40%)';
+    }
+    
+    ctx.fillText(emoji, size / 2, size / 2 + size * 0.05);
+  }
+  scene.textures.addCanvas(key, canvas);
+}

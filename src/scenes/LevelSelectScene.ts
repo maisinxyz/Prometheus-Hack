@@ -176,9 +176,15 @@ export class LevelSelectScene extends Phaser.Scene {
     isUnlocked: boolean,
     unlockThreshold: number
   ) {
-    const circleColor = isUnlocked ? 0x22c55e : 0x4b5563; // Green if unlocked, dark grey if locked
-    const circle = this.add.circle(0, 0, 40, circleColor);
-    circle.setStrokeStyle(4, 0xffffff);
+    // Load the realistic 3D venue icon
+    const logoKey = `venue_icon_${venueId}`;
+    const logo = this.add.image(0, 0, logoKey).setDisplaySize(70, 70);
+
+    // If locked, make it gray and slightly transparent
+    if (!isUnlocked) {
+      logo.setTint(0x555555);
+      logo.setAlpha(0.6);
+    }
 
     // Venue Label
     const text = this.add.text(0, 55, label, {
@@ -218,7 +224,7 @@ export class LevelSelectScene extends Phaser.Scene {
     const barFill = this.add.rectangle(-barWidth / 2, 110, fillWidth, barHeight, 0xfacc15, 1);
     barFill.setOrigin(0, 0.5);
 
-    const nodeElements: Phaser.GameObjects.GameObject[] = [circle, text, chiText];
+    const nodeElements: Phaser.GameObjects.GameObject[] = [logo, text, chiText];
     if (isUnlocked) {
       nodeElements.push(barBg, barFill);
     }
@@ -236,7 +242,8 @@ export class LevelSelectScene extends Phaser.Scene {
           scaleY: 1.1,
           duration: 100
         });
-        circle.setFillStyle(0x4ade80); // lighter green
+        // Could tint the logo to show hover state
+        logo.setTint(0xd1fae5); // light green tint
       });
 
       nodeContainer.on('pointerout', () => {
@@ -246,7 +253,7 @@ export class LevelSelectScene extends Phaser.Scene {
           scaleY: 1.0,
           duration: 100
         });
-        circle.setFillStyle(0x22c55e);
+        logo.clearTint();
       });
 
       nodeContainer.on('pointerup', (pointer: Phaser.Input.Pointer) => {

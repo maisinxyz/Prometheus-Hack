@@ -42,6 +42,18 @@ export class BootScene extends Phaser.Scene {
     }
 
     // 3. Load UI & Backgrounds
+    this.load.image('title_bg', 'assets/sprites/ui/title_bg.jpg');
+
+    // Load venue icons
+    const venueIds = [
+      'mackenzie_cafe', 'financial_district_office', 'times_square', 'broadway_theater',
+      'hot_dog_stand', 'subway_station', 'chelsea_office', 'gym', 'central_park',
+      'public_library', 'art_studio', 'construction_site', 'tech_startup', 'ferry_docks',
+      'nyc_hospital' // Wait, I didn't download one for nyc_hospital!
+    ];
+    for (const vid of venueIds) {
+      this.load.image(`venue_icon_${vid}`, `assets/sprites/ui/venues/${vid}.png`);
+    }
     this.load.image('nyc_map_bg', 'assets/sprites/ui/custom_map.jpg');
     this.load.image('main_menu_bg', 'assets/main_menu_bg.png');
     this.load.image('venue_mackenzie_cafe_bg_clean', 'assets/venue_mackenzie_cafe_bg_clean.png');
