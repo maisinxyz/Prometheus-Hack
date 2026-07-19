@@ -38,6 +38,7 @@ export class BootScene extends Phaser.Scene {
 
     // 3. Load UI
     this.load.image('nyc_map_bg', 'assets/sprites/ui/custom_map.jpg');
+    this.load.image('main_menu_bg', 'assets/main_menu_bg.png');
   }
 
   async create(): Promise<void> {

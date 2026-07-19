@@ -9,8 +9,14 @@ export class TitleScene extends Phaser.Scene {
   }
 
   create(): void {
-    // Solid background color (can be replaced by an image later)
-    this.cameras.main.setBackgroundColor('#2c3e50');
+    const { width, height } = this.scale;
+    const bg = this.add.image(width / 2, height / 2, 'main_menu_bg');
+    
+    // Scale image to cover the screen
+    const scaleX = width / bg.width;
+    const scaleY = height / bg.height;
+    const scale = Math.max(scaleX, scaleY);
+    bg.setScale(scale);
 
     // Title Text
     const title = this.add.text(960, 300, 'TrashDash: NYC Echo', {
