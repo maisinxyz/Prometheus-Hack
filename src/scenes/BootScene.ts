@@ -88,9 +88,17 @@ export class BootScene extends Phaser.Scene {
       'mackenzie_cafe': 0x8b4513,
       'financial_district_office': 0x708090,
       'times_square': 0x4b0082,
+      'broadway_theater': 0xd946ef,
       'hot_dog_stand': 0xff8c00,
+      'subway_station': 0x57534e,
       'chelsea_office': 0x4682b4,
+      'gym': 0xf97316,
       'central_park': 0x228b22,
+      'public_library': 0x8b4513,
+      'art_studio': 0xdb2777,
+      'construction_site': 0xeab308,
+      'tech_startup': 0x0ea5e9,
+      'ferry_docks': 0x0369a1,
     };
     for (const venue of venuesData) {
       const color = venueColors[venue.id] || 0x2c3e50;

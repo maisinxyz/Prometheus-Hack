@@ -42,9 +42,18 @@ export class LevelSelectScene extends Phaser.Scene {
       'mackenzie_cafe': { x: 1500, y: 1600 }, // Bottom right area
       'financial_district_office': { x: 600, y: 1400 }, // Left mid-low
       'times_square': { x: 1000, y: 1100 }, // Center
+      'broadway_theater': { x: 1200, y: 1000 }, // Right of TS
       'hot_dog_stand': { x: 1400, y: 800 }, // Right mid-high
+      'subway_station': { x: 800, y: 900 }, // Left of TS
       'chelsea_office': { x: 500, y: 700 }, // Left mid-high
-      'central_park': { x: 1000, y: 300 } // Top center
+      'gym': { x: 800, y: 500 }, // Below CP
+      'central_park': { x: 1000, y: 300 }, // Top center
+      'public_library': { x: 1200, y: 500 }, // Mid-top right
+      'art_studio': { x: 300, y: 1300 }, // Mid-low left
+      'construction_site': { x: 1700, y: 1400 }, // Mid-low right
+      'tech_startup': { x: 400, y: 1700 }, // Bottom left
+      'nyc_hospital': { x: 1500, y: 1200 }, // Mid-right side on land
+      'ferry_docks': { x: 350, y: 500 } // Directly on the pier on the left
     };
 
     let previousVenueChi = 0; // First level assumes 0 threshold needed

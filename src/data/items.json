@@ -6,7 +6,9 @@
     "correctBinId": "compost",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["mackenzie_cafe"]
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
   },
   {
     "id": "plastic_fork",
@@ -15,7 +17,9 @@
     "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["mackenzie_cafe"]
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
   },
   {
     "id": "food_scraps",
@@ -24,7 +28,9 @@
     "correctBinId": "compost",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["mackenzie_cafe"]
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
   },
   {
     "id": "coffee_cup",
@@ -33,7 +39,9 @@
     "correctBinId": "compost",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["mackenzie_cafe"]
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
   },
   {
     "id": "coffee_cup_lid",
@@ -42,7 +50,9 @@
     "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["mackenzie_cafe"]
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
   },
   {
     "id": "napkin_clean",
@@ -51,7 +61,9 @@
     "correctBinId": "paper",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["mackenzie_cafe"]
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
   },
   {
     "id": "napkin_greasy",
@@ -60,7 +72,9 @@
     "correctBinId": "compost",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["mackenzie_cafe"]
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
   },
   {
     "id": "apple_core",
@@ -69,7 +83,9 @@
     "correctBinId": "compost",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["mackenzie_cafe"]
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
   },
   {
     "id": "plastic_water_bottle",
@@ -78,7 +94,9 @@
     "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["mackenzie_cafe"]
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
   },
   {
     "id": "soda_fanta_empty",
@@ -87,7 +105,9 @@
     "correctBinId": "none",
     "isComposite": true,
     "componentIds": [],
-    "venueIds": ["mackenzie_cafe"]
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
   },
   {
     "id": "soda_pepsi_empty",
@@ -96,7 +116,9 @@
     "correctBinId": "none",
     "isComposite": true,
     "componentIds": [],
-    "venueIds": ["mackenzie_cafe"]
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
   },
   {
     "id": "paper_straw_wrapper",
@@ -105,7 +127,9 @@
     "correctBinId": "paper",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["mackenzie_cafe"]
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
   },
   {
     "id": "plastic_straw",
@@ -114,7 +138,9 @@
     "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["mackenzie_cafe"]
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
   },
   {
     "id": "smartphone",
@@ -123,7 +149,11 @@
     "correctBinId": "landfill",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["financial_district_office", "chelsea_office", "wall_street_office"]
+    "venueIds": [
+      "financial_district_office",
+      "chelsea_office",
+      "wall_street_office"
+    ]
   },
   {
     "id": "laptop_battery",
@@ -132,7 +162,11 @@
     "correctBinId": "landfill",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["financial_district_office", "chelsea_office", "wall_street_office"]
+    "venueIds": [
+      "financial_district_office",
+      "chelsea_office",
+      "wall_street_office"
+    ]
   },
   {
     "id": "confidential_document",
@@ -141,7 +175,12 @@
     "correctBinId": "paper",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["financial_district_office", "chelsea_office", "wall_street_office", "times_square"]
+    "venueIds": [
+      "financial_district_office",
+      "chelsea_office",
+      "wall_street_office",
+      "times_square"
+    ]
   },
   {
     "id": "soda_liquid",
@@ -150,7 +189,9 @@
     "correctBinId": "compost",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["mackenzie_cafe"]
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
   },
   {
     "id": "plastic_container",
@@ -159,7 +200,9 @@
     "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["mackenzie_cafe"]
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
   },
   {
     "id": "soda_fanta_full",
@@ -168,7 +211,9 @@
     "correctBinId": "none",
     "isComposite": true,
     "componentIds": [],
-    "venueIds": ["mackenzie_cafe"]
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
   },
   {
     "id": "soda_pepsi_full",
@@ -177,7 +222,9 @@
     "correctBinId": "none",
     "isComposite": true,
     "componentIds": [],
-    "venueIds": ["mackenzie_cafe"]
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
   },
   {
     "id": "fanta_pour",
@@ -212,8 +259,13 @@
     "spriteKey": "item_takeout_box_with_food",
     "correctBinId": "none",
     "isComposite": true,
-    "componentIds": ["food_scraps", "plastic_container"],
-    "venueIds": ["mackenzie_cafe"]
+    "componentIds": [
+      "food_scraps",
+      "plastic_container"
+    ],
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
   },
   {
     "id": "paper_container",
@@ -222,7 +274,9 @@
     "correctBinId": "paper",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["mackenzie_cafe"]
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
   },
   {
     "id": "plastic_lining",
@@ -231,6 +285,800 @@
     "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["mackenzie_cafe"]
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
+  },
+  {
+    "id": "latex_gloves",
+    "displayName": "Latex Gloves",
+    "spriteKey": "item_latex_gloves",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "nyc_hospital"
+    ]
+  },
+  {
+    "id": "iv_saline_bag",
+    "displayName": "IV Saline Bag",
+    "spriteKey": "item_iv_saline_bag",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "nyc_hospital"
+    ]
+  },
+  {
+    "id": "paper_prescription",
+    "displayName": "Paper Prescription",
+    "spriteKey": "item_paper_prescription",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "nyc_hospital"
+    ]
+  },
+  {
+    "id": "gauze_bandage",
+    "displayName": "Used Gauze Bandage",
+    "spriteKey": "item_gauze_bandage",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "nyc_hospital"
+    ]
+  },
+  {
+    "id": "medicine_box",
+    "displayName": "Medicine Box",
+    "spriteKey": "item_medicine_box",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "nyc_hospital"
+    ]
+  },
+  {
+    "id": "syringe_cap",
+    "displayName": "Syringe Cap",
+    "spriteKey": "item_syringe_cap",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "nyc_hospital"
+    ]
+  },
+  {
+    "id": "cotton_swabs",
+    "displayName": "Cotton Swabs",
+    "spriteKey": "item_cotton_swabs",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "nyc_hospital"
+    ]
+  },
+  {
+    "id": "pill_blister_pack",
+    "displayName": "Pill Blister Pack",
+    "spriteKey": "item_pill_blister_pack",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "nyc_hospital"
+    ]
+  },
+  {
+    "id": "playbill",
+    "displayName": "Playbill",
+    "spriteKey": "item_playbill",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "broadway_theater"
+    ]
+  },
+  {
+    "id": "popcorn_bag",
+    "displayName": "Popcorn Bag",
+    "spriteKey": "item_popcorn_bag",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "broadway_theater"
+    ]
+  },
+  {
+    "id": "ticket_stub",
+    "displayName": "Ticket Stub",
+    "spriteKey": "item_ticket_stub",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "broadway_theater"
+    ]
+  },
+  {
+    "id": "glow_stick",
+    "displayName": "Glow Stick",
+    "spriteKey": "item_glow_stick",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "broadway_theater"
+    ]
+  },
+  {
+    "id": "candy_wrapper",
+    "displayName": "Candy Wrapper",
+    "spriteKey": "item_candy_wrapper",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "broadway_theater"
+    ]
+  },
+  {
+    "id": "foam_cup",
+    "displayName": "Foam Cup",
+    "spriteKey": "item_foam_cup",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "broadway_theater"
+    ]
+  },
+  {
+    "id": "confetti",
+    "displayName": "Confetti",
+    "spriteKey": "item_confetti",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "broadway_theater"
+    ]
+  },
+  {
+    "id": "broken_stage_light",
+    "displayName": "Broken Stage Light",
+    "spriteKey": "item_broken_stage_light",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "broadway_theater"
+    ]
+  },
+  {
+    "id": "metro_card",
+    "displayName": "Metro Card",
+    "spriteKey": "item_metro_card",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "subway_station"
+    ]
+  },
+  {
+    "id": "newspaper",
+    "displayName": "Newspaper",
+    "spriteKey": "item_newspaper",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "subway_station"
+    ]
+  },
+  {
+    "id": "gum_wrapper",
+    "displayName": "Gum Wrapper",
+    "spriteKey": "item_gum_wrapper",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "subway_station"
+    ]
+  },
+  {
+    "id": "chewed_gum",
+    "displayName": "Chewed Gum",
+    "spriteKey": "item_chewed_gum",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "subway_station"
+    ]
+  },
+  {
+    "id": "pizza_box_greasy",
+    "displayName": "Greasy Pizza Box",
+    "spriteKey": "item_pizza_box_greasy",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "subway_station"
+    ]
+  },
+  {
+    "id": "cigarette_butt",
+    "displayName": "Cigarette Butt",
+    "spriteKey": "item_cigarette_butt",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "subway_station"
+    ]
+  },
+  {
+    "id": "glass_bottle",
+    "displayName": "Glass Bottle",
+    "spriteKey": "item_glass_bottle",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "subway_station"
+    ]
+  },
+  {
+    "id": "chip_bag",
+    "displayName": "Chip Bag",
+    "spriteKey": "item_chip_bag",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "subway_station"
+    ]
+  },
+  {
+    "id": "protein_shake_bottle",
+    "displayName": "Protein Shake Bottle",
+    "spriteKey": "item_protein_shake_bottle",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "gym"
+    ]
+  },
+  {
+    "id": "sweat_towel",
+    "displayName": "Disposable Sweat Towel",
+    "spriteKey": "item_sweat_towel",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "gym"
+    ]
+  },
+  {
+    "id": "energy_bar_wrapper",
+    "displayName": "Energy Bar Wrapper",
+    "spriteKey": "item_energy_bar_wrapper",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "gym"
+    ]
+  },
+  {
+    "id": "banana_peel",
+    "displayName": "Banana Peel",
+    "spriteKey": "item_banana_peel",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "gym"
+    ]
+  },
+  {
+    "id": "broken_jump_rope",
+    "displayName": "Broken Jump Rope",
+    "spriteKey": "item_broken_jump_rope",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "gym"
+    ]
+  },
+  {
+    "id": "sports_drink_can",
+    "displayName": "Sports Drink Can",
+    "spriteKey": "item_sports_drink_can",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "gym"
+    ]
+  },
+  {
+    "id": "yoga_mat_piece",
+    "displayName": "Yoga Mat Piece",
+    "spriteKey": "item_yoga_mat_piece",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "gym"
+    ]
+  },
+  {
+    "id": "shoe_box",
+    "displayName": "Cardboard Shoe Box",
+    "spriteKey": "item_shoe_box",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "gym"
+    ]
+  },
+  {
+    "id": "overdue_notice",
+    "displayName": "Overdue Notice",
+    "spriteKey": "item_overdue_notice",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "public_library"
+    ]
+  },
+  {
+    "id": "laminated_bookmark",
+    "displayName": "Laminated Bookmark",
+    "spriteKey": "item_laminated_bookmark",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "public_library"
+    ]
+  },
+  {
+    "id": "used_teabag",
+    "displayName": "Used Teabag",
+    "spriteKey": "item_used_teabag",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "public_library"
+    ]
+  },
+  {
+    "id": "broken_reading_glasses",
+    "displayName": "Broken Reading Glasses",
+    "spriteKey": "item_broken_reading_glasses",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "public_library"
+    ]
+  },
+  {
+    "id": "chewed_pencil",
+    "displayName": "Chewed Pencil",
+    "spriteKey": "item_chewed_pencil",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "public_library"
+    ]
+  },
+  {
+    "id": "cd_jewel_case",
+    "displayName": "CD Jewel Case",
+    "spriteKey": "item_cd_jewel_case",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "public_library"
+    ]
+  },
+  {
+    "id": "encyclopedia_page",
+    "displayName": "Encyclopedia Page",
+    "spriteKey": "item_encyclopedia_page",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "public_library"
+    ]
+  },
+  {
+    "id": "book_dust_jacket",
+    "displayName": "Book Dust Jacket",
+    "spriteKey": "item_book_dust_jacket",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "public_library"
+    ]
+  },
+  {
+    "id": "squeezed_paint_tube",
+    "displayName": "Squeezed Paint Tube",
+    "spriteKey": "item_paint_tube",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "art_studio"
+    ]
+  },
+  {
+    "id": "dried_clay_chunk",
+    "displayName": "Dried Clay Chunk",
+    "spriteKey": "item_dried_clay",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "art_studio"
+    ]
+  },
+  {
+    "id": "sketchbook_scrap",
+    "displayName": "Sketchbook Scrap",
+    "spriteKey": "item_sketchbook_scrap",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "art_studio"
+    ]
+  },
+  {
+    "id": "dirty_paint_brush",
+    "displayName": "Dirty Paint Brush",
+    "spriteKey": "item_dirty_paint_brush",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "art_studio"
+    ]
+  },
+  {
+    "id": "canvas_scrap",
+    "displayName": "Canvas Scrap",
+    "spriteKey": "item_canvas_scrap",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "art_studio"
+    ]
+  },
+  {
+    "id": "empty_turpentine_bottle",
+    "displayName": "Empty Turpentine Bottle",
+    "spriteKey": "item_turpentine_bottle",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "art_studio"
+    ]
+  },
+  {
+    "id": "orange_peel",
+    "displayName": "Orange Peel",
+    "spriteKey": "item_orange_peel",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "art_studio"
+    ]
+  },
+  {
+    "id": "eraser_shavings",
+    "displayName": "Eraser Shavings",
+    "spriteKey": "item_eraser_shavings",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "art_studio"
+    ]
+  },
+  {
+    "id": "clean_sawdust_pile",
+    "displayName": "Clean Sawdust Pile",
+    "spriteKey": "item_sawdust_pile",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "construction_site"
+    ]
+  },
+  {
+    "id": "broken_brick_piece",
+    "displayName": "Broken Brick Piece",
+    "spriteKey": "item_broken_brick",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "construction_site"
+    ]
+  },
+  {
+    "id": "yellow_caution_tape",
+    "displayName": "Yellow Caution Tape",
+    "spriteKey": "item_caution_tape",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "construction_site"
+    ]
+  },
+  {
+    "id": "cement_mix_bag",
+    "displayName": "Cement Mix Bag",
+    "spriteKey": "item_cement_bag",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "construction_site"
+    ]
+  },
+  {
+    "id": "rusty_nail",
+    "displayName": "Rusty Nail",
+    "spriteKey": "item_rusty_nail",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "construction_site"
+    ]
+  },
+  {
+    "id": "cracked_hard_hat",
+    "displayName": "Cracked Hard Hat",
+    "spriteKey": "item_hard_hat",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "construction_site"
+    ]
+  },
+  {
+    "id": "pvc_pipe_scrap",
+    "displayName": "PVC Pipe Scrap",
+    "spriteKey": "item_pvc_pipe",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "construction_site"
+    ]
+  },
+  {
+    "id": "caulking_tube",
+    "displayName": "Caulking Tube",
+    "spriteKey": "item_caulking_tube",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "construction_site"
+    ]
+  },
+  {
+    "id": "broken_ethernet_cable",
+    "displayName": "Broken Ethernet Cable",
+    "spriteKey": "item_ethernet_cable",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "tech_startup"
+    ]
+  },
+  {
+    "id": "kombucha_glass_bottle",
+    "displayName": "Kombucha Glass Bottle",
+    "spriteKey": "item_kombucha_bottle",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "tech_startup"
+    ]
+  },
+  {
+    "id": "vr_headset_foam",
+    "displayName": "VR Headset Foam",
+    "spriteKey": "item_vr_foam",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "tech_startup"
+    ]
+  },
+  {
+    "id": "keyboard_keycap",
+    "displayName": "Keyboard Keycap",
+    "spriteKey": "item_keycap",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "tech_startup"
+    ]
+  },
+  {
+    "id": "sticky_note",
+    "displayName": "Sticky Note",
+    "spriteKey": "item_sticky_note",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "tech_startup"
+    ]
+  },
+  {
+    "id": "avocado_pit",
+    "displayName": "Avocado Pit",
+    "spriteKey": "item_avocado_pit",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "tech_startup"
+    ]
+  },
+  {
+    "id": "empty_vape_pod",
+    "displayName": "Empty Vape Pod",
+    "spriteKey": "item_vape_pod",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "tech_startup"
+    ]
+  },
+  {
+    "id": "empty_yerba_mate_can",
+    "displayName": "Empty Yerba Mate Can",
+    "spriteKey": "item_yerba_mate_can",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "tech_startup"
+    ]
+  },
+  {
+    "id": "ferry_ticket",
+    "displayName": "Ferry Ticket",
+    "spriteKey": "item_ferry_ticket",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "ferry_docks"
+    ]
+  },
+  {
+    "id": "barnacle_cup",
+    "displayName": "Barnacle-covered Plastic Cup",
+    "spriteKey": "item_barnacle_cup",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "ferry_docks"
+    ]
+  },
+  {
+    "id": "tourist_map",
+    "displayName": "Soggy Tourist Map",
+    "spriteKey": "item_tourist_map",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "ferry_docks"
+    ]
+  },
+  {
+    "id": "soggy_fries",
+    "displayName": "Soggy Fries",
+    "spriteKey": "item_soggy_fries",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "ferry_docks"
+    ]
+  },
+  {
+    "id": "seasickness_pill_foil",
+    "displayName": "Seasickness Pill Foil",
+    "spriteKey": "item_pill_foil",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "ferry_docks"
+    ]
+  },
+  {
+    "id": "rusty_boat_cleat",
+    "displayName": "Rusty Boat Cleat",
+    "spriteKey": "item_boat_cleat",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "ferry_docks"
+    ]
+  },
+  {
+    "id": "foam_life_preserver_piece",
+    "displayName": "Foam Life Preserver Piece",
+    "spriteKey": "item_life_preserver_piece",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "ferry_docks"
+    ]
+  },
+  {
+    "id": "tangled_fishing_line",
+    "displayName": "Tangled Fishing Line",
+    "spriteKey": "item_fishing_line",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "ferry_docks"
+    ]
   }
 ]
