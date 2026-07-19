@@ -47,15 +47,30 @@ export class SeparationMinigameScene extends Phaser.Scene {
       fontStyle: 'bold',
     }).setOrigin(0.5);
 
-    // Create identical bins
+    // Draw a built-in counter to completely cover the foreground tables on the left
+    const counterWidth = 900;
+    const counterHeight = 450;
+    const counterX = counterWidth / 2;
+    const counterY = 1080 - counterHeight / 2;
+    
+    // Wood body
+    this.add.rectangle(counterX, counterY, counterWidth, counterHeight, 0x2d1a11);
+    
+    // White top
+    this.add.rectangle(counterX, counterY - counterHeight/2 + 60, counterWidth, 120, 0xeeeeee);
+
+    // Front lip
+    this.add.rectangle(counterX, counterY - counterHeight/2 + 120, counterWidth, 10, 0xcccccc);
+
     const binDefs = binsData as BinDef[];
     const binCount = binDefs.length;
-    const spacing = width / (binCount + 1);
+    const spacing = 200;
+    const startX = counterX - (spacing * (binCount - 1)) / 2;
 
     for (let i = 0; i < binCount; i++) {
       const binDef = binDefs[i]!;
-      const x = spacing * (i + 1);
-      const y = 200;
+      const x = startX + i * spacing;
+      const y = counterY - counterHeight/2 + 60;
       const bin = new Bin(this, x, y, binDef);
       this.bins.push(bin);
     }

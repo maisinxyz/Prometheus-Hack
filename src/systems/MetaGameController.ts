@@ -31,7 +31,7 @@ class MetaGameController {
     this.chiSystem.updateChi(payload.venueId, payload.accuracyPct);
     
     // D.4: Update decay state
-    this.venueDecayState.recordRound(payload.venueId, payload.accuracyPct);
+    this.venueDecayState.registerRound(payload.venueId, payload.accuracyPct);
   }
 }
 

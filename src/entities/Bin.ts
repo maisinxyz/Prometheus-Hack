@@ -17,8 +17,9 @@ export class Bin extends Phaser.GameObjects.Zone {
 
   constructor(scene: Phaser.Scene, x: number, y: number, binDef: BinDef) {
     // Zone size matches bin sprite display area (scaled down for gameplay)
-    const zoneWidth = 192;
-    const zoneHeight = 256;
+    // Zone size scaled for the counter top
+    const zoneWidth = 180;
+    const zoneHeight = 110;
     super(scene, x, y, zoneWidth, zoneHeight);
 
     this.binDef = binDef;
@@ -28,24 +29,24 @@ export class Bin extends Phaser.GameObjects.Zone {
 
     // Create the visual bin sprite as a child
     this.binSprite = scene.add.sprite(x, y, `bin_${binDef.id}`);
-    this.binSprite.setDisplaySize(192, 256);
+    this.binSprite.setDisplaySize(180, 110);
     this.binSprite.setDepth(5);
 
-    // Add bin label text below the sprite
-    this.labelText = scene.add.text(x, y + 140, binDef.displayName, {
+    // Add bin label text below the hole (on the wooden counter face)
+    this.labelText = scene.add.text(x, y + 80, binDef.displayName, {
       fontFamily: 'Arial, sans-serif',
-      fontSize: '22px',
-      color: binDef.color,
+      fontSize: '18px',
+      color: '#ffffff',
       fontStyle: 'bold',
       stroke: '#000000',
-      strokeThickness: 3,
+      strokeThickness: 4,
     });
     this.labelText.setOrigin(0.5);
     this.labelText.setDepth(6);
 
     // --- F.4: Procedural Drop Shadow ---
     this.dropShadow = scene.add.sprite(x + 6, y + 8, `bin_${binDef.id}`);
-    this.dropShadow.setDisplaySize(192 * 0.95, 256 * 0.95);
+    this.dropShadow.setDisplaySize(180 * 0.95, 110 * 0.95);
     this.dropShadow.setTint(0x000000);
     this.dropShadow.setAlpha(0.35);
     this.dropShadow.setDepth(4); // Behind the main sprite

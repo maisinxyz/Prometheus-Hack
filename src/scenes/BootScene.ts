@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { generatePlaceholderTexture } from '../util/PlaceholderArtGenerator';
 import itemsData from '../data/items.json';
 import binsData from '../data/bins.json';
+import venuesData from '../data/venues.json';
 import { MunicipalPolicyService } from '../services/MunicipalPolicyService';
 import { TrashItemDef } from '../data/schemas/itemSchema';
 
@@ -36,9 +37,12 @@ export class BootScene extends Phaser.Scene {
       this.load.image(key, `assets/sprites/bins/${key}.png`);
     }
 
-    // 3. Load UI
+    // 3. Load UI & Backgrounds
     this.load.image('nyc_map_bg', 'assets/sprites/ui/custom_map.jpg');
     this.load.image('main_menu_bg', 'assets/main_menu_bg.png');
+    this.load.image('venue_mackenzie_cafe_bg_clean', 'assets/venue_mackenzie_cafe_bg_clean.png');
+    this.load.image('venue_financial_district_office_bg_clean', 'assets/venue_financial_district_office_bg_clean.png');
+    this.load.image('venue_times_square_bg_clean', 'assets/venue_times_square_bg_clean.png');
   }
 
   async create(): Promise<void> {
@@ -67,12 +71,31 @@ export class BootScene extends Phaser.Scene {
     for (const bin of binsData) {
       const key = `bin_${bin.id}`;
       if (this.failedLoads.has(key) || !this.textures.exists(key)) {
-        generatePlaceholderTexture(this, key, Phaser.Display.Color.HexStringToColor(bin.color).color, bin.displayName, 384, 512);
+        generatePlaceholderTexture(this, key, Phaser.Display.Color.HexStringToColor(bin.color).color, bin.displayName, 384, 512, false, true);
       }
     }
     // 3. UI Fallback
     if (this.failedLoads.has('nyc_map_bg') || !this.textures.exists('nyc_map_bg')) {
       generatePlaceholderTexture(this, 'nyc_map_bg', 0x1E3A8A, 'NEW YORK CITY (3D MAP HERE)', 2500, 2500);
+    }
+    
+    // 4. Venue Backgrounds Fallbacks
+    const venueColors: Record<string, number> = {
+      'mackenzie_cafe': 0x8b4513,
+      'financial_district_office': 0x708090,
+      'times_square': 0x4b0082,
+      'hot_dog_stand': 0xff8c00,
+      'chelsea_office': 0x4682b4,
+      'central_park': 0x228b22,
+    };
+    for (const venue of venuesData) {
+      const color = venueColors[venue.id] || 0x2c3e50;
+      const keys = [venue.backgroundKeys.clean, venue.backgroundKeys.grimy, venue.backgroundKeys.ruined];
+      for (const bgKey of keys) {
+        if (this.failedLoads.has(bgKey) || !this.textures.exists(bgKey)) {
+          generatePlaceholderTexture(this, bgKey, color, `${venue.displayName} Background`, 1920, 1080);
+        }
+      }
     }
 
     console.log('BootScene: assets loaded (with fallbacks if needed)');

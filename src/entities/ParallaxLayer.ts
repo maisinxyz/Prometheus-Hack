@@ -19,18 +19,27 @@ export class ParallaxLayer {
     midKey: string,
     fgKey: string
   ) {
+    const coverScale = (sprite: Phaser.GameObjects.Sprite) => {
+      const scaleX = 1920 / sprite.width;
+      const scaleY = 1080 / sprite.height;
+      sprite.setScale(Math.max(scaleX, scaleY));
+    };
+
     // Background layer — slowest scroll (deepest)
     this.bgSprite = scene.add.sprite(960, 540, bgKey);
+    coverScale(this.bgSprite);
     this.bgSprite.setScrollFactor(0.2);
     this.bgSprite.setDepth(0);
 
     // Midground layer — medium scroll
     this.midSprite = scene.add.sprite(960, 540, midKey);
+    coverScale(this.midSprite);
     this.midSprite.setScrollFactor(0.5);
     this.midSprite.setDepth(1);
 
     // Foreground layer — fastest scroll (closest)
     this.fgSprite = scene.add.sprite(960, 540, fgKey);
+    coverScale(this.fgSprite);
     this.fgSprite.setScrollFactor(0.8);
     this.fgSprite.setDepth(2);
   }

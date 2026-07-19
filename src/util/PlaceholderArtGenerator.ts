@@ -17,7 +17,8 @@ export function generatePlaceholderTexture(
   label: string,
   width: number,
   height: number,
-  isCircle: boolean = false
+  isCircle: boolean = false,
+  isBin: boolean = false
 ): void {
   // Skip if this texture key already exists (real art was loaded)
   if (scene.textures.exists(key)) {
@@ -26,7 +27,20 @@ export function generatePlaceholderTexture(
 
   const graphics = scene.add.graphics();
 
-  if (isCircle) {
+  if (isBin) {
+    const cx = width / 2;
+    const cy = height / 2;
+    const holeW = width * 0.9;
+    const holeH = height * 0.5;
+
+    // Outer plastic rim colored by bin type
+    graphics.fillStyle(color, 1);
+    graphics.fillRoundedRect(cx - holeW/2, cy - holeH/2, holeW, holeH, 12);
+    
+    // Deep black hole for trash
+    graphics.fillStyle(0x111111, 1);
+    graphics.fillRoundedRect(cx - holeW/2 + 15, cy - holeH/2 + 15, holeW - 30, holeH - 30, 8);
+  } else if (isCircle) {
     const radius = Math.min(width, height) / 2;
     graphics.fillStyle(color, 1);
     graphics.fillCircle(width / 2, height / 2, radius);

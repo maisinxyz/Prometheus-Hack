@@ -160,15 +160,34 @@ export class TrayScene extends Phaser.Scene {
 
   /** Create the 4 bins along the bottom of the screen */
   private createBins(): void {
+    // Draw a built-in counter to completely cover the foreground tables on the left
+    const counterWidth = 900;
+    const counterHeight = 450;
+    const counterX = counterWidth / 2; // Left side
+    const counterY = 1080 - counterHeight / 2; // Bottom
+    
+    // Wood body
+    const counterBg = this.add.rectangle(counterX, counterY, counterWidth, counterHeight, 0x2d1a11);
+    counterBg.setDepth(3);
+    
+    // White top
+    const counterTop = this.add.rectangle(counterX, counterY - counterHeight/2 + 60, counterWidth, 120, 0xeeeeee);
+    counterTop.setDepth(3);
+
+    // Front lip
+    const counterLip = this.add.rectangle(counterX, counterY - counterHeight/2 + 120, counterWidth, 10, 0xcccccc);
+    counterLip.setDepth(3);
+
     const binDefs = binsData as BinDef[];
     const binCount = binDefs.length;
-    const totalWidth = 1920;
-    const spacing = totalWidth / (binCount + 1);
+    // Group bins evenly on the counter top
+    const spacing = 200;
+    const startX = counterX - (spacing * (binCount - 1)) / 2;
 
     for (let i = 0; i < binCount; i++) {
       const binDef = binDefs[i]!;
-      const x = spacing * (i + 1);
-      const y = 200; // Near top of canvas (back of the page)
+      const x = startX + i * spacing;
+      const y = counterY - counterHeight/2 + 60; // Center of the white top
       const bin = new Bin(this, x, y, binDef);
       this.bins.push(bin);
     }
@@ -197,9 +216,9 @@ export class TrayScene extends Phaser.Scene {
     for (let i = 0; i < this.itemsPerTray; i++) {
       const randomItemDef = selected[i % selected.length]!;
 
-      // Random spread in the bottom half of the screen
-      const x = 300 + Math.random() * 1320;
-      const y = 600 + Math.random() * 300;
+      // Spawn items on the free right side (the real order area)
+      const x = 1100 + Math.random() * 600; // Spans x=1100 to 1700
+      const y = 600 + Math.random() * 200; // Spans y=600 to 800
 
       const item = new TrashItem(
         this, 

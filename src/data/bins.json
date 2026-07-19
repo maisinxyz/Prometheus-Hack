@@ -1,6 +1,6 @@
 [
-  { "id": "paper", "displayName": "RECYCLING", "color": "#808080" },
-  { "id": "compost", "displayName": "COMPOST", "color": "#808080" },
-  { "id": "plastic", "displayName": "PLASTIC", "color": "#808080" },
-  { "id": "landfill", "displayName": "LANDFILL", "color": "#808080" }
+  { "id": "paper", "displayName": "RECYCLING", "color": "#22c55e" },
+  { "id": "compost", "displayName": "COMPOST", "color": "#8b5a2b" },
+  { "id": "plastic", "displayName": "PLASTIC", "color": "#3b82f6" },
+  { "id": "landfill", "displayName": "LANDFILL", "color": "#111827" }
 ]
