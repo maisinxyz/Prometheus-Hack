@@ -81,11 +81,20 @@
     "venueIds": ["mackenzie_cafe"]
   },
   {
-    "id": "aluminum_can",
-    "displayName": "Aluminum Can",
-    "spriteKey": "item_aluminum_can",
-    "correctBinId": "plastic",
-    "isComposite": false,
+    "id": "soda_fanta_empty",
+    "displayName": "Empty Fanta Can",
+    "spriteKey": "item_fanta_can",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [],
+    "venueIds": ["mackenzie_cafe"]
+  },
+  {
+    "id": "soda_pepsi_empty",
+    "displayName": "Empty Pepsi Can",
+    "spriteKey": "item_pepsi_can",
+    "correctBinId": "none",
+    "isComposite": true,
     "componentIds": [],
     "venueIds": ["mackenzie_cafe"]
   },
@@ -153,13 +162,49 @@
     "venueIds": ["mackenzie_cafe"]
   },
   {
-    "id": "soda_can_full",
-    "displayName": "Full Soda Can",
-    "spriteKey": "item_soda_can_full",
+    "id": "soda_fanta_full",
+    "displayName": "Full Fanta Can",
+    "spriteKey": "item_fanta_can",
     "correctBinId": "none",
     "isComposite": true,
-    "componentIds": ["soda_liquid", "aluminum_can"],
+    "componentIds": [],
     "venueIds": ["mackenzie_cafe"]
+  },
+  {
+    "id": "soda_pepsi_full",
+    "displayName": "Full Pepsi Can",
+    "spriteKey": "item_pepsi_can",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [],
+    "venueIds": ["mackenzie_cafe"]
+  },
+  {
+    "id": "fanta_pour",
+    "displayName": "Fanta Pour",
+    "spriteKey": "item_fanta_pour",
+    "correctBinId": "none",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": []
+  },
+  {
+    "id": "pepsi_pour",
+    "displayName": "Pepsi Pour",
+    "spriteKey": "item_pepsi_pour",
+    "correctBinId": "none",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": []
+  },
+  {
+    "id": "can_empty",
+    "displayName": "Empty Crushed Can",
+    "spriteKey": "item_can_empty",
+    "correctBinId": "none",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": []
   },
   {
     "id": "takeout_box_with_food",

@@ -216,9 +216,26 @@ export class TrayScene extends Phaser.Scene {
     for (let i = 0; i < this.itemsPerTray; i++) {
       const randomItemDef = selected[i % selected.length]!;
 
-      // Spawn items on the free right side (the real order area)
-      const x = 1100 + Math.random() * 600; // Spans x=1100 to 1700
-      const y = 600 + Math.random() * 200; // Spans y=600 to 800
+      let x = 0;
+      let y = 0;
+      let overlapping = true;
+      let attempts = 0;
+
+      while (overlapping && attempts < 50) {
+        // Spawn items on the free right side (the real order area)
+        x = 1100 + Math.random() * 600; // Spans x=1100 to 1700
+        y = 600 + Math.random() * 200; // Spans y=600 to 800
+        overlapping = false;
+        
+        for (const existingItem of this.items) {
+          const dist = Phaser.Math.Distance.Between(x, y, existingItem.x, existingItem.y);
+          if (dist < 80) { // adjusted minimum distance to 80px to fit 10-15 items in a smaller area
+            overlapping = true;
+            break;
+          }
+        }
+        attempts++;
+      }
 
       const item = new TrashItem(
         this, 
@@ -292,6 +309,12 @@ export class TrayScene extends Phaser.Scene {
     // Launch the separation minigame scene
     this.scene.launch('SeparationMinigameScene', {
       item,
+      onScore: (points: number, isCorrect: boolean) => {
+        this.roundScore += points;
+        gameEvents.emit(GAME_EVENTS.ITEM_DROPPED, {
+          result: { correct: isCorrect, pointsAwarded: points, velocityMultiplier: 1 }
+        });
+      },
       onComplete: (success: boolean) => {
         // Callback when minigame finishes
         this.scene.resume('TrayScene');
@@ -311,17 +334,20 @@ export class TrayScene extends Phaser.Scene {
           this.correctDrops++;
           this.comboSystem.registerCorrect();
           this.cameras.main.shake(100, 0.005);
+          gameEvents.emit(GAME_EVENTS.ITEM_DROPPED, {
+            result: { correct: true, pointsAwarded: 500, velocityMultiplier: 1 }
+          });
         } else {
           // Normal penalty for failing the minigame
-          const penalty = this.scoringSystem.resolveDrop('none', 'none', 0, 0, this.currentTier.errorPenaltyMultiplier, false).pointsAwarded;
-          this.roundScore += penalty; // it's already negative
+          const penaltyResult = this.scoringSystem.resolveDrop('none', 'none', 0, 0, this.currentTier.errorPenaltyMultiplier, false);
+          this.roundScore += penaltyResult.pointsAwarded;
           this.comboSystem.registerIncorrect();
           this.cameras.main.shake(80, 0.002);
+          gameEvents.emit(GAME_EVENTS.ITEM_DROPPED, {
+            result: { correct: false, pointsAwarded: penaltyResult.pointsAwarded, velocityMultiplier: 1 }
+          });
         }
         
-        // Tell HUD to update (we simulate a round-ended/update event, or just wait for next drop)
-        // Actually, just emit a fake drop to trigger HUD updates, or HUD polls it.
-        // HUDScene listens to ITEM_DROPPED and ROUND_ENDED. Let's emit a combo-changed to update HUD.
         gameEvents.emit(GAME_EVENTS.COMBO_CHANGED, { combo: this.comboSystem.getCombo() });
       }
     });
@@ -354,8 +380,25 @@ export class TrayScene extends Phaser.Scene {
         this.comboSystem.getCombo()
       );
 
+      // Floating animation
+      const text = this.add.text(bin.x, bin.y - 50, '+Bonus!', {
+        fontFamily: 'Arial',
+        fontSize: '32px',
+        color: '#22c55e',
+        stroke: '#000000',
+        strokeThickness: 4
+      }).setOrigin(0.5).setDepth(100);
+      this.tweens.add({
+        targets: text,
+        y: bin.y - 120,
+        alpha: 0,
+        duration: 1000,
+        ease: 'Power2',
+        onComplete: () => text.destroy()
+      });
+
       // Track C: Screen shake on correct drop — stronger (C.7)
-      this.cameras.main.shake(80, 0.005);
+      this.cameras.main.shake(50, 0.002);
     } else {
       this.comboSystem.registerIncorrect();
 
@@ -363,7 +406,7 @@ export class TrayScene extends Phaser.Scene {
       this.particleFX.playIncorrectSortFX({ x: bin.x, y: bin.y });
 
       // Track C: Screen shake on incorrect drop — weaker (C.7)
-      this.cameras.main.shake(80, 0.002);
+      this.cameras.main.shake(50, 0.001);
     }
 
     // Track C: Item-specific SFX on drop (C.8)

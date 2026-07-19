@@ -52,15 +52,21 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
     scene.add.existing(this);
     this.setInteractive({ draggable: true, useHandCursor: true });
 
-    // Set display size to 128×128 (items are 256×256 source, displayed at half)
-    this.setDisplaySize(128, 128);
+    // Scale proportionally so the largest dimension is 80
+    if (this.width > this.height) {
+      this.displayWidth = 80;
+      this.scaleY = this.scaleX;
+    } else {
+      this.displayHeight = 80;
+      this.scaleX = this.scaleY;
+    }
 
     // Set depth so items render above background
     this.setDepth(10);
 
     // --- F.4: Procedural Drop Shadow ---
     this.dropShadow = scene.add.sprite(x + 6, y + 8, itemDef.spriteKey);
-    this.dropShadow.setDisplaySize(128 * 0.95, 128 * 0.95);
+    this.dropShadow.setScale(this.scaleX * 0.95, this.scaleY * 0.95);
     this.dropShadow.setTint(0x000000);
     this.dropShadow.setAlpha(0.35);
     this.dropShadow.setDepth(9); // Behind the main sprite
