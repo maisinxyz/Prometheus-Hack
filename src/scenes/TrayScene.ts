@@ -5,15 +5,17 @@ import { ScoringSystem } from '../systems/ScoringSystem';
 import { ComboSystem } from '../systems/ComboSystem';
 import { ParticleFXManager } from '../systems/ParticleFXManager';
 import { AudioLayerManager } from '../systems/AudioLayerManager';
+import { gameEvents, GAME_EVENTS } from '../systems/GameEvents';
 import { TrashItemDef } from '../data/schemas/itemSchema';
 import { BinDef } from '../data/schemas/binSchema';
-import { gameEvents, GAME_EVENTS } from '../systems/GameEvents';
 import itemsData from '../data/items.json';
 import binsData from '../data/bins.json';
 import venuesData from '../data/venues.json';
-import { metaGameController } from '../systems/MetaGameController';
+import { ChiSystem } from '../systems/ChiSystem';
+import { VenueDecayState, DecayState } from '../systems/VenueDecayState';
 import { ParallaxLayer } from '../entities/ParallaxLayer';
-import { DifficultySystem, DifficultyTier } from '../systems/DifficultySystem';
+import { DifficultySystem } from '../systems/DifficultySystem';
+import { DifficultyTierDef } from '../data/schemas/difficultyTierSchema';
 
 /**
  * TrayScene — Core disposal loop.
@@ -30,25 +32,24 @@ export class TrayScene extends Phaser.Scene {
   private comboSystem!: ComboSystem;
   private particleFX!: ParticleFXManager;
   private audioManager: AudioLayerManager = new AudioLayerManager();
+  private chiSystem!: ChiSystem;
+  private venueDecayState!: VenueDecayState;
+  private difficultySystem!: DifficultySystem;
+  private currentTier!: DifficultyTierDef;
 
   private venueId: string = 'mackenzie_cafe';
   private roundScore: number = 0;
   private totalDrops: number = 0;
   private correctDrops: number = 0;
-  private parallaxLayer: ParallaxLayer | null = null;
 
-  private difficultySystem!: DifficultySystem;
-  private activeTier!: DifficultyTier;
-
-  /** Timer values — overridden by Track E's difficulty system */
+  /** Timer values — defaults to 30s, overridden by Track E's difficulty system */
   private roundTimerMs: number = 30000;
   private timerEvent: Phaser.Time.TimerEvent | null = null;
   private roundStartTimeMs: number = 0;
   private roundEnded: boolean = false;
 
-  /** Number of items per tray — overridden by Track E */
+  /** Number of items per tray — default 6, overridden by Track E */
   private itemsPerTray: number = 6;
-  public activeDrags: number = 0;
 
   constructor() {
     super({ key: 'TrayScene' });
@@ -59,7 +60,6 @@ export class TrayScene extends Phaser.Scene {
     this.roundScore = 0;
     this.totalDrops = 0;
     this.correctDrops = 0;
-    this.activeDrags = 0;
     this.roundEnded = false;
     this.items = [];
     this.bins = [];
@@ -69,21 +69,24 @@ export class TrayScene extends Phaser.Scene {
     this.scoringSystem = new ScoringSystem();
     this.comboSystem = new ComboSystem();
     this.particleFX = new ParticleFXManager(this);
+    this.chiSystem = new ChiSystem();
+    this.venueDecayState = new VenueDecayState();
     this.difficultySystem = new DifficultySystem();
-    this.audioManager.init();
 
-    // Determine active difficulty tier
-    const currentChi = metaGameController.chiSystem.getChi(this.venueId);
-    this.activeTier = this.difficultySystem.getTierForChi(currentChi);
-    this.roundTimerMs = this.activeTier.trayTimerSec * 1000;
+    // Track E: Determine Difficulty Tier based on current CHI
+    const currentChi = this.chiSystem.getChi(this.venueId);
+    this.currentTier = this.difficultySystem.getTierForChi(currentChi);
 
-    // E.6: Volume escalation
-    if (this.activeTier.tier === 'expert') this.itemsPerTray = 9;
-    else if (this.activeTier.tier === 'intermediate') this.itemsPerTray = 6;
-    else this.itemsPerTray = 4;
+    // Track E: Wire timer and item counts to active tier
+    this.roundTimerMs = this.currentTier.trayTimerSec * 1000;
+    
+    // Determine items per tray (Cluster B override: 10-15)
+    this.itemsPerTray = Phaser.Math.Between(10, 15);
 
-    // E.5: Enable multi-touch for expert dual-targeting
-    this.input.addPointer(1);
+    // Track E: Enable Dual Targeting (E.5)
+    if (this.currentTier.dualTargeting) {
+      this.input.addPointer(1); // Adds a second pointer for multi-touch
+    }
 
     // Draw venue background
     this.createBackground();
@@ -96,6 +99,12 @@ export class TrayScene extends Phaser.Scene {
 
     // Set up drag-end overlap detection (B.5)
     this.setupDropDetection();
+    
+    // Set up click detection (Cluster B)
+    gameEvents.on(GAME_EVENTS.ITEM_CLICKED, this.handleItemClicked, this);
+    this.events.once('shutdown', () => {
+      gameEvents.off(GAME_EVENTS.ITEM_CLICKED, this.handleItemClicked, this);
+    });
 
     // Start the round timer (B.8)
     this.startTimer();
@@ -120,27 +129,32 @@ export class TrayScene extends Phaser.Scene {
     });
   }
 
-  /** Create a simple background for the venue */
+  /** Create the venue background using ParallaxLayer */
   private createBackground(): void {
     const venueData = venuesData.find((v) => v.id === this.venueId);
-    if (!venueData) return;
+    
+    // We will use the same image for fg/mid/bg just to test the ParallaxLayer logic
+    // since we only have single texture keys defined in venues.json per state.
+    // In a real art integration (Track F.1), you'd have 3 separate keys.
+    const state = this.venueDecayState.getState(this.venueId);
+    let bgKey = 'nyc_map_bg'; // Fallback if no venues data matches
 
-    const decayState = metaGameController.venueDecayState.getState(this.venueId);
-    let bgKey = venueData.backgroundKeys.clean;
-    if (decayState === 'DECLINING') bgKey = venueData.backgroundKeys.grimy;
-    if (decayState === 'RUINED') bgKey = venueData.backgroundKeys.ruined;
+    if (venueData) {
+      if (state === DecayState.CLEAN) bgKey = venueData.backgroundKeys.clean;
+      else if (state === DecayState.DECLINING) bgKey = venueData.backgroundKeys.grimy;
+      else if (state === DecayState.RUINED) bgKey = venueData.backgroundKeys.ruined;
+    }
 
-    this.parallaxLayer = new ParallaxLayer(this, bgKey, 'placeholder_mid', 'placeholder_fg');
+    new ParallaxLayer(this, bgKey, bgKey, bgKey);
 
     // Venue name in the corner
-    const venueName = venueData.displayName;
+    const venueName = venueData?.displayName ?? this.venueId;
     const venueLabel = this.add.text(30, 20, venueName, {
       fontFamily: 'Arial, sans-serif',
       fontSize: '28px',
       color: '#ffffff',
-      fontStyle: 'bold'
-    });
-    venueLabel.setAlpha(0.6);
+      fontStyle: 'bold',
+    }).setAlpha(0.6);
     venueLabel.setDepth(50);
   }
 
@@ -154,7 +168,7 @@ export class TrayScene extends Phaser.Scene {
     for (let i = 0; i < binCount; i++) {
       const binDef = binDefs[i]!;
       const x = spacing * (i + 1);
-      const y = 900; // Near bottom of canvas
+      const y = 200; // Near top of canvas (back of the page)
       const bin = new Bin(this, x, y, binDef);
       this.bins.push(bin);
     }
@@ -165,33 +179,35 @@ export class TrayScene extends Phaser.Scene {
     const venueData = venuesData.find((v) => v.id === this.venueId);
     if (!venueData) return;
 
-    // Get all valid item definitions for this venue (exclude composites per Track E step E.6)
-    const allItems = itemsData as TrashItemDef[];
+    // Get all valid item definitions for this venue
+    // Use the policy-patched items data from the registry, fallback to static if not set
+    const allItems = (this.registry.get('itemsData') as TrashItemDef[]) || (itemsData as TrashItemDef[]);
     const pool = allItems.filter(
-      (item) => venueData.itemPoolIds.includes(item.id) && !item.isComposite
+      (item) => venueData.itemPoolIds.includes(item.id)
     );
 
     if (pool.length === 0) return;
 
-    // Pick random items for this tray
+    // Pick random items for this tray (10-15 as requested)
+    this.itemsPerTray = Phaser.Math.Between(10, 15);
     const count = Math.min(this.itemsPerTray, pool.length);
     const shuffled = [...pool].sort(() => Math.random() - 0.5);
     const selected = shuffled.slice(0, count);
 
-    // Position items in a grid in the upper area of the screen
-    const cols = Math.min(count, 4);
-    const startX = 960 - ((cols - 1) * 200) / 2;
-    const startY = 250;
-    const gapX = 200;
-    const gapY = 180;
+    for (let i = 0; i < this.itemsPerTray; i++) {
+      const randomItemDef = selected[i % selected.length]!;
 
-    for (let i = 0; i < selected.length; i++) {
-      const col = i % cols;
-      const row = Math.floor(i / cols);
-      const x = startX + col * gapX;
-      const y = startY + row * gapY;
+      // Random spread in the bottom half of the screen
+      const x = 300 + Math.random() * 1320;
+      const y = 600 + Math.random() * 300;
 
-      const item = new TrashItem(this, x, y, selected[i]!, this.activeTier.visualCuesActive, this.activeTier.dualTargeting);
+      const item = new TrashItem(
+        this, 
+        x, 
+        y, 
+        randomItemDef, 
+        this.currentTier.visualCuesActive // Pass visual cues setting (E.4)
+      );
       this.items.push(item);
     }
   }
@@ -227,14 +243,69 @@ export class TrayScene extends Phaser.Scene {
           // Snap back to original position
           this.tweens.add({
             targets: item,
-            x: item.originX,
-            y: item.originY,
-            duration: 200,
-            ease: 'Back.easeOut',
+            x: item.startX,
+            y: item.startY,
+            duration: 300,
+            ease: 'Power2',
+            onUpdate: () => {
+              item.syncAttachments();
+            }
           });
         }
       }
     );
+  }
+
+  /**
+   * Cluster B: Handle composite item clicks.
+   */
+  private handleItemClicked(data: { item: TrashItem }): void {
+    if (this.roundEnded) return;
+    const { item } = data;
+
+    // Only respond to clicks if the item is a composite
+    if (!item.itemDef.isComposite) return;
+
+    // Pause this scene
+    this.scene.pause('TrayScene');
+    this.scene.pause('HUDScene');
+
+    // Launch the separation minigame scene
+    this.scene.launch('SeparationMinigameScene', {
+      item,
+      onComplete: (success: boolean) => {
+        // Callback when minigame finishes
+        this.scene.resume('TrayScene');
+        this.scene.resume('HUDScene');
+        
+        // Remove the composite item from tray visually
+        const index = this.items.indexOf(item);
+        if (index !== -1) {
+          this.items.splice(index, 1);
+        }
+        item.destroy();
+
+        // Apply scoring based on minigame result
+        if (success) {
+          // Award massive bonus for properly separating items!
+          this.roundScore += 500;
+          this.correctDrops++;
+          this.comboSystem.registerCorrect();
+          this.cameras.main.shake(100, 0.005);
+        } else {
+          // Normal penalty for failing the minigame
+          const penalty = this.scoringSystem.resolveDrop('none', 'none', 0, 0, this.currentTier.errorPenaltyMultiplier, false).pointsAwarded;
+          this.roundScore += penalty; // it's already negative
+          this.comboSystem.registerIncorrect();
+          this.cameras.main.shake(80, 0.002);
+        }
+        
+        // Tell HUD to update (we simulate a round-ended/update event, or just wait for next drop)
+        // Actually, just emit a fake drop to trigger HUD updates, or HUD polls it.
+        // HUDScene listens to ITEM_DROPPED and ROUND_ENDED. Let's emit a combo-changed to update HUD.
+        gameEvents.emit(GAME_EVENTS.COMBO_CHANGED, { combo: this.comboSystem.getCombo() });
+      }
+    });
   }
 
   /** Handle a resolved drop — scoring, combo, events, cleanup */
@@ -244,7 +315,8 @@ export class TrayScene extends Phaser.Scene {
       bin.binDef.id,
       item.dragStartTimeMs,
       undefined,
-      this.activeTier.errorPenaltyMultiplier
+      this.currentTier.errorPenaltyMultiplier, // Pass penalty scaling (E.3)
+      item.itemDef.isComposite // Pass composite flag (Cluster B)
     );
 
     // Update score
@@ -259,7 +331,7 @@ export class TrayScene extends Phaser.Scene {
       // Track C: Particle FX on correct sort (C.1)
       this.particleFX.playCorrectSortFX(
         { x: bin.x, y: bin.y },
-        bin.binDef.id,
+        item.itemDef.id,
         this.comboSystem.getCombo()
       );
 
@@ -275,8 +347,8 @@ export class TrayScene extends Phaser.Scene {
       this.cameras.main.shake(80, 0.002);
     }
 
-    // Track C: Thud SFX on every drop (C.8)
-    this.audioManager.playThud();
+    // Track C: Item-specific SFX on drop (C.8)
+    this.audioManager.playDropSFX(item.itemDef.id, result.correct);
 
     // Emit item-dropped event for Tracks C and D
     gameEvents.emit(GAME_EVENTS.ITEM_DROPPED, { item, bin, result });
@@ -345,15 +417,9 @@ export class TrayScene extends Phaser.Scene {
       venueId: this.venueId,
     });
 
-    // Update parallax background based on new decay state (D.5)
-    const newDecayState = metaGameController.venueDecayState.getState(this.venueId);
-    const venueData = venuesData.find((v) => v.id === this.venueId);
-    if (venueData && this.parallaxLayer) {
-      let bgKey = venueData.backgroundKeys.clean;
-      if (newDecayState === 'DECLINING') bgKey = venueData.backgroundKeys.grimy;
-      if (newDecayState === 'RUINED') bgKey = venueData.backgroundKeys.ruined;
-      this.parallaxLayer.setBackgroundTexture(bgKey);
-    }
+    // Track D: Meta-game updates
+    this.chiSystem.updateChi(this.venueId, accuracyPct);
+    this.venueDecayState.registerRound(this.venueId, accuracyPct);
 
     // Disable all remaining items
     for (const item of this.items) {

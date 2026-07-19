@@ -41,6 +41,7 @@ export const gameEvents = GameEventBus.getInstance();
 // Event name constants to avoid string typos
 export const GAME_EVENTS = {
   ITEM_LOCKED_ON: 'item-locked-on',
+  ITEM_CLICKED: 'item-clicked',
   ITEM_DROPPED: 'item-dropped',
   COMBO_CHANGED: 'combo-changed',
   ROUND_ENDED: 'round-ended',

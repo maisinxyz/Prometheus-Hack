@@ -1,0 +1,14 @@
+{
+  "paper_plate": "Food-soiled paper cannot be recycled. It must go to compost if compostable, or landfill.",
+  "plastic_fork": "Most plastic utensils are not recyclable and must go to the landfill.",
+  "food_scraps": "Food waste should always be composted to reduce landfill methane emissions.",
+  "coffee_cup": "Paper coffee cups are lined with plastic to prevent leaks and must go to the landfill.",
+  "coffee_cup_lid": "Plastic lids are often recyclable, but check local rules. Generally plastic bin.",
+  "napkin_clean": "Clean paper products can be recycled in the paper bin.",
+  "napkin_greasy": "Grease ruins the paper recycling process. Greasy napkins must be composted.",
+  "apple_core": "Organic matter like fruit cores belongs in the compost bin.",
+  "plastic_water_bottle": "Empty plastic bottles are highly recyclable. Put them in the plastic bin.",
+  "aluminum_can": "Aluminum is infinitely recyclable. Make sure it goes in the plastic/metal/glass bin.",
+  "paper_straw_wrapper": "Paper wrappers can be recycled with mixed paper.",
+  "plastic_straw": "Plastic straws are too small for recycling sorters and must go to landfill."
+}

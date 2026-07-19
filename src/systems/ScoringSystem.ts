@@ -21,10 +21,11 @@ export class ScoringSystem {
     binId: string,
     dragStartTimeMs: number,
     dropTimeMs?: number,
-    penaltyMultiplier: number = 1.0
+    errorPenaltyMultiplier: number = 1.0,
+    isComposite: boolean = false
   ): DropResult {
     const now = dropTimeMs ?? Date.now();
-    const correct = itemCorrectBinId === binId;
+    const correct = itemCorrectBinId === binId && !isComposite;
     const elapsed = now - dragStartTimeMs;
 
     let velocityMultiplier: number;
@@ -36,9 +37,16 @@ export class ScoringSystem {
       velocityMultiplier = 1.0;
     }
 
-    const pointsAwarded = correct
-      ? SCORING.CORRECT_BIN_POINTS * velocityMultiplier
-      : SCORING.CONTAMINATION_PENALTY * penaltyMultiplier;
+    let pointsAwarded = 0;
+    if (correct) {
+      pointsAwarded = SCORING.CORRECT_BIN_POINTS * velocityMultiplier;
+    } else {
+      pointsAwarded = SCORING.CONTAMINATION_PENALTY * errorPenaltyMultiplier;
+      // Massive penalty for not separating composite items (Cluster B)
+      if (isComposite) {
+        pointsAwarded *= 3; // Triple the penalty!
+      }
+    }
 
     return { correct, pointsAwarded, velocityMultiplier };
   }

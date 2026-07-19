@@ -1,55 +1,80 @@
 import Phaser from 'phaser';
 import { generatePlaceholderTexture } from '../util/PlaceholderArtGenerator';
+import itemsData from '../data/items.json';
+import binsData from '../data/bins.json';
+import { MunicipalPolicyService } from '../services/MunicipalPolicyService';
+import { TrashItemDef } from '../data/schemas/itemSchema';
 
 /**
  * BootScene — Preloads assets and transitions to LevelSelectScene.
  * Falls back to PlaceholderArtGenerator for any missing sprites.
  *
- * Per PRD Track 0, step 0.6.
+ * Per PRD Track F, step F.2.
  */
 export class BootScene extends Phaser.Scene {
+  private failedLoads: Set<string> = new Set();
+
   constructor() {
     super({ key: 'BootScene' });
   }
 
   preload(): void {
-    // Placeholder asset keys for initial development
-    // These will be replaced by the data-driven manifest loader in Track F (step F.2)
-    const placeholderItems = [
-      { key: 'item_paper_plate', color: 0x3B82F6, label: 'PAPER PLATE' },
-      { key: 'item_plastic_fork', color: 0xEAB308, label: 'PLASTIC FORK' },
-      { key: 'item_food_scraps', color: 0x22C55E, label: 'FOOD SCRAPS' },
-      { key: 'item_coffee_cup', color: 0x8B4513, label: 'COFFEE CUP' },
-      { key: 'item_coffee_cup_lid', color: 0xEAB308, label: 'CUP LID' },
-      { key: 'item_napkin_clean', color: 0x3B82F6, label: 'NAPKIN' },
-      { key: 'item_napkin_greasy', color: 0x6B7280, label: 'GREASY NAP' },
-      { key: 'item_apple_core', color: 0x22C55E, label: 'APPLE' },
-      { key: 'item_plastic_water_bottle', color: 0xEAB308, label: 'BOTTLE' },
-      { key: 'item_aluminum_can', color: 0xEAB308, label: 'CAN' },
-      { key: 'item_paper_straw_wrapper', color: 0x3B82F6, label: 'WRAPPER' },
-      { key: 'item_plastic_straw', color: 0xEAB308, label: 'STRAW' },
-    ];
+    // Listen for missing files
+    this.load.on('loaderror', (fileObj: Phaser.Loader.File) => {
+      this.failedLoads.add(fileObj.key);
+    });
 
-    const placeholderBins = [
-      { key: 'bin_paper', color: 0x3B82F6, label: 'PAPER' },
-      { key: 'bin_compost', color: 0x22C55E, label: 'COMPOST' },
-      { key: 'bin_plastic', color: 0xEAB308, label: 'PLASTIC' },
-      { key: 'bin_landfill', color: 0x6B7280, label: 'LANDFILL' },
-    ];
-
-    // Generate placeholder textures for items (128×128 display size)
-    for (const item of placeholderItems) {
-      generatePlaceholderTexture(this, item.key, item.color, item.label, 128, 128);
+    // 1. Load Items
+    for (const item of itemsData) {
+      const key = item.spriteKey;
+      this.load.image(key, `assets/sprites/items/${key}.png`);
     }
 
-    // Generate placeholder textures for bins (384×512 per Section 1.2)
-    for (const bin of placeholderBins) {
-      generatePlaceholderTexture(this, bin.key, bin.color, bin.label, 384, 512);
+    // 2. Load Bins
+    for (const bin of binsData) {
+      const key = `bin_${bin.id}`;
+      this.load.image(key, `assets/sprites/bins/${key}.png`);
     }
+
+    // 3. Load UI
+    this.load.image('nyc_map_bg', 'assets/sprites/ui/custom_map.jpg');
   }
 
-  create(): void {
-    console.log('BootScene: assets loaded');
-    this.scene.start('LevelSelectScene');
+  async create(): Promise<void> {
+    // Apply Municipal Policy Updates (Track H)
+    const policyService = new MunicipalPolicyService();
+    const updates = await policyService.fetchPolicyUpdates();
+    const updatedItems = policyService.applyUpdates(itemsData as TrashItemDef[], updates);
+    this.registry.set('itemsData', updatedItems);
+
+    // Generate fallbacks for any textures that failed to load
+    for (const item of updatedItems) {
+      const key = item.spriteKey;
+      if (this.failedLoads.has(key) || !this.textures.exists(key)) {
+        // Use hash of item ID to generate a consistent placeholder color
+        let color = 0x888888;
+        if (item.correctBinId === 'compost') color = 0x22c55e;
+        else if (item.correctBinId === 'plastic') color = 0x3b82f6;
+        else if (item.correctBinId === 'paper') color = 0xeab308;
+        else if (item.correctBinId === 'landfill') color = 0x4b5563;
+        else if (item.correctBinId === 'none') color = 0xef4444; // Composites
+        
+        generatePlaceholderTexture(this, key, color, item.id.toUpperCase(), 128, 128, item.isComposite);
+      }
+    }
+
+    for (const bin of binsData) {
+      const key = `bin_${bin.id}`;
+      if (this.failedLoads.has(key) || !this.textures.exists(key)) {
+        generatePlaceholderTexture(this, key, Phaser.Display.Color.HexStringToColor(bin.color).color, bin.displayName, 384, 512);
+      }
+    }
+    // 3. UI Fallback
+    if (this.failedLoads.has('nyc_map_bg') || !this.textures.exists('nyc_map_bg')) {
+      generatePlaceholderTexture(this, 'nyc_map_bg', 0x1E3A8A, 'NEW YORK CITY (3D MAP HERE)', 2500, 2500);
+    }
+
+    console.log('BootScene: assets loaded (with fallbacks if needed)');
+    this.scene.start('TitleScene');
   }
 }

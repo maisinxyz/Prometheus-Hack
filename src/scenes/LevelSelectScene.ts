@@ -1,155 +1,255 @@
 import Phaser from 'phaser';
+import { ChiSystem } from '../systems/ChiSystem';
 import venuesData from '../data/venues.json';
-import { metaGameController } from '../systems/MetaGameController';
 
-export interface Venue {
-  id: string;
-  displayName: string;
-  unlockChiThreshold: number;
-  itemPoolIds: string[];
-  backgroundKeys: {
-    clean: string;
-    grimy: string;
-    ruined: string;
-  };
-}
-
+/**
+ * LevelSelectScene — Interactive Map UI.
+ * Features a draggable 2.5D map with level nodes.
+ * Per PRD Track D, steps D.3 and D.6.
+ */
 export class LevelSelectScene extends Phaser.Scene {
+  private mapWidth = 1406; // Maintain aspect ratio for 576x1024 (2500 / 1024 * 576)
+  private mapHeight = 2500;
+  private isDragging = false;
+  private dragStartX = 0;
+  private dragStartY = 0;
+  private chiSystem!: ChiSystem;
+
   constructor() {
     super({ key: 'LevelSelectScene' });
   }
 
   create(): void {
-    const title = this.add.text(960, 100, 'TrashDash: NYC Echo', {
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '72px',
-      color: '#ffffff',
-      fontStyle: 'bold',
-    });
-    title.setOrigin(0.5);
+    this.chiSystem = new ChiSystem();
 
-    const subtitle = this.add.text(960, 180, 'Select a Venue', {
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '32px',
-      color: '#aaaaaa',
-    });
-    subtitle.setOrigin(0.5);
+    // 1. Setup Map Background
+    const mapImage = this.add.image(0, 0, 'nyc_map_bg');
+    mapImage.setOrigin(0, 0);
+    mapImage.setDisplaySize(this.mapWidth, this.mapHeight);
 
-    const venues = venuesData as Venue[];
-    
-    // Layout cards horizontally
-    const cardWidth = 400;
-    const cardHeight = 300;
-    const spacing = 100;
-    const totalWidth = venues.length * cardWidth + (venues.length - 1) * spacing;
-    const startX = 960 - totalWidth / 2 + cardWidth / 2;
-    const y = 540;
+    // 2. Setup Camera Bounds
+    this.cameras.main.setBounds(0, 0, this.mapWidth, this.mapHeight);
 
-    for (let i = 0; i < venues.length; i++) {
-      const venue = venues[i]!;
-      const x = startX + i * (cardWidth + spacing);
+    // 3. Level Nodes (Grey Circles)
+    // Map venue data to map coordinates (mapped to the user's custom image circles)
+    // Map dimensions: 1406 x 2500
+    // 6: Statue of Liberty (bottom right) -> x: ~1000, y: ~2000
+    // 5: Wall Street (bottom left) -> x: ~470, y: ~1850
+    // 4: Lower East Side (bottom right) -> x: ~920, y: ~1680
+    // 3: Hot Dog Stand (mid right) -> x: ~960, y: ~1430
+    // 2: Chelsea Office (mid left) -> x: ~430, y: ~1110
+    // 1: Central Park (top center) -> x: ~620, y: ~400
+    const mapCoords: Record<string, { x: number, y: number }> = {
+      'mackenzie_cafe': { x: 1000, y: 1980 }, // Maps to node 6 (START)
+      'financial_district_office': { x: 480, y: 1850 }, // Maps to node 5
+      'times_square': { x: 930, y: 1680 }, // Maps to node 4
+      'hot_dog_stand': { x: 960, y: 1430 }, // Maps to node 3
+      'chelsea_office': { x: 440, y: 1110 }, // Maps to node 2
+      'central_park': { x: 620, y: 400 } // Maps to node 1
+    };
+
+    let previousVenueChi = 0; // First level assumes 0 threshold needed
+
+    venuesData.forEach((venue, index) => {
+      const coords = mapCoords[venue.id] || { x: 500, y: 500 };
       
       // Determine if unlocked
-      let unlocked = true;
-      if (i > 0) {
-        const previousVenueId = venues[i - 1]!.id;
-        const prevChi = metaGameController.chiSystem.getChi(previousVenueId);
-        unlocked = prevChi >= venue.unlockChiThreshold;
-      }
+      // Level 1 is always unlocked. Others check if previous venue's CHI meets threshold.
+      const isUnlocked = index === 0 || previousVenueChi >= venue.unlockChiThreshold;
+      const currentChi = this.chiSystem.getChi(venue.id);
 
-      this.createVenueCard(x, y, cardWidth, cardHeight, venue, unlocked);
+      this.createLevelNode(
+        coords.x, 
+        coords.y, 
+        venue.id, 
+        venue.displayName, 
+        currentChi, 
+        isUnlocked,
+        venue.unlockChiThreshold
+      );
+
+      // Store this venue's CHI to check for the next venue
+      previousVenueChi = currentChi;
+    });
+
+    // Enable multi-touch for pinch zooming
+    this.input.addPointer(1);
+
+    // 4. Drag-to-Scroll Logic
+    this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
+      this.isDragging = true;
+      this.dragStartX = pointer.x;
+      this.dragStartY = pointer.y;
+    });
+
+    this.input.on('pointerup', () => {
+      this.isDragging = false;
+    });
+
+    this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
+      if (this.isDragging) {
+        // Adjust delta by camera zoom so dragging feels consistent at all zoom levels
+        const deltaX = (pointer.x - this.dragStartX) / this.cameras.main.zoom;
+        const deltaY = (pointer.y - this.dragStartY) / this.cameras.main.zoom;
+
+        this.cameras.main.scrollX -= deltaX;
+        this.cameras.main.scrollY -= deltaY;
+
+        this.dragStartX = pointer.x;
+        this.dragStartY = pointer.y;
+      }
+    });
+
+    // 4b. Zoom Logic (Mouse Wheel)
+    this.input.on('wheel', (_pointer: Phaser.Input.Pointer, _gameObjects: any, _deltaX: number, deltaY: number, _deltaZ: number) => {
+      const zoomFactor = 0.001;
+      let newZoom = this.cameras.main.zoom - (deltaY * zoomFactor);
+      
+      // Clamp zoom between 0.3x (zoomed out) and 2.5x (zoomed in)
+      newZoom = Phaser.Math.Clamp(newZoom, 0.3, 2.5);
+      this.cameras.main.setZoom(newZoom);
+    });
+
+    // 4c. Zoom Logic (Pinch to zoom for touch screens)
+    // Phaser supports multi-touch. We need to check if two pointers are active.
+    let initialDistance = 0;
+    let initialZoom = 1;
+
+    this.input.on('pointermove', () => {
+      const p1 = this.input.pointer1;
+      const p2 = this.input.pointer2;
+
+      if (p1.isDown && p2.isDown) {
+        // Two fingers are down
+        const dist = Phaser.Math.Distance.Between(p1.x, p1.y, p2.x, p2.y);
+        
+        if (initialDistance === 0) {
+          // First frame of pinch
+          initialDistance = dist;
+          initialZoom = this.cameras.main.zoom;
+        } else {
+          // Continuing pinch
+          const scaleFactor = dist / initialDistance;
+          let newZoom = initialZoom * scaleFactor;
+          newZoom = Phaser.Math.Clamp(newZoom, 0.3, 2.5);
+          this.cameras.main.setZoom(newZoom);
+        }
+      } else {
+        // Reset when fingers are lifted
+        initialDistance = 0;
+      }
+    });
+
+    // 5. Initial Camera Position
+    const firstLevel = mapCoords['mackenzie_cafe'];
+    if (firstLevel) {
+      this.cameras.main.centerOn(firstLevel.x, firstLevel.y);
     }
+
+    // Add UI overlay text
+    const title = this.add.text(960, 50, 'Select a Level', {
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '48px',
+      color: '#ffffff',
+      fontStyle: 'bold',
+      stroke: '#000000',
+      strokeThickness: 6
+    });
+    title.setOrigin(0.5);
+    title.setScrollFactor(0);
   }
 
-  private createVenueCard(
+  private createLevelNode(
     x: number, 
     y: number, 
-    width: number, 
-    height: number, 
-    venue: Venue, 
-    unlocked: boolean
-  ): void {
-    const cardColor = unlocked ? 0x333333 : 0x111111;
-    const textColor = unlocked ? '#ffffff' : '#555555';
-    const currentChi = metaGameController.chiSystem.getChi(venue.id);
+    venueId: string, 
+    label: string, 
+    currentChi: number, 
+    isUnlocked: boolean,
+    unlockThreshold: number
+  ) {
+    const circleColor = isUnlocked ? 0x22c55e : 0x4b5563; // Green if unlocked, dark grey if locked
+    const circle = this.add.circle(0, 0, 40, circleColor);
+    circle.setStrokeStyle(4, 0xffffff);
 
-    // Card background
-    const bg = this.add.graphics();
-    bg.fillStyle(cardColor, 1);
-    bg.fillRoundedRect(x - width / 2, y - height / 2, width, height, 16);
-    
-    if (unlocked) {
-      bg.lineStyle(4, 0x66ff66, 1);
-    } else {
-      bg.lineStyle(2, 0x333333, 1);
-    }
-    bg.strokeRoundedRect(x - width / 2, y - height / 2, width, height, 16);
-
-    // Venue name
-    const nameText = this.add.text(x, y - 80, venue.displayName, {
+    // Venue Label
+    const text = this.add.text(0, 55, label, {
       fontFamily: 'Arial, sans-serif',
-      fontSize: '32px',
-      color: textColor,
-      align: 'center',
-      wordWrap: { width: width - 40 }
+      fontSize: '24px',
+      color: '#ffffff',
+      fontStyle: 'bold',
+      stroke: '#000000',
+      strokeThickness: 4
     });
-    nameText.setOrigin(0.5);
+    text.setOrigin(0.5);
 
-    if (unlocked) {
-      // CHI readout
-      const chiText = this.add.text(x, y + 20, `CHI: ${Math.floor(currentChi)}/100`, {
-        fontFamily: 'Arial, sans-serif',
-        fontSize: '24px',
-        color: '#aaaaaa'
-      });
-      chiText.setOrigin(0.5);
+    // CHI Readout
+    let chiTextStr = `CHI: ${Math.floor(currentChi)}`;
+    if (!isUnlocked) {
+      chiTextStr = `Needs ${unlockThreshold} CHI in previous`;
+    }
 
-      // CHI Bar
-      const barWidth = width - 80;
-      const barHeight = 20;
-      const barY = y + 60;
-      
-      const barBg = this.add.graphics();
-      barBg.fillStyle(0x000000, 1);
-      barBg.fillRoundedRect(x - barWidth / 2, barY - barHeight / 2, barWidth, barHeight, 10);
-      
-      if (currentChi > 0) {
-        const fillWidth = (currentChi / 100) * barWidth;
-        const barFill = this.add.graphics();
-        barFill.fillStyle(0x66ff66, 1);
-        barFill.fillRoundedRect(x - barWidth / 2, barY - barHeight / 2, fillWidth, barHeight, 10);
-      }
+    const chiText = this.add.text(0, 85, chiTextStr, {
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '18px',
+      color: isUnlocked ? '#facc15' : '#ef4444', // Yellow if unlocked, red if locked
+      fontStyle: 'bold',
+      stroke: '#000000',
+      strokeThickness: 3
+    });
+    chiText.setOrigin(0.5);
 
-      // Interactive Zone
-      const zone = this.add.zone(x, y, width, height).setInteractive({ useHandCursor: true });
-      zone.on('pointerdown', () => {
-        this.scene.start('TrayScene', { venueId: venue.id });
+    // CHI Bar (Simple horizontal fill)
+    const barWidth = 100;
+    const barHeight = 10;
+    const barBg = this.add.rectangle(0, 110, barWidth, barHeight, 0x000000, 0.5);
+    barBg.setStrokeStyle(2, 0xffffff);
+    
+    const fillWidth = (currentChi / 100) * barWidth;
+    // We use setOrigin(0, 0.5) to grow from left to right
+    const barFill = this.add.rectangle(-barWidth / 2, 110, fillWidth, barHeight, 0xfacc15, 1);
+    barFill.setOrigin(0, 0.5);
+
+    const nodeElements: Phaser.GameObjects.GameObject[] = [circle, text, chiText];
+    if (isUnlocked) {
+      nodeElements.push(barBg, barFill);
+    }
+
+    const nodeContainer = this.add.container(x, y, nodeElements);
+    nodeContainer.setSize(80, 80);
+
+    if (isUnlocked) {
+      nodeContainer.setInteractive({ useHandCursor: true });
+
+      nodeContainer.on('pointerover', () => {
+        this.tweens.add({
+          targets: nodeContainer,
+          scaleX: 1.1,
+          scaleY: 1.1,
+          duration: 100
+        });
+        circle.setFillStyle(0x4ade80); // lighter green
       });
-      
-      zone.on('pointerover', () => {
-        bg.clear();
-        bg.fillStyle(0x444444, 1);
-        bg.fillRoundedRect(x - width / 2, y - height / 2, width, height, 16);
-        bg.lineStyle(4, 0x66ff66, 1);
-        bg.strokeRoundedRect(x - width / 2, y - height / 2, width, height, 16);
+
+      nodeContainer.on('pointerout', () => {
+        this.tweens.add({
+          targets: nodeContainer,
+          scaleX: 1.0,
+          scaleY: 1.0,
+          duration: 100
+        });
+        circle.setFillStyle(0x22c55e);
       });
-      
-      zone.on('pointerout', () => {
-        bg.clear();
-        bg.fillStyle(cardColor, 1);
-        bg.fillRoundedRect(x - width / 2, y - height / 2, width, height, 16);
-        bg.lineStyle(4, 0x66ff66, 1);
-        bg.strokeRoundedRect(x - width / 2, y - height / 2, width, height, 16);
+
+      nodeContainer.on('pointerup', (pointer: Phaser.Input.Pointer) => {
+        const distance = Phaser.Math.Distance.Between(pointer.downX, pointer.downY, pointer.upX, pointer.upY);
+        if (distance < 10) {
+          this.scene.start('TrayScene', { venueId });
+        }
       });
     } else {
-      // Locked text
-      const lockedText = this.add.text(x, y + 40, `LOCKED\nRequires ${venue.unlockChiThreshold} CHI\nin previous venue`, {
-        fontFamily: 'Arial, sans-serif',
-        fontSize: '20px',
-        color: '#ff4444',
-        align: 'center'
-      });
-      lockedText.setOrigin(0.5);
+      // Locked effect
+      nodeContainer.setAlpha(0.7);
     }
   }
 }

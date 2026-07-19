@@ -1,4 +1,5 @@
 import { gameEvents, GAME_EVENTS, DropResult } from './GameEvents';
+import { Howl } from 'howler';
 
 /**
  * AudioLayerManager — Layered-stem adaptive soundtrack using Howler.js.
@@ -31,7 +32,6 @@ export class AudioLayerManager {
     lead: null,
   };
 
-  private currentComboTier: number = 0;
   private isSilenced: boolean = false;
   private silenceTimeout: ReturnType<typeof setTimeout> | null = null;
   private initialized: boolean = false;
@@ -105,8 +105,6 @@ export class AudioLayerManager {
   setComboTier(combo: number): void {
     if (this.isSilenced) return; // Don't change during dramatic silence
 
-    this.currentComboTier = combo;
-
     this.fadeStem('drums', 1.0); // Always on
     this.fadeStem('bass', combo >= 1 ? 0.8 : 0.0);
     this.fadeStem('synth_pads', combo >= 2 ? 0.7 : 0.0);
@@ -149,27 +147,40 @@ export class AudioLayerManager {
     this.silenceTimeout = setTimeout(() => {
       this.isSilenced = false;
       this.fadeStem('drums', 1.0);
-      // Reset combo tier to 0 (drums only)
-      this.currentComboTier = 0;
     }, 500);
   }
 
   /**
-   * Play a one-shot thud SFX.
-   * Per PRD Track C, step C.8.
+   * Play varying SFX depending on the item dropped.
+   * Per user request and PRD Track C.
    */
-  playThud(): void {
+  playDropSFX(itemId: string, isCorrect: boolean): void {
     if (typeof Howl === 'undefined') return;
 
+    let sfxName = 'thud'; // Default
+    if (itemId === 'smartphone' || itemId === 'laptop_battery') {
+      sfxName = 'zap'; // Electronic sound
+    } else if (itemId.includes('paper') || itemId.includes('napkin') || itemId.includes('document')) {
+      sfxName = 'rustle'; // Paper sound
+    } else if (itemId.includes('plastic')) {
+      sfxName = 'crinkle'; // Plastic sound
+    } else if (itemId.includes('glass') || itemId.includes('bottle')) {
+      sfxName = 'clink'; // Glass sound
+    }
+
+    if (!isCorrect) {
+      sfxName = 'error_buzz'; // Override with error sound if wrong
+    }
+
     try {
-      const thud = new Howl({
-        src: ['/assets/audio/sfx/thud.mp3'],
+      const sfx = new Howl({
+        src: [`/assets/audio/sfx/${sfxName}.mp3`],
         volume: 0.6,
         onloaderror: () => {
-          // Silently skip if thud SFX file doesn't exist yet
+          // Silently skip if specific SFX file doesn't exist yet
         },
       });
-      thud.play();
+      sfx.play();
     } catch {
       // Skip if Howler isn't available
     }

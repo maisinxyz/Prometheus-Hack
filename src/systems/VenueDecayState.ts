@@ -1,5 +1,5 @@
 /**
- * VenueDecayState — Tracks environmental decay based on performance.
+ * VenueDecayState — Tracks consecutive failed rounds and determines environmental decay.
  * Per PRD Track D, step D.4.
  */
 
@@ -10,32 +10,31 @@ export enum DecayState {
 }
 
 export class VenueDecayState {
-  private failStreakByVenue: Map<string, number> = new Map();
+  private failStreaks: Map<string, number> = new Map();
 
   /**
-   * Updates the fail streak based on round performance.
-   * A "fail" is < 50% accuracy.
+   * Registers a round result for a venue and updates its fail streak.
+   * A "fail" is defined as accuracyPct < 50.
    */
-  public recordRound(venueId: string, accuracyPct: number): void {
-    if (accuracyPct >= 50) {
-      // Any success resets the streak to 0
-      this.failStreakByVenue.set(venueId, 0);
+  registerRound(venueId: string, accuracyPct: number): void {
+    const currentStreak = this.failStreaks.get(venueId) || 0;
+
+    if (accuracyPct < 50) {
+      this.failStreaks.set(venueId, currentStreak + 1);
     } else {
-      // Failure increments the streak
-      const currentStreak = this.failStreakByVenue.get(venueId) || 0;
-      this.failStreakByVenue.set(venueId, currentStreak + 1);
+      this.failStreaks.set(venueId, 0); // Reset on success
     }
   }
 
   /**
-   * Returns the current DecayState for a venue.
-   * Transition logic: 0-1 fails = CLEAN, 2-3 fails = DECLINING, 4+ fails = RUINED.
+   * Gets the current visual decay state for a venue.
    */
-  public getState(venueId: string): DecayState {
-    const fails = this.failStreakByVenue.get(venueId) || 0;
-    if (fails >= 4) {
+  getState(venueId: string): DecayState {
+    const streak = this.failStreaks.get(venueId) || 0;
+
+    if (streak >= 4) {
       return DecayState.RUINED;
-    } else if (fails >= 2) {
+    } else if (streak >= 2) {
       return DecayState.DECLINING;
     } else {
       return DecayState.CLEAN;

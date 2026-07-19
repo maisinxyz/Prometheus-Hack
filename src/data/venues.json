@@ -6,7 +6,8 @@
     "itemPoolIds": [
       "paper_plate", "plastic_fork", "food_scraps", "coffee_cup",
       "coffee_cup_lid", "napkin_clean", "napkin_greasy", "apple_core",
-      "plastic_water_bottle", "aluminum_can", "paper_straw_wrapper", "plastic_straw"
+      "plastic_water_bottle", "aluminum_can", "paper_straw_wrapper", "plastic_straw",
+      "soda_liquid", "plastic_container", "soda_can_full", "takeout_box_with_food"
     ],
     "backgroundKeys": {
       "clean": "venue_mackenzie_cafe_bg_clean",
@@ -42,6 +43,50 @@
       "clean": "venue_times_square_bg_clean",
       "grimy": "venue_times_square_bg_grimy",
       "ruined": "venue_times_square_bg_ruined"
+    }
+  },
+  {
+    "id": "hot_dog_stand",
+    "displayName": "Hot Dog Stand",
+    "unlockChiThreshold": 100,
+    "itemPoolIds": [
+      "paper_plate", "plastic_fork", "food_scraps", "napkin_clean", "napkin_greasy",
+      "plastic_water_bottle", "aluminum_can"
+    ],
+    "backgroundKeys": {
+      "clean": "venue_hot_dog_bg_clean",
+      "grimy": "venue_hot_dog_bg_grimy",
+      "ruined": "venue_hot_dog_bg_ruined"
+    }
+  },
+  {
+    "id": "chelsea_office",
+    "displayName": "Chelsea Office",
+    "unlockChiThreshold": 130,
+    "itemPoolIds": [
+      "paper_plate", "plastic_fork", "coffee_cup", "coffee_cup_lid",
+      "napkin_clean", "napkin_greasy", "plastic_water_bottle",
+      "aluminum_can", "paper_straw_wrapper", "plastic_straw"
+    ],
+    "backgroundKeys": {
+      "clean": "venue_chelsea_office_bg_clean",
+      "grimy": "venue_chelsea_office_bg_grimy",
+      "ruined": "venue_chelsea_office_bg_ruined"
+    }
+  },
+  {
+    "id": "central_park",
+    "displayName": "Central Park",
+    "unlockChiThreshold": 160,
+    "itemPoolIds": [
+      "paper_plate", "plastic_fork", "food_scraps", "coffee_cup",
+      "coffee_cup_lid", "napkin_clean", "napkin_greasy", "apple_core",
+      "plastic_water_bottle", "aluminum_can", "paper_straw_wrapper", "plastic_straw"
+    ],
+    "backgroundKeys": {
+      "clean": "venue_central_park_bg_clean",
+      "grimy": "venue_central_park_bg_grimy",
+      "ruined": "venue_central_park_bg_ruined"
     }
   }
 ]

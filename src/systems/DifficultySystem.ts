@@ -1,37 +1,31 @@
-import difficultyData from '../data/difficultyTiers.json';
+import difficultyTiersData from '../data/difficultyTiers.json';
+import { DifficultyTierDef } from '../data/schemas/difficultyTierSchema';
 
-export interface DifficultyTier {
-  tier: string;
-  chiMin: number;
-  chiMax: number;
-  trayTimerSec: number;
-  errorPenaltyMultiplier: number;
-  visualCuesActive: boolean;
-  dualTargeting: boolean;
-}
-
+/**
+ * DifficultySystem — Scales game parameters based on CHI.
+ * Per PRD Track E, step E.1.
+ */
 export class DifficultySystem {
-  private tiers: DifficultyTier[];
+  private tiers: DifficultyTierDef[];
 
   constructor() {
-    this.tiers = difficultyData as DifficultyTier[];
+    this.tiers = difficultyTiersData as DifficultyTierDef[];
   }
 
   /**
-   * Retrieves the difficulty tier that matches the given CHI level.
-   * If CHI falls outside all ranges, it returns the closest boundary tier.
+   * Returns the DifficultyTier for a given CHI value.
    */
-  public getTierForChi(chi: number): DifficultyTier {
+  getTierForChi(chi: number): DifficultyTierDef {
+    // Clamp CHI just in case
+    const clampedChi = Math.max(0, Math.min(100, chi));
+
     for (const tier of this.tiers) {
-      if (chi >= tier.chiMin && chi <= tier.chiMax) {
+      if (clampedChi >= tier.chiMin && clampedChi <= tier.chiMax) {
         return tier;
       }
     }
-    
-    // Fallback: return highest or lowest if out of bounds
-    if (chi > this.tiers[this.tiers.length - 1]!.chiMax) {
-      return this.tiers[this.tiers.length - 1]!;
-    }
+
+    // Fallback to beginner if something is wrong with the data ranges
     return this.tiers[0]!;
   }
 }

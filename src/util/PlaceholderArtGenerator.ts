@@ -16,7 +16,8 @@ export function generatePlaceholderTexture(
   color: number,
   label: string,
   width: number,
-  height: number
+  height: number,
+  isCircle: boolean = false
 ): void {
   // Skip if this texture key already exists (real art was loaded)
   if (scene.textures.exists(key)) {
@@ -25,13 +26,20 @@ export function generatePlaceholderTexture(
 
   const graphics = scene.add.graphics();
 
-  // Draw a colored rounded rectangle
-  graphics.fillStyle(color, 1);
-  graphics.fillRoundedRect(0, 0, width, height, 12);
-
-  // Draw a subtle border for visibility
-  graphics.lineStyle(2, 0xffffff, 0.3);
-  graphics.strokeRoundedRect(0, 0, width, height, 12);
+  if (isCircle) {
+    const radius = Math.min(width, height) / 2;
+    graphics.fillStyle(color, 1);
+    graphics.fillCircle(width / 2, height / 2, radius);
+    graphics.lineStyle(2, 0xffffff, 0.3);
+    graphics.strokeCircle(width / 2, height / 2, radius);
+  } else {
+    // Draw a colored rounded rectangle
+    graphics.fillStyle(color, 1);
+    graphics.fillRoundedRect(0, 0, width, height, 12);
+    // Draw a subtle border for visibility
+    graphics.lineStyle(2, 0xffffff, 0.3);
+    graphics.strokeRoundedRect(0, 0, width, height, 12);
+  }
 
   // Generate the texture from the graphics
   graphics.generateTexture(key, width, height);
@@ -52,6 +60,8 @@ export function generatePlaceholderTexture(
     ctx.fillText(label, width / 2, height / 2, width - 16);
 
     // Refresh the texture so Phaser picks up the canvas changes
-    canvasTexture.refresh();
+    if ('refresh' in canvasTexture) {
+      (canvasTexture as any).refresh();
+    }
   }
 }
