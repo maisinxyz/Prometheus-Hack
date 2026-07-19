@@ -8,8 +8,8 @@ import venuesData from '../data/venues.json';
  * Per PRD Track D, steps D.3 and D.6.
  */
 export class LevelSelectScene extends Phaser.Scene {
-  private mapWidth = 1406; // Maintain aspect ratio for 576x1024 (2500 / 1024 * 576)
-  private mapHeight = 2500;
+  private mapWidth = 2000; // Use a generous size for the square map image
+  private mapHeight = 2000;
   private isDragging = false;
   private dragStartX = 0;
   private dragStartY = 0;
@@ -25,27 +25,26 @@ export class LevelSelectScene extends Phaser.Scene {
     // 1. Setup Map Background
     const mapImage = this.add.image(0, 0, 'nyc_map_bg');
     mapImage.setOrigin(0, 0);
-    mapImage.setDisplaySize(this.mapWidth, this.mapHeight);
+    // Scale to fit the map area while preserving the image's native aspect ratio
+    const scaleX = this.mapWidth / mapImage.width;
+    const scaleY = this.mapHeight / mapImage.height;
+    const scale = Math.max(scaleX, scaleY);
+    mapImage.setScale(scale);
 
     // 2. Setup Camera Bounds
     this.cameras.main.setBounds(0, 0, this.mapWidth, this.mapHeight);
 
     // 3. Level Nodes (Grey Circles)
     // Map venue data to map coordinates (mapped to the user's custom image circles)
-    // Map dimensions: 1406 x 2500
-    // 6: Statue of Liberty (bottom right) -> x: ~1000, y: ~2000
-    // 5: Wall Street (bottom left) -> x: ~470, y: ~1850
-    // 4: Lower East Side (bottom right) -> x: ~920, y: ~1680
-    // 3: Hot Dog Stand (mid right) -> x: ~960, y: ~1430
-    // 2: Chelsea Office (mid left) -> x: ~430, y: ~1110
-    // 1: Central Park (top center) -> x: ~620, y: ~400
+    // Map dimensions: 2000 x 2000 (square, matching the aerial image)
+    // Nodes spread across the image in recognizable NYC landmarks
     const mapCoords: Record<string, { x: number, y: number }> = {
-      'mackenzie_cafe': { x: 1000, y: 1980 }, // Maps to node 6 (START)
-      'financial_district_office': { x: 480, y: 1850 }, // Maps to node 5
-      'times_square': { x: 930, y: 1680 }, // Maps to node 4
-      'hot_dog_stand': { x: 960, y: 1430 }, // Maps to node 3
-      'chelsea_office': { x: 440, y: 1110 }, // Maps to node 2
-      'central_park': { x: 620, y: 400 } // Maps to node 1
+      'mackenzie_cafe': { x: 1500, y: 1600 }, // Bottom right area
+      'financial_district_office': { x: 600, y: 1400 }, // Left mid-low
+      'times_square': { x: 1000, y: 1100 }, // Center
+      'hot_dog_stand': { x: 1400, y: 800 }, // Right mid-high
+      'chelsea_office': { x: 500, y: 700 }, // Left mid-high
+      'central_park': { x: 1000, y: 300 } // Top center
     };
 
     let previousVenueChi = 0; // First level assumes 0 threshold needed
@@ -105,8 +104,8 @@ export class LevelSelectScene extends Phaser.Scene {
       const zoomFactor = 0.001;
       let newZoom = this.cameras.main.zoom - (deltaY * zoomFactor);
       
-      // Clamp zoom between 0.3x (zoomed out) and 2.5x (zoomed in)
-      newZoom = Phaser.Math.Clamp(newZoom, 0.3, 2.5);
+      // Clamp zoom between 1.0x (no zoom out past map) and 2.5x (zoomed in)
+      newZoom = Phaser.Math.Clamp(newZoom, 1.0, 2.5);
       this.cameras.main.setZoom(newZoom);
     });
 
@@ -131,7 +130,7 @@ export class LevelSelectScene extends Phaser.Scene {
           // Continuing pinch
           const scaleFactor = dist / initialDistance;
           let newZoom = initialZoom * scaleFactor;
-          newZoom = Phaser.Math.Clamp(newZoom, 0.3, 2.5);
+          newZoom = Phaser.Math.Clamp(newZoom, 1.0, 2.5);
           this.cameras.main.setZoom(newZoom);
         }
       } else {
