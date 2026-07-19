@@ -160,35 +160,54 @@ export class TrayScene extends Phaser.Scene {
 
   /** Create the 4 bins along the bottom of the screen */
   private createBins(): void {
-    // Draw a built-in counter to completely cover the foreground tables on the left
-    const counterWidth = 900;
-    const counterHeight = 450;
-    const counterX = counterWidth / 2; // Left side
-    const counterY = 1080 - counterHeight / 2; // Bottom
-    
-    // Wood body
-    const counterBg = this.add.rectangle(counterX, counterY, counterWidth, counterHeight, 0x2d1a11);
-    counterBg.setDepth(3);
-    
-    // White top
-    const counterTop = this.add.rectangle(counterX, counterY - counterHeight/2 + 60, counterWidth, 120, 0xeeeeee);
-    counterTop.setDepth(3);
+    const width = this.cameras.main.width;
+    const height = this.cameras.main.height;
 
-    // Front lip
-    const counterLip = this.add.rectangle(counterX, counterY - counterHeight/2 + 120, counterWidth, 10, 0xcccccc);
-    counterLip.setDepth(3);
+    const isCafe = this.venueId === 'mackenzie_cafe';
+    
+    let binY = 0;
+    let binScale = 1;
+    let spacing = 200;
+
+    if (!isCafe) {
+      const counterX = width / 2;
+      const counterY = height - 150;
+      const counterWidth = width;
+      const counterHeight = 300;
+
+      const counterBg = this.add.rectangle(counterX, counterY, counterWidth, counterHeight, 0x2d1a11);
+      counterBg.setDepth(3);
+      
+      // White top
+      const counterTop = this.add.rectangle(counterX, counterY - counterHeight/2 + 60, counterWidth, 120, 0xeeeeee);
+      counterTop.setDepth(3);
+
+      // Front lip
+      const counterLip = this.add.rectangle(counterX, counterY - counterHeight/2 + 120, counterWidth, 10, 0xcccccc);
+      counterLip.setDepth(3);
+      
+      binY = counterY - counterHeight/2 + 60;
+    } else {
+      // For cafe, place bins in the back of the image (background)
+      binY = 400;
+      binScale = 0.5;
+      spacing = 180; // closer together because they are scaled down
+    }
 
     const binDefs = binsData as BinDef[];
     const binCount = binDefs.length;
-    // Group bins evenly on the counter top
-    const spacing = 200;
-    const startX = counterX - (spacing * (binCount - 1)) / 2;
+    
+    // Group bins evenly
+    const startX = (width / 2) - (spacing * (binCount - 1)) / 2;
 
     for (let i = 0; i < binCount; i++) {
       const binDef = binDefs[i]!;
       const x = startX + i * spacing;
-      const y = counterY - counterHeight/2 + 60; // Center of the white top
-      const bin = new Bin(this, x, y, binDef);
+      const bin = new Bin(this, x, binY, binDef);
+      if (isCafe) {
+        bin.setScale(binScale);
+        bin.setDepth(1); // Set lower depth to keep them in the back
+      }
       this.bins.push(bin);
     }
   }
@@ -309,6 +328,7 @@ export class TrayScene extends Phaser.Scene {
     // Launch the separation minigame scene
     this.scene.launch('SeparationMinigameScene', {
       item,
+      venueId: this.venueId,
       onScore: (points: number, isCorrect: boolean) => {
         this.roundScore += points;
         gameEvents.emit(GAME_EVENTS.ITEM_DROPPED, {

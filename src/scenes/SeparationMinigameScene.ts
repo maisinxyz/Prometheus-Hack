@@ -10,6 +10,7 @@ export class SeparationMinigameScene extends Phaser.Scene {
   private targetItem!: TrashItem;
   private onComplete!: (success: boolean) => void;
   private onScore?: (points: number, isCorrect: boolean) => void;
+  private venueId?: string;
   private bins: Bin[] = [];
   
   // Shared state
@@ -33,10 +34,11 @@ export class SeparationMinigameScene extends Phaser.Scene {
     super({ key: 'SeparationMinigameScene' });
   }
 
-  init(data: { item: TrashItem; onComplete: (success: boolean) => void; onScore?: (points: number, isCorrect: boolean) => void }) {
+  init(data: { item: TrashItem; onComplete: (success: boolean) => void; onScore?: (points: number, isCorrect: boolean) => void; venueId?: string }) {
     this.targetItem = data.item;
     this.onComplete = data.onComplete;
     this.onScore = data.onScore;
+    this.venueId = data.venueId;
     this.bins = [];
     this.activeChildren = [];
     this.pourProgress = 0;
@@ -80,14 +82,33 @@ export class SeparationMinigameScene extends Phaser.Scene {
 
     const binDefs = binsData as BinDef[];
     const binCount = binDefs.length;
-    const spacing = 200;
-    const startX = counterX - (spacing * (binCount - 1)) / 2;
+    
+    const isCafe = this.venueId === 'mackenzie_cafe';
+    
+    let binY = 0;
+    let binScale = 1;
+    let spacing = 200;
+
+    if (!isCafe) {
+      const counterY = height - 150;
+      const counterHeight = 300;
+      binY = counterY - counterHeight/2 + 60;
+    } else {
+      binY = 400;
+      binScale = 0.5;
+      spacing = 180;
+    }
+
+    const startX = (width / 2) - (spacing * (binCount - 1)) / 2;
 
     for (let i = 0; i < binCount; i++) {
       const binDef = binDefs[i]!;
       const x = startX + i * spacing;
-      const y = counterY - counterHeight/2 + 60;
-      const bin = new Bin(this, x, y, binDef);
+      const bin = new Bin(this, x, binY, binDef);
+      if (isCafe) {
+        bin.setScale(binScale);
+        bin.setDepth(1);
+      }
       this.bins.push(bin);
     }
 
@@ -146,32 +167,45 @@ export class SeparationMinigameScene extends Phaser.Scene {
       gameObject.x = dragX;
       gameObject.y = dragY;
 
-      if (this.isChecked && !this.sodaEmptied) {
-        const itemBounds = gameObject.getBounds();
-        const landfillBin = this.bins.find(b => b.binDef.id === 'landfill');
-        if (landfillBin && Phaser.Geom.Rectangle.Overlaps(itemBounds, landfillBin.getBounds())) {
-          if (!this.isHoveringLandfill) {
-            this.isHoveringLandfill = true;
-            this.mainItemSprite.setTexture(this.isFanta ? 'item_fanta_pour' : 'item_pepsi_pour');
-            this.updateSpriteScale();
-          }
-        } else {
-          if (this.isHoveringLandfill) {
-            this.isHoveringLandfill = false;
-            this.mainItemSprite.setTexture(this.isFanta ? 'item_fanta_can' : 'item_pepsi_can');
-            this.updateSpriteScale();
-          } else {
-            // Revert sprite to the normal can when dragging around, 
-            // but ONLY if actually dragged away from center to prevent click jitter instantly hiding the 'Full' sprite.
-            const startX = width / 2;
-            const startY = height / 2 + 100;
-            const dist = Phaser.Math.Distance.Between(startX, startY, dragX, dragY);
-            
-            const texKey = this.mainItemSprite.texture.key;
-            if (texKey.includes('full') && dist > 15) {
-              this.mainItemSprite.setTexture(this.isFanta ? 'item_fanta_can' : 'item_pepsi_can');
+      if (this.isChecked) {
+        if (!this.sodaEmptied) {
+          const itemBounds = gameObject.getBounds();
+          const landfillBin = this.bins.find(b => b.binDef.id === 'landfill');
+          if (landfillBin && Phaser.Geom.Rectangle.Overlaps(itemBounds, landfillBin.getBounds())) {
+            if (!this.isHoveringLandfill) {
+              this.isHoveringLandfill = true;
+              this.mainItemSprite.setTexture(this.isFanta ? 'item_fanta_pour' : 'item_pepsi_pour');
               this.updateSpriteScale();
             }
+          } else {
+            if (this.isHoveringLandfill) {
+              this.isHoveringLandfill = false;
+              this.mainItemSprite.setTexture(this.isFanta ? 'item_fanta_can' : 'item_pepsi_can');
+              this.updateSpriteScale();
+            } else {
+              // Revert sprite to the normal can when dragging around, 
+              // but ONLY if actually dragged away from center to prevent click jitter instantly hiding the 'Full' sprite.
+              const startX = width / 2;
+              const startY = height / 2 + 100;
+              const dist = Phaser.Math.Distance.Between(startX, startY, dragX, dragY);
+              
+              const texKey = this.mainItemSprite.texture.key;
+              if (texKey.includes('full') && dist > 15) {
+                this.mainItemSprite.setTexture(this.isFanta ? 'item_fanta_can' : 'item_pepsi_can');
+                this.updateSpriteScale();
+              }
+            }
+          }
+        } else {
+          // It's empty, but if dragged away, revert to the normal uncrushed SodaCan
+          const startX = width / 2;
+          const startY = height / 2 + 100;
+          const dist = Phaser.Math.Distance.Between(startX, startY, dragX, dragY);
+          
+          const texKey = this.mainItemSprite.texture.key;
+          if (texKey === 'item_can_empty' && dist > 15) {
+            this.mainItemSprite.setTexture(this.isFanta ? 'item_fanta_can' : 'item_pepsi_can');
+            this.updateSpriteScale();
           }
         }
       }
