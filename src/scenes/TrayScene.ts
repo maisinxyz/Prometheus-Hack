@@ -240,15 +240,22 @@ export class TrayScene extends Phaser.Scene {
       let overlapping = true;
       let attempts = 0;
 
-      while (overlapping && attempts < 50) {
-        // Spawn items on the free right side (the real order area)
-        x = 1100 + Math.random() * 600; // Spans x=1100 to 1700
-        y = 600 + Math.random() * 200; // Spans y=600 to 800
+      while (overlapping && attempts < 100) {
+        if (this.venueId === 'mackenzie_cafe') {
+          // Scatter across the foreground tables (bottom half of the screen, wider area)
+          x = 200 + Math.random() * 1500; // Spans x=200 to 1700
+          y = 700 + Math.random() * 250; // Spans y=700 to 950
+        } else {
+          // Default order area
+          x = 1100 + Math.random() * 600; // Spans x=1100 to 1700
+          y = 600 + Math.random() * 200; // Spans y=600 to 800
+        }
+        
         overlapping = false;
         
         for (const existingItem of this.items) {
           const dist = Phaser.Math.Distance.Between(x, y, existingItem.x, existingItem.y);
-          if (dist < 80) { // adjusted minimum distance to 80px to fit 10-15 items in a smaller area
+          if (dist < 120) { // Increased distance to prevent overlapping
             overlapping = true;
             break;
           }

@@ -35,7 +35,7 @@
   {
     "id": "coffee_cup",
     "displayName": "Coffee Cup",
-    "spriteKey": "item_coffee_cup",
+    "spriteKey": "coffecup",
     "correctBinId": "compost",
     "isComposite": false,
     "componentIds": [],
@@ -46,7 +46,7 @@
   {
     "id": "coffee_cup_lid",
     "displayName": "Coffee Cup Lid",
-    "spriteKey": "item_coffee_cup_lid",
+    "spriteKey": "coffeelid",
     "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
@@ -57,7 +57,7 @@
   {
     "id": "napkin_clean",
     "displayName": "Clean Napkin",
-    "spriteKey": "item_napkin_clean",
+    "spriteKey": "tissues",
     "correctBinId": "paper",
     "isComposite": false,
     "componentIds": [],
@@ -68,7 +68,7 @@
   {
     "id": "napkin_greasy",
     "displayName": "Greasy Napkin",
-    "spriteKey": "item_napkin_greasy",
+    "spriteKey": "tissues",
     "correctBinId": "compost",
     "isComposite": false,
     "componentIds": [],
@@ -79,7 +79,7 @@
   {
     "id": "apple_core",
     "displayName": "Apple Core",
-    "spriteKey": "item_apple_core",
+    "spriteKey": "applecore",
     "correctBinId": "compost",
     "isComposite": false,
     "componentIds": [],
@@ -263,9 +263,7 @@
       "food_scraps",
       "plastic_container"
     ],
-    "venueIds": [
-      "mackenzie_cafe"
-    ]
+    "venueIds": []
   },
   {
     "id": "paper_container",
@@ -1080,5 +1078,72 @@
     "venueIds": [
       "ferry_docks"
     ]
+  },
+  {
+    "id": "foodbox_full",
+    "displayName": "Full Food Box",
+    "spriteKey": "foodbox",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
+  },
+  {
+    "id": "foodbox_empty",
+    "displayName": "Empty Food Box",
+    "spriteKey": "foodbox",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
+  },
+  {
+    "id": "dummy_foodboxfull",
+    "displayName": "Dummy foodboxfull",
+    "spriteKey": "foodboxfull",
+    "correctBinId": "none",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": []
+  },
+  {
+    "id": "dummy_foodbox1",
+    "displayName": "Dummy foodbox1",
+    "spriteKey": "foodbox1",
+    "correctBinId": "none",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": []
+  },
+  {
+    "id": "dummy_foodbox2",
+    "displayName": "Dummy foodbox2",
+    "spriteKey": "foodbox2",
+    "correctBinId": "none",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": []
+  },
+  {
+    "id": "dummy_emptyfoodbox",
+    "displayName": "Dummy emptyfoodbox",
+    "spriteKey": "emptyfoodbox",
+    "correctBinId": "none",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": []
+  },
+  {
+    "id": "dummy_foodboxplastic",
+    "displayName": "Dummy foodboxplastic",
+    "spriteKey": "foodboxplastic",
+    "correctBinId": "none",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": []
   }
 ]

@@ -30,6 +30,15 @@ export class SeparationMinigameScene extends Phaser.Scene {
   private activeChildren: TrashItem[] = [];
   private foodStage: 'closed' | 'food' | 'lining' | 'done' = 'closed';
 
+  // Box minigame state
+  private boxFoodItems: Phaser.GameObjects.Sprite[] = [];
+  private boxFoodIndex: number = 0;
+  private readonly boxFoodSequence = [
+    { spriteKey: 'chicken', boxAfter: 'foodbox2' },
+    { spriteKey: 'watermelon', boxAfter: 'foodbox1' },
+    { spriteKey: 'fries', boxAfter: 'foodboxplastic' }
+  ];
+
   constructor() {
     super({ key: 'SeparationMinigameScene' });
   }
@@ -47,6 +56,8 @@ export class SeparationMinigameScene extends Phaser.Scene {
     this.isInitiallyFull = false;
     this.isHoveringLandfill = false;
     this.foodStage = 'closed';
+    this.boxFoodItems = [];
+    this.boxFoodIndex = 0;
   }
 
   create() {
@@ -65,20 +76,7 @@ export class SeparationMinigameScene extends Phaser.Scene {
       fontStyle: 'bold',
     }).setOrigin(0.5);
 
-    // Draw a built-in counter to completely cover the foreground tables on the left
-    const counterWidth = 900;
-    const counterHeight = 450;
-    const counterX = counterWidth / 2;
-    const counterY = 1080 - counterHeight / 2;
-    
-    // Wood body
-    this.add.rectangle(counterX, counterY, counterWidth, counterHeight, 0x2d1a11);
-    
-    // White top
-    this.add.rectangle(counterX, counterY - counterHeight/2 + 60, counterWidth, 120, 0xeeeeee);
-
-    // Front lip
-    this.add.rectangle(counterX, counterY - counterHeight/2 + 120, counterWidth, 10, 0xcccccc);
+    // (No counter drawn — bins are placed directly on the dark overlay)
 
     const binDefs = binsData as BinDef[];
     const binCount = binDefs.length;
@@ -87,7 +85,7 @@ export class SeparationMinigameScene extends Phaser.Scene {
     
     let binY = 0;
     let binScale = 1;
-    let spacing = 200;
+    let spacing = 280;
 
     if (!isCafe) {
       const counterY = height - 150;
@@ -96,7 +94,7 @@ export class SeparationMinigameScene extends Phaser.Scene {
     } else {
       binY = 400;
       binScale = 0.5;
-      spacing = 180;
+      spacing = 250;
     }
 
     const startX = (width / 2) - (spacing * (binCount - 1)) / 2;
@@ -117,8 +115,8 @@ export class SeparationMinigameScene extends Phaser.Scene {
       this.isFanta = this.targetItem.itemDef.id.includes('fanta');
       this.isInitiallyFull = this.targetItem.itemDef.id.includes('full');
       this.setupSodaMinigame(width, height);
-    } else if (this.targetItem.itemDef.id === 'takeout_box_with_food') {
-      this.setupFoodMinigame(width, height);
+    } else if (this.targetItem.itemDef.id === 'foodbox_full' || this.targetItem.itemDef.id === 'foodbox_empty') {
+      this.setupBoxMinigame(width, height);
     } else {
       // Fallback
       this.complete(false);
@@ -303,103 +301,185 @@ export class SeparationMinigameScene extends Phaser.Scene {
     }
   }
 
-  private setupFoodMinigame(width: number, height: number) {
-    this.add.text(width / 2, 130, 'Click container to open. Sort contents, then sort container.', {
-      fontFamily: 'Arial', fontSize: '24px', color: '#aaaaaa'
+  private setupBoxMinigame(width: number, height: number) {
+    this.isInitiallyFull = this.targetItem.itemDef.id === 'foodbox_full';
+
+    // Center the main box sprite
+    this.mainItemSprite = this.add.sprite(width / 2, height / 2 + 100, this.targetItem.itemDef.spriteKey);
+    this.mainItemSprite.setDepth(100);
+    this.updateSpriteScale();
+
+    this.checkText = this.add.text(width / 2, height - 50, 'Press food box to check inside', {
+      fontFamily: 'Arial', fontSize: '24px', color: '#ffffff', fontStyle: 'bold'
     }).setOrigin(0.5);
 
-    // Big container
-    this.mainItemSprite = this.add.sprite(width / 2, height / 2 + 100, this.targetItem.itemDef.spriteKey);
-    this.mainItemSprite.setScale(0.7);
-    // Draggable initially so they fail if they throw it away early
-    this.mainItemSprite.setInteractive({ draggable: true });
+    // If it's empty, clicking once reveals the empty box and the user can drag it to plastic
+    if (!this.isInitiallyFull) {
+      this.mainItemSprite.setInteractive({ draggable: true });
 
-    // Click to open container
-    this.mainItemSprite.on('pointerdown', () => {
-      if (this.foodStage === 'closed') {
-        this.foodStage = 'food';
-        this.isChecked = true;
-        
-        // Prevent dragging the container while sorting contents
-        this.input.setDraggable(this.mainItemSprite, false);
+      this.mainItemSprite.on('pointerdown', () => {
+        if (!this.isChecked) {
+          this.isChecked = true;
+          this.checkText.setVisible(false);
+          this.mainItemSprite.setTexture('emptyfoodbox');
+          this.updateSpriteScale();
+          // Instructional text
+          this.add.text(width / 2, height - 50, 'Box is empty! Drag to the Recycling bin.', {
+            fontFamily: 'Arial', fontSize: '22px', color: '#22c55e', fontStyle: 'bold'
+          }).setOrigin(0.5);
+        }
+      });
 
-        const allItems = this.registry.get('itemsData') as TrashItemDef[] || itemsData as TrashItemDef[];
-        const foodDef = allItems.find(d => d.id === 'food_scraps');
-        
-        // Spawn 1-4 food scraps
-        const amount = Phaser.Math.Between(1, 4);
-        if (foodDef) {
-          for (let i = 0; i < amount; i++) {
-            const fx = width / 2 + Phaser.Math.Between(-60, 60);
-            const fy = height / 2 + 100 + Phaser.Math.Between(-60, 60);
-            const scrap = new TrashItem(this, fx, fy, foodDef);
-            // Disable shadow and cues for minigame children to look cleaner
-            this.activeChildren.push(scrap);
+      // Drag the box sprite
+      this.input.on('drag', (_pointer: Phaser.Input.Pointer, gameObject: Phaser.GameObjects.Sprite, dragX: number, dragY: number) => {
+        if (gameObject === this.mainItemSprite) {
+          gameObject.x = dragX;
+          gameObject.y = dragY;
+          // Revert to foodbox texture while dragging away
+          const startX = width / 2;
+          const startY = height / 2 + 100;
+          const dist = Phaser.Math.Distance.Between(startX, startY, dragX, dragY);
+          if (this.isChecked && dist > 15) {
+            const texKey = gameObject.texture.key;
+            if (texKey === 'emptyfoodbox') {
+              gameObject.setTexture('foodbox');
+              this.updateSpriteScale();
+            }
           }
         }
-      }
-    });
-    
-    // Setup drop detection for ALL items
-    this.input.on('dragend', (_pointer: Phaser.Input.Pointer, gameObject: Phaser.GameObjects.GameObject) => {
-      if (gameObject instanceof TrashItem) {
-        // Child item drop
+      });
+
+      this.input.on('dragend', (_pointer: Phaser.Input.Pointer, gameObject: Phaser.GameObjects.Sprite) => {
+        if (gameObject !== this.mainItemSprite) return;
         const itemBounds = gameObject.getBounds();
-        let targetBin: Bin | null = null;
+        let droppedBin: Bin | null = null;
         for (const bin of this.bins) {
           if (Phaser.Geom.Rectangle.Overlaps(itemBounds, bin.getBounds())) {
-            targetBin = bin;
+            droppedBin = bin;
             break;
           }
         }
-        
-        if (targetBin) {
-          if (targetBin.binDef.id === gameObject.itemDef.correctBinId) {
-            // Correct drop
-            const idx = this.activeChildren.indexOf(gameObject);
-            if (idx > -1) this.activeChildren.splice(idx, 1);
-            gameObject.destroy();
-            this.checkFoodMinigameProgress(width, height);
+        if (droppedBin) {
+          if (!this.isChecked) {
+            this.complete(false);
+          } else if (droppedBin.binDef.id === 'plastic') {
+            this.complete(true);
           } else {
-            // Wrong drop penalty
-            this.complete(false); // Instantly fail the mini-game
+            this.complete(false);
           }
         } else {
-          // Snap back
+          this.tweens.add({ targets: gameObject, x: width / 2, y: height / 2 + 100, duration: 200 });
+        }
+      });
+      return;
+    }
+
+    // ---- FULL BOX FLOW ----
+    // The box is not draggable yet; user must first click to reveal contents
+    this.mainItemSprite.setInteractive();
+
+    // Click to open and reveal foodboxfull
+    this.mainItemSprite.on('pointerdown', () => {
+      if (!this.isChecked) {
+        this.isChecked = true;
+        this.checkText.setVisible(false);
+        this.mainItemSprite.setTexture('foodboxfull');
+        this.updateSpriteScale();
+
+        this.boxFoodIndex = 0;
+        this.boxFoodItems = [];
+
+        // Show instruction
+        this.add.text(width / 2, 130, 'Drag food items out of the box into the Compost bin!', {
+          fontFamily: 'Arial', fontSize: '22px', color: '#aaaaaa'
+        }).setOrigin(0.5);
+
+        // Spawn the first food item
+        this.spawnNextFoodItem(width, height);
+      }
+    });
+
+    // Drag handler
+    this.input.on('drag', (_pointer: Phaser.Input.Pointer, gameObject: Phaser.GameObjects.Sprite, dragX: number, dragY: number) => {
+      // Food item dragging
+      if (gameObject.getData('isBoxFood')) {
+        gameObject.x = dragX;
+        gameObject.y = dragY;
+      }
+      // Main box dragging (final plastic stage)
+      if (gameObject === this.mainItemSprite) {
+        gameObject.x = dragX;
+        gameObject.y = dragY;
+      }
+    });
+
+    // Drop handler
+    this.input.on('dragend', (_pointer: Phaser.Input.Pointer, gameObject: Phaser.GameObjects.Sprite) => {
+      if (gameObject.getData('isBoxFood')) {
+        // Food sprite being dropped
+        const itemBounds = gameObject.getBounds();
+        const compostBin = this.bins.find(b => b.binDef.id === 'compost');
+        if (compostBin && Phaser.Geom.Rectangle.Overlaps(itemBounds, compostBin.getBounds())) {
+          // Correct! Destroy the food sprite and advance
+          gameObject.destroy();
+          if (this.onScore) {
+            this.onScore(100, true);
+          }
+
+          // Update the box texture to the next stage
+          const seq = this.boxFoodSequence[this.boxFoodIndex]!;
+          this.mainItemSprite.setTexture(seq.boxAfter);
+          this.updateSpriteScale();
+
+          this.boxFoodIndex++;
+
+          if (this.boxFoodIndex < this.boxFoodSequence.length) {
+            // Spawn the next food item
+            this.spawnNextFoodItem(width, height);
+          } else {
+            // All food removed! Box is now foodboxplastic, make it draggable
+            this.mainItemSprite.setInteractive({ useHandCursor: true });
+            this.input.setDraggable(this.mainItemSprite, true);
+            this.add.text(width / 2, height - 50, 'Now drag the plastic container to the Recycling bin!', {
+              fontFamily: 'Arial', fontSize: '22px', color: '#3b82f6', fontStyle: 'bold'
+            }).setOrigin(0.5).setDepth(200);
+          }
+        } else {
+          // Snap the food item back
+          const sX = gameObject.getData('startX') as number;
+          const sY = gameObject.getData('startY') as number;
           this.tweens.add({
             targets: gameObject,
-            x: gameObject.startX,
-            y: gameObject.startY,
-            duration: 200,
-            onUpdate: () => gameObject.syncAttachments()
+            x: sX,
+            y: sY,
+            duration: 200
           });
         }
       } else if (gameObject === this.mainItemSprite) {
-        // Container drop
-        const sprite = gameObject as Phaser.GameObjects.Sprite;
-        const itemBounds = sprite.getBounds();
-        let targetBin: Bin | null = null;
+        // Main box being dropped (only valid in the final plastic stage)
+        const itemBounds = gameObject.getBounds();
+        let droppedBin: Bin | null = null;
         for (const bin of this.bins) {
           if (Phaser.Geom.Rectangle.Overlaps(itemBounds, bin.getBounds())) {
-            targetBin = bin;
+            droppedBin = bin;
             break;
           }
         }
-        
-        if (targetBin) {
-          if (this.foodStage !== 'done') {
-            // Container dropped before fully emptied/sorted
+
+        if (droppedBin) {
+          if (this.boxFoodIndex < this.boxFoodSequence.length) {
+            // Tried to recycle before removing all food
             this.complete(false);
-          } else {
-            // Only valid if foodStage == 'done' and correct bin (paper)
-            if (targetBin.binDef.id === 'paper') {
-              this.complete(true);
-            } else {
-              this.complete(false);
+          } else if (droppedBin.binDef.id === 'plastic') {
+            // Successfully completed!
+            if (this.onScore) {
+              this.onScore(500, true);
             }
+            this.complete(true);
+          } else {
+            this.complete(false);
           }
         } else {
-          // Snap back
           this.tweens.add({
             targets: gameObject,
             x: width / 2,
@@ -409,41 +489,26 @@ export class SeparationMinigameScene extends Phaser.Scene {
         }
       }
     });
-
-    // Handle drag for main container
-    this.input.on('drag', (_pointer: Phaser.Input.Pointer, gameObject: Phaser.GameObjects.Sprite, dragX: number, dragY: number) => {
-      if (gameObject === this.mainItemSprite) {
-        gameObject.x = dragX;
-        gameObject.y = dragY;
-      }
-    });
   }
 
-  private checkFoodMinigameProgress(width: number, height: number) {
-    if (this.activeChildren.length === 0) {
-      if (this.foodStage === 'food') {
-        // Food sorted, now spawn plastic lining
-        this.foodStage = 'lining';
-        const allItems = this.registry.get('itemsData') as TrashItemDef[] || itemsData as TrashItemDef[];
-        const liningDef = allItems.find(d => d.id === 'plastic_lining');
-        if (liningDef) {
-          const lx = width / 2;
-          const ly = height / 2 + 100;
-          const lining = new TrashItem(this, lx, ly, liningDef);
-          this.activeChildren.push(lining);
-        }
-      } else if (this.foodStage === 'lining') {
-        // Lining sorted, now container is ready
-        this.foodStage = 'done';
-        this.input.setDraggable(this.mainItemSprite, true);
-        
-        const allItems = this.registry.get('itemsData') as TrashItemDef[] || itemsData as TrashItemDef[];
-        const paperDef = allItems.find(d => d.id === 'paper_container');
-        if (paperDef) {
-          this.mainItemSprite.setTexture(paperDef.spriteKey);
-        }
-      }
-    }
+  private spawnNextFoodItem(width: number, height: number) {
+    if (this.boxFoodIndex >= this.boxFoodSequence.length) return;
+
+    const seq = this.boxFoodSequence[this.boxFoodIndex]!;
+    const foodSprite = this.add.sprite(
+      width / 2,
+      height / 2 + 100,
+      seq.spriteKey
+    );
+    foodSprite.setDepth(150);
+    foodSprite.setInteractive({ draggable: true });
+    // Scale to a reasonable size
+    const origH = foodSprite.height;
+    if (origH > 0) foodSprite.setScale(180 / origH);
+    foodSprite.setData('isBoxFood', true);
+    foodSprite.setData('startX', foodSprite.x);
+    foodSprite.setData('startY', foodSprite.y);
+    this.boxFoodItems.push(foodSprite);
   }
 
   private complete(success: boolean) {

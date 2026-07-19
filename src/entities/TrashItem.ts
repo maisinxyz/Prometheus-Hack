@@ -32,7 +32,6 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
 
   private hintText: Phaser.GameObjects.Text | null = null;
   private dropShadow: Phaser.GameObjects.Sprite;
-  private highlightGraphics: Phaser.GameObjects.Graphics;
 
   constructor(
     scene: Phaser.Scene, 
@@ -71,24 +70,13 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
     this.dropShadow.setAlpha(0.35);
     this.dropShadow.setDepth(9); // Behind the main sprite
 
-    // --- F.5: Subtle Shading/Highlight Pass ---
-    // A small semi-transparent white radial gradient at top-left
-    this.highlightGraphics = scene.add.graphics();
-    this.highlightGraphics.fillStyle(0xffffff, 0.2);
-    this.highlightGraphics.fillCircle(-25, -25, 20);
-    this.highlightGraphics.fillStyle(0xffffff, 0.1);
-    this.highlightGraphics.fillCircle(-25, -25, 30);
-    this.highlightGraphics.setDepth(11); // Above the main sprite
-    this.highlightGraphics.x = x;
-    this.highlightGraphics.y = y;
-
     // --- E.4: Difficulty Tier Visual Cues ---
     if (visualCuesActive) {
       // Keep reticle always visible
       this.createReticle();
       
       // Add text label hint under the item
-      this.hintText = scene.add.text(x, y + 70, itemDef.correctBinId.toUpperCase(), {
+      this.hintText = scene.add.text(x, y + 70, itemDef.displayName, {
         fontFamily: 'Arial, sans-serif',
         fontSize: '16px',
         color: '#ffffff',
@@ -152,9 +140,7 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
           gameEvents.emit(GAME_EVENTS.ITEM_LOCKED_ON, { item: this });
 
           // Create pulsing cyan reticle if not already active from visualCuesActive
-          if (!this.reticle) {
-            this.createReticle();
-          }
+          // (Removed reticle per user request)
         }
       }
     );
@@ -195,29 +181,11 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
     }
     this.dropShadow.x = this.x + 6;
     this.dropShadow.y = this.y + 8;
-    this.highlightGraphics.x = this.x;
-    this.highlightGraphics.y = this.y;
   }
 
   /** Create the pulsing lock-on reticle graphic */
   private createReticle(): void {
-    const radius = this.displayWidth / 2 + 8;
-    this.reticle = this.scene.add.graphics();
-    this.reticle.lineStyle(3, 0x00ffff, 1.0);
-    this.reticle.strokeCircle(0, 0, radius);
-    this.reticle.x = this.x;
-    this.reticle.y = this.y;
-    this.reticle.setDepth(19); // Just behind the dragged item
-
-    // Pulsing alpha tween: 0.4 ↔ 1.0, 500ms, yoyo repeat
-    this.reticleTween = this.scene.tweens.add({
-      targets: this.reticle,
-      alpha: { from: 1.0, to: 0.4 },
-      duration: 500,
-      yoyo: true,
-      repeat: -1,
-      ease: 'Sine.easeInOut',
-    });
+    // Removed per user request
   }
 
   /** Destroy the lock-on reticle and its tween */
@@ -237,7 +205,6 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
     this.destroyReticle();
     if (this.hintText) this.hintText.destroy();
     if (this.dropShadow) this.dropShadow.destroy();
-    if (this.highlightGraphics) this.highlightGraphics.destroy();
     super.destroy(fromScene);
   }
 }

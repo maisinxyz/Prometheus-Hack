@@ -34,6 +34,10 @@ export class BootScene extends Phaser.Scene {
     // Additional textures not bound to a specific item's spriteKey
     this.load.image('item_fanta_full', 'assets/sprites/items/item_fanta_full.png');
     this.load.image('item_pepsi_full', 'assets/sprites/items/item_pepsi_full.png');
+    // Food box contents
+    this.load.image('chicken', 'assets/sprites/items/chicken.png');
+    this.load.image('watermelon', 'assets/sprites/items/watermelon.png');
+    this.load.image('fries', 'assets/sprites/items/fries.png');
 
     // 2. Load Bins
     for (const bin of binsData) {
