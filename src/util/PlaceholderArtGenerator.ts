@@ -287,20 +287,53 @@ export function generateBinPlaceholder(
       ctxF.fill();
       ctxF.restore();
 
-      // UI Stack: Logo Symbol ABOVE Name Text
-      ctxF.font = `70px Arial`;
+      // --- UI Stack ---
+      // 1. Logo Symbol (Solid White Silhouette)
+      const logoSize = 55;
+      const logoCenterY = cy + 120;
+      const tempCanvas = document.createElement('canvas');
+      tempCanvas.width = logoSize * 2;
+      tempCanvas.height = logoSize * 2;
+      const tCtx = tempCanvas.getContext('2d');
+      if (tCtx) {
+        // Draw the native emoji
+        tCtx.font = `${logoSize}px "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif`;
+        tCtx.textAlign = 'center';
+        tCtx.textBaseline = 'middle';
+        tCtx.fillText(logo, logoSize, logoSize);
+        
+        // Use source-in to replace all non-transparent pixels with solid white
+        tCtx.globalCompositeOperation = 'source-in';
+        tCtx.fillStyle = '#ffffff';
+        tCtx.fillRect(0, 0, logoSize * 2, logoSize * 2);
+        
+        // Draw the resulting white silhouette onto the main bin texture
+        ctxF.drawImage(tempCanvas, cx - logoSize, logoCenterY - logoSize);
+      }
+
+      // 2. Sleek Name Text (Dark text inside a white sticker box)
+      const textCenterY = cy + 200;
+      ctxF.font = `bold 16px "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif`;
+      const labelText = label.toUpperCase();
+      const textWidth = Math.max(ctxF.measureText(labelText).width + 32, 90); // 16px padding on sides
+      
+      // Draw white sticker background
+      ctxF.fillStyle = 'rgba(255, 255, 255, 0.95)';
+      ctxF.beginPath();
+      if (ctxF.roundRect) {
+        ctxF.roundRect(cx - textWidth / 2, textCenterY - 16, textWidth, 32, 6);
+      } else {
+        ctxF.fillRect(cx - textWidth / 2, textCenterY - 16, textWidth, 32);
+      }
+      ctxF.fill();
+
+      // Draw text in a dark version of the bin's base color
+      ctxF.fillStyle = baseColor.clone().darken(40).rgba;
       ctxF.textAlign = 'center';
       ctxF.textBaseline = 'middle';
-      ctxF.fillText(logo, cx, cy + 110);
-
-      ctxF.font = `bold 26px Arial, sans-serif`;
-      ctxF.fillStyle = '#ffffff';
-      ctxF.shadowColor = '#000000';
-      ctxF.shadowBlur = 6;
-      ctxF.shadowOffsetY = 2;
-      ctxF.fillText(label, cx, cy + 180);
+      ctxF.fillText(labelText, cx, textCenterY);
       
-      // Reset shadows
+      // Reset shadows just in case
       ctxF.shadowBlur = 0;
       ctxF.shadowOffsetY = 0;
     }
