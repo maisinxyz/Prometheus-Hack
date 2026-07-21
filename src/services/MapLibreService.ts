@@ -74,11 +74,11 @@ class MapLibreServiceSingleton {
       touchPitch: true,      // Two-finger swipe on touchscreens to pitch
       touchZoomRotate: true, // Two-finger pinch to zoom/rotate
       
-      // Restrict panning to a ~1km radius around Times Square
+      // Restrict panning to a ~3km radius, heavily weighted North towards Central Park
       // Format: [ [west, south], [east, north] ]
       maxBounds: [
-        [-73.9973, 40.7490], // Southwest coordinate
-        [-73.9737, 40.7670]  // Northeast coordinate
+        [-74.0200, 40.7400], // Southwest coordinate (Chelsea/Hudson)
+        [-73.9500, 40.8000]  // Northeast coordinate (Upper East Side / Top of Central Park)
       ]
     });
 
@@ -137,13 +137,24 @@ class MapLibreServiceSingleton {
           'type': 'fill-extrusion',
           'minzoom': 14.5,
           'paint': {
-            'fill-extrusion-color': '#4a4a4a', // Dark grey buildings
+            // Height-based color interpolation to simulate realistic building materials
+            'fill-extrusion-color': [
+              'interpolate',
+              ['linear'],
+              ['get', 'render_height'],
+              0, '#8c7b6d',   // Brownstone / brick for low-rises
+              40, '#9a948e',  // Grey concrete for mid-rises
+              120, '#5a788c', // Light bluish glass for skyscrapers
+              300, '#36536b'  // Deep blue glass for ultra-tall super-slenders
+            ],
             
             // MapTiler uses render_height and render_min_height directly.
             // Using direct values stops the buildings from dynamically scaling (growing) on zoom.
             'fill-extrusion-height': ['get', 'render_height'],
             'fill-extrusion-base': ['get', 'render_min_height'],
-            'fill-extrusion-opacity': 0.8
+            
+            // Adding a slight ambient light reflection effect by lowering opacity slightly
+            'fill-extrusion-opacity': 0.85
           }
         },
         labelLayerId
