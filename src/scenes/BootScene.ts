@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { generatePlaceholderTexture, generateEmojiItemSprite, generateEmojiLogo } from '../util/PlaceholderArtGenerator';
+import { generatePlaceholderTexture, generateEmojiItemSprite, generateEmojiLogo, generateBinPlaceholder } from '../util/PlaceholderArtGenerator';
 import itemsData from '../data/items.json';
 import binsData from '../data/bins.json';
 import venuesData from '../data/venues.json';
@@ -63,6 +63,9 @@ export class BootScene extends Phaser.Scene {
     this.load.image('venue_mackenzie_cafe_bg_clean', 'assets/venue_mackenzie_cafe_bg_clean.png');
     this.load.image('venue_financial_district_office_bg_clean', 'assets/venue_financial_district_office_bg_clean.png');
     this.load.image('venue_times_square_bg_clean', 'assets/venue_times_square_bg_clean.png');
+    this.load.image('venue_nyc_hospital_bg_clean', 'assets/venue_nyc_hospital_bg_clean.png');
+    this.load.image('venue_construction_site_bg_clean', 'assets/venue_construction_site_bg_clean.png');
+    this.load.image('venue_hot_dog_bg_clean', 'assets/venue_hot_dog_bg_clean.png');
   }
 
   async create(): Promise<void> {
@@ -93,7 +96,12 @@ export class BootScene extends Phaser.Scene {
     for (const bin of binsData) {
       const key = `bin_${bin.id}`;
       if (this.failedLoads.has(key) || !this.textures.exists(key)) {
-        generatePlaceholderTexture(this, key, Phaser.Display.Color.HexStringToColor(bin.color).color, bin.displayName, 384, 512, false, true);
+        const logo = (bin as any).logo as string | undefined;
+        if (logo) {
+          generateBinPlaceholder(this, key, Phaser.Display.Color.HexStringToColor(bin.color).color, bin.displayName, logo, 384, 512);
+        } else {
+          generatePlaceholderTexture(this, key, Phaser.Display.Color.HexStringToColor(bin.color).color, bin.displayName, 384, 512, false, true);
+        }
       }
     }
     // 3. UI Fallback
@@ -117,6 +125,7 @@ export class BootScene extends Phaser.Scene {
       'construction_site': 0xeab308,
       'tech_startup': 0x0ea5e9,
       'ferry_docks': 0x0369a1,
+      'nyc_hospital': 0x38bdf8,
     };
     for (const venue of venuesData) {
       const color = venueColors[venue.id] || 0x2c3e50;

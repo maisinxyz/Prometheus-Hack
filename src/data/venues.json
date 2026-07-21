@@ -81,7 +81,7 @@
   {
     "id": "nyc_hospital",
     "displayName": "NYC Hospital",
-    "unlockChiThreshold": 50,
+    "unlockChiThreshold": 0,
     "itemPoolIds": [
       "latex_gloves",
       "iv_saline_bag",
@@ -90,7 +90,14 @@
       "medicine_box",
       "syringe_cap",
       "cotton_swabs",
-      "pill_blister_pack"
+      "pill_blister_pack",
+      "used_tissue_box",
+      "empty_pill_bottle",
+      "disposable_mask",
+      "paper_patient_gown",
+      "saline_flush_syringe",
+      "hospital_wristband",
+      "tongue_depressor"
     ],
     "backgroundKeys": {
       "clean": "venue_nyc_hospital_bg_clean",
@@ -145,7 +152,7 @@
   {
     "id": "hot_dog_stand",
     "displayName": "Hot Dog Stand",
-    "unlockChiThreshold": 100,
+    "unlockChiThreshold": 0,
     "itemPoolIds": [
       "paper_plate",
       "plastic_fork",
@@ -153,7 +160,22 @@
       "napkin_clean",
       "napkin_greasy",
       "plastic_water_bottle",
-      "aluminum_can"
+      "aluminum_can",
+      "half_eaten_hot_dog",
+      "hot_dog_bun_scraps",
+      "used_mustard_packet",
+      "ketchup_packet",
+      "sauerkraut_scraps",
+      "pretzel_wrapper",
+      "relish_cup",
+      "paper_food_tray",
+      "soda_cup_lid",
+      "dirty_napkin_pile",
+      "onion_rings_scraps",
+      "foil_hot_dog_wrapper",
+      "plastic_utensil_pack",
+      "wax_paper_liner",
+      "corn_cob"
     ],
     "backgroundKeys": {
       "clean": "venue_hot_dog_bg_clean",
@@ -290,7 +312,7 @@
   {
     "id": "construction_site",
     "displayName": "Construction Site",
-    "unlockChiThreshold": 240,
+    "unlockChiThreshold": 0,
     "itemPoolIds": [
       "clean_sawdust_pile",
       "broken_brick_piece",
@@ -299,7 +321,14 @@
       "rusty_nail",
       "cracked_hard_hat",
       "pvc_pipe_scrap",
-      "caulking_tube"
+      "caulking_tube",
+      "wood_scrap",
+      "bent_nail",
+      "paint_can_empty",
+      "plastic_sheeting",
+      "cardboard_tube",
+      "styrofoam_insulation",
+      "torn_blueprint"
     ],
     "backgroundKeys": {
       "clean": "venue_construction_site_bg_clean",

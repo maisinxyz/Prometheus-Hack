@@ -8,6 +8,7 @@ export const BinSchema = z.object({
   id: z.string(),
   displayName: z.string(),
   color: z.string(),
+  logo: z.string().optional(),
 });
 
 export type BinDef = z.infer<typeof BinSchema>;

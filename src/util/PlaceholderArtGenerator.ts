@@ -167,3 +167,69 @@ export function generateEmojiItemSprite(
   }
   scene.textures.addCanvas(key, canvas);
 }
+
+/**
+ * Generates a bin placeholder with an emoji logo and label text.
+ * Used for the 4 sorting bins: Landfill 🗑️, Recycling ♻️, Paper 📄, Compost 🍎
+ */
+export function generateBinPlaceholder(
+  scene: Phaser.Scene,
+  key: string,
+  color: number,
+  label: string,
+  logo: string,
+  width: number = 384,
+  height: number = 512
+): void {
+  if (scene.textures.exists(key)) return;
+
+  const canvas = document.createElement('canvas');
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext('2d');
+
+  if (ctx) {
+    const cx = width / 2;
+    const cy = height / 2;
+    const holeW = width * 0.9;
+    const holeH = height * 0.5;
+
+    // Outer colored rim
+    const baseColor = Phaser.Display.Color.IntegerToColor(color);
+    ctx.fillStyle = baseColor.rgba;
+    ctx.beginPath();
+    if (ctx.roundRect) {
+      ctx.roundRect(cx - holeW / 2, cy - holeH / 2, holeW, holeH, 12);
+    } else {
+      ctx.rect(cx - holeW / 2, cy - holeH / 2, holeW, holeH);
+    }
+    ctx.fill();
+
+    // Deep black hole for trash
+    ctx.fillStyle = '#111111';
+    ctx.beginPath();
+    if (ctx.roundRect) {
+      ctx.roundRect(cx - holeW / 2 + 15, cy - holeH / 2 + 15, holeW - 30, holeH - 30, 8);
+    } else {
+      ctx.rect(cx - holeW / 2 + 15, cy - holeH / 2 + 15, holeW - 30, holeH - 30);
+    }
+    ctx.fill();
+
+    // Draw emoji logo (large, centered in the hole)
+    const emojiSize = Math.min(holeW, holeH) * 0.45;
+    ctx.font = `${emojiSize}px Arial`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(logo, cx, cy - 10);
+
+    // Draw label text below the hole
+    const fontSize = Math.max(16, width / 10);
+    ctx.font = `bold ${fontSize}px Arial, sans-serif`;
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(label, cx, cy + holeH / 2 + 30, width - 16);
+  }
+
+  scene.textures.addCanvas(key, canvas);
+}

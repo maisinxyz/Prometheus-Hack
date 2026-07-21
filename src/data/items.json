@@ -1826,5 +1826,298 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": []
+  },
+
+  {
+    "id": "used_tissue_box",
+    "displayName": "Used Tissue Box",
+    "spriteKey": "item_used_tissue_box",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["nyc_hospital"],
+    "emoji": "🤧"
+  },
+  {
+    "id": "empty_pill_bottle",
+    "displayName": "Empty Pill Bottle",
+    "spriteKey": "item_empty_pill_bottle",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["nyc_hospital"],
+    "emoji": "💊"
+  },
+  {
+    "id": "disposable_mask",
+    "displayName": "Disposable Face Mask",
+    "spriteKey": "item_disposable_mask",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["nyc_hospital"],
+    "emoji": "😷"
+  },
+  {
+    "id": "paper_patient_gown",
+    "displayName": "Paper Patient Gown",
+    "spriteKey": "item_paper_patient_gown",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["nyc_hospital"],
+    "emoji": "👗"
+  },
+  {
+    "id": "saline_flush_syringe",
+    "displayName": "Saline Flush Syringe",
+    "spriteKey": "item_saline_flush_syringe",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["nyc_hospital"],
+    "emoji": "💉"
+  },
+  {
+    "id": "hospital_wristband",
+    "displayName": "Hospital Wristband",
+    "spriteKey": "item_hospital_wristband",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["nyc_hospital"],
+    "emoji": "📿"
+  },
+  {
+    "id": "tongue_depressor",
+    "displayName": "Wooden Tongue Depressor",
+    "spriteKey": "item_tongue_depressor",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["nyc_hospital"],
+    "emoji": "🪵"
+  },
+
+  {
+    "id": "wood_scrap",
+    "displayName": "Wood Scrap",
+    "spriteKey": "item_wood_scrap",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["construction_site"],
+    "emoji": "🪵"
+  },
+  {
+    "id": "bent_nail",
+    "displayName": "Bent Nail",
+    "spriteKey": "item_bent_nail",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["construction_site"],
+    "emoji": "📌"
+  },
+  {
+    "id": "paint_can_empty",
+    "displayName": "Empty Paint Can",
+    "spriteKey": "item_paint_can_empty",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["construction_site"],
+    "emoji": "🪣"
+  },
+  {
+    "id": "plastic_sheeting",
+    "displayName": "Plastic Sheeting",
+    "spriteKey": "item_plastic_sheeting",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["construction_site"],
+    "emoji": "🧻"
+  },
+  {
+    "id": "cardboard_tube",
+    "displayName": "Cardboard Tube",
+    "spriteKey": "item_cardboard_tube",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["construction_site"],
+    "emoji": "📦"
+  },
+  {
+    "id": "styrofoam_insulation",
+    "displayName": "Styrofoam Insulation",
+    "spriteKey": "item_styrofoam_insulation",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["construction_site"],
+    "emoji": "🧊"
+  },
+  {
+    "id": "torn_blueprint",
+    "displayName": "Torn Blueprint",
+    "spriteKey": "item_torn_blueprint",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["construction_site"],
+    "emoji": "📐"
+  },
+
+  {
+    "id": "half_eaten_hot_dog",
+    "displayName": "Half-Eaten Hot Dog",
+    "spriteKey": "item_half_eaten_hot_dog",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["hot_dog_stand"],
+    "emoji": "🌭"
+  },
+  {
+    "id": "hot_dog_bun_scraps",
+    "displayName": "Hot Dog Bun Scraps",
+    "spriteKey": "item_hot_dog_bun_scraps",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["hot_dog_stand"],
+    "emoji": "🍞"
+  },
+  {
+    "id": "used_mustard_packet",
+    "displayName": "Used Mustard Packet",
+    "spriteKey": "item_used_mustard_packet",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["hot_dog_stand"],
+    "emoji": "🟡"
+  },
+  {
+    "id": "ketchup_packet",
+    "displayName": "Ketchup Packet",
+    "spriteKey": "item_ketchup_packet",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["hot_dog_stand"],
+    "emoji": "🔴"
+  },
+  {
+    "id": "sauerkraut_scraps",
+    "displayName": "Sauerkraut Scraps",
+    "spriteKey": "item_sauerkraut_scraps",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["hot_dog_stand"],
+    "emoji": "🥬"
+  },
+  {
+    "id": "pretzel_wrapper",
+    "displayName": "Pretzel Wrapper",
+    "spriteKey": "item_pretzel_wrapper",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["hot_dog_stand"],
+    "emoji": "🥨"
+  },
+  {
+    "id": "relish_cup",
+    "displayName": "Relish Cup (Plastic)",
+    "spriteKey": "item_relish_cup",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["hot_dog_stand"],
+    "emoji": "🫒"
+  },
+  {
+    "id": "paper_food_tray",
+    "displayName": "Paper Food Tray",
+    "spriteKey": "item_paper_food_tray",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["hot_dog_stand"],
+    "emoji": "🍽️"
+  },
+  {
+    "id": "soda_cup_lid",
+    "displayName": "Soda Cup Lid",
+    "spriteKey": "item_soda_cup_lid",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["hot_dog_stand"],
+    "emoji": "⭕"
+  },
+  {
+    "id": "dirty_napkin_pile",
+    "displayName": "Dirty Napkin Pile",
+    "spriteKey": "item_dirty_napkin_pile",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["hot_dog_stand"],
+    "emoji": "🧻"
+  },
+  {
+    "id": "onion_rings_scraps",
+    "displayName": "Onion Ring Scraps",
+    "spriteKey": "item_onion_rings_scraps",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["hot_dog_stand"],
+    "emoji": "🧅"
+  },
+  {
+    "id": "foil_hot_dog_wrapper",
+    "displayName": "Foil Hot Dog Wrapper",
+    "spriteKey": "item_foil_hot_dog_wrapper",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["hot_dog_stand"],
+    "emoji": "🫓"
+  },
+  {
+    "id": "plastic_utensil_pack",
+    "displayName": "Plastic Utensil Pack",
+    "spriteKey": "item_plastic_utensil_pack",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["hot_dog_stand"],
+    "emoji": "🍴"
+  },
+  {
+    "id": "wax_paper_liner",
+    "displayName": "Wax Paper Liner",
+    "spriteKey": "item_wax_paper_liner",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["hot_dog_stand"],
+    "emoji": "📜"
+  },
+  {
+    "id": "corn_cob",
+    "displayName": "Corn on the Cob (eaten)",
+    "spriteKey": "item_corn_cob",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": ["hot_dog_stand"],
+    "emoji": "🌽"
   }
 ]
