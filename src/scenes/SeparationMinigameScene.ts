@@ -590,6 +590,7 @@ export class SeparationMinigameScene extends Phaser.Scene {
     this.mainItemSprite = this.add.sprite(width / 2, height / 2 + 100, this.targetItem.itemDef.spriteKey);
     this.mainItemSprite.setDepth(100);
     this.updateSpriteScale();
+    this.mainItemSprite.setInteractive({ useHandCursor: true });
 
     this.checkText = this.add.text(width / 2, height - 50, 'Tap to separate components', {
       fontFamily: 'Arial', fontSize: '24px', color: '#ffffff', fontStyle: 'bold'
