@@ -3990,6 +3990,266 @@
     "emoji": "📇"
   },
   {
+    "id": "metro_card",
+    "displayName": "Metro Card",
+    "spriteKey": "item_metro_card",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "subway_station"
+    ],
+    "emoji": "💳"
+  },
+  {
+    "id": "crumpled_newspaper",
+    "displayName": "Crumpled Newspaper",
+    "spriteKey": "item_newspaper",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "subway_station"
+    ],
+    "emoji": "📰"
+  },
+  {
+    "id": "discarded_face_mask",
+    "displayName": "Face Mask",
+    "spriteKey": "item_face_mask",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "subway_station"
+    ],
+    "emoji": "😷"
+  },
+  {
+    "id": "pigeon_feather",
+    "displayName": "Pigeon Feather",
+    "spriteKey": "item_feather",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "subway_station"
+    ],
+    "emoji": "🪶"
+  },
+  {
+    "id": "chewed_gum",
+    "displayName": "Chewed Gum",
+    "spriteKey": "item_chewed_gum",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "subway_station"
+    ],
+    "emoji": "🍬"
+  },
+  {
+    "id": "empty_chip_bag",
+    "displayName": "Empty Chip Bag",
+    "spriteKey": "item_chip_bag",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "subway_station"
+    ],
+    "emoji": "🎒"
+  },
+  {
+    "id": "ticket_receipt",
+    "displayName": "Ticket Receipt",
+    "spriteKey": "item_receipt",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "subway_station"
+    ],
+    "emoji": "🧾"
+  },
+  {
+    "id": "broken_umbrella_spoke",
+    "displayName": "Umbrella Spoke",
+    "spriteKey": "item_umbrella_spoke",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "subway_station"
+    ],
+    "emoji": "☂️"
+  },
+  {
+    "id": "coffee_stirrer",
+    "displayName": "Coffee Stirrer",
+    "spriteKey": "item_coffee_stirrer",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "subway_station"
+    ],
+    "emoji": "🥢"
+  },
+  {
+    "id": "half_eaten_bagel",
+    "displayName": "Half-Eaten Bagel",
+    "spriteKey": "item_bagel",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "subway_station"
+    ],
+    "emoji": "🥯"
+  },
+  {
+    "id": "subway_sandwich_wrapper",
+    "displayName": "Subway Sandwich",
+    "spriteKey": "item_sub_sandwich",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "subway_sub_scraps",
+      "subway_paper_wrap"
+    ],
+    "venueIds": [
+      "subway_station"
+    ],
+    "emoji": "🥪"
+  },
+  {
+    "id": "subway_sub_scraps",
+    "displayName": "Sandwich Scraps",
+    "spriteKey": "item_sub_scraps",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥪"
+  },
+  {
+    "id": "subway_paper_wrap",
+    "displayName": "Paper Wrapper",
+    "spriteKey": "item_sub_paper_wrap",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "📜"
+  },
+  {
+    "id": "pizza_slice_on_plate",
+    "displayName": "Pizza on Plate",
+    "spriteKey": "item_pizza_plate",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "pizza_crust",
+      "paper_plate"
+    ],
+    "venueIds": [
+      "subway_station"
+    ],
+    "emoji": "🍕"
+  },
+  {
+    "id": "pizza_crust",
+    "displayName": "Pizza Crust",
+    "spriteKey": "item_pizza_crust",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🍕"
+  },
+  {
+    "id": "paper_plate",
+    "displayName": "Greasy Paper Plate",
+    "spriteKey": "item_paper_plate",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🍽️"
+  },
+  {
+    "id": "deli_coffee_cup",
+    "displayName": "Deli Coffee Cup",
+    "spriteKey": "item_deli_coffee",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "deli_paper_cup",
+      "plastic_coffee_lid"
+    ],
+    "venueIds": [
+      "subway_station"
+    ],
+    "emoji": "☕"
+  },
+  {
+    "id": "deli_paper_cup",
+    "displayName": "Paper Cup",
+    "spriteKey": "item_deli_paper_cup",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥤"
+  },
+  {
+    "id": "plastic_coffee_lid",
+    "displayName": "Plastic Lid",
+    "spriteKey": "item_coffee_lid",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "⚫"
+  },
+  {
+    "id": "headphones_in_case",
+    "displayName": "Headphones in Case",
+    "spriteKey": "item_headphones_case",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "broken_headphones",
+      "plastic_earbud_case"
+    ],
+    "venueIds": [
+      "subway_station"
+    ],
+    "emoji": "🎧"
+  },
+  {
+    "id": "broken_headphones",
+    "displayName": "Broken Headphones",
+    "spriteKey": "item_broken_headphones",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🎧"
+  },
+  {
+    "id": "plastic_earbud_case",
+    "displayName": "Plastic Case",
+    "spriteKey": "item_earbud_case",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "📦"
+  },
+  {
     "id": "dummy_foodboxfull",
     "displayName": "Dummy foodboxfull",
     "spriteKey": "foodboxfull",

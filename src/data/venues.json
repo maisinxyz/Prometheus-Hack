@@ -240,7 +240,19 @@
       "pizza_box_greasy",
       "cigarette_butt",
       "glass_bottle",
-      "chip_bag"
+      "chip_bag",
+      "crumpled_newspaper",
+      "discarded_face_mask",
+      "pigeon_feather",
+      "empty_chip_bag",
+      "ticket_receipt",
+      "broken_umbrella_spoke",
+      "coffee_stirrer",
+      "half_eaten_bagel",
+      "subway_sandwich_wrapper",
+      "pizza_slice_on_plate",
+      "deli_coffee_cup",
+      "headphones_in_case"
     ],
     "backgroundKeys": {
       "clean": "venue_subway_station_bg_clean",
