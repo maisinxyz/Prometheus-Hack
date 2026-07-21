@@ -45,7 +45,7 @@ export class LevelSelectScene extends Phaser.Scene {
       'broadway_theater': { x: 1200, y: 1000 }, // Right of TS
       'hot_dog_stand': { x: 1400, y: 800 }, // Right mid-high
       'subway_station': { x: 800, y: 900 }, // Left of TS
-      'empire_state_building': { x: 500, y: 700 }, // Left mid-high
+      'empire_state_building': { x: 650, y: 700 }, // Left mid-high
       'gym': { x: 800, y: 500 }, // Below CP
       'central_park': { x: 1000, y: 300 }, // Top center
       'public_library': { x: 1200, y: 500 }, // Mid-top right
