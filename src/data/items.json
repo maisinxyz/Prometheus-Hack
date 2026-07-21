@@ -795,18 +795,6 @@
     ]
   },
   {
-    "id": "orange_peel",
-    "displayName": "Orange Peel",
-    "spriteKey": "item_orange_peel",
-    "correctBinId": "compost",
-    "isComposite": false,
-    "componentIds": [],
-    "venueIds": [
-      "art_studio"
-    ],
-    "emoji": "🍊"
-  },
-  {
     "id": "eraser_shavings",
     "displayName": "Eraser Shavings",
     "spriteKey": "item_eraser_shavings",
@@ -3220,6 +3208,266 @@
     "componentIds": [],
     "venueIds": [],
     "emoji": "🖊️"
+  },
+  {
+    "id": "used_paint_palette",
+    "displayName": "Used Paint Palette",
+    "spriteKey": "item_paint_palette",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "art_studio"
+    ],
+    "emoji": "🎨"
+  },
+  {
+    "id": "dried_clay_lump",
+    "displayName": "Dried Clay",
+    "spriteKey": "item_dried_clay",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "art_studio"
+    ],
+    "emoji": "🟤"
+  },
+  {
+    "id": "charcoal_stick_stub",
+    "displayName": "Charcoal Stub",
+    "spriteKey": "item_charcoal_stub",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "art_studio"
+    ],
+    "emoji": "⬛"
+  },
+  {
+    "id": "broken_canvas_frame",
+    "displayName": "Broken Canvas Frame",
+    "spriteKey": "item_broken_canvas_frame",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "art_studio"
+    ],
+    "emoji": "🖼️"
+  },
+  {
+    "id": "crumpled_sketch_paper",
+    "displayName": "Crumpled Sketch",
+    "spriteKey": "item_crumpled_sketch",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "art_studio"
+    ],
+    "emoji": "📄"
+  },
+  {
+    "id": "empty_gesso_bottle",
+    "displayName": "Empty Gesso Bottle",
+    "spriteKey": "item_gesso_bottle",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "art_studio"
+    ],
+    "emoji": "🧴"
+  },
+  {
+    "id": "dried_marker",
+    "displayName": "Dried Marker",
+    "spriteKey": "item_dried_marker",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "art_studio"
+    ],
+    "emoji": "🖍️"
+  },
+  {
+    "id": "empty_spray_paint_can",
+    "displayName": "Empty Spray Can",
+    "spriteKey": "item_spray_paint_can",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "art_studio"
+    ],
+    "emoji": "🥫"
+  },
+  {
+    "id": "dirty_rag",
+    "displayName": "Dirty Rag",
+    "spriteKey": "item_dirty_rag",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "art_studio"
+    ],
+    "emoji": "🧻"
+  },
+  {
+    "id": "linoleum_scrap",
+    "displayName": "Linoleum Scrap",
+    "spriteKey": "item_linoleum_scrap",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "art_studio"
+    ],
+    "emoji": "🟩"
+  },
+  {
+    "id": "paint_tube_with_cap",
+    "displayName": "Paint Tube w/ Cap",
+    "spriteKey": "item_paint_tube_cap",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "paint_tube_body",
+      "paint_cap_plastic"
+    ],
+    "venueIds": [
+      "art_studio"
+    ],
+    "emoji": "🖌️"
+  },
+  {
+    "id": "paint_tube_body",
+    "displayName": "Metal Paint Tube",
+    "spriteKey": "item_paint_tube_body",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🎨"
+  },
+  {
+    "id": "paint_cap_plastic",
+    "displayName": "Plastic Cap",
+    "spriteKey": "item_paint_cap_plastic",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "⚫"
+  },
+  {
+    "id": "sketchbook_with_spiral",
+    "displayName": "Sketchbook w/ Spiral",
+    "spriteKey": "item_sketchbook_spiral",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "sketchbook_paper",
+      "metal_spiral_binding"
+    ],
+    "venueIds": [
+      "art_studio"
+    ],
+    "emoji": "📓"
+  },
+  {
+    "id": "sketchbook_paper",
+    "displayName": "Paper Pages",
+    "spriteKey": "item_sketchbook_paper",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "📄"
+  },
+  {
+    "id": "metal_spiral_binding",
+    "displayName": "Metal Spiral",
+    "spriteKey": "item_metal_spiral_binding",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "〰️"
+  },
+  {
+    "id": "easel_with_canvas",
+    "displayName": "Easel w/ Canvas",
+    "spriteKey": "item_easel_canvas",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "wooden_easel",
+      "painted_canvas"
+    ],
+    "venueIds": [
+      "art_studio"
+    ],
+    "emoji": "🖼️"
+  },
+  {
+    "id": "wooden_easel",
+    "displayName": "Wooden Easel",
+    "spriteKey": "item_wooden_easel",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🪵"
+  },
+  {
+    "id": "painted_canvas",
+    "displayName": "Painted Canvas",
+    "spriteKey": "item_painted_canvas",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🖼️"
+  },
+  {
+    "id": "brush_in_jar",
+    "displayName": "Brush in Jar",
+    "spriteKey": "item_brush_jar",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "dirty_brush",
+      "plastic_water_jar"
+    ],
+    "venueIds": [
+      "art_studio"
+    ],
+    "emoji": "🖌️"
+  },
+  {
+    "id": "dirty_brush",
+    "displayName": "Dirty Brush",
+    "spriteKey": "item_dirty_brush",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🖌️"
+  },
+  {
+    "id": "plastic_water_jar",
+    "displayName": "Plastic Jar",
+    "spriteKey": "item_plastic_water_jar",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🫙"
   },
   {
     "id": "dummy_foodboxfull",
