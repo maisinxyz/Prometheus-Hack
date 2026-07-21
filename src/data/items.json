@@ -2839,6 +2839,136 @@
     "emoji": "📜"
   },
   {
+    "id": "playbill",
+    "displayName": "Playbill",
+    "spriteKey": "item_playbill",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "broadway_theater"
+    ],
+    "emoji": "🎭"
+  },
+  {
+    "id": "ticket_stub",
+    "displayName": "Ticket Stub",
+    "spriteKey": "item_ticket_stub",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "broadway_theater"
+    ],
+    "emoji": "🎟️"
+  },
+  {
+    "id": "opera_glasses_broken",
+    "displayName": "Broken Opera Glasses",
+    "spriteKey": "item_opera_glasses",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "broadway_theater"
+    ],
+    "emoji": "🔭"
+  },
+  {
+    "id": "candy_wrapper",
+    "displayName": "Candy Wrapper",
+    "spriteKey": "item_candy_wrapper",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "broadway_theater"
+    ],
+    "emoji": "🍬"
+  },
+  {
+    "id": "popcorn_kernels",
+    "displayName": "Popcorn Kernels",
+    "spriteKey": "item_popcorn_kernels",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "broadway_theater"
+    ],
+    "emoji": "🍿"
+  },
+  {
+    "id": "popcorn_in_box",
+    "displayName": "Popcorn in Box",
+    "spriteKey": "item_popcorn_box",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "popcorn_scraps",
+      "cardboard_popcorn_box"
+    ],
+    "venueIds": [
+      "broadway_theater"
+    ],
+    "emoji": "🍿"
+  },
+  {
+    "id": "popcorn_scraps",
+    "displayName": "Popcorn",
+    "spriteKey": "item_popcorn_scraps",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🍿"
+  },
+  {
+    "id": "cardboard_popcorn_box",
+    "displayName": "Popcorn Box",
+    "spriteKey": "item_cardboard_popcorn_box",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥡"
+  },
+  {
+    "id": "champagne_in_plastic",
+    "displayName": "Champagne in Cup",
+    "spriteKey": "item_champagne",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "champagne_liquid",
+      "plastic_flute"
+    ],
+    "venueIds": [
+      "broadway_theater"
+    ],
+    "emoji": "🥂"
+  },
+  {
+    "id": "champagne_liquid",
+    "displayName": "Liquid",
+    "spriteKey": "item_champagne_liquid",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "💧"
+  },
+  {
+    "id": "plastic_flute",
+    "displayName": "Plastic Flute",
+    "spriteKey": "item_plastic_flute",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥂"
+  },
+  {
     "id": "dummy_foodboxfull",
     "displayName": "Dummy foodboxfull",
     "spriteKey": "foodboxfull",

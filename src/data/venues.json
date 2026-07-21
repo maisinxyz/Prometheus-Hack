@@ -141,7 +141,11 @@
       "candy_wrapper",
       "foam_cup",
       "confetti",
-      "broken_stage_light"
+      "broken_stage_light",
+      "opera_glasses_broken",
+      "popcorn_kernels",
+      "popcorn_in_box",
+      "champagne_in_plastic"
     ],
     "backgroundKeys": {
       "clean": "venue_broadway_theater_bg_clean",

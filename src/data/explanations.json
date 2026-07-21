@@ -157,5 +157,16 @@
   "loaded_dog_in_box": "Scraps go to compost, cardboard to paper, wax paper to landfill.",
   "loaded_dog_scraps": "Food scraps are compostable.",
   "dog_cardboard_box": "Cardboard is recyclable.",
-  "dog_wax_paper": "Wax paper is landfill."
+  "dog_wax_paper": "Wax paper is landfill.",
+  "playbill": "Paper programs are recyclable.",
+  "ticket_stub": "Paper tickets are recyclable.",
+  "opera_glasses_broken": "Mixed materials go to landfill.",
+  "candy_wrapper": "Plastic wrappers are landfill.",
+  "popcorn_kernels": "Food waste is compostable.",
+  "popcorn_in_box": "Compost popcorn, recycle paper box.",
+  "popcorn_scraps": "Food is compostable.",
+  "cardboard_popcorn_box": "Paper boxes are recyclable.",
+  "champagne_in_plastic": "Dump liquid in compost, recycle plastic cup.",
+  "champagne_liquid": "Liquids go to compost.",
+  "plastic_flute": "Plastic cups are recyclable."
 }
