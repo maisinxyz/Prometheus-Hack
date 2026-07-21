@@ -13,7 +13,7 @@ export const gameConfig: Phaser.Types.Core.GameConfig = {
     mode: Phaser.Scale.ENVELOP,
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
-  backgroundColor: '#000000',
-  parent: document.body,
+  transparent: true,
+  parent: 'game-container',
   scene: [], // Scenes added in main.ts
 };

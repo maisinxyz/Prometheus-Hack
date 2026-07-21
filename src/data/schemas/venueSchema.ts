@@ -14,6 +14,8 @@ export const VenueSchema = z.object({
     grimy: z.string(),
     ruined: z.string(),
   }),
+  latitude: z.number().optional(),
+  longitude: z.number().optional(),
 });
 
 export type VenueDef = z.infer<typeof VenueSchema>;

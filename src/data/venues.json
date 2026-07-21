@@ -53,7 +53,9 @@
       "clean": "venue_mackenzie_cafe_bg_clean",
       "grimy": "venue_mackenzie_cafe_bg_grimy",
       "ruined": "venue_mackenzie_cafe_bg_ruined"
-    }
+    },
+    "latitude": 40.7565,
+    "longitude": -73.987
   },
   {
     "id": "financial_district_office",
@@ -89,7 +91,9 @@
       "clean": "venue_financial_district_office_bg_clean",
       "grimy": "venue_financial_district_office_bg_grimy",
       "ruined": "venue_financial_district_office_bg_ruined"
-    }
+    },
+    "latitude": 40.7545,
+    "longitude": -73.983
   },
   {
     "id": "nyc_hospital",
@@ -126,7 +130,9 @@
       "clean": "venue_nyc_hospital_bg_clean",
       "grimy": "venue_nyc_hospital_bg_grimy",
       "ruined": "venue_nyc_hospital_bg_ruined"
-    }
+    },
+    "latitude": 40.761,
+    "longitude": -73.988
   },
   {
     "id": "times_square",
@@ -164,7 +170,9 @@
       "clean": "venue_times_square_bg_clean",
       "grimy": "venue_times_square_bg_grimy",
       "ruined": "venue_times_square_bg_ruined"
-    }
+    },
+    "latitude": 40.758,
+    "longitude": -73.9855
   },
   {
     "id": "broadway_theater",
@@ -188,7 +196,9 @@
       "clean": "venue_broadway_theater_bg_clean",
       "grimy": "venue_broadway_theater_bg_grimy",
       "ruined": "venue_broadway_theater_bg_ruined"
-    }
+    },
+    "latitude": 40.759,
+    "longitude": -73.9845
   },
   {
     "id": "hot_dog_stand",
@@ -240,7 +250,9 @@
       "clean": "venue_hot_dog_bg_clean",
       "grimy": "venue_hot_dog_bg_grimy",
       "ruined": "venue_hot_dog_bg_ruined"
-    }
+    },
+    "latitude": 40.7575,
+    "longitude": -73.99
   },
   {
     "id": "subway_station",
@@ -272,7 +284,9 @@
       "clean": "venue_subway_station_bg_clean",
       "grimy": "venue_subway_station_bg_grimy",
       "ruined": "venue_subway_station_bg_ruined"
-    }
+    },
+    "latitude": 40.7555,
+    "longitude": -73.987
   },
   {
     "id": "empire_state_building",
@@ -307,7 +321,9 @@
       "clean": "venue_chelsea_office_bg_clean",
       "grimy": "venue_chelsea_office_bg_grimy",
       "ruined": "venue_chelsea_office_bg_ruined"
-    }
+    },
+    "latitude": 40.7535,
+    "longitude": -73.992
   },
   {
     "id": "gym",
@@ -340,7 +356,9 @@
       "clean": "venue_gym_bg_clean",
       "grimy": "venue_gym_bg_grimy",
       "ruined": "venue_gym_bg_ruined"
-    }
+    },
+    "latitude": 40.76,
+    "longitude": -73.991
   },
   {
     "id": "central_park",
@@ -377,7 +395,9 @@
       "clean": "venue_central_park_bg_clean",
       "grimy": "venue_central_park_bg_grimy",
       "ruined": "venue_central_park_bg_ruined"
-    }
+    },
+    "latitude": 40.7625,
+    "longitude": -73.986
   },
   {
     "id": "public_library",
@@ -410,7 +430,9 @@
       "clean": "venue_public_library_bg_clean",
       "grimy": "venue_public_library_bg_grimy",
       "ruined": "venue_public_library_bg_ruined"
-    }
+    },
+    "latitude": 40.754,
+    "longitude": -73.9815
   },
   {
     "id": "art_studio",
@@ -444,7 +466,9 @@
       "clean": "venue_art_studio_bg_clean",
       "grimy": "venue_art_studio_bg_grimy",
       "ruined": "venue_art_studio_bg_ruined"
-    }
+    },
+    "latitude": 40.7555,
+    "longitude": -73.9935
   },
   {
     "id": "construction_site",
@@ -494,7 +518,9 @@
       "clean": "venue_construction_site_bg_clean",
       "grimy": "venue_construction_site_bg_grimy",
       "ruined": "venue_construction_site_bg_ruined"
-    }
+    },
+    "latitude": 40.7595,
+    "longitude": -73.9815
   },
   {
     "id": "tech_startup",
@@ -527,7 +553,9 @@
       "clean": "venue_tech_startup_bg_clean",
       "grimy": "venue_tech_startup_bg_grimy",
       "ruined": "venue_tech_startup_bg_ruined"
-    }
+    },
+    "latitude": 40.753,
+    "longitude": -73.989
   },
   {
     "id": "ferry_docks",
@@ -559,6 +587,8 @@
       "clean": "venue_ferry_docks_bg_clean",
       "grimy": "venue_ferry_docks_bg_grimy",
       "ruined": "venue_ferry_docks_bg_ruined"
-    }
+    },
+    "latitude": 40.7615,
+    "longitude": -73.9935
   }
 ]

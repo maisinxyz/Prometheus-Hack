@@ -82,9 +82,9 @@ export class BootScene extends Phaser.Scene {
         // Use hash of item ID to generate a consistent placeholder color
         let colorHex = 0x888888;
         if (item.correctBinId === 'compost') colorHex = 0x22c55e;
-        else if (item.correctBinId === 'plastic') colorHex = 0x3b82f6;
-        else if (item.correctBinId === 'paper') colorHex = 0xeab308;
-        else if (item.correctBinId === 'landfill') colorHex = 0x4b5563;
+        else if (item.correctBinId === 'recycling') colorHex = 0x3b82f6;
+        else if (item.correctBinId === 'plastic') colorHex = 0x6b7280;
+        else if (item.correctBinId === 'landfill') colorHex = 0x111111;
         else if (item.correctBinId === 'none') colorHex = 0xef4444; // Composites
         
         // Ensure the Emoji generator is imported from PlaceholderArtGenerator.ts
