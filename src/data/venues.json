@@ -59,7 +59,7 @@
   {
     "id": "financial_district_office",
     "displayName": "Financial District Office",
-    "unlockChiThreshold": 40,
+    "unlockChiThreshold": 0,
     "itemPoolIds": [
       "paper_plate",
       "plastic_fork",
@@ -118,7 +118,7 @@
   {
     "id": "times_square",
     "displayName": "Times Square",
-    "unlockChiThreshold": 70,
+    "unlockChiThreshold": 0,
     "itemPoolIds": [
       "paper_plate",
       "plastic_fork",
@@ -142,7 +142,7 @@
   {
     "id": "broadway_theater",
     "displayName": "Broadway Theater",
-    "unlockChiThreshold": 90,
+    "unlockChiThreshold": 0,
     "itemPoolIds": [
       "playbill",
       "popcorn_bag",
@@ -218,7 +218,7 @@
   {
     "id": "subway_station",
     "displayName": "Subway Station",
-    "unlockChiThreshold": 120,
+    "unlockChiThreshold": 0,
     "itemPoolIds": [
       "metro_card",
       "newspaper",
@@ -238,7 +238,7 @@
   {
     "id": "chelsea_office",
     "displayName": "Chelsea Office",
-    "unlockChiThreshold": 130,
+    "unlockChiThreshold": 0,
     "itemPoolIds": [
       "paper_plate",
       "plastic_fork",
@@ -260,7 +260,7 @@
   {
     "id": "gym",
     "displayName": "Fitness Center",
-    "unlockChiThreshold": 150,
+    "unlockChiThreshold": 0,
     "itemPoolIds": [
       "protein_shake_bottle",
       "sweat_towel",
@@ -280,7 +280,7 @@
   {
     "id": "central_park",
     "displayName": "Central Park",
-    "unlockChiThreshold": 160,
+    "unlockChiThreshold": 0,
     "itemPoolIds": [
       "paper_plate",
       "plastic_fork",
@@ -304,7 +304,7 @@
   {
     "id": "public_library",
     "displayName": "Public Library",
-    "unlockChiThreshold": 180,
+    "unlockChiThreshold": 0,
     "itemPoolIds": [
       "overdue_notice",
       "laminated_bookmark",
@@ -324,7 +324,7 @@
   {
     "id": "art_studio",
     "displayName": "Art Studio",
-    "unlockChiThreshold": 210,
+    "unlockChiThreshold": 0,
     "itemPoolIds": [
       "squeezed_paint_tube",
       "dried_clay_chunk",
@@ -394,7 +394,7 @@
   {
     "id": "tech_startup",
     "displayName": "Tech Startup",
-    "unlockChiThreshold": 270,
+    "unlockChiThreshold": 0,
     "itemPoolIds": [
       "broken_ethernet_cable",
       "kombucha_glass_bottle",
@@ -414,7 +414,7 @@
   {
     "id": "ferry_docks",
     "displayName": "Ferry at the Docks",
-    "unlockChiThreshold": 300,
+    "unlockChiThreshold": 0,
     "itemPoolIds": [
       "ferry_ticket",
       "barnacle_cup",
