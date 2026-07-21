@@ -949,17 +949,6 @@
     ]
   },
   {
-    "id": "avocado_pit",
-    "displayName": "Avocado Pit",
-    "spriteKey": "item_avocado_pit",
-    "correctBinId": "compost",
-    "isComposite": false,
-    "componentIds": [],
-    "venueIds": [
-      "tech_startup"
-    ]
-  },
-  {
     "id": "empty_vape_pod",
     "displayName": "Empty Vape Pod",
     "spriteKey": "item_vape_pod",
@@ -3468,6 +3457,277 @@
     "componentIds": [],
     "venueIds": [],
     "emoji": "🫙"
+  },
+  {
+    "id": "energy_drink_can",
+    "displayName": "Energy Drink Can",
+    "spriteKey": "item_energy_drink_can",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "tech_startup"
+    ],
+    "emoji": "🔋"
+  },
+  {
+    "id": "empty_soylent_bottle",
+    "displayName": "Soylent Bottle",
+    "spriteKey": "item_soylent_bottle",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "tech_startup"
+    ],
+    "emoji": "🍼"
+  },
+  {
+    "id": "vr_headset_strap",
+    "displayName": "Broken VR Strap",
+    "spriteKey": "item_vr_strap",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "tech_startup"
+    ],
+    "emoji": "🥽"
+  },
+  {
+    "id": "broken_usb_drive",
+    "displayName": "Broken USB Drive",
+    "spriteKey": "item_usb_drive",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "tech_startup"
+    ],
+    "emoji": "💾"
+  },
+  {
+    "id": "protein_bar_wrapper",
+    "displayName": "Protein Bar Wrapper",
+    "spriteKey": "item_protein_wrapper",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "tech_startup"
+    ],
+    "emoji": "🍫"
+  },
+  {
+    "id": "mechanical_keyboard_switch",
+    "displayName": "Keyboard Switch",
+    "spriteKey": "item_keyboard_switch",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "tech_startup"
+    ],
+    "emoji": "⌨️"
+  },
+  {
+    "id": "smart_water_bottle",
+    "displayName": "Smart Water Bottle",
+    "spriteKey": "item_smart_water_bottle",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "tech_startup"
+    ],
+    "emoji": "💧"
+  },
+  {
+    "id": "plastic_cold_brew_cup",
+    "displayName": "Cold Brew Cup",
+    "spriteKey": "item_cold_brew_cup",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "tech_startup"
+    ],
+    "emoji": "🧊"
+  },
+  {
+    "id": "metal_kombucha_cap",
+    "displayName": "Kombucha Cap",
+    "spriteKey": "item_kombucha_cap",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "tech_startup"
+    ],
+    "emoji": "🍾"
+  },
+  {
+    "id": "empty_ramen_cup",
+    "displayName": "Empty Ramen Cup",
+    "spriteKey": "item_ramen_cup",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "tech_startup"
+    ],
+    "emoji": "🍜"
+  },
+  {
+    "id": "laptop_with_battery",
+    "displayName": "Broken Laptop w/ Battery",
+    "spriteKey": "item_laptop_battery",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "broken_laptop_shell",
+      "lithium_ion_battery"
+    ],
+    "venueIds": [
+      "tech_startup"
+    ],
+    "emoji": "💻"
+  },
+  {
+    "id": "broken_laptop_shell",
+    "displayName": "Laptop Shell",
+    "spriteKey": "item_laptop_shell",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "💻"
+  },
+  {
+    "id": "lithium_ion_battery",
+    "displayName": "Lithium Battery",
+    "spriteKey": "item_lithium_battery",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🔋"
+  },
+  {
+    "id": "takeout_sushi_container",
+    "displayName": "Sushi Container",
+    "spriteKey": "item_sushi_container",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "plastic_sushi_tray",
+      "soy_sauce_packet"
+    ],
+    "venueIds": [
+      "tech_startup"
+    ],
+    "emoji": "🍣"
+  },
+  {
+    "id": "plastic_sushi_tray",
+    "displayName": "Plastic Tray",
+    "spriteKey": "item_sushi_tray",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🍱"
+  },
+  {
+    "id": "soy_sauce_packet",
+    "displayName": "Soy Sauce Packet",
+    "spriteKey": "item_soy_sauce_packet",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥟"
+  },
+  {
+    "id": "boba_tea_cup",
+    "displayName": "Boba Tea Cup",
+    "spriteKey": "item_boba_tea_cup",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "plastic_boba_cup",
+      "boba_straw",
+      "leftover_boba_pearls"
+    ],
+    "venueIds": [
+      "tech_startup"
+    ],
+    "emoji": "🧋"
+  },
+  {
+    "id": "plastic_boba_cup",
+    "displayName": "Plastic Cup",
+    "spriteKey": "item_plastic_boba_cup",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥤"
+  },
+  {
+    "id": "boba_straw",
+    "displayName": "Boba Straw",
+    "spriteKey": "item_boba_straw",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥢"
+  },
+  {
+    "id": "leftover_boba_pearls",
+    "displayName": "Boba Pearls",
+    "spriteKey": "item_boba_pearls",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🧋"
+  },
+  {
+    "id": "poke_bowl_container",
+    "displayName": "Poke Bowl",
+    "spriteKey": "item_poke_bowl",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "paper_poke_bowl",
+      "plastic_poke_lid"
+    ],
+    "venueIds": [
+      "tech_startup"
+    ],
+    "emoji": "🥗"
+  },
+  {
+    "id": "paper_poke_bowl",
+    "displayName": "Paper Bowl",
+    "spriteKey": "item_paper_poke_bowl",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥗"
+  },
+  {
+    "id": "plastic_poke_lid",
+    "displayName": "Plastic Lid",
+    "spriteKey": "item_plastic_poke_lid",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "💿"
   },
   {
     "id": "dummy_foodboxfull",
