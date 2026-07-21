@@ -112,7 +112,11 @@ export class SeparationMinigameScene extends Phaser.Scene {
       'paint_can_with_brush', 'nails_in_cardboard', 'insulation_in_plastic_wrap',
       'tile_in_paper_packaging', 'screws_in_plastic_bag', 'wood_with_nails',
       'caulk_tube_with_cap', 'pipe_in_styrofoam', 'lumber_in_shrink_wrap',
-      'window_frame_with_glass'
+      'window_frame_with_glass',
+      'hot_dog_in_foil', 'nachos_in_tray', 'soda_cup_with_straw',
+      'fries_in_paper_cone', 'pretzel_in_bag', 'kebab_on_skewer_in_wrapper',
+      'ice_cream_in_cup', 'water_bottle_with_label', 'cotton_candy_on_stick',
+      'loaded_dog_in_box'
     ];
 
     if (isSoda) {
@@ -618,6 +622,58 @@ export class SeparationMinigameScene extends Phaser.Scene {
       'window_frame_with_glass': {
         coreSpriteKey: 'item_window_frame_wood', coreTargetBin: 'compost',
         components: [{ spriteKey: 'item_window_glass', targetBin: 'landfill' }]
+      },
+      'hot_dog_in_foil': {
+        coreSpriteKey: 'item_hot_dog_foil', coreTargetBin: 'plastic',
+        components: [{ spriteKey: 'item_hot_dog_scraps', targetBin: 'compost' }]
+      },
+      'nachos_in_tray': {
+        coreSpriteKey: 'item_nacho_tray', coreTargetBin: 'plastic',
+        components: [{ spriteKey: 'item_nacho_scraps', targetBin: 'compost' }]
+      },
+      'soda_cup_with_straw': {
+        coreSpriteKey: 'item_soda_paper_cup', coreTargetBin: 'compost',
+        components: [{ spriteKey: 'item_soda_plastic_straw', targetBin: 'landfill' }]
+      },
+      'fries_in_paper_cone': {
+        coreSpriteKey: 'item_paper_cone', coreTargetBin: 'compost',
+        components: [{ spriteKey: 'item_fry_scraps', targetBin: 'compost' }]
+      },
+      'pretzel_in_bag': {
+        coreSpriteKey: 'item_pretzel_plastic_bag', coreTargetBin: 'plastic',
+        components: [{ spriteKey: 'item_pretzel_leftover', targetBin: 'compost' }]
+      },
+      'kebab_on_skewer_in_wrapper': {
+        coreSpriteKey: 'item_kebab_foil_wrapper', coreTargetBin: 'plastic',
+        components: [
+          { spriteKey: 'item_kebab_scraps', targetBin: 'compost' },
+          { spriteKey: 'item_kebab_skewer', targetBin: 'compost' }
+        ]
+      },
+      'ice_cream_in_cup': {
+        coreSpriteKey: 'item_ice_cream_cup', coreTargetBin: 'plastic',
+        components: [
+          { spriteKey: 'item_melted_ice_cream', targetBin: 'compost' },
+          { spriteKey: 'item_ice_cream_spoon', targetBin: 'plastic' }
+        ]
+      },
+      'water_bottle_with_label': {
+        coreSpriteKey: 'item_water_bottle_body', coreTargetBin: 'plastic',
+        components: [{ spriteKey: 'item_bottle_paper_label', targetBin: 'paper' }]
+      },
+      'cotton_candy_on_stick': {
+        coreSpriteKey: 'item_candy_stick', coreTargetBin: 'compost',
+        components: [
+          { spriteKey: 'item_cotton_candy_residue', targetBin: 'compost' },
+          { spriteKey: 'item_candy_paper_cone', targetBin: 'compost' }
+        ]
+      },
+      'loaded_dog_in_box': {
+        coreSpriteKey: 'item_dog_cardboard_box', coreTargetBin: 'paper',
+        components: [
+          { spriteKey: 'item_loaded_dog_scraps', targetBin: 'compost' },
+          { spriteKey: 'item_dog_wax_paper', targetBin: 'landfill' }
+        ]
       }
     };
 
