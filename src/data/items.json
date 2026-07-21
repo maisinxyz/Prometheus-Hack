@@ -1102,6 +1102,149 @@
     ]
   },
   {
+    "id": "coffee_sleeve",
+    "displayName": "Coffee Sleeve",
+    "spriteKey": "item_coffee_sleeve",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
+  },
+  {
+    "id": "cardboard_drink_carrier",
+    "displayName": "Cardboard Drink Carrier",
+    "spriteKey": "item_cardboard_drink_carrier",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
+  },
+  {
+    "id": "glass_juice_bottle",
+    "displayName": "Glass Juice Bottle",
+    "spriteKey": "item_glass_juice_bottle",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
+  },
+  {
+    "id": "half_eaten_muffin",
+    "displayName": "Half-Eaten Muffin",
+    "spriteKey": "item_half_eaten_muffin",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
+  },
+  {
+    "id": "banana_peel",
+    "displayName": "Banana Peel",
+    "spriteKey": "item_banana_peel",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
+  },
+  {
+    "id": "orange_peel",
+    "displayName": "Orange Peel",
+    "spriteKey": "item_orange_peel",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
+  },
+  {
+    "id": "iced_tea_with_lemon",
+    "displayName": "Iced Tea Cup w/ Lemon",
+    "spriteKey": "item_iced_tea_with_lemon",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": ["lemon_wedge", "iced_tea_cup"],
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
+  },
+  {
+    "id": "lemon_wedge",
+    "displayName": "Lemon Wedge",
+    "spriteKey": "item_lemon_wedge",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
+  },
+  {
+    "id": "iced_tea_cup",
+    "displayName": "Iced Tea Cup",
+    "spriteKey": "item_iced_tea_cup",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
+  },
+  {
+    "id": "tea_leaves",
+    "displayName": "Tea Leaves",
+    "spriteKey": "item_tea_leaves",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
+  },
+  {
+    "id": "sandwich_crusts",
+    "displayName": "Sandwich Crusts",
+    "spriteKey": "item_sandwich_crusts",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
+  },
+  {
+    "id": "plastic_yogurt_container",
+    "displayName": "Plastic Yogurt Container",
+    "spriteKey": "item_plastic_yogurt_container",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
+  },
+  {
+    "id": "receipt",
+    "displayName": "Receipt",
+    "spriteKey": "item_receipt",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ]
+  },
+  {
     "id": "dummy_foodboxfull",
     "displayName": "Dummy foodboxfull",
     "spriteKey": "foodboxfull",

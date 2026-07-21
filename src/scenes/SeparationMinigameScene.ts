@@ -117,6 +117,8 @@ export class SeparationMinigameScene extends Phaser.Scene {
       this.setupSodaMinigame(width, height);
     } else if (this.targetItem.itemDef.id === 'foodbox_full' || this.targetItem.itemDef.id === 'foodbox_empty') {
       this.setupBoxMinigame(width, height);
+    } else if (this.targetItem.itemDef.id === 'iced_tea_with_lemon') {
+      this.setupIcedTeaMinigame(width, height);
     } else {
       // Fallback
       this.complete(false);
@@ -509,6 +511,108 @@ export class SeparationMinigameScene extends Phaser.Scene {
     foodSprite.setData('startX', foodSprite.x);
     foodSprite.setData('startY', foodSprite.y);
     this.boxFoodItems.push(foodSprite);
+  }
+
+  private setupIcedTeaMinigame(width: number, height: number) {
+    this.add.text(width / 2, 130, 'Remove the lemon wedge, then sort both pieces!', {
+      fontFamily: 'Arial', fontSize: '24px', color: '#aaaaaa'
+    }).setOrigin(0.5);
+
+    // Center the iced tea with lemon sprite
+    this.mainItemSprite = this.add.sprite(width / 2, height / 2 + 100, 'item_iced_tea_with_lemon');
+    this.mainItemSprite.setDepth(100);
+    this.updateSpriteScale();
+
+    this.checkText = this.add.text(width / 2, height - 50, 'Tap to remove the lemon wedge', {
+      fontFamily: 'Arial', fontSize: '24px', color: '#ffffff', fontStyle: 'bold'
+    }).setOrigin(0.5);
+
+    let lemonRemoved = false;
+    let lemonSprite: Phaser.GameObjects.Sprite | null = null;
+
+    // Click to separate — spawns the lemon wedge as a draggable sprite
+    this.mainItemSprite.on('pointerdown', () => {
+      if (!this.isChecked) {
+        this.isChecked = true;
+        this.checkText.setVisible(false);
+
+        // Swap the main sprite to the plain cup
+        this.mainItemSprite.setTexture('item_iced_tea_cup');
+        this.updateSpriteScale();
+
+        // Spawn the lemon wedge next to the cup
+        lemonSprite = this.add.sprite(width / 2 + 150, height / 2 + 100, 'item_lemon_wedge');
+        lemonSprite.setDepth(150);
+        lemonSprite.setInteractive({ draggable: true });
+        const origH = lemonSprite.height;
+        if (origH > 0) lemonSprite.setScale(180 / origH);
+        lemonSprite.setData('isLemon', true);
+        lemonSprite.setData('startX', lemonSprite.x);
+        lemonSprite.setData('startY', lemonSprite.y);
+
+        this.add.text(width / 2, height - 50, 'Drag lemon to Compost, then drag the cup to Compost!', {
+          fontFamily: 'Arial', fontSize: '22px', color: '#22c55e', fontStyle: 'bold'
+        }).setOrigin(0.5).setDepth(200);
+      }
+    });
+
+    // Drag handler
+    this.input.on('drag', (_pointer: Phaser.Input.Pointer, gameObject: Phaser.GameObjects.Sprite, dragX: number, dragY: number) => {
+      if (gameObject.getData('isLemon') || gameObject === this.mainItemSprite) {
+        gameObject.x = dragX;
+        gameObject.y = dragY;
+      }
+    });
+
+    // Drop handler
+    this.input.on('dragend', (_pointer: Phaser.Input.Pointer, gameObject: Phaser.GameObjects.Sprite) => {
+      const itemBounds = gameObject.getBounds();
+      let droppedBin: Bin | null = null;
+      for (const bin of this.bins) {
+        if (Phaser.Geom.Rectangle.Overlaps(itemBounds, bin.getBounds())) {
+          droppedBin = bin;
+          break;
+        }
+      }
+
+      if (gameObject.getData('isLemon')) {
+        // Lemon wedge dropped
+        if (droppedBin) {
+          if (droppedBin.binDef.id === 'compost') {
+            gameObject.destroy();
+            lemonRemoved = true;
+            if (this.onScore) this.onScore(100, true);
+
+            // Now make the cup draggable
+            this.mainItemSprite.setInteractive({ useHandCursor: true });
+            this.input.setDraggable(this.mainItemSprite, true);
+          } else {
+            // Wrong bin for lemon
+            this.complete(false);
+          }
+        } else {
+          // Snap back
+          const sX = gameObject.getData('startX') as number;
+          const sY = gameObject.getData('startY') as number;
+          this.tweens.add({ targets: gameObject, x: sX, y: sY, duration: 200 });
+        }
+      } else if (gameObject === this.mainItemSprite) {
+        // Cup dropped
+        if (droppedBin) {
+          if (!lemonRemoved) {
+            // Tried to sort before separating
+            this.complete(false);
+          } else if (droppedBin.binDef.id === 'compost') {
+            if (this.onScore) this.onScore(200, true);
+            this.complete(true);
+          } else {
+            this.complete(false);
+          }
+        } else {
+          this.tweens.add({ targets: gameObject, x: width / 2, y: height / 2 + 100, duration: 200 });
+        }
+      }
+    });
   }
 
   private complete(success: boolean) {

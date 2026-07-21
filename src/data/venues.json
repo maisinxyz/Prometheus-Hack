@@ -14,7 +14,18 @@
       "soda_fanta_empty",
       "soda_pepsi_empty",
       "foodbox_full",
-      "foodbox_empty"
+      "foodbox_empty",
+      "coffee_sleeve",
+      "cardboard_drink_carrier",
+      "glass_juice_bottle",
+      "half_eaten_muffin",
+      "banana_peel",
+      "orange_peel",
+      "iced_tea_with_lemon",
+      "tea_leaves",
+      "sandwich_crusts",
+      "plastic_yogurt_container",
+      "receipt"
     ],
     "backgroundKeys": {
       "clean": "venue_mackenzie_cafe_bg_clean",
