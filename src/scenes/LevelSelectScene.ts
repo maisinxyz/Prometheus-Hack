@@ -165,6 +165,55 @@ export class LevelSelectScene extends Phaser.Scene {
     });
     title.setOrigin(0.5);
     title.setScrollFactor(0);
+
+    // 6. Community Garden Widget
+    // Placed in the center of the green field (brown circle)
+    this.createGardenWidget(1100, 1640);
+  }
+
+  private createGardenWidget(x: number, y: number) {
+    const logo = this.add.image(0, 0, 'garden_icon').setDisplaySize(70, 70);
+
+    const text = this.add.text(0, 55, 'Community Garden', {
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '24px',
+      color: '#ffffff',
+      fontStyle: 'bold',
+      stroke: '#000000',
+      strokeThickness: 4
+    });
+    text.setOrigin(0.5);
+
+    const nodeContainer = this.add.container(x, y, [logo, text]);
+    nodeContainer.setSize(80, 80);
+    nodeContainer.setInteractive({ useHandCursor: true });
+
+    nodeContainer.on('pointerover', () => {
+      this.tweens.add({
+        targets: nodeContainer,
+        scaleX: 1.1,
+        scaleY: 1.1,
+        duration: 100
+      });
+      logo.setTint(0xd1fae5); // light green tint
+    });
+
+    nodeContainer.on('pointerout', () => {
+      this.tweens.add({
+        targets: nodeContainer,
+        scaleX: 1.0,
+        scaleY: 1.0,
+        duration: 100
+      });
+      logo.clearTint();
+    });
+
+    nodeContainer.on('pointerup', (pointer: Phaser.Input.Pointer) => {
+      const distance = Phaser.Math.Distance.Between(pointer.downX, pointer.downY, pointer.upX, pointer.upY);
+      if (distance < 10) {
+        this.scene.start('GardenScene');
+      }
+    });
   }
 
   private createLevelNode(

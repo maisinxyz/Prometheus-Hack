@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { generatePlaceholderTexture, generateEmojiItemSprite } from '../util/PlaceholderArtGenerator';
+import { generatePlaceholderTexture, generateEmojiItemSprite, generateEmojiLogo } from '../util/PlaceholderArtGenerator';
 import itemsData from '../data/items.json';
 import binsData from '../data/bins.json';
 import venuesData from '../data/venues.json';
@@ -127,6 +127,9 @@ export class BootScene extends Phaser.Scene {
         }
       }
     }
+
+    // Generate garden widget icon
+    generateEmojiLogo(this, 'garden_icon', '🌱', true, 80);
 
     console.log('BootScene: assets loaded (with fallbacks if needed)');
     this.scene.start('TitleScene');

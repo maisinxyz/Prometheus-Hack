@@ -6,6 +6,7 @@ import { TrayScene } from './scenes/TrayScene';
 import { HUDScene } from './scenes/HUDScene';
 import { CorrectionOverlayScene } from './scenes/CorrectionOverlayScene';
 import { SeparationMinigameScene } from './scenes/SeparationMinigameScene';
+import { GardenScene } from './scenes/GardenScene';
 
 import { TitleScene } from './scenes/TitleScene';
 
@@ -25,6 +26,7 @@ const config: Phaser.Types.Core.GameConfig = {
     HUDScene,
     CorrectionOverlayScene,
     SeparationMinigameScene,
+    GardenScene
   ],
 };
 
