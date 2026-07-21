@@ -108,7 +108,11 @@ export class SeparationMinigameScene extends Phaser.Scene {
       'salad_in_plastic_bowl', 'soup_in_paper_cup', 'sandwich_in_wrapper', 
       'muffin_in_paper_liner', 'yogurt_with_granola', 'coffee_with_sleeve_lid', 
       'smoothie_cup_with_straw', 'bagel_in_paper_bag', 'pasta_in_takeout_box', 
-      'tea_bag_in_cup', 'iced_tea_with_lemon'
+      'tea_bag_in_cup', 'iced_tea_with_lemon',
+      'paint_can_with_brush', 'nails_in_cardboard', 'insulation_in_plastic_wrap',
+      'tile_in_paper_packaging', 'screws_in_plastic_bag', 'wood_with_nails',
+      'caulk_tube_with_cap', 'pipe_in_styrofoam', 'lumber_in_shrink_wrap',
+      'window_frame_with_glass'
     ];
 
     if (isSoda) {
@@ -574,6 +578,46 @@ export class SeparationMinigameScene extends Phaser.Scene {
       'iced_tea_with_lemon': {
         coreSpriteKey: 'item_iced_tea_cup', coreTargetBin: 'compost',
         components: [{ spriteKey: 'item_lemon_wedge', targetBin: 'compost' }]
+      },
+      'paint_can_with_brush': {
+        coreSpriteKey: 'item_empty_paint_can', coreTargetBin: 'plastic',
+        components: [{ spriteKey: 'item_dried_paint_brush', targetBin: 'landfill' }]
+      },
+      'nails_in_cardboard': {
+        coreSpriteKey: 'item_nail_box_cardboard', coreTargetBin: 'paper',
+        components: [{ spriteKey: 'item_loose_nails', targetBin: 'plastic' }]
+      },
+      'insulation_in_plastic_wrap': {
+        coreSpriteKey: 'item_insulation_piece', coreTargetBin: 'landfill',
+        components: [{ spriteKey: 'item_insulation_plastic_wrap', targetBin: 'plastic' }]
+      },
+      'tile_in_paper_packaging': {
+        coreSpriteKey: 'item_tile_piece', coreTargetBin: 'landfill',
+        components: [{ spriteKey: 'item_tile_paper_wrap', targetBin: 'paper' }]
+      },
+      'screws_in_plastic_bag': {
+        coreSpriteKey: 'item_metal_screws', coreTargetBin: 'plastic',
+        components: [{ spriteKey: 'item_screw_plastic_bag', targetBin: 'plastic' }]
+      },
+      'wood_with_nails': {
+        coreSpriteKey: 'item_wood_plank', coreTargetBin: 'compost',
+        components: [{ spriteKey: 'item_embedded_nails', targetBin: 'plastic' }]
+      },
+      'caulk_tube_with_cap': {
+        coreSpriteKey: 'item_caulk_tube_body', coreTargetBin: 'landfill',
+        components: [{ spriteKey: 'item_caulk_cap', targetBin: 'plastic' }]
+      },
+      'pipe_in_styrofoam': {
+        coreSpriteKey: 'item_metal_pipe', coreTargetBin: 'plastic',
+        components: [{ spriteKey: 'item_pipe_styrofoam', targetBin: 'landfill' }]
+      },
+      'lumber_in_shrink_wrap': {
+        coreSpriteKey: 'item_shrink_wrap_lumber', coreTargetBin: 'compost',
+        components: [{ spriteKey: 'item_shrink_wrap_plastic', targetBin: 'plastic' }]
+      },
+      'window_frame_with_glass': {
+        coreSpriteKey: 'item_window_frame_wood', coreTargetBin: 'compost',
+        components: [{ spriteKey: 'item_window_glass', targetBin: 'landfill' }]
       }
     };
 

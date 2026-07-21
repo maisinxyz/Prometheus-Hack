@@ -1783,6 +1783,512 @@
     "emoji": "💿"
   },
   {
+    "id": "drywall_scrap",
+    "displayName": "Drywall Scrap",
+    "spriteKey": "item_drywall_scrap",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "construction_site"
+    ],
+    "emoji": "🧱"
+  },
+  {
+    "id": "wire_clippings",
+    "displayName": "Wire Clippings",
+    "spriteKey": "item_wire_clippings",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "construction_site"
+    ],
+    "emoji": "🔌"
+  },
+  {
+    "id": "concrete_chunk",
+    "displayName": "Concrete Chunk",
+    "spriteKey": "item_concrete_chunk",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "construction_site"
+    ],
+    "emoji": "🪨"
+  },
+  {
+    "id": "metal_rebar_piece",
+    "displayName": "Metal Rebar Piece",
+    "spriteKey": "item_metal_rebar_piece",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "construction_site"
+    ],
+    "emoji": "🔩"
+  },
+  {
+    "id": "fiberglass_insulation",
+    "displayName": "Fiberglass Insulation",
+    "spriteKey": "item_fiberglass_insulation",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "construction_site"
+    ],
+    "emoji": "🧶"
+  },
+  {
+    "id": "sawdust_bag",
+    "displayName": "Bag of Sawdust",
+    "spriteKey": "item_sawdust_bag",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "construction_site"
+    ],
+    "emoji": "🪵"
+  },
+  {
+    "id": "used_sandpaper",
+    "displayName": "Used Sandpaper",
+    "spriteKey": "item_used_sandpaper",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "construction_site"
+    ],
+    "emoji": "📄"
+  },
+  {
+    "id": "broken_tile",
+    "displayName": "Broken Tile",
+    "spriteKey": "item_broken_tile",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "construction_site"
+    ],
+    "emoji": "🟫"
+  },
+  {
+    "id": "copper_pipe_scrap",
+    "displayName": "Copper Pipe Scrap",
+    "spriteKey": "item_copper_pipe_scrap",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "construction_site"
+    ],
+    "emoji": "🔧"
+  },
+  {
+    "id": "lumber_offcut",
+    "displayName": "Lumber Offcut",
+    "spriteKey": "item_lumber_offcut",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "construction_site"
+    ],
+    "emoji": "🪵"
+  },
+  {
+    "id": "paint_roller",
+    "displayName": "Used Paint Roller",
+    "spriteKey": "item_paint_roller",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "construction_site"
+    ],
+    "emoji": "🖌️"
+  },
+  {
+    "id": "duct_tape_roll",
+    "displayName": "Used Duct Tape Roll",
+    "spriteKey": "item_duct_tape_roll",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "construction_site"
+    ],
+    "emoji": "🩹"
+  },
+  {
+    "id": "glass_window_shard",
+    "displayName": "Glass Window Shard",
+    "spriteKey": "item_glass_window_shard",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "construction_site"
+    ],
+    "emoji": "🪟"
+  },
+  {
+    "id": "paint_can_with_brush",
+    "displayName": "Paint Can w/ Brush",
+    "spriteKey": "item_paint_can_with_brush",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "dried_paint_brush",
+      "empty_paint_can"
+    ],
+    "venueIds": [
+      "construction_site"
+    ],
+    "emoji": "🪣"
+  },
+  {
+    "id": "dried_paint_brush",
+    "displayName": "Dried Paint Brush",
+    "spriteKey": "item_dried_paint_brush",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🖌️"
+  },
+  {
+    "id": "empty_paint_can",
+    "displayName": "Empty Paint Can",
+    "spriteKey": "item_empty_paint_can",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🪣"
+  },
+  {
+    "id": "nails_in_cardboard",
+    "displayName": "Nails in Cardboard Box",
+    "spriteKey": "item_nails_in_cardboard",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "loose_nails",
+      "nail_box_cardboard"
+    ],
+    "venueIds": [
+      "construction_site"
+    ],
+    "emoji": "📦"
+  },
+  {
+    "id": "loose_nails",
+    "displayName": "Loose Nails",
+    "spriteKey": "item_loose_nails",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "📌"
+  },
+  {
+    "id": "nail_box_cardboard",
+    "displayName": "Cardboard Nail Box",
+    "spriteKey": "item_nail_box_cardboard",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "📦"
+  },
+  {
+    "id": "insulation_in_plastic_wrap",
+    "displayName": "Insulation in Plastic",
+    "spriteKey": "item_insulation_in_plastic",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "insulation_piece",
+      "insulation_plastic_wrap"
+    ],
+    "venueIds": [
+      "construction_site"
+    ],
+    "emoji": "🎁"
+  },
+  {
+    "id": "insulation_piece",
+    "displayName": "Insulation Piece",
+    "spriteKey": "item_insulation_piece",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🧶"
+  },
+  {
+    "id": "insulation_plastic_wrap",
+    "displayName": "Plastic Wrapping",
+    "spriteKey": "item_insulation_plastic_wrap",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🛍️"
+  },
+  {
+    "id": "tile_in_paper_packaging",
+    "displayName": "Tile in Paper Packaging",
+    "spriteKey": "item_tile_in_paper",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "tile_piece",
+      "tile_paper_wrap"
+    ],
+    "venueIds": [
+      "construction_site"
+    ],
+    "emoji": "📬"
+  },
+  {
+    "id": "tile_piece",
+    "displayName": "Ceramic Tile",
+    "spriteKey": "item_tile_piece",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🟫"
+  },
+  {
+    "id": "tile_paper_wrap",
+    "displayName": "Paper Packaging",
+    "spriteKey": "item_tile_paper_wrap",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "📰"
+  },
+  {
+    "id": "screws_in_plastic_bag",
+    "displayName": "Screws in Plastic Bag",
+    "spriteKey": "item_screws_in_plastic_bag",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "metal_screws",
+      "screw_plastic_bag"
+    ],
+    "venueIds": [
+      "construction_site"
+    ],
+    "emoji": "🔩"
+  },
+  {
+    "id": "metal_screws",
+    "displayName": "Metal Screws",
+    "spriteKey": "item_metal_screws",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🔩"
+  },
+  {
+    "id": "screw_plastic_bag",
+    "displayName": "Plastic Bag",
+    "spriteKey": "item_screw_plastic_bag",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🛍️"
+  },
+  {
+    "id": "wood_with_nails",
+    "displayName": "Wood Plank w/ Nails",
+    "spriteKey": "item_wood_with_nails",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "wood_plank",
+      "embedded_nails"
+    ],
+    "venueIds": [
+      "construction_site"
+    ],
+    "emoji": "🪵"
+  },
+  {
+    "id": "wood_plank",
+    "displayName": "Wood Plank",
+    "spriteKey": "item_wood_plank",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🪵"
+  },
+  {
+    "id": "embedded_nails",
+    "displayName": "Extracted Nails",
+    "spriteKey": "item_embedded_nails",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "📌"
+  },
+  {
+    "id": "caulk_tube_with_cap",
+    "displayName": "Caulk Tube w/ Cap",
+    "spriteKey": "item_caulk_tube_with_cap",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "caulk_tube_body",
+      "caulk_cap"
+    ],
+    "venueIds": [
+      "construction_site"
+    ],
+    "emoji": "🧴"
+  },
+  {
+    "id": "caulk_tube_body",
+    "displayName": "Caulk Tube Body",
+    "spriteKey": "item_caulk_tube_body",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🧴"
+  },
+  {
+    "id": "caulk_cap",
+    "displayName": "Plastic Caulk Cap",
+    "spriteKey": "item_caulk_cap",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "⚫"
+  },
+  {
+    "id": "pipe_in_styrofoam",
+    "displayName": "Pipe in Styrofoam",
+    "spriteKey": "item_pipe_in_styrofoam",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "metal_pipe",
+      "pipe_styrofoam"
+    ],
+    "venueIds": [
+      "construction_site"
+    ],
+    "emoji": "📦"
+  },
+  {
+    "id": "metal_pipe",
+    "displayName": "Metal Pipe",
+    "spriteKey": "item_metal_pipe",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🔧"
+  },
+  {
+    "id": "pipe_styrofoam",
+    "displayName": "Styrofoam Packaging",
+    "spriteKey": "item_pipe_styrofoam",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "📦"
+  },
+  {
+    "id": "lumber_in_shrink_wrap",
+    "displayName": "Lumber in Shrink Wrap",
+    "spriteKey": "item_lumber_in_shrink_wrap",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "shrink_wrap_lumber",
+      "shrink_wrap_plastic"
+    ],
+    "venueIds": [
+      "construction_site"
+    ],
+    "emoji": "🎁"
+  },
+  {
+    "id": "shrink_wrap_lumber",
+    "displayName": "Lumber Piece",
+    "spriteKey": "item_shrink_wrap_lumber",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🪵"
+  },
+  {
+    "id": "shrink_wrap_plastic",
+    "displayName": "Shrink Wrap",
+    "spriteKey": "item_shrink_wrap_plastic",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🛍️"
+  },
+  {
+    "id": "window_frame_with_glass",
+    "displayName": "Window Frame w/ Glass",
+    "spriteKey": "item_window_frame_with_glass",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "window_glass",
+      "window_frame_wood"
+    ],
+    "venueIds": [
+      "construction_site"
+    ],
+    "emoji": "🪟"
+  },
+  {
+    "id": "window_glass",
+    "displayName": "Window Glass",
+    "spriteKey": "item_window_glass",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🪟"
+  },
+  {
+    "id": "window_frame_wood",
+    "displayName": "Wood Window Frame",
+    "spriteKey": "item_window_frame_wood",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🪵"
+  },
+  {
     "id": "dummy_foodboxfull",
     "displayName": "Dummy foodboxfull",
     "spriteKey": "foodboxfull",
@@ -1827,7 +2333,6 @@
     "componentIds": [],
     "venueIds": []
   },
-
   {
     "id": "used_tissue_box",
     "displayName": "Used Tissue Box",
@@ -1835,7 +2340,9 @@
     "correctBinId": "paper",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["nyc_hospital"],
+    "venueIds": [
+      "nyc_hospital"
+    ],
     "emoji": "🤧"
   },
   {
@@ -1845,7 +2352,9 @@
     "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["nyc_hospital"],
+    "venueIds": [
+      "nyc_hospital"
+    ],
     "emoji": "💊"
   },
   {
@@ -1855,7 +2364,9 @@
     "correctBinId": "landfill",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["nyc_hospital"],
+    "venueIds": [
+      "nyc_hospital"
+    ],
     "emoji": "😷"
   },
   {
@@ -1865,7 +2376,9 @@
     "correctBinId": "compost",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["nyc_hospital"],
+    "venueIds": [
+      "nyc_hospital"
+    ],
     "emoji": "👗"
   },
   {
@@ -1875,7 +2388,9 @@
     "correctBinId": "landfill",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["nyc_hospital"],
+    "venueIds": [
+      "nyc_hospital"
+    ],
     "emoji": "💉"
   },
   {
@@ -1885,7 +2400,9 @@
     "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["nyc_hospital"],
+    "venueIds": [
+      "nyc_hospital"
+    ],
     "emoji": "📿"
   },
   {
@@ -1895,10 +2412,11 @@
     "correctBinId": "compost",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["nyc_hospital"],
+    "venueIds": [
+      "nyc_hospital"
+    ],
     "emoji": "🪵"
   },
-
   {
     "id": "wood_scrap",
     "displayName": "Wood Scrap",
@@ -1906,7 +2424,9 @@
     "correctBinId": "compost",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["construction_site"],
+    "venueIds": [
+      "construction_site"
+    ],
     "emoji": "🪵"
   },
   {
@@ -1916,7 +2436,9 @@
     "correctBinId": "landfill",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["construction_site"],
+    "venueIds": [
+      "construction_site"
+    ],
     "emoji": "📌"
   },
   {
@@ -1926,7 +2448,9 @@
     "correctBinId": "landfill",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["construction_site"],
+    "venueIds": [
+      "construction_site"
+    ],
     "emoji": "🪣"
   },
   {
@@ -1936,7 +2460,9 @@
     "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["construction_site"],
+    "venueIds": [
+      "construction_site"
+    ],
     "emoji": "🧻"
   },
   {
@@ -1946,7 +2472,9 @@
     "correctBinId": "paper",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["construction_site"],
+    "venueIds": [
+      "construction_site"
+    ],
     "emoji": "📦"
   },
   {
@@ -1956,7 +2484,9 @@
     "correctBinId": "landfill",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["construction_site"],
+    "venueIds": [
+      "construction_site"
+    ],
     "emoji": "🧊"
   },
   {
@@ -1966,10 +2496,11 @@
     "correctBinId": "paper",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["construction_site"],
+    "venueIds": [
+      "construction_site"
+    ],
     "emoji": "📐"
   },
-
   {
     "id": "half_eaten_hot_dog",
     "displayName": "Half-Eaten Hot Dog",
@@ -1977,7 +2508,9 @@
     "correctBinId": "compost",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["hot_dog_stand"],
+    "venueIds": [
+      "hot_dog_stand"
+    ],
     "emoji": "🌭"
   },
   {
@@ -1987,7 +2520,9 @@
     "correctBinId": "compost",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["hot_dog_stand"],
+    "venueIds": [
+      "hot_dog_stand"
+    ],
     "emoji": "🍞"
   },
   {
@@ -1997,7 +2532,9 @@
     "correctBinId": "landfill",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["hot_dog_stand"],
+    "venueIds": [
+      "hot_dog_stand"
+    ],
     "emoji": "🟡"
   },
   {
@@ -2007,7 +2544,9 @@
     "correctBinId": "landfill",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["hot_dog_stand"],
+    "venueIds": [
+      "hot_dog_stand"
+    ],
     "emoji": "🔴"
   },
   {
@@ -2017,7 +2556,9 @@
     "correctBinId": "compost",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["hot_dog_stand"],
+    "venueIds": [
+      "hot_dog_stand"
+    ],
     "emoji": "🥬"
   },
   {
@@ -2027,7 +2568,9 @@
     "correctBinId": "landfill",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["hot_dog_stand"],
+    "venueIds": [
+      "hot_dog_stand"
+    ],
     "emoji": "🥨"
   },
   {
@@ -2037,7 +2580,9 @@
     "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["hot_dog_stand"],
+    "venueIds": [
+      "hot_dog_stand"
+    ],
     "emoji": "🫒"
   },
   {
@@ -2047,7 +2592,9 @@
     "correctBinId": "compost",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["hot_dog_stand"],
+    "venueIds": [
+      "hot_dog_stand"
+    ],
     "emoji": "🍽️"
   },
   {
@@ -2057,7 +2604,9 @@
     "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["hot_dog_stand"],
+    "venueIds": [
+      "hot_dog_stand"
+    ],
     "emoji": "⭕"
   },
   {
@@ -2067,7 +2616,9 @@
     "correctBinId": "compost",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["hot_dog_stand"],
+    "venueIds": [
+      "hot_dog_stand"
+    ],
     "emoji": "🧻"
   },
   {
@@ -2077,7 +2628,9 @@
     "correctBinId": "compost",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["hot_dog_stand"],
+    "venueIds": [
+      "hot_dog_stand"
+    ],
     "emoji": "🧅"
   },
   {
@@ -2087,7 +2640,9 @@
     "correctBinId": "landfill",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["hot_dog_stand"],
+    "venueIds": [
+      "hot_dog_stand"
+    ],
     "emoji": "🫓"
   },
   {
@@ -2097,7 +2652,9 @@
     "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["hot_dog_stand"],
+    "venueIds": [
+      "hot_dog_stand"
+    ],
     "emoji": "🍴"
   },
   {
@@ -2107,7 +2664,9 @@
     "correctBinId": "landfill",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["hot_dog_stand"],
+    "venueIds": [
+      "hot_dog_stand"
+    ],
     "emoji": "📜"
   },
   {
@@ -2117,7 +2676,9 @@
     "correctBinId": "compost",
     "isComposite": false,
     "componentIds": [],
-    "venueIds": ["hot_dog_stand"],
+    "venueIds": [
+      "hot_dog_stand"
+    ],
     "emoji": "🌽"
   }
 ]
