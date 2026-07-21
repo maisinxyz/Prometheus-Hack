@@ -107,7 +107,7 @@ export class SeparationMinigameScene extends Phaser.Scene {
     const genericComposites = [
       'salad_in_plastic_bowl', 'soup_in_paper_cup', 'sandwich_in_wrapper', 
       'muffin_in_paper_liner', 'yogurt_with_granola', 'coffee_with_sleeve_lid', 
-      'smoothie_cup_with_straw', 'bagel_in_paper_bag', 'pasta_in_takeout_box', 
+      'bagel_in_paper_bag', 'pasta_in_takeout_box', 
       'tea_bag_in_cup', 'iced_tea_with_lemon',
       'paint_can_with_brush', 'nails_in_cardboard', 'insulation_in_plastic_wrap',
       'tile_in_paper_packaging', 'screws_in_plastic_bag', 'wood_with_nails',
@@ -116,7 +116,17 @@ export class SeparationMinigameScene extends Phaser.Scene {
       'hot_dog_in_foil', 'nachos_in_tray', 'soda_cup_with_straw',
       'fries_in_paper_cone', 'pretzel_in_bag', 'kebab_on_skewer_in_wrapper',
       'ice_cream_in_cup', 'water_bottle_with_label', 'cotton_candy_on_stick',
-      'loaded_dog_in_box', 'popcorn_in_box', 'champagne_in_plastic', 'pill_bottle_with_cotton', 'syringe_in_wrapper', 'iv_bag_with_tube', 'bandaid_with_wrapper', 'thermometer_in_case', 'paint_tube_with_cap', 'sketchbook_with_spiral', 'easel_with_canvas', 'brush_in_jar', 'laptop_with_battery', 'takeout_sushi_container', 'boba_tea_cup', 'poke_bowl_container', 'takeout_salad_bowl', 'file_folder_with_cd', 'briefcase_with_lunch', 'business_card_holder', 'subway_sandwich_wrapper', 'pizza_slice_on_plate', 'deli_coffee_cup', 'headphones_in_case', 'halal_cart_platter', 'shopping_bag_with_receipt', 'disposable_camera_used', 'oversized_soda_cup', 'library_coffee_cup', 'magazine_in_plastic_sleeve', 'snack_box_with_crumbs', 'cd_audiobook', 'protein_shake_in_cup', 'gym_membership_packet', 'banana_with_peel', 'smoothie_cup_with_straw'
+      'loaded_dog_in_box', 'popcorn_in_box', 'champagne_in_plastic',
+      'pill_bottle_with_cotton', 'syringe_in_wrapper', 'iv_bag_with_tube',
+      'bandaid_with_wrapper', 'thermometer_in_case',
+      'paint_tube_with_cap', 'sketchbook_with_spiral', 'easel_with_canvas', 'brush_in_jar',
+      'laptop_with_battery', 'takeout_sushi_container', 'boba_tea_cup', 'poke_bowl_container',
+      'takeout_salad_bowl', 'file_folder_with_cd', 'briefcase_with_lunch', 'business_card_holder',
+      'subway_sandwich_wrapper', 'pizza_slice_on_plate', 'deli_coffee_cup', 'headphones_in_case',
+      'halal_cart_platter', 'shopping_bag_with_receipt', 'disposable_camera_used', 'oversized_soda_cup',
+      'library_coffee_cup', 'magazine_in_plastic_sleeve', 'snack_box_with_crumbs', 'cd_audiobook',
+      'protein_shake_in_cup', 'gym_membership_packet', 'banana_with_peel', 'smoothie_cup_with_straw',
+      'picnic_sandwich_wrap', 'ice_cream_in_wrapper', 'water_bottle_with_cap', 'bird_seed_bag'
     ];
 
     if (isSoda) {
@@ -558,8 +568,24 @@ export class SeparationMinigameScene extends Phaser.Scene {
         ]
       },
       'smoothie_cup_with_straw': {
-        coreSpriteKey: 'item_smoothie_cup', coreTargetBin: 'plastic',
+        coreSpriteKey: 'item_plastic_smoothie_cup', coreTargetBin: 'plastic',
         components: [{ spriteKey: 'item_smoothie_straw', targetBin: 'landfill' }]
+      },
+      'picnic_sandwich_wrap': {
+        coreSpriteKey: 'item_picnic_foil', coreTargetBin: 'plastic',
+        components: [{ spriteKey: 'item_picnic_scraps', targetBin: 'compost' }]
+      },
+      'ice_cream_in_wrapper': {
+        coreSpriteKey: 'item_popsicle_stick', coreTargetBin: 'compost',
+        components: [{ spriteKey: 'item_ice_cream_wrap', targetBin: 'landfill' }]
+      },
+      'water_bottle_with_cap': {
+        coreSpriteKey: 'item_park_water_bottle', coreTargetBin: 'plastic',
+        components: [{ spriteKey: 'item_park_bottle_cap', targetBin: 'plastic' }]
+      },
+      'bird_seed_bag': {
+        coreSpriteKey: 'item_paper_seed_bag', coreTargetBin: 'paper',
+        components: [{ spriteKey: 'item_spilled_seeds', targetBin: 'compost' }]
       },
       'bagel_in_paper_bag': {
         coreSpriteKey: 'item_bagel_paper_bag', coreTargetBin: 'paper',

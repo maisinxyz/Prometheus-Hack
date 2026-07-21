@@ -345,7 +345,20 @@
       "plastic_water_bottle",
       "aluminum_can",
       "paper_straw_wrapper",
-      "plastic_straw"
+      "plastic_straw",
+      "fallen_tree_branch",
+      "duck_feather",
+      "crumpled_trail_map",
+      "broken_frisbee",
+      "deflated_balloon",
+      "squirrel_chewed_acorn",
+      "wilted_flower_bouquet",
+      "dog_waste_bag",
+      "broken_kite_string",
+      "picnic_sandwich_wrap",
+      "ice_cream_in_wrapper",
+      "water_bottle_with_cap",
+      "bird_seed_bag"
     ],
     "backgroundKeys": {
       "clean": "venue_central_park_bg_clean",

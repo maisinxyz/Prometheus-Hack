@@ -5030,6 +5030,266 @@
     "emoji": "🥢"
   },
   {
+    "id": "fallen_tree_branch",
+    "displayName": "Fallen Branch",
+    "spriteKey": "item_tree_branch",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "central_park"
+    ],
+    "emoji": "🪵"
+  },
+  {
+    "id": "duck_feather",
+    "displayName": "Duck Feather",
+    "spriteKey": "item_duck_feather",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "central_park"
+    ],
+    "emoji": "🪶"
+  },
+  {
+    "id": "crumpled_trail_map",
+    "displayName": "Trail Map",
+    "spriteKey": "item_trail_map",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "central_park"
+    ],
+    "emoji": "🗺️"
+  },
+  {
+    "id": "broken_frisbee",
+    "displayName": "Broken Frisbee",
+    "spriteKey": "item_broken_frisbee",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "central_park"
+    ],
+    "emoji": "🥏"
+  },
+  {
+    "id": "deflated_balloon",
+    "displayName": "Deflated Balloon",
+    "spriteKey": "item_deflated_balloon",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "central_park"
+    ],
+    "emoji": "🎈"
+  },
+  {
+    "id": "squirrel_chewed_acorn",
+    "displayName": "Chewed Acorn Shell",
+    "spriteKey": "item_acorn_shell",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "central_park"
+    ],
+    "emoji": "🌰"
+  },
+  {
+    "id": "wilted_flower_bouquet",
+    "displayName": "Wilted Flowers",
+    "spriteKey": "item_wilted_flowers",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "central_park"
+    ],
+    "emoji": "💐"
+  },
+  {
+    "id": "dog_waste_bag",
+    "displayName": "Dog Waste Bag",
+    "spriteKey": "item_dog_waste_bag",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "central_park"
+    ],
+    "emoji": "🐕"
+  },
+  {
+    "id": "broken_kite_string",
+    "displayName": "Broken Kite String",
+    "spriteKey": "item_kite_string",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "central_park"
+    ],
+    "emoji": "🪁"
+  },
+  {
+    "id": "apple_core",
+    "displayName": "Apple Core",
+    "spriteKey": "item_apple_core",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "central_park"
+    ],
+    "emoji": "🍎"
+  },
+  {
+    "id": "picnic_sandwich_wrap",
+    "displayName": "Picnic Sandwich",
+    "spriteKey": "item_picnic_sandwich",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "picnic_aluminum_foil",
+      "picnic_sandwich_scraps"
+    ],
+    "venueIds": [
+      "central_park"
+    ],
+    "emoji": "🥪"
+  },
+  {
+    "id": "picnic_aluminum_foil",
+    "displayName": "Aluminum Foil",
+    "spriteKey": "item_picnic_foil",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🪩"
+  },
+  {
+    "id": "picnic_sandwich_scraps",
+    "displayName": "Sandwich Scraps",
+    "spriteKey": "item_picnic_scraps",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥪"
+  },
+  {
+    "id": "ice_cream_in_wrapper",
+    "displayName": "Ice Cream Bar",
+    "spriteKey": "item_ice_cream_bar",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "wooden_popsicle_stick",
+      "ice_cream_plastic_wrap"
+    ],
+    "venueIds": [
+      "central_park"
+    ],
+    "emoji": "🍦"
+  },
+  {
+    "id": "wooden_popsicle_stick",
+    "displayName": "Popsicle Stick",
+    "spriteKey": "item_popsicle_stick",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🪵"
+  },
+  {
+    "id": "ice_cream_plastic_wrap",
+    "displayName": "Plastic Wrapper",
+    "spriteKey": "item_ice_cream_wrap",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🛍️"
+  },
+  {
+    "id": "water_bottle_with_cap",
+    "displayName": "Water Bottle w/ Cap",
+    "spriteKey": "item_water_cap",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "park_water_bottle",
+      "park_bottle_cap"
+    ],
+    "venueIds": [
+      "central_park"
+    ],
+    "emoji": "💧"
+  },
+  {
+    "id": "park_water_bottle",
+    "displayName": "Water Bottle",
+    "spriteKey": "item_park_water_bottle",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "💧"
+  },
+  {
+    "id": "park_bottle_cap",
+    "displayName": "Bottle Cap",
+    "spriteKey": "item_park_bottle_cap",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "⚫"
+  },
+  {
+    "id": "bird_seed_bag",
+    "displayName": "Bird Seed Bag",
+    "spriteKey": "item_bird_seed_bag",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "paper_seed_bag",
+      "spilled_bird_seed"
+    ],
+    "venueIds": [
+      "central_park"
+    ],
+    "emoji": "🐦"
+  },
+  {
+    "id": "paper_seed_bag",
+    "displayName": "Paper Bag",
+    "spriteKey": "item_paper_seed_bag",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🛍️"
+  },
+  {
+    "id": "spilled_bird_seed",
+    "displayName": "Spilled Seeds",
+    "spriteKey": "item_spilled_seeds",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🌾"
+  },
+  {
     "id": "dummy_foodboxfull",
     "displayName": "Dummy foodboxfull",
     "spriteKey": "foodboxfull",
