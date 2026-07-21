@@ -352,7 +352,20 @@
       "chewed_pencil",
       "cd_jewel_case",
       "encyclopedia_page",
-      "book_dust_jacket"
+      "book_dust_jacket",
+      "torn_book_page",
+      "empty_ink_cartridge",
+      "crumpled_study_notes",
+      "pencil_shavings",
+      "library_card_expired",
+      "dust_bunny",
+      "bookmark_scrap",
+      "dried_glue_stick",
+      "highlighter_cap",
+      "library_coffee_cup",
+      "magazine_in_plastic_sleeve",
+      "snack_box_with_crumbs",
+      "cd_audiobook"
     ],
     "backgroundKeys": {
       "clean": "venue_public_library_bg_clean",

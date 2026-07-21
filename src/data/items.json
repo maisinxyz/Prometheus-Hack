@@ -4510,6 +4510,266 @@
     "emoji": "💿"
   },
   {
+    "id": "torn_book_page",
+    "displayName": "Torn Book Page",
+    "spriteKey": "item_book_page",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "public_library"
+    ],
+    "emoji": "📄"
+  },
+  {
+    "id": "broken_reading_glasses",
+    "displayName": "Broken Glasses",
+    "spriteKey": "item_reading_glasses",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "public_library"
+    ],
+    "emoji": "👓"
+  },
+  {
+    "id": "empty_ink_cartridge",
+    "displayName": "Ink Cartridge",
+    "spriteKey": "item_ink_cartridge",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "public_library"
+    ],
+    "emoji": "🖨️"
+  },
+  {
+    "id": "crumpled_study_notes",
+    "displayName": "Study Notes",
+    "spriteKey": "item_study_notes",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "public_library"
+    ],
+    "emoji": "📝"
+  },
+  {
+    "id": "pencil_shavings",
+    "displayName": "Pencil Shavings",
+    "spriteKey": "item_pencil_shavings",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "public_library"
+    ],
+    "emoji": "✏️"
+  },
+  {
+    "id": "library_card_expired",
+    "displayName": "Expired Library Card",
+    "spriteKey": "item_library_card",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "public_library"
+    ],
+    "emoji": "💳"
+  },
+  {
+    "id": "dust_bunny",
+    "displayName": "Dust Bunny",
+    "spriteKey": "item_dust_bunny",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "public_library"
+    ],
+    "emoji": "🌫️"
+  },
+  {
+    "id": "bookmark_scrap",
+    "displayName": "Bookmark Scrap",
+    "spriteKey": "item_bookmark_scrap",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "public_library"
+    ],
+    "emoji": "🔖"
+  },
+  {
+    "id": "dried_glue_stick",
+    "displayName": "Dried Glue Stick",
+    "spriteKey": "item_glue_stick",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "public_library"
+    ],
+    "emoji": "🖍️"
+  },
+  {
+    "id": "highlighter_cap",
+    "displayName": "Highlighter Cap",
+    "spriteKey": "item_highlighter_cap",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "public_library"
+    ],
+    "emoji": "🟡"
+  },
+  {
+    "id": "library_coffee_cup",
+    "displayName": "Coffee w/ Sleeve",
+    "spriteKey": "item_lib_coffee",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "library_paper_cup",
+      "library_coffee_sleeve"
+    ],
+    "venueIds": [
+      "public_library"
+    ],
+    "emoji": "☕"
+  },
+  {
+    "id": "library_paper_cup",
+    "displayName": "Paper Cup",
+    "spriteKey": "item_lib_paper_cup",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥤"
+  },
+  {
+    "id": "library_coffee_sleeve",
+    "displayName": "Cardboard Sleeve",
+    "spriteKey": "item_lib_sleeve",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "📦"
+  },
+  {
+    "id": "magazine_in_plastic_sleeve",
+    "displayName": "Magazine in Sleeve",
+    "spriteKey": "item_mag_sleeve",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "glossy_magazine",
+      "plastic_magazine_sleeve"
+    ],
+    "venueIds": [
+      "public_library"
+    ],
+    "emoji": "📖"
+  },
+  {
+    "id": "glossy_magazine",
+    "displayName": "Glossy Magazine",
+    "spriteKey": "item_glossy_mag",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "📖"
+  },
+  {
+    "id": "plastic_magazine_sleeve",
+    "displayName": "Plastic Sleeve",
+    "spriteKey": "item_mag_plastic",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🛍️"
+  },
+  {
+    "id": "snack_box_with_crumbs",
+    "displayName": "Snack Box w/ Crumbs",
+    "spriteKey": "item_snack_box",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "cardboard_snack_box",
+      "cracker_crumbs"
+    ],
+    "venueIds": [
+      "public_library"
+    ],
+    "emoji": "🍱"
+  },
+  {
+    "id": "cardboard_snack_box",
+    "displayName": "Cardboard Box",
+    "spriteKey": "item_cardboard_snack_box",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "📦"
+  },
+  {
+    "id": "cracker_crumbs",
+    "displayName": "Cracker Crumbs",
+    "spriteKey": "item_cracker_crumbs",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🍘"
+  },
+  {
+    "id": "cd_audiobook",
+    "displayName": "Audiobook CD",
+    "spriteKey": "item_cd_audiobook",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "cd_case_plastic",
+      "audiobook_disc"
+    ],
+    "venueIds": [
+      "public_library"
+    ],
+    "emoji": "💿"
+  },
+  {
+    "id": "cd_case_plastic",
+    "displayName": "Plastic Jewel Case",
+    "spriteKey": "item_cd_case",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "💽"
+  },
+  {
+    "id": "audiobook_disc",
+    "displayName": "Audiobook Disc",
+    "spriteKey": "item_audiobook_disc",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "💿"
+  },
+  {
     "id": "dummy_foodboxfull",
     "displayName": "Dummy foodboxfull",
     "spriteKey": "foodboxfull",
