@@ -528,7 +528,19 @@
       "seasickness_pill_foil",
       "rusty_boat_cleat",
       "foam_life_preserver_piece",
-      "tangled_fishing_line"
+      "tangled_fishing_line",
+      "rusty_fishing_hook",
+      "barnacle_shell",
+      "soggy_boarding_pass",
+      "broken_dock_plank",
+      "crab_shell",
+      "seaweed_clump",
+      "torn_life_vest",
+      "rusty_bolt",
+      "sunscreen_bottle",
+      "fish_and_chips_box",
+      "clam_chowder_cup",
+      "rope_with_buoy"
     ],
     "backgroundKeys": {
       "clean": "venue_ferry_docks_bg_clean",

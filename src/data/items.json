@@ -5290,6 +5290,231 @@
     "emoji": "🌾"
   },
   {
+    "id": "rusty_fishing_hook",
+    "displayName": "Rusty Hook",
+    "spriteKey": "item_fishing_hook",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "ferry_docks"
+    ],
+    "emoji": "🪝"
+  },
+  {
+    "id": "tangled_fishing_line",
+    "displayName": "Fishing Line",
+    "spriteKey": "item_fishing_line",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "ferry_docks"
+    ],
+    "emoji": "🎣"
+  },
+  {
+    "id": "barnacle_shell",
+    "displayName": "Barnacle Shell",
+    "spriteKey": "item_barnacle",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "ferry_docks"
+    ],
+    "emoji": "🐚"
+  },
+  {
+    "id": "soggy_boarding_pass",
+    "displayName": "Boarding Pass",
+    "spriteKey": "item_boarding_pass",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "ferry_docks"
+    ],
+    "emoji": "🎫"
+  },
+  {
+    "id": "broken_dock_plank",
+    "displayName": "Dock Plank",
+    "spriteKey": "item_dock_plank",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "ferry_docks"
+    ],
+    "emoji": "🪵"
+  },
+  {
+    "id": "crab_shell",
+    "displayName": "Crab Shell",
+    "spriteKey": "item_crab_shell",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "ferry_docks"
+    ],
+    "emoji": "🦀"
+  },
+  {
+    "id": "seaweed_clump",
+    "displayName": "Seaweed Clump",
+    "spriteKey": "item_seaweed",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "ferry_docks"
+    ],
+    "emoji": "🌿"
+  },
+  {
+    "id": "torn_life_vest",
+    "displayName": "Torn Life Vest",
+    "spriteKey": "item_life_vest",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "ferry_docks"
+    ],
+    "emoji": "🦺"
+  },
+  {
+    "id": "rusty_bolt",
+    "displayName": "Rusty Bolt",
+    "spriteKey": "item_rusty_bolt",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "ferry_docks"
+    ],
+    "emoji": "🔩"
+  },
+  {
+    "id": "sunscreen_bottle",
+    "displayName": "Sunscreen Bottle",
+    "spriteKey": "item_sunscreen",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "ferry_docks"
+    ],
+    "emoji": "🧴"
+  },
+  {
+    "id": "fish_and_chips_box",
+    "displayName": "Fish & Chips Box",
+    "spriteKey": "item_fish_chips",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "greasy_cardboard_box",
+      "fish_scraps"
+    ],
+    "venueIds": [
+      "ferry_docks"
+    ],
+    "emoji": "🐟"
+  },
+  {
+    "id": "greasy_cardboard_box",
+    "displayName": "Greasy Box",
+    "spriteKey": "item_greasy_box",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "📦"
+  },
+  {
+    "id": "fish_scraps",
+    "displayName": "Fish Scraps",
+    "spriteKey": "item_fish_scraps",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🐟"
+  },
+  {
+    "id": "clam_chowder_cup",
+    "displayName": "Chowder in Cup",
+    "spriteKey": "item_chowder_cup",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "styrofoam_chowder_cup",
+      "chowder_leftovers"
+    ],
+    "venueIds": [
+      "ferry_docks"
+    ],
+    "emoji": "🥣"
+  },
+  {
+    "id": "styrofoam_chowder_cup",
+    "displayName": "Styrofoam Cup",
+    "spriteKey": "item_styro_chowder",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥣"
+  },
+  {
+    "id": "chowder_leftovers",
+    "displayName": "Chowder Leftovers",
+    "spriteKey": "item_chowder_left",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🍲"
+  },
+  {
+    "id": "rope_with_buoy",
+    "displayName": "Rope w/ Buoy",
+    "spriteKey": "item_rope_buoy",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "frayed_rope",
+      "plastic_buoy"
+    ],
+    "venueIds": [
+      "ferry_docks"
+    ],
+    "emoji": "⚓"
+  },
+  {
+    "id": "frayed_rope",
+    "displayName": "Frayed Rope",
+    "spriteKey": "item_frayed_rope",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🪢"
+  },
+  {
+    "id": "plastic_buoy",
+    "displayName": "Plastic Buoy",
+    "spriteKey": "item_plastic_buoy",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🔴"
+  },
+  {
     "id": "dummy_foodboxfull",
     "displayName": "Dummy foodboxfull",
     "spriteKey": "foodboxfull",
