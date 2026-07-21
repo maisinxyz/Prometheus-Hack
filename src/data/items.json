@@ -3730,6 +3730,266 @@
     "emoji": "💿"
   },
   {
+    "id": "crumpled_balance_sheet",
+    "displayName": "Crumpled Balance Sheet",
+    "spriteKey": "item_crumpled_paper",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "financial_district_office"
+    ],
+    "emoji": "📄"
+  },
+  {
+    "id": "empty_espresso_cup",
+    "displayName": "Espresso Cup",
+    "spriteKey": "item_espresso_cup",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "financial_district_office"
+    ],
+    "emoji": "☕"
+  },
+  {
+    "id": "broken_stapler",
+    "displayName": "Broken Stapler",
+    "spriteKey": "item_broken_stapler",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "financial_district_office"
+    ],
+    "emoji": "🗜️"
+  },
+  {
+    "id": "shredded_documents",
+    "displayName": "Shredded Documents",
+    "spriteKey": "item_shredded_documents",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "financial_district_office"
+    ],
+    "emoji": "✂️"
+  },
+  {
+    "id": "empty_salad_dressing_cup",
+    "displayName": "Dressing Cup",
+    "spriteKey": "item_dressing_cup",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "financial_district_office"
+    ],
+    "emoji": "🥣"
+  },
+  {
+    "id": "binder_clip",
+    "displayName": "Binder Clip",
+    "spriteKey": "item_binder_clip",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "financial_district_office"
+    ],
+    "emoji": "📎"
+  },
+  {
+    "id": "leather_portfolio_scrap",
+    "displayName": "Portfolio Scrap",
+    "spriteKey": "item_portfolio_scrap",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "financial_district_office"
+    ],
+    "emoji": "💼"
+  },
+  {
+    "id": "stock_ticker_tape",
+    "displayName": "Ticker Tape",
+    "spriteKey": "item_ticker_tape",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "financial_district_office"
+    ],
+    "emoji": "📈"
+  },
+  {
+    "id": "cigar_butt",
+    "displayName": "Cigar Butt",
+    "spriteKey": "item_cigar_butt",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "financial_district_office"
+    ],
+    "emoji": "🚬"
+  },
+  {
+    "id": "empty_scotch_glass",
+    "displayName": "Broken Scotch Glass",
+    "spriteKey": "item_scotch_glass",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "financial_district_office"
+    ],
+    "emoji": "🥃"
+  },
+  {
+    "id": "takeout_salad_bowl",
+    "displayName": "Takeout Salad Bowl",
+    "spriteKey": "item_salad_bowl",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "plastic_salad_bowl",
+      "salad_leftovers"
+    ],
+    "venueIds": [
+      "financial_district_office"
+    ],
+    "emoji": "🥗"
+  },
+  {
+    "id": "plastic_salad_bowl",
+    "displayName": "Plastic Bowl",
+    "spriteKey": "item_plastic_salad_bowl",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥣"
+  },
+  {
+    "id": "salad_leftovers",
+    "displayName": "Salad Leftovers",
+    "spriteKey": "item_salad_leftovers",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥬"
+  },
+  {
+    "id": "file_folder_with_cd",
+    "displayName": "File Folder w/ CD",
+    "spriteKey": "item_folder_cd",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "paper_file_folder",
+      "data_cd"
+    ],
+    "venueIds": [
+      "financial_district_office"
+    ],
+    "emoji": "📁"
+  },
+  {
+    "id": "paper_file_folder",
+    "displayName": "Manila Folder",
+    "spriteKey": "item_paper_file_folder",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "📁"
+  },
+  {
+    "id": "data_cd",
+    "displayName": "Data CD",
+    "spriteKey": "item_data_cd",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "💿"
+  },
+  {
+    "id": "briefcase_with_lunch",
+    "displayName": "Briefcase w/ Lunch",
+    "spriteKey": "item_briefcase_lunch",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "broken_briefcase",
+      "half_eaten_sandwich"
+    ],
+    "venueIds": [
+      "financial_district_office"
+    ],
+    "emoji": "💼"
+  },
+  {
+    "id": "broken_briefcase",
+    "displayName": "Broken Briefcase",
+    "spriteKey": "item_broken_briefcase",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "💼"
+  },
+  {
+    "id": "half_eaten_sandwich",
+    "displayName": "Leftover Sandwich",
+    "spriteKey": "item_leftover_sandwich",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥪"
+  },
+  {
+    "id": "business_card_holder",
+    "displayName": "Card Holder w/ Cards",
+    "spriteKey": "item_card_holder",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "metal_card_holder",
+      "paper_business_cards"
+    ],
+    "venueIds": [
+      "financial_district_office"
+    ],
+    "emoji": "📇"
+  },
+  {
+    "id": "metal_card_holder",
+    "displayName": "Metal Card Holder",
+    "spriteKey": "item_metal_card_holder",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🗄️"
+  },
+  {
+    "id": "paper_business_cards",
+    "displayName": "Business Cards",
+    "spriteKey": "item_paper_business_cards",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "📇"
+  },
+  {
     "id": "dummy_foodboxfull",
     "displayName": "Dummy foodboxfull",
     "spriteKey": "foodboxfull",

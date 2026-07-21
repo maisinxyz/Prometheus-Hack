@@ -69,7 +69,21 @@
       "plastic_water_bottle",
       "aluminum_can",
       "paper_straw_wrapper",
-      "plastic_straw"
+      "plastic_straw",
+      "crumpled_balance_sheet",
+      "empty_espresso_cup",
+      "broken_stapler",
+      "shredded_documents",
+      "empty_salad_dressing_cup",
+      "binder_clip",
+      "leather_portfolio_scrap",
+      "stock_ticker_tape",
+      "cigar_butt",
+      "empty_scotch_glass",
+      "takeout_salad_bowl",
+      "file_folder_with_cd",
+      "briefcase_with_lunch",
+      "business_card_holder"
     ],
     "backgroundKeys": {
       "clean": "venue_financial_district_office_bg_clean",

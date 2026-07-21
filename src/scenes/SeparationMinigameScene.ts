@@ -116,7 +116,7 @@ export class SeparationMinigameScene extends Phaser.Scene {
       'hot_dog_in_foil', 'nachos_in_tray', 'soda_cup_with_straw',
       'fries_in_paper_cone', 'pretzel_in_bag', 'kebab_on_skewer_in_wrapper',
       'ice_cream_in_cup', 'water_bottle_with_label', 'cotton_candy_on_stick',
-      'loaded_dog_in_box', 'popcorn_in_box', 'champagne_in_plastic', 'pill_bottle_with_cotton', 'syringe_in_wrapper', 'iv_bag_with_tube', 'bandaid_with_wrapper', 'thermometer_in_case', 'paint_tube_with_cap', 'sketchbook_with_spiral', 'easel_with_canvas', 'brush_in_jar', 'laptop_with_battery', 'takeout_sushi_container', 'boba_tea_cup', 'poke_bowl_container'
+      'loaded_dog_in_box', 'popcorn_in_box', 'champagne_in_plastic', 'pill_bottle_with_cotton', 'syringe_in_wrapper', 'iv_bag_with_tube', 'bandaid_with_wrapper', 'thermometer_in_case', 'paint_tube_with_cap', 'sketchbook_with_spiral', 'easel_with_canvas', 'brush_in_jar', 'laptop_with_battery', 'takeout_sushi_container', 'boba_tea_cup', 'poke_bowl_container', 'takeout_salad_bowl', 'file_folder_with_cd', 'briefcase_with_lunch', 'business_card_holder'
     ];
 
     if (isSoda) {
