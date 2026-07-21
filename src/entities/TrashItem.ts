@@ -202,6 +202,18 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
     }
   }
 
+  /** Override setDepth to sync child elements like the shadow and text label */
+  public override setDepth(value: number): this {
+    super.setDepth(value);
+    if (this.dropShadow) {
+      this.dropShadow.setDepth(value - 1);
+    }
+    if (this.labelText) {
+      this.labelText.setDepth(value + 2);
+    }
+    return this;
+  }
+
   /** Clean up event listeners and graphics when this item is destroyed */
   destroy(fromScene?: boolean): void {
     this.destroyReticle();

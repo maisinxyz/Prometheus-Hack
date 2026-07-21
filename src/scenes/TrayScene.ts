@@ -165,33 +165,16 @@ export class TrayScene extends Phaser.Scene {
 
     const isCafe = this.venueId === 'mackenzie_cafe';
     
-    let binY = 0;
+    // Bins sit directly in the scene now, no table counter
+    let binY = height - 160;
     let binScale = 1;
-    let spacing = 200;
+    let spacing = 240;
 
-    if (!isCafe) {
-      const counterX = width / 2;
-      const counterY = height - 150;
-      const counterWidth = width;
-      const counterHeight = 300;
-
-      const counterBg = this.add.rectangle(counterX, counterY, counterWidth, counterHeight, 0x2d1a11);
-      counterBg.setDepth(3);
-      
-      // White top
-      const counterTop = this.add.rectangle(counterX, counterY - counterHeight/2 + 60, counterWidth, 120, 0xeeeeee);
-      counterTop.setDepth(3);
-
-      // Front lip
-      const counterLip = this.add.rectangle(counterX, counterY - counterHeight/2 + 120, counterWidth, 10, 0xcccccc);
-      counterLip.setDepth(3);
-      
-      binY = counterY - counterHeight/2 + 60;
-    } else {
+    if (isCafe) {
       // For cafe, place bins in the back of the image (background)
-      binY = 400;
-      binScale = 0.5;
-      spacing = 180; // closer together because they are scaled down
+      binY = 600;
+      binScale = 0.6;
+      spacing = 160; // closer together because they are scaled down
     }
 
     const binDefs = binsData as BinDef[];
@@ -206,7 +189,8 @@ export class TrayScene extends Phaser.Scene {
       const bin = new Bin(this, x, binY, binDef);
       if (isCafe) {
         bin.setScale(binScale);
-        bin.setDepth(1); // Set lower depth to keep them in the back
+        bin.backSprite.setDepth(1); // Set lower depth to keep them in the back
+        bin.frontSprite.setDepth(3);
       }
       this.bins.push(bin);
     }
@@ -442,15 +426,18 @@ export class TrayScene extends Phaser.Scene {
     // Emit item-dropped event for Tracks C and D
     gameEvents.emit(GAME_EVENTS.ITEM_DROPPED, { item, bin, result });
 
-    // Animate item into the bin then destroy
+    // 2.5D visual depth: put item behind the front rim but in front of the back rim!
+    item.setDepth(bin.backSprite.depth + 1);
+
+    // Animate item falling deep into the bin then destroy
     this.tweens.add({
       targets: item,
       x: bin.x,
-      y: bin.y,
-      scaleX: 0,
-      scaleY: 0,
+      y: bin.y + 60, // Fall down into the hole
+      scaleX: 0.2,
+      scaleY: 0.2,
       alpha: 0,
-      duration: 200,
+      duration: 300,
       ease: 'Power2',
       onComplete: () => {
         // Remove from items array

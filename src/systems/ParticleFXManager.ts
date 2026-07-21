@@ -13,11 +13,11 @@ export class ParticleFXManager {
   private initialized: boolean = false;
 
   // Particle texture keys per bin type
-  private static readonly PARTICLE_MAP: Record<string, { key: string; color: number }> = {
-    paper: { key: 'particle_confetti', color: 0x3B82F6 },
-    compost: { key: 'particle_sparkle', color: 0x22C55E },
-    plastic: { key: 'particle_splash', color: 0xEAB308 },
-    landfill: { key: 'particle_dust', color: 0x6B7280 },
+  private readonly binConfigs: Record<string, { key: string; color: number }> = {
+    compost: { key: 'particle_leaf', color: 0x22C55E }, // Green
+    recycling: { key: 'particle_confetti', color: 0x3B82F6 }, // Blue
+    landfill: { key: 'particle_smoke', color: 0x111111 }, // Black
+    plastic: { key: 'particle_splash', color: 0x6B7280 }, // Grey
   };
 
   constructor(scene: Phaser.Scene) {
@@ -30,7 +30,7 @@ export class ParticleFXManager {
     if (this.initialized) return;
     this.initialized = true;
 
-    for (const [, info] of Object.entries(ParticleFXManager.PARTICLE_MAP)) {
+    for (const [, info] of Object.entries(this.binConfigs)) {
       if (!this.scene.textures.exists(info.key)) {
         // Generate a small circular particle texture
         const gfx = this.scene.add.graphics();
@@ -72,12 +72,12 @@ export class ParticleFXManager {
       pColor = 0x00ff00; // Green glow
       effectType = 'glow';
       lifespanFactor = 800; // Glow lasts longer
-    } else if (itemId.includes('paper') || itemId.includes('napkin') || itemId.includes('document')) {
-      particleKey = 'particle_confetti';
-      pColor = 0x3B82F6;
-    } else if (itemId.includes('plastic')) {
+    } else if (itemId.includes('plastic') || itemId.includes('bottle')) {
       particleKey = 'particle_splash';
-      pColor = 0xEAB308;
+      pColor = 0x6B7280; // Grey
+    } else if (itemId.includes('paper') || itemId.includes('napkin') || itemId.includes('document') || itemId.includes('cardboard')) {
+      particleKey = 'particle_confetti';
+      pColor = 0x3B82F6; // Blue (Recycling)
     } else if (itemId.includes('food') || itemId.includes('apple') || itemId.includes('coffee')) {
       particleKey = 'particle_sparkle';
       pColor = 0x22C55E;

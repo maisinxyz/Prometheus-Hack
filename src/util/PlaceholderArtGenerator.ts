@@ -168,68 +168,143 @@ export function generateEmojiItemSprite(
   scene.textures.addCanvas(key, canvas);
 }
 
-/**
- * Generates a bin placeholder with an emoji logo and label text.
- * Used for the 4 sorting bins: Landfill 🗑️, Recycling ♻️, Paper 📄, Compost 🍎
- */
 export function generateBinPlaceholder(
   scene: Phaser.Scene,
   key: string,
   color: number,
   label: string,
   logo: string,
-  width: number = 384,
-  height: number = 512
+  width: number = 220,
+  height: number = 320
 ): void {
-  if (scene.textures.exists(key)) return;
+  const backKey = `${key}_back`;
+  const frontKey = `${key}_front`;
 
-  const canvas = document.createElement('canvas');
-  canvas.width = width;
-  canvas.height = height;
-  const ctx = canvas.getContext('2d');
+  if (scene.textures.exists(backKey) && scene.textures.exists(frontKey)) return;
 
-  if (ctx) {
-    const cx = width / 2;
-    const cy = height / 2;
-    const holeW = width * 0.9;
-    const holeH = height * 0.5;
+  const cx = width / 2;
+  const cy = 60; // Top opening center
+  const by = height - 40; // Bottom base line
 
-    // Outer colored rim
-    const baseColor = Phaser.Display.Color.IntegerToColor(color);
-    ctx.fillStyle = baseColor.rgba;
-    ctx.beginPath();
-    if (ctx.roundRect) {
-      ctx.roundRect(cx - holeW / 2, cy - holeH / 2, holeW, holeH, 12);
-    } else {
-      ctx.rect(cx - holeW / 2, cy - holeH / 2, holeW, holeH);
+  // --- Back Texture ---
+  if (!scene.textures.exists(backKey)) {
+    const canvasBack = document.createElement('canvas');
+    canvasBack.width = width;
+    canvasBack.height = height;
+    const ctxB = canvasBack.getContext('2d');
+
+    if (ctxB) {
+      const baseColor = Phaser.Display.Color.IntegerToColor(color);
+      
+      // Hinged Lid at the back
+      ctxB.fillStyle = baseColor.clone().darken(30).rgba;
+      ctxB.beginPath();
+      if (ctxB.roundRect) ctxB.roundRect(cx - 90, cy - 55, 180, 20, 5);
+      else ctxB.fillRect(cx - 90, cy - 55, 180, 20);
+      ctxB.fill();
+
+      // Outer Rim (Back half)
+      ctxB.fillStyle = baseColor.clone().darken(10).rgba;
+      ctxB.beginPath();
+      if (ctxB.roundRect) ctxB.roundRect(cx - 100, cy - 40, 200, 80, 15);
+      else ctxB.fillRect(cx - 100, cy - 40, 200, 80);
+      ctxB.fill();
+
+      // Deep black hole for trash (rectangular opening)
+      ctxB.fillStyle = '#111111';
+      ctxB.beginPath();
+      if (ctxB.roundRect) ctxB.roundRect(cx - 90, cy - 30, 180, 60, 10);
+      else ctxB.fillRect(cx - 90, cy - 30, 180, 60);
+      ctxB.fill();
     }
-    ctx.fill();
-
-    // Deep black hole for trash
-    ctx.fillStyle = '#111111';
-    ctx.beginPath();
-    if (ctx.roundRect) {
-      ctx.roundRect(cx - holeW / 2 + 15, cy - holeH / 2 + 15, holeW - 30, holeH - 30, 8);
-    } else {
-      ctx.rect(cx - holeW / 2 + 15, cy - holeH / 2 + 15, holeW - 30, holeH - 30);
-    }
-    ctx.fill();
-
-    // Draw emoji logo (large, centered in the hole)
-    const emojiSize = Math.min(holeW, holeH) * 0.45;
-    ctx.font = `${emojiSize}px Arial`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(logo, cx, cy - 10);
-
-    // Draw label text below the hole
-    const fontSize = Math.max(16, width / 10);
-    ctx.font = `bold ${fontSize}px Arial, sans-serif`;
-    ctx.fillStyle = '#ffffff';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(label, cx, cy + holeH / 2 + 30, width - 16);
+    scene.textures.addCanvas(backKey, canvasBack);
   }
 
-  scene.textures.addCanvas(key, canvas);
+  // --- Front Texture ---
+  if (!scene.textures.exists(frontKey)) {
+    const canvasFront = document.createElement('canvas');
+    canvasFront.width = width;
+    canvasFront.height = height;
+    const ctxF = canvasFront.getContext('2d');
+
+    if (ctxF) {
+      // Drop shadow underneath the bin
+      ctxF.fillStyle = 'rgba(0,0,0,0.3)';
+      ctxF.beginPath();
+      ctxF.ellipse(cx, by + 10, 100, 20, 0, 0, 2 * Math.PI);
+      ctxF.fill();
+
+      // Wheels (Back-bottom corners)
+      ctxF.fillStyle = '#222222';
+      ctxF.beginPath();
+      if (ctxF.roundRect) {
+        ctxF.roundRect(cx - 85, by - 15, 20, 30, 5);
+        ctxF.roundRect(cx + 65, by - 15, 20, 30, 5);
+      } else {
+        ctxF.fillRect(cx - 85, by - 15, 20, 30);
+        ctxF.fillRect(cx + 65, by - 15, 20, 30);
+      }
+      ctxF.fill();
+
+      // Main Body Gradient (adds depth/shading to the flat front)
+      const baseColor = Phaser.Display.Color.IntegerToColor(color);
+      const darkColor = baseColor.clone().darken(30);
+      const grad = ctxF.createLinearGradient(cx - 95, 0, cx + 95, 0);
+      grad.addColorStop(0, darkColor.rgba);
+      grad.addColorStop(0.3, baseColor.rgba);
+      grad.addColorStop(0.7, baseColor.rgba);
+      grad.addColorStop(1, darkColor.rgba);
+
+      // Tapering rectangular body
+      ctxF.fillStyle = grad;
+      ctxF.beginPath();
+      ctxF.moveTo(cx - 92, cy + 20); // starts under the front rim
+      ctxF.lineTo(cx + 92, cy + 20);
+      ctxF.lineTo(cx + 80, by - 10);
+      ctxF.quadraticCurveTo(cx + 80, by, cx + 70, by);
+      ctxF.lineTo(cx - 70, by);
+      ctxF.quadraticCurveTo(cx - 80, by, cx - 80, by - 10);
+      ctxF.closePath();
+      ctxF.fill();
+
+      // Front rim (rendered using clipping and destination-out to preserve the hole)
+      ctxF.save();
+      ctxF.beginPath();
+      ctxF.rect(0, cy, width, height); // Clip everything below cy
+      ctxF.clip();
+
+      ctxF.fillStyle = baseColor.clone().lighten(15).rgba; // Lighter front rim
+      ctxF.beginPath();
+      if (ctxF.roundRect) ctxF.roundRect(cx - 100, cy - 40, 200, 80, 15);
+      else ctxF.rect(cx - 100, cy - 40, 200, 80);
+      ctxF.fill();
+
+      // Erase the hole area so trash can be seen falling behind the front rim
+      ctxF.globalCompositeOperation = 'destination-out';
+      ctxF.beginPath();
+      if (ctxF.roundRect) ctxF.roundRect(cx - 90, cy - 30, 180, 60, 10);
+      else ctxF.rect(cx - 90, cy - 30, 180, 60);
+      ctxF.fill();
+      ctxF.restore();
+
+      // UI Stack: Logo Symbol ABOVE Name Text
+      ctxF.font = `70px Arial`;
+      ctxF.textAlign = 'center';
+      ctxF.textBaseline = 'middle';
+      ctxF.fillText(logo, cx, cy + 110);
+
+      ctxF.font = `bold 26px Arial, sans-serif`;
+      ctxF.fillStyle = '#ffffff';
+      ctxF.shadowColor = '#000000';
+      ctxF.shadowBlur = 6;
+      ctxF.shadowOffsetY = 2;
+      ctxF.fillText(label, cx, cy + 180);
+      
+      // Reset shadows
+      ctxF.shadowBlur = 0;
+      ctxF.shadowOffsetY = 0;
+    }
+
+    scene.textures.addCanvas(frontKey, canvasFront);
+  }
 }

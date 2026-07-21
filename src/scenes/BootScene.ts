@@ -95,12 +95,12 @@ export class BootScene extends Phaser.Scene {
 
     for (const bin of binsData) {
       const key = `bin_${bin.id}`;
-      if (this.failedLoads.has(key) || !this.textures.exists(key)) {
+      if (this.failedLoads.has(key) || !this.textures.exists(`${key}_front`)) {
         const logo = (bin as any).logo as string | undefined;
         if (logo) {
-          generateBinPlaceholder(this, key, Phaser.Display.Color.HexStringToColor(bin.color).color, bin.displayName, logo, 384, 512);
+          generateBinPlaceholder(this, key, Phaser.Display.Color.HexStringToColor(bin.color).color, bin.displayName, logo, 220, 320);
         } else {
-          generatePlaceholderTexture(this, key, Phaser.Display.Color.HexStringToColor(bin.color).color, bin.displayName, 384, 512, false, true);
+          generateBinPlaceholder(this, key, Phaser.Display.Color.HexStringToColor(bin.color).color, bin.displayName, '🗑️', 220, 320);
         }
       }
     }

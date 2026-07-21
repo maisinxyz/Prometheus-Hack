@@ -14,7 +14,7 @@
     "id": "plastic_fork",
     "displayName": "Plastic Fork",
     "spriteKey": "item_plastic_fork",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -47,7 +47,7 @@
     "id": "coffee_cup_lid",
     "displayName": "Coffee Cup Lid",
     "spriteKey": "coffeelid",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -58,7 +58,7 @@
     "id": "napkin_clean",
     "displayName": "Clean Napkin",
     "spriteKey": "tissues",
-    "correctBinId": "paper",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -91,7 +91,7 @@
     "id": "plastic_water_bottle",
     "displayName": "Plastic Water Bottle",
     "spriteKey": "item_plastic_water_bottle",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -124,7 +124,7 @@
     "id": "paper_straw_wrapper",
     "displayName": "Paper Straw Wrapper",
     "spriteKey": "item_paper_straw_wrapper",
-    "correctBinId": "paper",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -135,7 +135,7 @@
     "id": "plastic_straw",
     "displayName": "Plastic Straw",
     "spriteKey": "item_plastic_straw",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -172,7 +172,7 @@
     "id": "confidential_document",
     "displayName": "Confidential Document",
     "spriteKey": "item_document",
-    "correctBinId": "paper",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -197,7 +197,7 @@
     "id": "plastic_container",
     "displayName": "Plastic Container",
     "spriteKey": "item_plastic_container",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -269,7 +269,7 @@
     "id": "paper_container",
     "displayName": "Paper Container",
     "spriteKey": "item_paper_container",
-    "correctBinId": "paper",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -280,7 +280,7 @@
     "id": "plastic_lining",
     "displayName": "Plastic Lining",
     "spriteKey": "item_plastic_lining",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -302,7 +302,7 @@
     "id": "iv_saline_bag",
     "displayName": "IV Saline Bag",
     "spriteKey": "item_iv_saline_bag",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -313,7 +313,7 @@
     "id": "paper_prescription",
     "displayName": "Paper Prescription",
     "spriteKey": "item_paper_prescription",
-    "correctBinId": "paper",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -335,7 +335,7 @@
     "id": "medicine_box",
     "displayName": "Medicine Box",
     "spriteKey": "item_medicine_box",
-    "correctBinId": "paper",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -379,7 +379,7 @@
     "id": "playbill",
     "displayName": "Playbill",
     "spriteKey": "item_playbill",
-    "correctBinId": "paper",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -401,7 +401,7 @@
     "id": "ticket_stub",
     "displayName": "Ticket Stub",
     "spriteKey": "item_ticket_stub",
-    "correctBinId": "paper",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -467,7 +467,7 @@
     "id": "metro_card",
     "displayName": "Metro Card",
     "spriteKey": "item_metro_card",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -478,7 +478,7 @@
     "id": "newspaper",
     "displayName": "Newspaper",
     "spriteKey": "item_newspaper",
-    "correctBinId": "paper",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -533,7 +533,7 @@
     "id": "glass_bottle",
     "displayName": "Glass Bottle",
     "spriteKey": "item_glass_bottle",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -555,7 +555,7 @@
     "id": "protein_shake_bottle",
     "displayName": "Protein Shake Bottle",
     "spriteKey": "item_protein_shake_bottle",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -611,7 +611,7 @@
     "id": "sports_drink_can",
     "displayName": "Sports Drink Can",
     "spriteKey": "item_sports_drink_can",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -633,7 +633,7 @@
     "id": "shoe_box",
     "displayName": "Cardboard Shoe Box",
     "spriteKey": "item_shoe_box",
-    "correctBinId": "paper",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -644,7 +644,7 @@
     "id": "overdue_notice",
     "displayName": "Overdue Notice",
     "spriteKey": "item_overdue_notice",
-    "correctBinId": "paper",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -699,7 +699,7 @@
     "id": "cd_jewel_case",
     "displayName": "CD Jewel Case",
     "spriteKey": "item_cd_jewel_case",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -710,7 +710,7 @@
     "id": "encyclopedia_page",
     "displayName": "Encyclopedia Page",
     "spriteKey": "item_encyclopedia_page",
-    "correctBinId": "paper",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -721,7 +721,7 @@
     "id": "book_dust_jacket",
     "displayName": "Book Dust Jacket",
     "spriteKey": "item_book_dust_jacket",
-    "correctBinId": "paper",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -754,7 +754,7 @@
     "id": "sketchbook_scrap",
     "displayName": "Sketchbook Scrap",
     "spriteKey": "item_sketchbook_scrap",
-    "correctBinId": "paper",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -787,7 +787,7 @@
     "id": "empty_turpentine_bottle",
     "displayName": "Empty Turpentine Bottle",
     "spriteKey": "item_turpentine_bottle",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -876,7 +876,7 @@
     "id": "cracked_hard_hat",
     "displayName": "Cracked Hard Hat",
     "spriteKey": "item_hard_hat",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -920,7 +920,7 @@
     "id": "kombucha_glass_bottle",
     "displayName": "Kombucha Glass Bottle",
     "spriteKey": "item_kombucha_bottle",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -942,7 +942,7 @@
     "id": "keyboard_keycap",
     "displayName": "Keyboard Keycap",
     "spriteKey": "item_keycap",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -953,7 +953,7 @@
     "id": "sticky_note",
     "displayName": "Sticky Note",
     "spriteKey": "item_sticky_note",
-    "correctBinId": "paper",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -986,7 +986,7 @@
     "id": "empty_yerba_mate_can",
     "displayName": "Empty Yerba Mate Can",
     "spriteKey": "item_yerba_mate_can",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -997,7 +997,7 @@
     "id": "ferry_ticket",
     "displayName": "Ferry Ticket",
     "spriteKey": "item_ferry_ticket",
-    "correctBinId": "paper",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -1008,7 +1008,7 @@
     "id": "barnacle_cup",
     "displayName": "Barnacle-covered Plastic Cup",
     "spriteKey": "item_barnacle_cup",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -1019,7 +1019,7 @@
     "id": "tourist_map",
     "displayName": "Soggy Tourist Map",
     "spriteKey": "item_tourist_map",
-    "correctBinId": "paper",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -1107,7 +1107,7 @@
     "id": "coffee_sleeve",
     "displayName": "Coffee Sleeve",
     "spriteKey": "item_coffee_sleeve",
-    "correctBinId": "paper",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -1119,7 +1119,7 @@
     "id": "cardboard_drink_carrier",
     "displayName": "Cardboard Drink Carrier",
     "spriteKey": "item_cardboard_drink_carrier",
-    "correctBinId": "paper",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -1131,7 +1131,7 @@
     "id": "glass_juice_bottle",
     "displayName": "Glass Juice Bottle",
     "spriteKey": "item_glass_juice_bottle",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -1242,7 +1242,7 @@
     "id": "plastic_yogurt_container",
     "displayName": "Plastic Yogurt Container",
     "spriteKey": "item_plastic_yogurt_container",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -1266,7 +1266,7 @@
     "id": "sugar_packet",
     "displayName": "Sugar Packet",
     "spriteKey": "item_sugar_packet",
-    "correctBinId": "paper",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -1314,7 +1314,7 @@
     "id": "milk_carton",
     "displayName": "Milk Carton",
     "spriteKey": "item_milk_carton",
-    "correctBinId": "paper",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -1326,7 +1326,7 @@
     "id": "aluminum_foil_wrap",
     "displayName": "Aluminum Foil Wrap",
     "spriteKey": "item_aluminum_foil_wrap",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -1338,7 +1338,7 @@
     "id": "plastic_cup",
     "displayName": "Plastic Cup",
     "spriteKey": "item_plastic_cup",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -1350,7 +1350,7 @@
     "id": "paper_bag",
     "displayName": "Paper Bag",
     "spriteKey": "item_paper_bag",
-    "correctBinId": "paper",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -1447,7 +1447,7 @@
     "id": "salad_plastic_bowl",
     "displayName": "Plastic Salad Bowl",
     "spriteKey": "item_salad_plastic_bowl",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
@@ -1588,7 +1588,7 @@
     "id": "yogurt_cup",
     "displayName": "Yogurt Cup",
     "spriteKey": "item_yogurt_cup",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
@@ -1598,7 +1598,7 @@
     "id": "plastic_spoon",
     "displayName": "Plastic Spoon",
     "spriteKey": "item_plastic_spoon",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
@@ -1639,7 +1639,7 @@
     "id": "smoothie_cup",
     "displayName": "Smoothie Cup",
     "spriteKey": "item_smoothie_cup",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
@@ -1684,7 +1684,7 @@
     "id": "bagel_paper_bag",
     "displayName": "Bagel Paper Bag",
     "spriteKey": "item_bagel_paper_bag",
-    "correctBinId": "paper",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
@@ -1720,7 +1720,7 @@
     "id": "takeout_container",
     "displayName": "Plastic Container",
     "spriteKey": "item_takeout_container",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
@@ -1730,7 +1730,7 @@
     "id": "takeout_fork",
     "displayName": "Plastic Fork",
     "spriteKey": "item_takeout_fork",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
@@ -1776,7 +1776,7 @@
     "id": "tea_plastic_lid",
     "displayName": "Plastic Tea Lid",
     "spriteKey": "item_tea_plastic_lid",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
@@ -3017,7 +3017,7 @@
     "id": "used_tissue_box",
     "displayName": "Used Tissue Box",
     "spriteKey": "item_used_tissue_box",
-    "correctBinId": "paper",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -3029,7 +3029,7 @@
     "id": "empty_pill_bottle",
     "displayName": "Empty Pill Bottle",
     "spriteKey": "item_empty_pill_bottle",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -3077,7 +3077,7 @@
     "id": "hospital_wristband",
     "displayName": "Hospital Wristband",
     "spriteKey": "item_hospital_wristband",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -3137,7 +3137,7 @@
     "id": "plastic_sheeting",
     "displayName": "Plastic Sheeting",
     "spriteKey": "item_plastic_sheeting",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -3149,7 +3149,7 @@
     "id": "cardboard_tube",
     "displayName": "Cardboard Tube",
     "spriteKey": "item_cardboard_tube",
-    "correctBinId": "paper",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -3173,7 +3173,7 @@
     "id": "torn_blueprint",
     "displayName": "Torn Blueprint",
     "spriteKey": "item_torn_blueprint",
-    "correctBinId": "paper",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -3257,7 +3257,7 @@
     "id": "relish_cup",
     "displayName": "Relish Cup (Plastic)",
     "spriteKey": "item_relish_cup",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -3281,7 +3281,7 @@
     "id": "soda_cup_lid",
     "displayName": "Soda Cup Lid",
     "spriteKey": "item_soda_cup_lid",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -3329,7 +3329,7 @@
     "id": "plastic_utensil_pack",
     "displayName": "Plastic Utensil Pack",
     "spriteKey": "item_plastic_utensil_pack",
-    "correctBinId": "plastic",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
