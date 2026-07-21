@@ -30,7 +30,8 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
   /** Cluster B stub — see PRD Track G, step G.2 */
   public readonly componentIds: string[];
 
-  private hintText: Phaser.GameObjects.Text | null = null;
+  private labelText: Phaser.GameObjects.Text;
+  private visualCuesActive: boolean;
   private dropShadow: Phaser.GameObjects.Sprite;
 
   constructor(
@@ -46,6 +47,7 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
     this.startX = x;
     this.startY = y;
     this.componentIds = itemDef.componentIds;
+    this.visualCuesActive = visualCuesActive;
 
     // Add to scene and enable drag input
     scene.add.existing(this);
@@ -70,22 +72,22 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
     this.dropShadow.setAlpha(0.35);
     this.dropShadow.setDepth(9); // Behind the main sprite
 
+    // Add text label under the item
+    this.labelText = scene.add.text(x, y + 50, itemDef.displayName, {
+      fontFamily: 'Arial, sans-serif',
+      fontSize: '14px',
+      color: '#ffffff',
+      fontStyle: 'bold',
+      stroke: '#000000',
+      strokeThickness: 3
+    });
+    this.labelText.setOrigin(0.5);
+    this.labelText.setDepth(12);
+
     // --- E.4: Difficulty Tier Visual Cues ---
-    if (visualCuesActive) {
+    if (this.visualCuesActive) {
       // Keep reticle always visible
       this.createReticle();
-      
-      // Add text label hint under the item
-      this.hintText = scene.add.text(x, y + 70, itemDef.displayName, {
-        fontFamily: 'Arial, sans-serif',
-        fontSize: '16px',
-        color: '#ffffff',
-        fontStyle: 'bold',
-        stroke: '#000000',
-        strokeThickness: 3
-      });
-      this.hintText.setOrigin(0.5);
-      this.hintText.setDepth(12);
     }
 
     // --- Cluster B: Click detection ---
@@ -151,8 +153,8 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
         if (gameObject === this) {
           this.setDepth(10); // Restore normal depth
           
-          // Only destroy reticle if visual cues are NOT active (hintText tracks this)
-          if (!this.hintText) {
+          // Only destroy reticle if visual cues are NOT active
+          if (!this.visualCuesActive) {
             this.destroyReticle();
           }
         }
@@ -175,9 +177,9 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
       this.reticle.x = this.x;
       this.reticle.y = this.y;
     }
-    if (this.hintText) {
-      this.hintText.x = this.x;
-      this.hintText.y = this.y + 70;
+    if (this.labelText) {
+      this.labelText.x = this.x;
+      this.labelText.y = this.y + 50;
     }
     this.dropShadow.x = this.x + 6;
     this.dropShadow.y = this.y + 8;
@@ -203,7 +205,7 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
   /** Clean up event listeners and graphics when this item is destroyed */
   destroy(fromScene?: boolean): void {
     this.destroyReticle();
-    if (this.hintText) this.hintText.destroy();
+    if (this.labelText) this.labelText.destroy();
     if (this.dropShadow) this.dropShadow.destroy();
     super.destroy(fromScene);
   }
