@@ -151,7 +151,7 @@
     "componentIds": [],
     "venueIds": [
       "financial_district_office",
-      "chelsea_office",
+      "empire_state_building",
       "wall_street_office"
     ]
   },
@@ -164,7 +164,7 @@
     "componentIds": [],
     "venueIds": [
       "financial_district_office",
-      "chelsea_office",
+      "empire_state_building",
       "wall_street_office"
     ]
   },
@@ -177,7 +177,7 @@
     "componentIds": [],
     "venueIds": [
       "financial_district_office",
-      "chelsea_office",
+      "empire_state_building",
       "wall_street_office",
       "times_square"
     ]
@@ -5513,6 +5513,231 @@
     "componentIds": [],
     "venueIds": [],
     "emoji": "🔴"
+  },
+  {
+    "id": "observation_deck_ticket",
+    "displayName": "Observation Ticket",
+    "spriteKey": "item_obs_ticket",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "empire_state_building"
+    ],
+    "emoji": "🎫"
+  },
+  {
+    "id": "crushed_souvenir_cup",
+    "displayName": "Souvenir Cup",
+    "spriteKey": "item_souvenir_cup",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "empire_state_building"
+    ],
+    "emoji": "🥤"
+  },
+  {
+    "id": "broken_snow_globe",
+    "displayName": "Broken Snow Globe",
+    "spriteKey": "item_snow_globe_esb",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "empire_state_building"
+    ],
+    "emoji": "🔮"
+  },
+  {
+    "id": "crumpled_city_guide",
+    "displayName": "City Guide",
+    "spriteKey": "item_city_guide",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "empire_state_building"
+    ],
+    "emoji": "📖"
+  },
+  {
+    "id": "lobby_coffee_stirrer",
+    "displayName": "Coffee Stirrer",
+    "spriteKey": "item_lobby_stirrer",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "empire_state_building"
+    ],
+    "emoji": "🥢"
+  },
+  {
+    "id": "elevator_button_cap",
+    "displayName": "Button Cap",
+    "spriteKey": "item_button_cap",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "empire_state_building"
+    ],
+    "emoji": "🔘"
+  },
+  {
+    "id": "art_deco_tile_chip",
+    "displayName": "Tile Chip",
+    "spriteKey": "item_tile_chip",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "empire_state_building"
+    ],
+    "emoji": "🔷"
+  },
+  {
+    "id": "empty_hand_sanitizer",
+    "displayName": "Sanitizer Bottle",
+    "spriteKey": "item_sanitizer",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "empire_state_building"
+    ],
+    "emoji": "🧴"
+  },
+  {
+    "id": "used_tissue",
+    "displayName": "Used Tissue",
+    "spriteKey": "item_used_tissue",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "empire_state_building"
+    ],
+    "emoji": "🤧"
+  },
+  {
+    "id": "penny_from_deck",
+    "displayName": "Tossed Penny",
+    "spriteKey": "item_penny",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "empire_state_building"
+    ],
+    "emoji": "🪙"
+  },
+  {
+    "id": "gift_shop_bag",
+    "displayName": "Gift Shop Bag",
+    "spriteKey": "item_gift_bag",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "paper_gift_bag",
+      "plastic_tissue_paper"
+    ],
+    "venueIds": [
+      "empire_state_building"
+    ],
+    "emoji": "🛍️"
+  },
+  {
+    "id": "paper_gift_bag",
+    "displayName": "Paper Gift Bag",
+    "spriteKey": "item_paper_gift_bag",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🛍️"
+  },
+  {
+    "id": "plastic_tissue_paper",
+    "displayName": "Tissue Paper",
+    "spriteKey": "item_plastic_tissue",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🧻"
+  },
+  {
+    "id": "tourist_lunch_tray",
+    "displayName": "Tourist Lunch Tray",
+    "spriteKey": "item_tourist_tray",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "plastic_lunch_tray",
+      "lunch_food_scraps"
+    ],
+    "venueIds": [
+      "empire_state_building"
+    ],
+    "emoji": "🍱"
+  },
+  {
+    "id": "plastic_lunch_tray",
+    "displayName": "Plastic Tray",
+    "spriteKey": "item_plastic_lunch_tray",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🍽️"
+  },
+  {
+    "id": "lunch_food_scraps",
+    "displayName": "Food Scraps",
+    "spriteKey": "item_lunch_scraps",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥗"
+  },
+  {
+    "id": "binoculars_in_box",
+    "displayName": "Binoculars in Box",
+    "spriteKey": "item_binoculars_box",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "broken_binoculars",
+      "cardboard_binocular_box"
+    ],
+    "venueIds": [
+      "empire_state_building"
+    ],
+    "emoji": "🔭"
+  },
+  {
+    "id": "broken_binoculars",
+    "displayName": "Broken Binoculars",
+    "spriteKey": "item_broken_binoculars",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🔭"
+  },
+  {
+    "id": "cardboard_binocular_box",
+    "displayName": "Cardboard Box",
+    "spriteKey": "item_binocular_box",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "📦"
   },
   {
     "id": "dummy_foodboxfull",
