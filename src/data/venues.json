@@ -97,7 +97,17 @@
       "paper_patient_gown",
       "saline_flush_syringe",
       "hospital_wristband",
-      "tongue_depressor"
+      "tongue_depressor",
+      "medical_mask",
+      "paper_prescription_bag",
+      "used_bandages",
+      "paper_gown",
+      "empty_saline_bag",
+      "pill_bottle_with_cotton",
+      "syringe_in_wrapper",
+      "iv_bag_with_tube",
+      "bandaid_with_wrapper",
+      "thermometer_in_case"
     ],
     "backgroundKeys": {
       "clean": "venue_nyc_hospital_bg_clean",

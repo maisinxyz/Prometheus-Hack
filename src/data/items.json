@@ -2969,6 +2969,259 @@
     "emoji": "🥂"
   },
   {
+    "id": "latex_gloves",
+    "displayName": "Latex Gloves",
+    "spriteKey": "item_latex_gloves",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "nyc_hospital"
+    ],
+    "emoji": "🧤"
+  },
+  {
+    "id": "medical_mask",
+    "displayName": "Medical Mask",
+    "spriteKey": "item_medical_mask",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "nyc_hospital"
+    ],
+    "emoji": "😷"
+  },
+  {
+    "id": "empty_pill_bottle",
+    "displayName": "Empty Pill Bottle",
+    "spriteKey": "item_pill_bottle",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "nyc_hospital"
+    ],
+    "emoji": "💊"
+  },
+  {
+    "id": "paper_prescription_bag",
+    "displayName": "Prescription Bag",
+    "spriteKey": "item_prescription_bag",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "nyc_hospital"
+    ],
+    "emoji": "🛍️"
+  },
+  {
+    "id": "used_bandages",
+    "displayName": "Used Bandages",
+    "spriteKey": "item_used_bandages",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "nyc_hospital"
+    ],
+    "emoji": "🩹"
+  },
+  {
+    "id": "tongue_depressor",
+    "displayName": "Tongue Depressor",
+    "spriteKey": "item_tongue_depressor",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "nyc_hospital"
+    ],
+    "emoji": "🥢"
+  },
+  {
+    "id": "cotton_swabs",
+    "displayName": "Cotton Swabs",
+    "spriteKey": "item_cotton_swabs",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "nyc_hospital"
+    ],
+    "emoji": "🦯"
+  },
+  {
+    "id": "paper_gown",
+    "displayName": "Paper Gown",
+    "spriteKey": "item_paper_gown",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "nyc_hospital"
+    ],
+    "emoji": "🥼"
+  },
+  {
+    "id": "empty_saline_bag",
+    "displayName": "Empty Saline Bag",
+    "spriteKey": "item_saline_bag",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "nyc_hospital"
+    ],
+    "emoji": "💧"
+  },
+  {
+    "id": "pill_bottle_with_cotton",
+    "displayName": "Pill Bottle w/ Cotton",
+    "spriteKey": "item_pill_bottle_cotton",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "cotton_ball",
+      "empty_pill_bottle"
+    ],
+    "venueIds": [
+      "nyc_hospital"
+    ],
+    "emoji": "💊"
+  },
+  {
+    "id": "cotton_ball",
+    "displayName": "Cotton Ball",
+    "spriteKey": "item_cotton_ball",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "☁️"
+  },
+  {
+    "id": "syringe_in_wrapper",
+    "displayName": "Syringe in Wrapper",
+    "spriteKey": "item_syringe_wrapper",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "plastic_syringe",
+      "syringe_plastic_wrap"
+    ],
+    "venueIds": [
+      "nyc_hospital"
+    ],
+    "emoji": "💉"
+  },
+  {
+    "id": "plastic_syringe",
+    "displayName": "Plastic Syringe",
+    "spriteKey": "item_plastic_syringe",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "💉"
+  },
+  {
+    "id": "syringe_plastic_wrap",
+    "displayName": "Plastic Wrap",
+    "spriteKey": "item_syringe_plastic_wrap",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🛍️"
+  },
+  {
+    "id": "iv_bag_with_tube",
+    "displayName": "IV Bag w/ Tube",
+    "spriteKey": "item_iv_bag_tube",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "iv_tube",
+      "empty_saline_bag"
+    ],
+    "venueIds": [
+      "nyc_hospital"
+    ],
+    "emoji": "🩸"
+  },
+  {
+    "id": "iv_tube",
+    "displayName": "IV Tubing",
+    "spriteKey": "item_iv_tube",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "〰️"
+  },
+  {
+    "id": "bandaid_with_wrapper",
+    "displayName": "Band-Aid in Wrapper",
+    "spriteKey": "item_bandaid_wrapper",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "used_bandages",
+      "bandaid_paper_wrap"
+    ],
+    "venueIds": [
+      "nyc_hospital"
+    ],
+    "emoji": "🩹"
+  },
+  {
+    "id": "bandaid_paper_wrap",
+    "displayName": "Paper Wrapper",
+    "spriteKey": "item_bandaid_paper_wrap",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "📜"
+  },
+  {
+    "id": "thermometer_in_case",
+    "displayName": "Thermometer in Case",
+    "spriteKey": "item_thermometer_case",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "digital_thermometer",
+      "thermometer_plastic_case"
+    ],
+    "venueIds": [
+      "nyc_hospital"
+    ],
+    "emoji": "🌡️"
+  },
+  {
+    "id": "digital_thermometer",
+    "displayName": "Digital Thermometer",
+    "spriteKey": "item_digital_thermometer",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🌡️"
+  },
+  {
+    "id": "thermometer_plastic_case",
+    "displayName": "Plastic Case",
+    "spriteKey": "item_thermometer_plastic_case",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🖊️"
+  },
+  {
     "id": "dummy_foodboxfull",
     "displayName": "Dummy foodboxfull",
     "spriteKey": "foodboxfull",
