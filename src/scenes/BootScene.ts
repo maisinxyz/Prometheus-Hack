@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { generatePlaceholderTexture } from '../util/PlaceholderArtGenerator';
+import { generatePlaceholderTexture, generateEmojiItemSprite } from '../util/PlaceholderArtGenerator';
 import itemsData from '../data/items.json';
 import binsData from '../data/bins.json';
 import venuesData from '../data/venues.json';
@@ -77,14 +77,16 @@ export class BootScene extends Phaser.Scene {
       const key = item.spriteKey;
       if (this.failedLoads.has(key) || !this.textures.exists(key)) {
         // Use hash of item ID to generate a consistent placeholder color
-        let color = 0x888888;
-        if (item.correctBinId === 'compost') color = 0x22c55e;
-        else if (item.correctBinId === 'plastic') color = 0x3b82f6;
-        else if (item.correctBinId === 'paper') color = 0xeab308;
-        else if (item.correctBinId === 'landfill') color = 0x4b5563;
-        else if (item.correctBinId === 'none') color = 0xef4444; // Composites
+        let colorHex = 0x888888;
+        if (item.correctBinId === 'compost') colorHex = 0x22c55e;
+        else if (item.correctBinId === 'plastic') colorHex = 0x3b82f6;
+        else if (item.correctBinId === 'paper') colorHex = 0xeab308;
+        else if (item.correctBinId === 'landfill') colorHex = 0x4b5563;
+        else if (item.correctBinId === 'none') colorHex = 0xef4444; // Composites
         
-        generatePlaceholderTexture(this, key, color, item.id.toUpperCase(), 128, 128, item.isComposite);
+        // Ensure the Emoji generator is imported from PlaceholderArtGenerator.ts
+        const emoji = item.emoji || '❓';
+        generateEmojiItemSprite(this, key, emoji, colorHex, 128);
       }
     }
 

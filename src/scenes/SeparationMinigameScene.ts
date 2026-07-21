@@ -3,8 +3,6 @@ import { TrashItem } from '../entities/TrashItem';
 import { Bin } from '../entities/Bin';
 import binsData from '../data/bins.json';
 import { BinDef } from '../data/schemas/binSchema';
-import itemsData from '../data/items.json';
-import { TrashItemDef } from '../data/schemas/itemSchema';
 
 export class SeparationMinigameScene extends Phaser.Scene {
   private targetItem!: TrashItem;
@@ -27,9 +25,6 @@ export class SeparationMinigameScene extends Phaser.Scene {
   private checkText!: Phaser.GameObjects.Text;
   
   // Food state
-  private activeChildren: TrashItem[] = [];
-  private foodStage: 'closed' | 'food' | 'lining' | 'done' = 'closed';
-
   // Box minigame state
   private boxFoodItems: Phaser.GameObjects.Sprite[] = [];
   private boxFoodIndex: number = 0;
@@ -49,13 +44,11 @@ export class SeparationMinigameScene extends Phaser.Scene {
     this.onScore = data.onScore;
     this.venueId = data.venueId;
     this.bins = [];
-    this.activeChildren = [];
     this.pourProgress = 0;
     this.isChecked = false;
     this.sodaEmptied = false;
     this.isInitiallyFull = false;
     this.isHoveringLandfill = false;
-    this.foodStage = 'closed';
     this.boxFoodItems = [];
     this.boxFoodIndex = 0;
   }
@@ -111,14 +104,21 @@ export class SeparationMinigameScene extends Phaser.Scene {
     }
 
     const isSoda = ['soda_fanta_full', 'soda_pepsi_full', 'soda_fanta_empty', 'soda_pepsi_empty'].includes(this.targetItem.itemDef.id);
+    const genericComposites = [
+      'salad_in_plastic_bowl', 'soup_in_paper_cup', 'sandwich_in_wrapper', 
+      'muffin_in_paper_liner', 'yogurt_with_granola', 'coffee_with_sleeve_lid', 
+      'smoothie_cup_with_straw', 'bagel_in_paper_bag', 'pasta_in_takeout_box', 
+      'tea_bag_in_cup', 'iced_tea_with_lemon'
+    ];
+
     if (isSoda) {
       this.isFanta = this.targetItem.itemDef.id.includes('fanta');
       this.isInitiallyFull = this.targetItem.itemDef.id.includes('full');
       this.setupSodaMinigame(width, height);
     } else if (this.targetItem.itemDef.id === 'foodbox_full' || this.targetItem.itemDef.id === 'foodbox_empty') {
       this.setupBoxMinigame(width, height);
-    } else if (this.targetItem.itemDef.id === 'iced_tea_with_lemon') {
-      this.setupIcedTeaMinigame(width, height);
+    } else if (genericComposites.includes(this.targetItem.itemDef.id)) {
+      this.setupGenericSeparationMinigame(width, height);
     } else {
       // Fallback
       this.complete(false);
@@ -513,59 +513,132 @@ export class SeparationMinigameScene extends Phaser.Scene {
     this.boxFoodItems.push(foodSprite);
   }
 
-  private setupIcedTeaMinigame(width: number, height: number) {
-    this.add.text(width / 2, 130, 'Remove the lemon wedge, then sort both pieces!', {
+  private setupGenericSeparationMinigame(width: number, height: number) {
+    const configMap: Record<string, {
+      coreSpriteKey: string;
+      coreTargetBin: string;
+      components: { spriteKey: string; targetBin: string }[];
+    }> = {
+      'salad_in_plastic_bowl': {
+        coreSpriteKey: 'item_salad_plastic_bowl', coreTargetBin: 'plastic',
+        components: [{ spriteKey: 'item_salad_scraps', targetBin: 'compost' }]
+      },
+      'soup_in_paper_cup': {
+        coreSpriteKey: 'item_soup_paper_cup', coreTargetBin: 'compost',
+        components: [{ spriteKey: 'item_soup_liquid', targetBin: 'compost' }]
+      },
+      'sandwich_in_wrapper': {
+        coreSpriteKey: 'item_wax_wrapper', coreTargetBin: 'landfill',
+        components: [{ spriteKey: 'item_sandwich_scraps', targetBin: 'compost' }]
+      },
+      'muffin_in_paper_liner': {
+        coreSpriteKey: 'item_paper_liner', coreTargetBin: 'compost',
+        components: [{ spriteKey: 'item_muffin_crumbs', targetBin: 'compost' }]
+      },
+      'yogurt_with_granola': {
+        coreSpriteKey: 'item_yogurt_cup', coreTargetBin: 'plastic',
+        components: [
+          { spriteKey: 'item_granola', targetBin: 'compost' },
+          { spriteKey: 'item_plastic_spoon', targetBin: 'plastic' }
+        ]
+      },
+      'coffee_with_sleeve_lid': {
+        coreSpriteKey: 'item_coffee_cup', coreTargetBin: 'compost',
+        components: [
+          { spriteKey: 'item_coffee_sleeve', targetBin: 'paper' },
+          { spriteKey: 'item_coffee_cup_lid', targetBin: 'plastic' }
+        ]
+      },
+      'smoothie_cup_with_straw': {
+        coreSpriteKey: 'item_smoothie_cup', coreTargetBin: 'plastic',
+        components: [{ spriteKey: 'item_smoothie_straw', targetBin: 'landfill' }]
+      },
+      'bagel_in_paper_bag': {
+        coreSpriteKey: 'item_bagel_paper_bag', coreTargetBin: 'paper',
+        components: [{ spriteKey: 'item_bagel_scraps', targetBin: 'compost' }]
+      },
+      'pasta_in_takeout_box': {
+        coreSpriteKey: 'item_takeout_container', coreTargetBin: 'plastic',
+        components: [
+          { spriteKey: 'item_pasta_scraps', targetBin: 'compost' },
+          { spriteKey: 'item_takeout_fork', targetBin: 'plastic' }
+        ]
+      },
+      'tea_bag_in_cup': {
+        coreSpriteKey: 'item_tea_paper_cup', coreTargetBin: 'compost',
+        components: [
+          { spriteKey: 'item_used_tea_bag', targetBin: 'compost' },
+          { spriteKey: 'item_tea_plastic_lid', targetBin: 'plastic' }
+        ]
+      },
+      'iced_tea_with_lemon': {
+        coreSpriteKey: 'item_iced_tea_cup', coreTargetBin: 'compost',
+        components: [{ spriteKey: 'item_lemon_wedge', targetBin: 'compost' }]
+      }
+    };
+
+    const config = configMap[this.targetItem.itemDef.id];
+    if (!config) {
+      this.complete(false);
+      return;
+    }
+
+    this.add.text(width / 2, 130, 'Tap to separate the items, then sort all pieces!', {
       fontFamily: 'Arial', fontSize: '24px', color: '#aaaaaa'
     }).setOrigin(0.5);
 
-    // Center the iced tea with lemon sprite
-    this.mainItemSprite = this.add.sprite(width / 2, height / 2 + 100, 'item_iced_tea_with_lemon');
+    this.mainItemSprite = this.add.sprite(width / 2, height / 2 + 100, this.targetItem.itemDef.spriteKey);
     this.mainItemSprite.setDepth(100);
     this.updateSpriteScale();
 
-    this.checkText = this.add.text(width / 2, height - 50, 'Tap to remove the lemon wedge', {
+    this.checkText = this.add.text(width / 2, height - 50, 'Tap to separate components', {
       fontFamily: 'Arial', fontSize: '24px', color: '#ffffff', fontStyle: 'bold'
     }).setOrigin(0.5);
 
-    let lemonRemoved = false;
-    let lemonSprite: Phaser.GameObjects.Sprite | null = null;
+    const activeComponentSprites: Phaser.GameObjects.Sprite[] = [];
 
-    // Click to separate — spawns the lemon wedge as a draggable sprite
     this.mainItemSprite.on('pointerdown', () => {
       if (!this.isChecked) {
         this.isChecked = true;
         this.checkText.setVisible(false);
 
-        // Swap the main sprite to the plain cup
-        this.mainItemSprite.setTexture('item_iced_tea_cup');
+        // Transform core sprite
+        this.mainItemSprite.setTexture(config.coreSpriteKey);
         this.updateSpriteScale();
 
-        // Spawn the lemon wedge next to the cup
-        lemonSprite = this.add.sprite(width / 2 + 150, height / 2 + 100, 'item_lemon_wedge');
-        lemonSprite.setDepth(150);
-        lemonSprite.setInteractive({ draggable: true });
-        const origH = lemonSprite.height;
-        if (origH > 0) lemonSprite.setScale(180 / origH);
-        lemonSprite.setData('isLemon', true);
-        lemonSprite.setData('startX', lemonSprite.x);
-        lemonSprite.setData('startY', lemonSprite.y);
+        // Spawn components
+        config.components.forEach((comp, idx) => {
+          const offsetX = (idx % 2 === 0 ? 1 : -1) * (150 + Math.floor(idx / 2) * 80);
+          const offsetY = (idx % 2 === 0 ? 1 : -1) * 30;
+          
+          const s = this.add.sprite(width / 2 + offsetX, height / 2 + 100 + offsetY, comp.spriteKey);
+          s.setDepth(150 + idx);
+          s.setInteractive({ draggable: true });
+          const origH = s.height;
+          if (origH > 0) s.setScale(180 / origH);
+          
+          s.setData('isComponent', true);
+          s.setData('targetBin', comp.targetBin);
+          s.setData('startX', s.x);
+          s.setData('startY', s.y);
+          
+          activeComponentSprites.push(s);
+        });
 
-        this.add.text(width / 2, height - 50, 'Drag lemon to Compost, then drag the cup to Compost!', {
+        this.add.text(width / 2, height - 50, 'Drag all pieces to their correct bins!', {
           fontFamily: 'Arial', fontSize: '22px', color: '#22c55e', fontStyle: 'bold'
         }).setOrigin(0.5).setDepth(200);
       }
     });
 
-    // Drag handler
-    this.input.on('drag', (_pointer: Phaser.Input.Pointer, gameObject: Phaser.GameObjects.Sprite, dragX: number, dragY: number) => {
-      if (gameObject.getData('isLemon') || gameObject === this.mainItemSprite) {
+    this.input.on('drag', (_p: Phaser.Input.Pointer, gameObject: Phaser.GameObjects.Sprite, dragX: number, dragY: number) => {
+      if (gameObject.getData('isComponent') || gameObject === this.mainItemSprite) {
         gameObject.x = dragX;
         gameObject.y = dragY;
       }
     });
 
-    // Drop handler
-    this.input.on('dragend', (_pointer: Phaser.Input.Pointer, gameObject: Phaser.GameObjects.Sprite) => {
+    this.input.on('dragend', (_p: Phaser.Input.Pointer, gameObject: Phaser.GameObjects.Sprite) => {
       const itemBounds = gameObject.getBounds();
       let droppedBin: Bin | null = null;
       for (const bin of this.bins) {
@@ -575,34 +648,30 @@ export class SeparationMinigameScene extends Phaser.Scene {
         }
       }
 
-      if (gameObject.getData('isLemon')) {
-        // Lemon wedge dropped
+      if (gameObject.getData('isComponent')) {
         if (droppedBin) {
-          if (droppedBin.binDef.id === 'compost') {
+          if (droppedBin.binDef.id === gameObject.getData('targetBin')) {
+            const idx = activeComponentSprites.indexOf(gameObject);
+            if (idx > -1) activeComponentSprites.splice(idx, 1);
             gameObject.destroy();
-            lemonRemoved = true;
             if (this.onScore) this.onScore(100, true);
 
-            // Now make the cup draggable
-            this.mainItemSprite.setInteractive({ useHandCursor: true });
-            this.input.setDraggable(this.mainItemSprite, true);
+            // If all components are cleared, make core sprite draggable
+            if (activeComponentSprites.length === 0) {
+              this.mainItemSprite.setInteractive({ useHandCursor: true });
+              this.input.setDraggable(this.mainItemSprite, true);
+            }
           } else {
-            // Wrong bin for lemon
             this.complete(false);
           }
         } else {
-          // Snap back
-          const sX = gameObject.getData('startX') as number;
-          const sY = gameObject.getData('startY') as number;
-          this.tweens.add({ targets: gameObject, x: sX, y: sY, duration: 200 });
+          this.tweens.add({ targets: gameObject, x: gameObject.getData('startX'), y: gameObject.getData('startY'), duration: 200 });
         }
       } else if (gameObject === this.mainItemSprite) {
-        // Cup dropped
         if (droppedBin) {
-          if (!lemonRemoved) {
-            // Tried to sort before separating
-            this.complete(false);
-          } else if (droppedBin.binDef.id === 'compost') {
+          if (activeComponentSprites.length > 0) {
+            this.complete(false); // must clear components first
+          } else if (droppedBin.binDef.id === config.coreTargetBin) {
             if (this.onScore) this.onScore(200, true);
             this.complete(true);
           } else {

@@ -593,7 +593,8 @@
     "componentIds": [],
     "venueIds": [
       "gym"
-    ]
+    ],
+    "emoji": "🍌"
   },
   {
     "id": "broken_jump_rope",
@@ -802,7 +803,8 @@
     "componentIds": [],
     "venueIds": [
       "art_studio"
-    ]
+    ],
+    "emoji": "🍊"
   },
   {
     "id": "eraser_shavings",
@@ -1110,7 +1112,8 @@
     "componentIds": [],
     "venueIds": [
       "mackenzie_cafe"
-    ]
+    ],
+    "emoji": "🏷️"
   },
   {
     "id": "cardboard_drink_carrier",
@@ -1121,7 +1124,8 @@
     "componentIds": [],
     "venueIds": [
       "mackenzie_cafe"
-    ]
+    ],
+    "emoji": "📦"
   },
   {
     "id": "glass_juice_bottle",
@@ -1132,7 +1136,8 @@
     "componentIds": [],
     "venueIds": [
       "mackenzie_cafe"
-    ]
+    ],
+    "emoji": "🧃"
   },
   {
     "id": "half_eaten_muffin",
@@ -1143,7 +1148,8 @@
     "componentIds": [],
     "venueIds": [
       "mackenzie_cafe"
-    ]
+    ],
+    "emoji": "🧁"
   },
   {
     "id": "banana_peel",
@@ -1154,7 +1160,8 @@
     "componentIds": [],
     "venueIds": [
       "mackenzie_cafe"
-    ]
+    ],
+    "emoji": "🍌"
   },
   {
     "id": "orange_peel",
@@ -1165,7 +1172,8 @@
     "componentIds": [],
     "venueIds": [
       "mackenzie_cafe"
-    ]
+    ],
+    "emoji": "🍊"
   },
   {
     "id": "iced_tea_with_lemon",
@@ -1173,10 +1181,14 @@
     "spriteKey": "item_iced_tea_with_lemon",
     "correctBinId": "none",
     "isComposite": true,
-    "componentIds": ["lemon_wedge", "iced_tea_cup"],
+    "componentIds": [
+      "lemon_wedge",
+      "iced_tea_cup"
+    ],
     "venueIds": [
       "mackenzie_cafe"
-    ]
+    ],
+    "emoji": "🍹"
   },
   {
     "id": "lemon_wedge",
@@ -1187,7 +1199,8 @@
     "componentIds": [],
     "venueIds": [
       "mackenzie_cafe"
-    ]
+    ],
+    "emoji": "🍋"
   },
   {
     "id": "iced_tea_cup",
@@ -1198,7 +1211,8 @@
     "componentIds": [],
     "venueIds": [
       "mackenzie_cafe"
-    ]
+    ],
+    "emoji": "🥤"
   },
   {
     "id": "tea_leaves",
@@ -1209,7 +1223,8 @@
     "componentIds": [],
     "venueIds": [
       "mackenzie_cafe"
-    ]
+    ],
+    "emoji": "🌿"
   },
   {
     "id": "sandwich_crusts",
@@ -1220,7 +1235,8 @@
     "componentIds": [],
     "venueIds": [
       "mackenzie_cafe"
-    ]
+    ],
+    "emoji": "🥪"
   },
   {
     "id": "plastic_yogurt_container",
@@ -1231,7 +1247,8 @@
     "componentIds": [],
     "venueIds": [
       "mackenzie_cafe"
-    ]
+    ],
+    "emoji": "🍦"
   },
   {
     "id": "receipt",
@@ -1242,7 +1259,528 @@
     "componentIds": [],
     "venueIds": [
       "mackenzie_cafe"
-    ]
+    ],
+    "emoji": "🧾"
+  },
+  {
+    "id": "sugar_packet",
+    "displayName": "Sugar Packet",
+    "spriteKey": "item_sugar_packet",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ],
+    "emoji": "🧂"
+  },
+  {
+    "id": "stirring_stick",
+    "displayName": "Wooden Stir Stick",
+    "spriteKey": "item_stirring_stick",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ],
+    "emoji": "🥢"
+  },
+  {
+    "id": "croissant_crumbs",
+    "displayName": "Croissant Crumbs",
+    "spriteKey": "item_croissant_crumbs",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ],
+    "emoji": "🥐"
+  },
+  {
+    "id": "egg_shell",
+    "displayName": "Egg Shell",
+    "spriteKey": "item_egg_shell",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ],
+    "emoji": "🥚"
+  },
+  {
+    "id": "milk_carton",
+    "displayName": "Milk Carton",
+    "spriteKey": "item_milk_carton",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ],
+    "emoji": "🥛"
+  },
+  {
+    "id": "aluminum_foil_wrap",
+    "displayName": "Aluminum Foil Wrap",
+    "spriteKey": "item_aluminum_foil_wrap",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ],
+    "emoji": "🫓"
+  },
+  {
+    "id": "plastic_cup",
+    "displayName": "Plastic Cup",
+    "spriteKey": "item_plastic_cup",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ],
+    "emoji": "🥤"
+  },
+  {
+    "id": "paper_bag",
+    "displayName": "Paper Bag",
+    "spriteKey": "item_paper_bag",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ],
+    "emoji": "🛍️"
+  },
+  {
+    "id": "used_coffee_filter",
+    "displayName": "Used Coffee Filter",
+    "spriteKey": "item_used_coffee_filter",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ],
+    "emoji": "☕"
+  },
+  {
+    "id": "cookie_crumbs",
+    "displayName": "Cookie Crumbs",
+    "spriteKey": "item_cookie_crumbs",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ],
+    "emoji": "🍪"
+  },
+  {
+    "id": "butter_packet_foil",
+    "displayName": "Butter Packet (Foil)",
+    "spriteKey": "item_butter_packet_foil",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ],
+    "emoji": "🧈"
+  },
+  {
+    "id": "jam_packet",
+    "displayName": "Jam Packet",
+    "spriteKey": "item_jam_packet",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ],
+    "emoji": "🍓"
+  },
+  {
+    "id": "broken_ceramic_mug",
+    "displayName": "Broken Ceramic Mug",
+    "spriteKey": "item_broken_ceramic_mug",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "mackenzie_cafe"
+    ],
+    "emoji": "☕"
+  },
+  {
+    "id": "salad_in_plastic_bowl",
+    "displayName": "Salad in Plastic Bowl",
+    "spriteKey": "item_salad_in_plastic_bowl",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "salad_scraps",
+      "salad_plastic_bowl"
+    ],
+    "venueIds": [
+      "mackenzie_cafe"
+    ],
+    "emoji": "🥗"
+  },
+  {
+    "id": "salad_scraps",
+    "displayName": "Salad Scraps",
+    "spriteKey": "item_salad_scraps",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥬"
+  },
+  {
+    "id": "salad_plastic_bowl",
+    "displayName": "Plastic Salad Bowl",
+    "spriteKey": "item_salad_plastic_bowl",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥣"
+  },
+  {
+    "id": "soup_in_paper_cup",
+    "displayName": "Soup in Paper Cup",
+    "spriteKey": "item_soup_in_paper_cup",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "soup_liquid",
+      "soup_paper_cup"
+    ],
+    "venueIds": [
+      "mackenzie_cafe"
+    ],
+    "emoji": "🍲"
+  },
+  {
+    "id": "soup_liquid",
+    "displayName": "Soup Liquid",
+    "spriteKey": "item_soup_liquid",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥣"
+  },
+  {
+    "id": "soup_paper_cup",
+    "displayName": "Paper Soup Cup",
+    "spriteKey": "item_soup_paper_cup",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥡"
+  },
+  {
+    "id": "sandwich_in_wrapper",
+    "displayName": "Sandwich in Wrapper",
+    "spriteKey": "item_sandwich_in_wrapper",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "sandwich_scraps",
+      "wax_wrapper"
+    ],
+    "venueIds": [
+      "mackenzie_cafe"
+    ],
+    "emoji": "🥪"
+  },
+  {
+    "id": "sandwich_scraps",
+    "displayName": "Sandwich Scraps",
+    "spriteKey": "item_sandwich_scraps",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥪"
+  },
+  {
+    "id": "wax_wrapper",
+    "displayName": "Wax Wrapper",
+    "spriteKey": "item_wax_wrapper",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "📜"
+  },
+  {
+    "id": "muffin_in_paper_liner",
+    "displayName": "Muffin in Liner",
+    "spriteKey": "item_muffin_in_paper_liner",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "muffin_crumbs",
+      "paper_liner"
+    ],
+    "venueIds": [
+      "mackenzie_cafe"
+    ],
+    "emoji": "🧁"
+  },
+  {
+    "id": "muffin_crumbs",
+    "displayName": "Muffin Crumbs",
+    "spriteKey": "item_muffin_crumbs",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥮"
+  },
+  {
+    "id": "paper_liner",
+    "displayName": "Paper Liner",
+    "spriteKey": "item_paper_liner",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "📄"
+  },
+  {
+    "id": "yogurt_with_granola",
+    "displayName": "Yogurt with Granola",
+    "spriteKey": "item_yogurt_with_granola",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "granola",
+      "yogurt_cup",
+      "plastic_spoon"
+    ],
+    "venueIds": [
+      "mackenzie_cafe"
+    ],
+    "emoji": "🍨"
+  },
+  {
+    "id": "granola",
+    "displayName": "Granola",
+    "spriteKey": "item_granola",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🌾"
+  },
+  {
+    "id": "yogurt_cup",
+    "displayName": "Yogurt Cup",
+    "spriteKey": "item_yogurt_cup",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥛"
+  },
+  {
+    "id": "plastic_spoon",
+    "displayName": "Plastic Spoon",
+    "spriteKey": "item_plastic_spoon",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥄"
+  },
+  {
+    "id": "coffee_with_sleeve_lid",
+    "displayName": "Coffee w/ Sleeve & Lid",
+    "spriteKey": "item_coffee_with_sleeve_lid",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "coffee_cup",
+      "coffee_cup_lid",
+      "coffee_sleeve"
+    ],
+    "venueIds": [
+      "mackenzie_cafe"
+    ],
+    "emoji": "☕"
+  },
+  {
+    "id": "smoothie_cup_with_straw",
+    "displayName": "Smoothie Cup w/ Straw",
+    "spriteKey": "item_smoothie_cup_with_straw",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "smoothie_cup",
+      "smoothie_straw"
+    ],
+    "venueIds": [
+      "mackenzie_cafe"
+    ],
+    "emoji": "🥤"
+  },
+  {
+    "id": "smoothie_cup",
+    "displayName": "Smoothie Cup",
+    "spriteKey": "item_smoothie_cup",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥤"
+  },
+  {
+    "id": "smoothie_straw",
+    "displayName": "Plastic Straw",
+    "spriteKey": "item_smoothie_straw",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥢"
+  },
+  {
+    "id": "bagel_in_paper_bag",
+    "displayName": "Bagel in Paper Bag",
+    "spriteKey": "item_bagel_in_paper_bag",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "bagel_scraps",
+      "bagel_paper_bag"
+    ],
+    "venueIds": [
+      "mackenzie_cafe"
+    ],
+    "emoji": "🥯"
+  },
+  {
+    "id": "bagel_scraps",
+    "displayName": "Bagel Scraps",
+    "spriteKey": "item_bagel_scraps",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥯"
+  },
+  {
+    "id": "bagel_paper_bag",
+    "displayName": "Bagel Paper Bag",
+    "spriteKey": "item_bagel_paper_bag",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🛍️"
+  },
+  {
+    "id": "pasta_in_takeout_box",
+    "displayName": "Pasta in Takeout Box",
+    "spriteKey": "item_pasta_in_takeout_box",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "pasta_scraps",
+      "takeout_container",
+      "takeout_fork"
+    ],
+    "venueIds": [
+      "mackenzie_cafe"
+    ],
+    "emoji": "🍝"
+  },
+  {
+    "id": "pasta_scraps",
+    "displayName": "Pasta Scraps",
+    "spriteKey": "item_pasta_scraps",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🍝"
+  },
+  {
+    "id": "takeout_container",
+    "displayName": "Plastic Container",
+    "spriteKey": "item_takeout_container",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🍱"
+  },
+  {
+    "id": "takeout_fork",
+    "displayName": "Plastic Fork",
+    "spriteKey": "item_takeout_fork",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🍴"
+  },
+  {
+    "id": "tea_bag_in_cup",
+    "displayName": "Tea Bag in Cup",
+    "spriteKey": "item_tea_bag_in_cup",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "used_tea_bag",
+      "tea_paper_cup",
+      "tea_plastic_lid"
+    ],
+    "venueIds": [
+      "mackenzie_cafe"
+    ],
+    "emoji": "🍵"
+  },
+  {
+    "id": "used_tea_bag",
+    "displayName": "Used Tea Bag",
+    "spriteKey": "item_used_tea_bag",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🫖"
+  },
+  {
+    "id": "tea_paper_cup",
+    "displayName": "Paper Tea Cup",
+    "spriteKey": "item_tea_paper_cup",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🍵"
+  },
+  {
+    "id": "tea_plastic_lid",
+    "displayName": "Plastic Tea Lid",
+    "spriteKey": "item_tea_plastic_lid",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "💿"
   },
   {
     "id": "dummy_foodboxfull",

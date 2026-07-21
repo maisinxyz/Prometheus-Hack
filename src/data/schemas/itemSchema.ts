@@ -12,6 +12,7 @@ export const ItemSchema = z.object({
   isComposite: z.boolean(),
   componentIds: z.array(z.string()),
   venueIds: z.array(z.string()),
+  emoji: z.string().optional(),
 });
 
 export type TrashItemDef = z.infer<typeof ItemSchema>;
