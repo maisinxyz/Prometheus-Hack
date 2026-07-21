@@ -4770,6 +4770,266 @@
     "emoji": "💿"
   },
   {
+    "id": "broken_jump_rope",
+    "displayName": "Broken Jump Rope",
+    "spriteKey": "item_jump_rope",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "gym"
+    ],
+    "emoji": "🪢"
+  },
+  {
+    "id": "sweaty_towel_scrap",
+    "displayName": "Torn Towel",
+    "spriteKey": "item_towel_scrap",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "gym"
+    ],
+    "emoji": "🧻"
+  },
+  {
+    "id": "empty_preworkout_tub",
+    "displayName": "Pre-workout Tub",
+    "spriteKey": "item_preworkout",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "gym"
+    ],
+    "emoji": "🛢️"
+  },
+  {
+    "id": "torn_yoga_mat",
+    "displayName": "Torn Yoga Mat",
+    "spriteKey": "item_yoga_mat",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "gym"
+    ],
+    "emoji": "🧘"
+  },
+  {
+    "id": "cracked_shaker_bottle",
+    "displayName": "Cracked Shaker",
+    "spriteKey": "item_cracked_shaker",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "gym"
+    ],
+    "emoji": "🍼"
+  },
+  {
+    "id": "used_athletic_tape",
+    "displayName": "Athletic Tape",
+    "spriteKey": "item_athletic_tape",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "gym"
+    ],
+    "emoji": "🩹"
+  },
+  {
+    "id": "energy_gel_packet",
+    "displayName": "Energy Gel Packet",
+    "spriteKey": "item_energy_gel",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "gym"
+    ],
+    "emoji": "🍯"
+  },
+  {
+    "id": "gym_wipes",
+    "displayName": "Used Gym Wipe",
+    "spriteKey": "item_gym_wipe",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "gym"
+    ],
+    "emoji": "🧻"
+  },
+  {
+    "id": "weightlifting_chalk_dust",
+    "displayName": "Chalk Dust",
+    "spriteKey": "item_chalk_dust",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "gym"
+    ],
+    "emoji": "☁️"
+  },
+  {
+    "id": "broken_combination_lock",
+    "displayName": "Broken Lock",
+    "spriteKey": "item_broken_lock",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "gym"
+    ],
+    "emoji": "🔒"
+  },
+  {
+    "id": "protein_shake_in_cup",
+    "displayName": "Protein Shake",
+    "spriteKey": "item_protein_shake",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "plastic_shaker_cup",
+      "leftover_protein_shake"
+    ],
+    "venueIds": [
+      "gym"
+    ],
+    "emoji": "🥤"
+  },
+  {
+    "id": "plastic_shaker_cup",
+    "displayName": "Shaker Cup",
+    "spriteKey": "item_shaker_cup",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥤"
+  },
+  {
+    "id": "leftover_protein_shake",
+    "displayName": "Protein Liquid",
+    "spriteKey": "item_protein_liquid",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "💧"
+  },
+  {
+    "id": "gym_membership_packet",
+    "displayName": "Welcome Packet",
+    "spriteKey": "item_welcome_packet",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "paper_welcome_folder",
+      "plastic_key_fob"
+    ],
+    "venueIds": [
+      "gym"
+    ],
+    "emoji": "📂"
+  },
+  {
+    "id": "paper_welcome_folder",
+    "displayName": "Paper Folder",
+    "spriteKey": "item_welcome_folder",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "📁"
+  },
+  {
+    "id": "plastic_key_fob",
+    "displayName": "Key Fob",
+    "spriteKey": "item_key_fob",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🗝️"
+  },
+  {
+    "id": "banana_with_peel",
+    "displayName": "Whole Banana",
+    "spriteKey": "item_banana_whole",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "banana_fruit",
+      "banana_peel_scrap"
+    ],
+    "venueIds": [
+      "gym"
+    ],
+    "emoji": "🍌"
+  },
+  {
+    "id": "banana_fruit",
+    "displayName": "Banana Fruit",
+    "spriteKey": "item_banana_fruit",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🍌"
+  },
+  {
+    "id": "banana_peel_scrap",
+    "displayName": "Banana Peel",
+    "spriteKey": "item_banana_peel_scrap",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🍌"
+  },
+  {
+    "id": "smoothie_cup_with_straw",
+    "displayName": "Smoothie w/ Straw",
+    "spriteKey": "item_smoothie_cup",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "plastic_smoothie_cup",
+      "plastic_smoothie_straw"
+    ],
+    "venueIds": [
+      "gym"
+    ],
+    "emoji": "🥤"
+  },
+  {
+    "id": "plastic_smoothie_cup",
+    "displayName": "Plastic Cup",
+    "spriteKey": "item_plastic_smoothie_cup",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥤"
+  },
+  {
+    "id": "plastic_smoothie_straw",
+    "displayName": "Plastic Straw",
+    "spriteKey": "item_smoothie_straw",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥢"
+  },
+  {
     "id": "dummy_foodboxfull",
     "displayName": "Dummy foodboxfull",
     "spriteKey": "foodboxfull",

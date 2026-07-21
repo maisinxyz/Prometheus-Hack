@@ -308,7 +308,20 @@
       "broken_jump_rope",
       "sports_drink_can",
       "yoga_mat_piece",
-      "shoe_box"
+      "shoe_box",
+      "sweaty_towel_scrap",
+      "empty_preworkout_tub",
+      "torn_yoga_mat",
+      "cracked_shaker_bottle",
+      "used_athletic_tape",
+      "energy_gel_packet",
+      "gym_wipes",
+      "weightlifting_chalk_dust",
+      "broken_combination_lock",
+      "protein_shake_in_cup",
+      "gym_membership_packet",
+      "banana_with_peel",
+      "smoothie_cup_with_straw"
     ],
     "backgroundKeys": {
       "clean": "venue_gym_bg_clean",
