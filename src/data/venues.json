@@ -144,7 +144,21 @@
       "plastic_water_bottle",
       "aluminum_can",
       "paper_straw_wrapper",
-      "plastic_straw"
+      "plastic_straw",
+      "tourist_map_pamphlet",
+      "discarded_broadway_flyer",
+      "novelty_foam_finger_scrap",
+      "empty_halal_cart_sauce",
+      "roasted_nuts_paper_bag",
+      "fake_designer_sunglasses",
+      "light_up_toy_broken",
+      "souvenir_snow_globe_shard",
+      "i_love_ny_keychain",
+      "street_vendor_pretzel",
+      "halal_cart_platter",
+      "shopping_bag_with_receipt",
+      "disposable_camera_used",
+      "oversized_soda_cup"
     ],
     "backgroundKeys": {
       "clean": "venue_times_square_bg_clean",

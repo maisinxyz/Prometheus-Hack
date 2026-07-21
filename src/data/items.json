@@ -4250,6 +4250,266 @@
     "emoji": "📦"
   },
   {
+    "id": "tourist_map_pamphlet",
+    "displayName": "Tourist Map",
+    "spriteKey": "item_tourist_map",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "times_square"
+    ],
+    "emoji": "🗺️"
+  },
+  {
+    "id": "discarded_broadway_flyer",
+    "displayName": "Broadway Flyer",
+    "spriteKey": "item_broadway_flyer",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "times_square"
+    ],
+    "emoji": "🪧"
+  },
+  {
+    "id": "novelty_foam_finger_scrap",
+    "displayName": "Foam Finger Scrap",
+    "spriteKey": "item_foam_finger",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "times_square"
+    ],
+    "emoji": "🧤"
+  },
+  {
+    "id": "empty_halal_cart_sauce",
+    "displayName": "Halal Sauce Cup",
+    "spriteKey": "item_halal_sauce",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "times_square"
+    ],
+    "emoji": "🥣"
+  },
+  {
+    "id": "roasted_nuts_paper_bag",
+    "displayName": "Nuts Paper Bag",
+    "spriteKey": "item_nuts_bag",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "times_square"
+    ],
+    "emoji": "🛍️"
+  },
+  {
+    "id": "fake_designer_sunglasses",
+    "displayName": "Fake Sunglasses",
+    "spriteKey": "item_fake_sunglasses",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "times_square"
+    ],
+    "emoji": "🕶️"
+  },
+  {
+    "id": "light_up_toy_broken",
+    "displayName": "Broken Light Toy",
+    "spriteKey": "item_light_toy",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "times_square"
+    ],
+    "emoji": "🔦"
+  },
+  {
+    "id": "souvenir_snow_globe_shard",
+    "displayName": "Snow Globe Shard",
+    "spriteKey": "item_snow_globe",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "times_square"
+    ],
+    "emoji": "🔮"
+  },
+  {
+    "id": "i_love_ny_keychain",
+    "displayName": "NY Keychain",
+    "spriteKey": "item_ny_keychain",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "times_square"
+    ],
+    "emoji": "🗝️"
+  },
+  {
+    "id": "street_vendor_pretzel",
+    "displayName": "Stale Pretzel",
+    "spriteKey": "item_street_pretzel",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [
+      "times_square"
+    ],
+    "emoji": "🥨"
+  },
+  {
+    "id": "halal_cart_platter",
+    "displayName": "Halal Cart Platter",
+    "spriteKey": "item_halal_platter",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "styrofoam_platter",
+      "chicken_over_rice_scraps"
+    ],
+    "venueIds": [
+      "times_square"
+    ],
+    "emoji": "🥡"
+  },
+  {
+    "id": "styrofoam_platter",
+    "displayName": "Styrofoam Platter",
+    "spriteKey": "item_styrofoam_platter",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥡"
+  },
+  {
+    "id": "chicken_over_rice_scraps",
+    "displayName": "Food Leftovers",
+    "spriteKey": "item_halal_scraps",
+    "correctBinId": "compost",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🍛"
+  },
+  {
+    "id": "shopping_bag_with_receipt",
+    "displayName": "Shopping Bag",
+    "spriteKey": "item_shopping_bag_receipt",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "shopping_paper_bag",
+      "store_receipt"
+    ],
+    "venueIds": [
+      "times_square"
+    ],
+    "emoji": "🛍️"
+  },
+  {
+    "id": "shopping_paper_bag",
+    "displayName": "Paper Bag",
+    "spriteKey": "item_shopping_paper_bag",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🛍️"
+  },
+  {
+    "id": "store_receipt",
+    "displayName": "Store Receipt",
+    "spriteKey": "item_store_receipt",
+    "correctBinId": "paper",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🧾"
+  },
+  {
+    "id": "disposable_camera_used",
+    "displayName": "Disposable Camera",
+    "spriteKey": "item_disposable_camera",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "camera_plastic_shell",
+      "camera_battery"
+    ],
+    "venueIds": [
+      "times_square"
+    ],
+    "emoji": "📸"
+  },
+  {
+    "id": "camera_plastic_shell",
+    "displayName": "Plastic Shell",
+    "spriteKey": "item_camera_plastic_shell",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "📷"
+  },
+  {
+    "id": "camera_battery",
+    "displayName": "Camera Battery",
+    "spriteKey": "item_camera_battery",
+    "correctBinId": "landfill",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🔋"
+  },
+  {
+    "id": "oversized_soda_cup",
+    "displayName": "Oversized Soda Cup",
+    "spriteKey": "item_oversized_soda",
+    "correctBinId": "none",
+    "isComposite": true,
+    "componentIds": [
+      "large_plastic_cup",
+      "large_plastic_lid"
+    ],
+    "venueIds": [
+      "times_square"
+    ],
+    "emoji": "🥤"
+  },
+  {
+    "id": "large_plastic_cup",
+    "displayName": "Large Plastic Cup",
+    "spriteKey": "item_large_plastic_cup",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "🥤"
+  },
+  {
+    "id": "large_plastic_lid",
+    "displayName": "Large Plastic Lid",
+    "spriteKey": "item_large_plastic_lid",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": [],
+    "emoji": "💿"
+  },
+  {
     "id": "dummy_foodboxfull",
     "displayName": "Dummy foodboxfull",
     "spriteKey": "foodboxfull",
