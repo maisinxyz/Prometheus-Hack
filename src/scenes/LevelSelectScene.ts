@@ -66,8 +66,43 @@ export class LevelSelectScene extends Phaser.Scene {
 
     MapLibreService.addVenueAnnotations(annotationsData);
 
-    // 4. Cleanup MapKit UI when leaving this scene
+    // 4. UI Overlay (HTML) for Total CHI and Future Vision
+    const totalChi = this.chiSystem.getTotalChi(venuesData.map(v => v.id));
+    const maxChi = venuesData.length * 100;
+
+    const uiContainer = document.createElement('div');
+    uiContainer.id = 'level-select-ui';
+    uiContainer.style.position = 'absolute';
+    uiContainer.style.top = '20px';
+    uiContainer.style.left = '20px';
+    uiContainer.style.zIndex = '20';
+    uiContainer.style.pointerEvents = 'auto';
+    uiContainer.innerHTML = `
+      <div style="color: #facc15; font-family: sans-serif; font-size: 24px; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8); margin-bottom: 10px;">
+        Total CHI: ${Math.floor(totalChi)} / ${maxChi}
+      </div>
+      <button id="future-btn" style="background: #2563eb; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+        👁 Toggle Future Vision
+      </button>
+    `;
+    document.body.appendChild(uiContainer);
+
+    let isFutureVisionActive = false;
+    document.getElementById('future-btn')!.addEventListener('click', () => {
+      isFutureVisionActive = !isFutureVisionActive;
+      MapLibreService.toggleFutureVision(isFutureVisionActive, totalChi, maxChi);
+      const btn = document.getElementById('future-btn')!;
+      if (isFutureVisionActive) {
+        btn.style.background = totalChi >= maxChi / 2 ? '#16a34a' : '#dc2626';
+      } else {
+        btn.style.background = '#2563eb';
+      }
+    });
+
+    // 5. Cleanup MapKit UI when leaving this scene
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      document.getElementById('level-select-ui')?.remove();
+      MapLibreService.toggleFutureVision(false, 0, 0); // Reset map style
       MapLibreService.hideMap();
       MapLibreService.removeAllAnnotations();
     });

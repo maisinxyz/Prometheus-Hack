@@ -434,6 +434,54 @@ class MapLibreServiceSingleton {
   getMap(): any {
     return this.map;
   }
+
+  /**
+   * Toggles the Future Vision styling based on total CHI.
+   */
+  toggleFutureVision(isActive: boolean, totalChi: number, maxChi: number): void {
+    if (!this.map || !this.map.getLayer('3d-buildings')) return;
+
+    if (!isActive) {
+      // Revert to normal
+      this.map.setPaintProperty('3d-buildings', 'fill-extrusion-color', [
+        'interpolate',
+        ['linear'],
+        ['get', 'render_height'],
+        0, '#8c7b6d',   // Brownstone / brick for low-rises
+        40, '#9a948e',  // Grey concrete for mid-rises
+        120, '#5a788c', // Light bluish glass for skyscrapers
+        300, '#36536b'  // Deep blue glass for ultra-tall super-slenders
+      ]);
+      document.getElementById('mapkit-container')!.style.filter = '';
+    } else {
+      const isUtopia = totalChi >= (maxChi / 2);
+      if (isUtopia) {
+        // Eco-Utopia
+        this.map.setPaintProperty('3d-buildings', 'fill-extrusion-color', [
+          'interpolate',
+          ['linear'],
+          ['get', 'render_height'],
+          0, '#b8e0d2',
+          40, '#80cfa9',
+          120, '#d1f2eb',
+          300, '#aed6f1'
+        ]);
+        document.getElementById('mapkit-container')!.style.filter = 'hue-rotate(-10deg) saturate(1.5)';
+      } else {
+        // Bleak Future
+        this.map.setPaintProperty('3d-buildings', 'fill-extrusion-color', [
+          'interpolate',
+          ['linear'],
+          ['get', 'render_height'],
+          0, '#5a4d41',
+          40, '#4a4e4d',
+          120, '#3e4a3d',
+          300, '#2d2d2d'
+        ]);
+        document.getElementById('mapkit-container')!.style.filter = 'sepia(0.6) hue-rotate(50deg) saturate(1.2)';
+      }
+    }
+  }
 }
 
 /** Singleton export */

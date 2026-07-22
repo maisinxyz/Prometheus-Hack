@@ -51,4 +51,15 @@ export class ChiSystem {
 
     return newChi;
   }
+
+  /**
+   * Retrieves the total CHI for a given list of venue IDs.
+   */
+  getTotalChi(venueIds: string[]): number {
+    let total = 0;
+    for (const id of venueIds) {
+      total += this.getChi(id);
+    }
+    return total;
+  }
 }
