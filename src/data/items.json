@@ -333,7 +333,7 @@
   },
   {
     "id": "medicine_box",
-    "displayName": "Medicine Box",
+    "displayName": "Empty Medicine Pill Box",
     "spriteKey": "item_medicine_box",
     "correctBinId": "plastic",
     "isComposite": false,
