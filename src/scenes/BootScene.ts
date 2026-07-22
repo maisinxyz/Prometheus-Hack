@@ -40,7 +40,7 @@ export class BootScene extends Phaser.Scene {
     this.load.image('fries', 'assets/sprites/items/fries.png');
 
     // 2. Load Bins and Machines
-    this.load.image('machine_rock_crusher', 'assets/sprites/machines/rock_crusher.png');
+    this.load.image('machine_rock_crusher', 'assets/sprites/items/rock_crusher.png');
 
     for (const bin of binsData) {
       const key = `bin_${bin.id}`;
@@ -48,9 +48,9 @@ export class BootScene extends Phaser.Scene {
     }
 
     // 3. Load UI & Backgrounds
-    this.load.image('title_bg', 'assets/sprites/ui/title_bg.jpg');
-    this.load.image('nyc_map_bg', 'assets/images/nyc_map_bg.jpg');
-    this.load.image('bg_construction_site', 'assets/images/construction_bg.png');
+    this.load.image('title_bg', 'assets/sprites/ui/title_bg.png');
+    this.load.image('nyc_map_bg', 'assets/sprites/ui/custom_map.jpg');
+    this.load.image('bg_construction_site', 'assets/sprites/items/construction_bg.png');
 
     // Load venue icons
     const venueIds = [
@@ -62,7 +62,6 @@ export class BootScene extends Phaser.Scene {
     for (const vid of venueIds) {
       this.load.image(`venue_icon_${vid}`, `assets/sprites/ui/venues/${vid}.png`);
     }
-    this.load.image('nyc_map_bg', 'assets/sprites/ui/custom_map.jpg');
     this.load.image('main_menu_bg', 'assets/sprites/items/main_menu_bg.png');
     this.load.image('venue_mackenzie_cafe_bg_clean', 'assets/sprites/items/venue_mackenzie_cafe_bg_clean.png');
     this.load.image('venue_financial_district_office_bg_clean', 'assets/sprites/items/venue_financial_district_office_bg_clean.png');
