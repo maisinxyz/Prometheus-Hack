@@ -105,9 +105,10 @@ export class TrayScene extends Phaser.Scene {
 
     // Create rock crusher for construction site
     if (this.venueId === 'construction_site') {
-      // Place it on the right side of the screen, ensuring it stays fully in frame
-      const padding = 50;
-      this.crusher = new RockCrusher(this, this.cameras.main.width - 250 - padding, 450); // Approximating width
+      // Place it on the right side of the 1920x1080 game canvas
+      // Using hardcoded coords within the logical canvas to guarantee visibility
+      // MacBook Air M2: 2560x1664 native, game uses FIT mode at 1920x1080
+      this.crusher = new RockCrusher(this, 1600, 400);
       this.crusher.setDepth(50);
     }
 
@@ -203,7 +204,15 @@ export class TrayScene extends Phaser.Scene {
   /** Create the venue background using ParallaxLayer */
   private createBackground(): void {
     if (this.venueId === 'construction_site') {
-      const bg = this.add.image(0, 0, 'bg_construction_site').setOrigin(0, 0);
+      // Try the dedicated construction bg, fall back to venue bg
+      let bgKey = 'bg_construction_site';
+      if (!this.textures.exists(bgKey)) {
+        bgKey = 'venue_construction_site_bg_clean';
+      }
+      if (!this.textures.exists(bgKey)) {
+        bgKey = 'nyc_map_bg'; // ultimate fallback
+      }
+      const bg = this.add.image(0, 0, bgKey).setOrigin(0, 0);
       bg.setDisplaySize(this.cameras.main.width, this.cameras.main.height);
       bg.setDepth(0);
       
