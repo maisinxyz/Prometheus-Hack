@@ -10,13 +10,19 @@ export class TitleScene extends Phaser.Scene {
 
   create(): void {
     const { width, height } = this.scale;
-    const bg = this.add.image(width / 2, height / 2, 'main_menu_bg');
     
-    // Scale image to cover the screen
-    const scaleX = width / bg.width;
-    const scaleY = height / bg.height;
-    const scale = Math.max(scaleX, scaleY);
-    bg.setScale(scale);
+    // We don't draw the image inside Phaser because it causes a seam with the letterboxing.
+    // Instead, the canvas is transparent, and we let the CSS body background show through!
+
+    // Apply the image to the HTML body as well to fill any letterboxed black bars
+    document.body.style.backgroundImage = "url('/assets/sprites/items/main_menu_bg.png')";
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundPosition = 'center';
+
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      document.body.style.backgroundImage = 'none';
+      document.body.style.backgroundColor = '#222';
+    });
 
     // Title Text
     const title = this.add.text(960, 300, 'TrashDash: NYC Echo', {
