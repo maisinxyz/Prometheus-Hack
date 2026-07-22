@@ -808,7 +808,7 @@
   {
     "id": "clean_sawdust_pile",
     "displayName": "Clean Sawdust Pile",
-    "spriteKey": "item_sawdust_pile",
+    "spriteKey": "sawdust",
     "correctBinId": "compost",
     "isComposite": false,
     "componentIds": [],
@@ -819,7 +819,7 @@
   {
     "id": "broken_brick_piece",
     "displayName": "Broken Brick Piece",
-    "spriteKey": "item_broken_brick",
+    "spriteKey": "brick",
     "correctBinId": "landfill",
     "isComposite": false,
     "componentIds": [],
@@ -830,7 +830,7 @@
   {
     "id": "yellow_caution_tape",
     "displayName": "Yellow Caution Tape",
-    "spriteKey": "item_caution_tape",
+    "spriteKey": "cautiontape",
     "correctBinId": "landfill",
     "isComposite": false,
     "componentIds": [],
@@ -841,7 +841,7 @@
   {
     "id": "cement_mix_bag",
     "displayName": "Cement Mix Bag",
-    "spriteKey": "item_cement_bag",
+    "spriteKey": "emptycementbag",
     "correctBinId": "landfill",
     "isComposite": false,
     "componentIds": [],
@@ -852,7 +852,7 @@
   {
     "id": "rusty_nail",
     "displayName": "Rusty Nail",
-    "spriteKey": "item_rusty_nail",
+    "spriteKey": "rustynails",
     "correctBinId": "landfill",
     "isComposite": false,
     "componentIds": [],
@@ -863,7 +863,7 @@
   {
     "id": "cracked_hard_hat",
     "displayName": "Cracked Hard Hat",
-    "spriteKey": "item_hard_hat",
+    "spriteKey": "hardhat",
     "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
@@ -1761,7 +1761,7 @@
   {
     "id": "drywall_scrap",
     "displayName": "Drywall Scrap",
-    "spriteKey": "item_drywall_scrap",
+    "spriteKey": "rock",
     "correctBinId": "landfill",
     "isComposite": false,
     "componentIds": [],
@@ -1785,7 +1785,7 @@
   {
     "id": "concrete_chunk",
     "displayName": "Concrete Chunk",
-    "spriteKey": "item_concrete_chunk",
+    "spriteKey": "rockshattered",
     "correctBinId": "landfill",
     "isComposite": false,
     "componentIds": [],
@@ -5870,7 +5870,7 @@
   {
     "id": "wood_scrap",
     "displayName": "Wood Scrap",
-    "spriteKey": "item_wood_scrap",
+    "spriteKey": "wood",
     "correctBinId": "compost",
     "isComposite": false,
     "componentIds": [],

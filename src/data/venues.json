@@ -470,10 +470,8 @@
       "cement_mix_bag",
       "rusty_nail",
       "cracked_hard_hat",
-      "pvc_pipe_scrap",
       "wood_scrap",
-      "drywall_scrap",
-      "concrete_chunk"
+      "drywall_scrap"
     ],
     "backgroundKeys": {
       "clean": "venue_construction_site_bg_clean",

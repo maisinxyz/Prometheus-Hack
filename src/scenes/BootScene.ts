@@ -39,7 +39,9 @@ export class BootScene extends Phaser.Scene {
     this.load.image('watermelon', 'assets/sprites/items/watermelon.png');
     this.load.image('fries', 'assets/sprites/items/fries.png');
 
-    // 2. Load Bins
+    // 2. Load Bins and Machines
+    this.load.image('machine_rock_crusher', 'assets/sprites/machines/rock_crusher.png');
+
     for (const bin of binsData) {
       const key = `bin_${bin.id}`;
       this.load.image(key, `assets/sprites/bins/${key}.png`);
@@ -47,6 +49,8 @@ export class BootScene extends Phaser.Scene {
 
     // 3. Load UI & Backgrounds
     this.load.image('title_bg', 'assets/sprites/ui/title_bg.jpg');
+    this.load.image('nyc_map_bg', 'assets/images/nyc_map_bg.jpg');
+    this.load.image('bg_construction_site', 'assets/images/construction_bg.png');
 
     // Load venue icons
     const venueIds = [

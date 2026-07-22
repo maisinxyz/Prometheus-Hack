@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { TrashItem } from '../entities/TrashItem';
 import { Bin } from '../entities/Bin';
+import { RockCrusher } from '../entities/RockCrusher';
 import { ScoringSystem } from '../systems/ScoringSystem';
 import { ComboSystem } from '../systems/ComboSystem';
 import { ParticleFXManager } from '../systems/ParticleFXManager';
@@ -43,6 +44,8 @@ export class TrayScene extends Phaser.Scene {
   private roundScore: number = 0;
   private totalDrops: number = 0;
   private correctDrops: number = 0;
+  
+  private crusher: RockCrusher | null = null;
   
   private currentEventId: 'smog' | 'flood' | 'normal' | 'festival' = 'normal';
   private scoreMultiplier: number = 1;
@@ -99,6 +102,14 @@ export class TrayScene extends Phaser.Scene {
 
     // Create bins along the bottom
     this.createBins();
+
+    // Create rock crusher for construction site
+    if (this.venueId === 'construction_site') {
+      // Place it on the right side of the screen, ensuring it stays fully in frame
+      const padding = 50;
+      this.crusher = new RockCrusher(this, this.cameras.main.width - 250 - padding, 450); // Approximating width
+      this.crusher.setDepth(50);
+    }
 
     // Spawn random items from the venue's item pool
     this.spawnItems();
@@ -191,6 +202,17 @@ export class TrayScene extends Phaser.Scene {
 
   /** Create the venue background using ParallaxLayer */
   private createBackground(): void {
+    if (this.venueId === 'construction_site') {
+      const bg = this.add.image(0, 0, 'bg_construction_site').setOrigin(0, 0);
+      bg.setDisplaySize(this.cameras.main.width, this.cameras.main.height);
+      bg.setDepth(0);
+      
+      const venueLabel = this.add.text(30, 20, 'Construction Site', {
+        fontFamily: 'Arial, sans-serif', fontSize: '28px', color: '#ffffff', fontStyle: 'bold'
+      }).setAlpha(0.6).setDepth(50);
+      return;
+    }
+
     const venueData = venuesData.find((v) => v.id === this.venueId);
     
     // We will use the same image for fg/mid/bg just to test the ParallaxLayer logic
@@ -247,6 +269,7 @@ export class TrayScene extends Phaser.Scene {
       const binDef = binDefs[i]!;
       const x = startX + i * spacing;
       const bin = new Bin(this, x, binY, binDef);
+      bin.setDepth(50);
       if (isCafe) {
         bin.setScale(binScale);
         bin.backSprite.setDepth(1); // Set lower depth to keep them in the back
@@ -272,61 +295,68 @@ export class TrayScene extends Phaser.Scene {
 
     // Pick random items for this tray (10-15 as requested)
     this.itemsPerTray = Phaser.Math.Between(10, 15);
-    const count = Math.min(this.itemsPerTray, pool.length);
-    const shuffled = [...pool].sort(() => Math.random() - 0.5);
-    const selected = shuffled.slice(0, count);
+    const selectedPool = [...pool].sort(() => Math.random() - 0.5);
 
     for (let i = 0; i < this.itemsPerTray; i++) {
-      const randomItemDef = selected[i % selected.length]!;
+      const itemDef = selectedPool[i % selectedPool.length]!;
 
-      let x = 0;
-      let y = 0;
-      let overlapping = true;
-      let attempts = 0;
+      let maxAttempts = 20;
+      let safeSpawnFound = false;
 
-      while (overlapping && attempts < 100) {
-        if (this.venueId === 'mackenzie_cafe') {
-          // Scatter across the foreground tables (bottom half of the screen, wider area)
-          x = 200 + Math.random() * 1500; // Spans x=200 to 1700
-          y = 700 + Math.random() * 250; // Spans y=700 to 950
-        } else {
-          // Default order area
-          x = 1100 + Math.random() * 600; // Spans x=1100 to 1700
-          y = 600 + Math.random() * 200; // Spans y=600 to 800
-        }
-        
-        overlapping = false;
-        
-        for (const existingItem of this.items) {
-          const dist = Phaser.Math.Distance.Between(x, y, existingItem.x, existingItem.y);
-          if (dist < 120) { // Increased distance to prevent overlapping
+      while (maxAttempts > 0 && !safeSpawnFound) {
+        // Enforce padding to not spawn off-screen edges
+        const padding = 100;
+        const x = Phaser.Math.Between(padding, 1920 - padding);
+        const y = Phaser.Math.Between(padding, 1080 - 300); // Leave room at bottom for bins
+
+        // Estimate item bounds (assuming approx 100x100 size for safety)
+        const spawnRect = new Phaser.Geom.Rectangle(x - 50, y - 50, 100, 100);
+
+        let overlapping = false;
+
+        // Check bins
+        for (const bin of this.bins) {
+          if (Phaser.Geom.Rectangle.Overlaps(spawnRect, bin.getBounds())) {
             overlapping = true;
             break;
           }
         }
-        attempts++;
-      }
 
-      const item = new TrashItem(
-        this,
-        x,
-        y,
-        randomItemDef,
-        this.currentTier.visualCuesActive // Pass visual cues setting (E.4)
-      );
-      item.setDepth(10);
-      this.items.push(item);
+        // Check crusher
+        if (!overlapping && this.crusher) {
+          if (Phaser.Geom.Rectangle.Overlaps(spawnRect, this.crusher.getBounds())) {
+            overlapping = true;
+          }
+        }
 
-      if (this.currentEventId === 'flood') {
-        this.tweens.add({
-          targets: item,
-          y: `-=${10 + Math.random() * 20}`,
-          x: `+=${(Math.random() - 0.5) * 30}`,
-          yoyo: true,
-          repeat: -1,
-          duration: 800 + Math.random() * 600,
-          ease: 'Sine.easeInOut'
-        });
+        if (!overlapping) {
+          safeSpawnFound = true;
+          const item = new TrashItem(this, x, y, itemDef, this.currentTier.visualCuesActive);
+          item.setDepth(20); // Enforce middle depth
+          
+          item.y -= 50;
+          this.tweens.add({
+            targets: item,
+            y: y,
+            duration: Phaser.Math.Between(400, 700),
+            ease: 'Bounce.easeOut'
+          });
+
+          this.items.push(item);
+
+          if (this.currentEventId === 'flood') {
+            this.tweens.add({
+              targets: item,
+              y: `-=${10 + Math.random() * 20}`,
+              x: `+=${(Math.random() - 0.5) * 30}`,
+              yoyo: true,
+              repeat: -1,
+              duration: 800 + Math.random() * 600,
+              ease: 'Sine.easeInOut'
+            });
+          }
+        }
+        maxAttempts--;
       }
     }
   }
@@ -342,6 +372,36 @@ export class TrayScene extends Phaser.Scene {
         if (!(gameObject instanceof TrashItem) || this.roundEnded) return;
 
         const item = gameObject;
+
+        // Check overlap with crusher first
+        if (this.crusher && this.crusher.intersectsInput(item.x, item.y)) {
+          if (this.crusher.acceptsItem(item)) {
+            // It's a rock, crush it!
+            this.crusher.crushItem(item, (newItemDef, spawnX, spawnY) => {
+              const newItem = new TrashItem(this, spawnX, spawnY, newItemDef, this.currentTier.visualCues);
+              // Float it out like a newly spawned item
+              newItem.y -= 50;
+              this.tweens.add({
+                targets: newItem,
+                y: spawnY,
+                duration: 500,
+                ease: 'Bounce.easeOut'
+              });
+              
+              // Replace in array
+              const idx = this.items.indexOf(item);
+              if (idx !== -1) {
+                this.items[idx] = newItem;
+              } else {
+                this.items.push(newItem);
+              }
+            });
+            return; // Drag handled by crusher
+          } else {
+            // Crusher rejects this item, it will snap back
+            this.cameras.main.shake(100, 0.005);
+          }
+        }
 
         // Check overlap with each bin
         let targetBin: Bin | null = null;

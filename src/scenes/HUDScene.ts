@@ -92,32 +92,22 @@ export class HUDScene extends Phaser.Scene {
     });
     this.feedbackText.setOrigin(0.5).setDepth(200).setAlpha(0);
 
-    // --- Weather Event Box (bottom-right) ---
-    const weatherBg = this.add.rectangle(1880, 1040, 450, 140, 0x000000, 0.7);
-    weatherBg.setOrigin(1, 1).setStrokeStyle(2, Phaser.Display.Color.HexStringToColor(this.weatherColor).color);
-    weatherBg.setDepth(200);
-
-    const weatherTitle = this.add.text(1860, 920, this.weatherName, {
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '28px',
-      color: this.weatherColor,
-      fontStyle: 'bold',
-    }).setOrigin(1, 0).setDepth(200);
-
-    const weatherDescText = this.add.text(1860, 960, this.weatherDesc, {
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '18px',
-      color: '#aaaaaa',
-      wordWrap: { width: 410, useAdvancedWrap: true }
-    }).setOrigin(1, 0).setDepth(200);
-
-    const weatherEffectText = this.add.text(1860, 1005, `Effect: ${this.weatherEffect}`, {
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '18px',
-      color: '#ffffff',
-      fontStyle: 'italic',
-      wordWrap: { width: 410, useAdvancedWrap: true }
-    }).setOrigin(1, 0).setDepth(200);
+    // --- Weather Event Box (Removed per request) ---
+    // --- Debug CHI Reset Button ---
+    const resetBtnBg = this.add.rectangle(1880, 1040, 200, 50, 0x00aa00, 0.8).setOrigin(1, 1).setInteractive({ useHandCursor: true });
+    const resetBtnText = this.add.text(1780, 1015, 'Reset CHI (No Smog)', {
+      fontFamily: 'Arial, sans-serif', fontSize: '18px', color: '#ffffff'
+    }).setOrigin(0.5, 0.5);
+    resetBtnBg.on('pointerdown', () => {
+      // Set all venues to 100 CHI (max) to remove smog
+      if (typeof localStorage !== 'undefined') {
+        const venues = ['mackenzie_cafe', 'financial_district_office', 'nyc_hospital', 'times_square', 'broadway_theater', 'hot_dog_stand', 'subway_station', 'empire_state_building', 'gym', 'central_park', 'public_library', 'art_studio', 'construction_site', 'tech_startup', 'ferry_docks'];
+        for (const v of venues) {
+          localStorage.setItem('trashdash_chi_' + v, '100');
+        }
+        window.location.reload();
+      }
+    });
 
     // --- Subscribe to game events ---
     gameEvents.on(
