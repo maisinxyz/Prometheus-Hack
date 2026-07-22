@@ -7,6 +7,7 @@ import { HUDScene } from './scenes/HUDScene';
 import { CorrectionOverlayScene } from './scenes/CorrectionOverlayScene';
 import { SeparationMinigameScene } from './scenes/SeparationMinigameScene';
 import { GardenScene } from './scenes/GardenScene';
+import { CommunityGardenScene } from './scenes/CommunityGardenScene';
 
 import { TitleScene } from './scenes/TitleScene';
 
@@ -26,7 +27,8 @@ const config: Phaser.Types.Core.GameConfig = {
     HUDScene,
     CorrectionOverlayScene,
     SeparationMinigameScene,
-    GardenScene
+    GardenScene,
+    CommunityGardenScene
   ],
 };
 

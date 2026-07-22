@@ -16,6 +16,7 @@ import { VenueDecayState, DecayState } from '../systems/VenueDecayState';
 import { ParallaxLayer } from '../entities/ParallaxLayer';
 import { DifficultySystem } from '../systems/DifficultySystem';
 import { DifficultyTierDef } from '../data/schemas/difficultyTierSchema';
+import { GardenSystem } from '../systems/GardenSystem';
 
 /**
  * TrayScene — Core disposal loop.
@@ -36,6 +37,7 @@ export class TrayScene extends Phaser.Scene {
   private venueDecayState!: VenueDecayState;
   private difficultySystem!: DifficultySystem;
   private currentTier!: DifficultyTierDef;
+  private gardenSystem!: GardenSystem;
 
   private venueId: string = 'mackenzie_cafe';
   private roundScore: number = 0;
@@ -75,6 +77,7 @@ export class TrayScene extends Phaser.Scene {
     this.chiSystem = new ChiSystem();
     this.venueDecayState = new VenueDecayState();
     this.difficultySystem = new DifficultySystem();
+    this.gardenSystem = new GardenSystem();
 
     // Track E: Determine Difficulty Tier based on current CHI
     const currentChi = this.chiSystem.getChi(this.venueId);
@@ -458,6 +461,11 @@ export class TrayScene extends Phaser.Scene {
       this.correctDrops++;
       this.comboSystem.registerCorrect();
       bin.playDropAnimation();
+      
+      // Award Compost for paper or food waste
+      if (item.itemDef.correctBinId === 'paper' || item.itemDef.correctBinId === 'compost') {
+        this.gardenSystem.addCompost(1);
+      }
 
       // Track C: Particle FX on correct sort (C.1)
       this.particleFX.playCorrectSortFX(

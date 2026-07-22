@@ -108,11 +108,20 @@ export class LevelSelectScene extends Phaser.Scene {
       <div style="color: #facc15; font-family: sans-serif; font-size: 24px; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8); margin-bottom: 10px;">
         Total CHI: ${Math.floor(totalChi)} / ${maxChi}
       </div>
-      <button id="future-btn" style="background: #2563eb; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
-        👁 Toggle Future Vision
-      </button>
+      <div style="display: flex; gap: 10px;">
+        <button id="future-btn" style="background: #2563eb; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+          Toggle Future Vision
+        </button>
+        <button id="garden-btn" style="background: #16a34a; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+          Visit Community Garden
+        </button>
+      </div>
     `;
     document.body.appendChild(uiContainer);
+    
+    document.getElementById('garden-btn')?.addEventListener('click', () => {
+      this.scene.start('CommunityGardenScene');
+    });
 
     const weatherEventContainer = document.createElement('div');
     weatherEventContainer.id = 'map-weather-event';
