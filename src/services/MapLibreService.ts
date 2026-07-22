@@ -384,7 +384,7 @@ class MapLibreServiceSingleton {
 
     // Click handler
     if (venue.isUnlocked) {
-      el.addEventListener('click', (e) => {
+      el.addEventListener('pointerdown', (e) => {
         e.stopPropagation();
         venue.onSelect(venue.venueId);
       });
