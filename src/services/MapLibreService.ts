@@ -441,6 +441,12 @@ class MapLibreServiceSingleton {
   toggleFutureVision(isActive: boolean, totalChi: number, maxChi: number): void {
     if (!this.map || !this.map.getLayer('3d-buildings')) return;
 
+    const trySetColor = (layerId: string, prop: string, val: any) => {
+      if (this.map.getLayer(layerId)) {
+        this.map.setPaintProperty(layerId, prop, val);
+      }
+    };
+
     if (!isActive) {
       // Revert to normal
       this.map.setPaintProperty('3d-buildings', 'fill-extrusion-color', [
@@ -453,6 +459,12 @@ class MapLibreServiceSingleton {
         300, '#36536b'  // Deep blue glass for ultra-tall super-slenders
       ]);
       document.getElementById('mapkit-container')!.style.filter = '';
+      
+      // Try reverting to some typical dark map colors (or leave as overrides if they look fine in normal)
+      // MapTiler basic-v2-dark water is usually dark blue/black.
+      trySetColor('water', 'fill-color', '#1a232c'); 
+      trySetColor('background', 'background-color', '#202020');
+      trySetColor('landcover', 'fill-color', '#252525');
     } else {
       const isUtopia = totalChi >= (maxChi / 2);
       if (isUtopia) {
@@ -467,18 +479,26 @@ class MapLibreServiceSingleton {
           300, '#aed6f1'
         ]);
         document.getElementById('mapkit-container')!.style.filter = 'hue-rotate(-10deg) saturate(1.5)';
+        
+        trySetColor('water', 'fill-color', '#0077be'); // Crisp blue water
+        trySetColor('background', 'background-color', '#1b3f2b'); // Deep green land
+        trySetColor('landcover', 'fill-color', '#1b3f2b');
       } else {
         // Bleak Future
         this.map.setPaintProperty('3d-buildings', 'fill-extrusion-color', [
           'interpolate',
           ['linear'],
           ['get', 'render_height'],
-          0, '#5a4d41',
-          40, '#4a4e4d',
-          120, '#3e4a3d',
-          300, '#2d2d2d'
+          0, '#4a3d31', // Rust
+          40, '#3a3e3d', // Dark soot
+          120, '#2e3a2d', // Toxic green
+          300, '#1d1d1d' // Smog black
         ]);
         document.getElementById('mapkit-container')!.style.filter = 'sepia(0.6) hue-rotate(50deg) saturate(1.2)';
+        
+        trySetColor('water', 'fill-color', '#4a3c31'); // Muddy brown sludge ocean
+        trySetColor('background', 'background-color', '#2d2a28'); // Dirty gray-brown land
+        trySetColor('landcover', 'fill-color', '#2d2a28');
       }
     }
   }

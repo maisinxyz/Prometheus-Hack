@@ -87,21 +87,76 @@ export class LevelSelectScene extends Phaser.Scene {
     `;
     document.body.appendChild(uiContainer);
 
+    const smogOverlay = document.createElement('div');
+    smogOverlay.id = 'smog-overlay';
+    smogOverlay.style.position = 'absolute';
+    smogOverlay.style.top = '0';
+    smogOverlay.style.left = '0';
+    smogOverlay.style.width = '100vw';
+    smogOverlay.style.height = '100vh';
+    smogOverlay.style.pointerEvents = 'none';
+    smogOverlay.style.zIndex = '5'; // Below UI (which is 20) but above map
+    smogOverlay.style.opacity = '0';
+    smogOverlay.style.transition = 'opacity 1s ease';
+    document.body.appendChild(smogOverlay);
+
+    const descBox = document.createElement('div');
+    descBox.id = 'future-desc-box';
+    descBox.style.position = 'absolute';
+    descBox.style.bottom = '40px';
+    descBox.style.left = '50%';
+    descBox.style.transform = 'translateX(-50%)';
+    descBox.style.width = '800px';
+    descBox.style.background = 'rgba(0,0,0,0.85)';
+    descBox.style.color = '#fff';
+    descBox.style.padding = '20px';
+    descBox.style.borderRadius = '12px';
+    descBox.style.zIndex = '20';
+    descBox.style.fontFamily = 'sans-serif';
+    descBox.style.fontSize = '18px';
+    descBox.style.lineHeight = '1.5';
+    descBox.style.display = 'none';
+    descBox.style.boxShadow = '0 10px 25px rgba(0,0,0,0.5)';
+    document.body.appendChild(descBox);
+
     let isFutureVisionActive = false;
     document.getElementById('future-btn')!.addEventListener('click', () => {
       isFutureVisionActive = !isFutureVisionActive;
       MapLibreService.toggleFutureVision(isFutureVisionActive, totalChi, maxChi);
       const btn = document.getElementById('future-btn')!;
       if (isFutureVisionActive) {
-        btn.style.background = totalChi >= maxChi / 2 ? '#16a34a' : '#dc2626';
+        const isUtopia = totalChi >= maxChi / 2;
+        btn.style.background = isUtopia ? '#16a34a' : '#dc2626';
+        
+        if (isUtopia) {
+          smogOverlay.style.background = 'linear-gradient(to bottom, rgba(150, 255, 200, 0.2) 0%, rgba(100, 200, 255, 0.1) 100%)';
+          smogOverlay.style.backdropFilter = 'saturate(1.2)';
+          smogOverlay.style.opacity = '1';
+
+          descBox.style.display = 'block';
+          descBox.style.border = '2px solid #16a34a';
+          descBox.innerHTML = '<strong style="color:#16a34a; font-size: 24px;">Year 2076: Eco-Utopia</strong><br/><br/>Your incredible dedication to recycling and zero-waste initiatives has transformed New York City. The air is pristine, urban forests thrive among the skyscrapers, and the rivers are crystal clear. You have saved the city from environmental collapse.';
+        } else {
+          smogOverlay.style.background = 'linear-gradient(to bottom, rgba(100, 80, 60, 0.7) 0%, rgba(80, 70, 60, 0.4) 100%)';
+          smogOverlay.style.backdropFilter = 'sepia(0.5) blur(1px)';
+          smogOverlay.style.opacity = '1';
+
+          descBox.style.display = 'block';
+          descBox.style.border = '2px solid #dc2626';
+          descBox.innerHTML = '<strong style="color:#dc2626; font-size: 24px;">Year 2076: Environmental Collapse</strong><br/><br/>Decades of unchecked waste, overflowing landfills, and polluted waterways have decimated New York City. A thick, toxic gray-brown smog chokes the air permanently. The Hudson River is a sludge of toxic waste, and the streets are stained with decades of grime. This is the bleak future of inaction.';
+        }
       } else {
         btn.style.background = '#2563eb';
+        smogOverlay.style.opacity = '0';
+        descBox.style.display = 'none';
       }
     });
 
     // 5. Cleanup MapKit UI when leaving this scene
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       document.getElementById('level-select-ui')?.remove();
+      document.getElementById('smog-overlay')?.remove();
+      document.getElementById('future-desc-box')?.remove();
       MapLibreService.toggleFutureVision(false, 0, 0); // Reset map style
       MapLibreService.hideMap();
       MapLibreService.removeAllAnnotations();
