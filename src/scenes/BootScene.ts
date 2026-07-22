@@ -51,6 +51,8 @@ export class BootScene extends Phaser.Scene {
     this.load.image('title_bg', 'assets/sprites/ui/title_bg.jpg');
     this.load.image('nyc_map_bg', 'assets/images/nyc_map_bg.jpg');
     this.load.image('bg_construction_site', 'assets/images/construction_bg.png');
+    this.load.image('park_dirt', 'assets/images/park_dirt.png');
+    this.load.image('park_grass', 'assets/images/park_grass.png');
 
     // Load venue icons
     const venueIds = [

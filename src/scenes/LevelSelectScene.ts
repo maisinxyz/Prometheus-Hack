@@ -113,7 +113,7 @@ export class LevelSelectScene extends Phaser.Scene {
           Toggle Future Vision
         </button>
         <button id="garden-btn" style="background: #16a34a; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
-          Visit Community Garden
+          Visit Community Park
         </button>
       </div>
     `;

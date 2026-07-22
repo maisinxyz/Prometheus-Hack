@@ -40,9 +40,13 @@ export class CommunityGardenScene extends Phaser.Scene {
       this.cameras.main.setBackgroundColor('#00BFFF');
     }
 
-    // Ground
-    const groundColor = isSmog ? 0x4a4036 : (isEco ? 0x22c55e : 0x8B4513);
-    this.add.rectangle(0, 800, 1920, 280, groundColor).setOrigin(0);
+    // Background image based on phase
+    const treePhase = this.gardenSystem.getTreePhase();
+    const bgKey = treePhase === 1 ? 'park_dirt' : 'park_grass';
+    const bg = this.add.image(960, 540, bgKey);
+    const scaleX = 1920 / bg.width;
+    const scaleY = 1080 / bg.height;
+    bg.setScale(Math.max(scaleX, scaleY));
 
     // Weather overlay
     if (isSmog) {
@@ -54,7 +58,7 @@ export class CommunityGardenScene extends Phaser.Scene {
     }
 
     // Title
-    this.add.text(960, 40, 'Community Garden', { fontSize: '64px', color: '#ffffff', fontStyle: 'bold', stroke: '#000', strokeThickness: 6 }).setOrigin(0.5);
+    this.add.text(960, 40, 'Community Park', { fontSize: '64px', color: '#ffffff', fontStyle: 'bold', stroke: '#000', strokeThickness: 6 }).setOrigin(0.5);
 
     // Compost Display
     this.compostText = this.add.text(40, 40, '', { fontSize: '48px', color: '#facc15', fontStyle: 'bold', stroke: '#000', strokeThickness: 4 });
@@ -70,7 +74,7 @@ export class CommunityGardenScene extends Phaser.Scene {
     this.habitatsGroup = this.add.group();
 
     // Draw Tree
-    this.treeSprite = this.add.text(960, 750, '', { fontSize: '200px' }).setOrigin(0.5, 1);
+    this.treeSprite = this.add.text(960, 650, '', { fontSize: '200px' }).setOrigin(0.5, 1);
     this.updateTreeVisuals();
 
     // Draw Habitats
@@ -95,15 +99,15 @@ export class CommunityGardenScene extends Phaser.Scene {
     this.habitatsGroup.clear(true, true);
     
     if (this.gardenSystem.isHabitatUnlocked('pollinator')) {
-      this.habitatsGroup.add(this.add.text(1300, 800, '🦋🌻', { fontSize: '80px' }).setOrigin(0.5, 1));
+      this.habitatsGroup.add(this.add.text(1300, 750, '🦋🌻', { fontSize: '80px' }).setOrigin(0.5, 1));
     }
     if (this.gardenSystem.isHabitatUnlocked('birdhouse')) {
-      this.habitatsGroup.add(this.add.text(600, 700, '🏠🐦', { fontSize: '80px' }).setOrigin(0.5, 1));
+      this.habitatsGroup.add(this.add.text(600, 600, '🏠🐦', { fontSize: '80px' }).setOrigin(0.5, 1));
     }
 
     // If any habitat is unlocked, spawn a community NPC who walks around
     if (this.gardenSystem.getUnlockedHabitats().length > 0 && !this.npcSprite) {
-      this.npcSprite = this.add.text(400, 780, '🧑‍🌾', { fontSize: '100px' }).setOrigin(0.5, 1);
+      this.npcSprite = this.add.text(400, 720, '🧑‍🌾', { fontSize: '100px' }).setOrigin(0.5, 1);
       this.tweens.add({
         targets: this.npcSprite,
         x: 1500,
@@ -135,7 +139,7 @@ export class CommunityGardenScene extends Phaser.Scene {
       });
 
     // Pollinator Patch
-    this.buildPollinatorBtn = this.add.text(startX - 300, 900, 'Build Pollinator Patch (15 Compost)', { fontSize: '24px', backgroundColor: '#16a34a', padding: { x: 15, y: 10 }, color: '#fff' })
+    this.buildPollinatorBtn = this.add.text(startX - 450, 900, 'Build Pollinator Patch (15 Compost)', { fontSize: '24px', backgroundColor: '#16a34a', padding: { x: 15, y: 10 }, color: '#fff' })
       .setOrigin(0.5).setInteractive({ useHandCursor: true })
       .on('pointerdown', () => {
         if (!this.gardenSystem.isHabitatUnlocked('pollinator') && this.gardenSystem.getTreePhase() >= 2) {
@@ -147,7 +151,7 @@ export class CommunityGardenScene extends Phaser.Scene {
       });
 
     // Birdhouse
-    this.buildBirdhouseBtn = this.add.text(startX + 300, 900, 'Build Birdhouse (20 Compost)', { fontSize: '24px', backgroundColor: '#ea580c', padding: { x: 15, y: 10 }, color: '#fff' })
+    this.buildBirdhouseBtn = this.add.text(startX + 450, 900, 'Build Birdhouse (20 Compost)', { fontSize: '24px', backgroundColor: '#ea580c', padding: { x: 15, y: 10 }, color: '#fff' })
       .setOrigin(0.5).setInteractive({ useHandCursor: true })
       .on('pointerdown', () => {
         if (!this.gardenSystem.isHabitatUnlocked('birdhouse') && this.gardenSystem.getTreePhase() >= 3) {
