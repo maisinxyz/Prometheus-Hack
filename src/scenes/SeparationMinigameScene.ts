@@ -568,8 +568,8 @@ export class SeparationMinigameScene extends Phaser.Scene {
         ]
       },
       'smoothie_cup_with_straw': {
-        coreSpriteKey: 'item_plastic_smoothie_cup', coreTargetBin: 'plastic',
-        components: [{ spriteKey: 'item_smoothie_straw', targetBin: 'landfill' }]
+        coreSpriteKey: 'item_plastic_cup_with_straw', coreTargetBin: 'plastic',
+        components: []
       },
       'picnic_sandwich_wrap': {
         coreSpriteKey: 'item_picnic_foil', coreTargetBin: 'plastic',
@@ -589,7 +589,7 @@ export class SeparationMinigameScene extends Phaser.Scene {
       },
       'bagel_in_paper_bag': {
         coreSpriteKey: 'item_bagel_paper_bag', coreTargetBin: 'paper',
-        components: [{ spriteKey: 'item_bagel_scraps', targetBin: 'compost' }]
+        components: [{ spriteKey: 'item_bagel', targetBin: 'compost' }]
       },
       'pasta_in_takeout_box': {
         coreSpriteKey: 'item_takeout_container', coreTargetBin: 'plastic',

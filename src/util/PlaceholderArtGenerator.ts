@@ -132,33 +132,7 @@ export function generateEmojiItemSprite(
   canvas.height = size;
   const ctx = canvas.getContext('2d') as any;
   if (ctx) {
-    const baseColor = Phaser.Display.Color.IntegerToColor(colorHex);
-    const darkColor = Phaser.Display.Color.IntegerToColor(colorHex).darken(20);
-    
-    const gradient = ctx.createLinearGradient(0, 0, size, size);
-    gradient.addColorStop(0, baseColor.rgba);
-    gradient.addColorStop(1, darkColor.rgba);
-
-    // Drop shadow
-    ctx.shadowColor = 'rgba(0,0,0,0.4)';
-    ctx.shadowBlur = 8;
-    ctx.shadowOffsetY = 4;
-
-    ctx.fillStyle = gradient;
-    ctx.beginPath();
-    if (ctx.roundRect) {
-      ctx.roundRect(10, 10, size - 20, size - 20, 16);
-    } else {
-      ctx.rect(10, 10, size - 20, size - 20); // Fallback
-    }
-    ctx.fill();
-
-    // Inner border
-    ctx.shadowColor = 'transparent';
-    ctx.lineWidth = 4;
-    ctx.strokeStyle = 'rgba(255,255,255,0.4)';
-    ctx.stroke();
-
+    // Draw Emoji only, removing the weird rounded rectangle background
     // Draw Emoji
     ctx.font = `${size * 0.45}px Arial`;
     ctx.textAlign = 'center';

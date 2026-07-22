@@ -1193,7 +1193,7 @@
   },
   {
     "id": "tea_leaves",
-    "displayName": "Tea Leaves",
+    "displayName": "Used Tea Bag",
     "spriteKey": "item_tea_leaves",
     "correctBinId": "compost",
     "isComposite": false,
@@ -1265,7 +1265,7 @@
   },
   {
     "id": "croissant_crumbs",
-    "displayName": "Croissant Crumbs",
+    "displayName": "Half-Eaten Croissant",
     "spriteKey": "item_croissant_crumbs",
     "correctBinId": "compost",
     "isComposite": false,
@@ -1349,7 +1349,7 @@
   },
   {
     "id": "cookie_crumbs",
-    "displayName": "Cookie Crumbs",
+    "displayName": "Half-Eaten Cookie",
     "spriteKey": "item_cookie_crumbs",
     "correctBinId": "compost",
     "isComposite": false,
@@ -1373,7 +1373,7 @@
   },
   {
     "id": "jam_packet",
-    "displayName": "Jam Packet",
+    "displayName": "Used Sugar Packet",
     "spriteKey": "item_jam_packet",
     "correctBinId": "landfill",
     "isComposite": false,
@@ -1604,8 +1604,7 @@
     "correctBinId": "none",
     "isComposite": true,
     "componentIds": [
-      "smoothie_cup",
-      "smoothie_straw"
+      "plastic_cup_with_straw"
     ],
     "venueIds": [
       "mackenzie_cafe"
@@ -1639,8 +1638,8 @@
     "correctBinId": "none",
     "isComposite": true,
     "componentIds": [
-      "bagel_scraps",
-      "bagel_paper_bag"
+      "paper_bag",
+      "half_eaten_bagel"
     ],
     "venueIds": [
       "mackenzie_cafe"
@@ -6131,5 +6130,14 @@
       "hot_dog_stand"
     ],
     "emoji": "🌽"
+  },
+  {
+    "id": "plastic_cup_with_straw",
+    "displayName": "Plastic Cup and Straw",
+    "spriteKey": "item_plastic_cup_with_straw",
+    "correctBinId": "plastic",
+    "isComposite": false,
+    "componentIds": [],
+    "venueIds": []
   }
 ]
