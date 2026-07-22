@@ -1,3 +1,5 @@
+import { LandmarkOverlayService } from './LandmarkOverlayService';
+
 declare global {
   interface Window {
     maplibregl: any;
@@ -68,17 +70,20 @@ class MapLibreServiceSingleton {
       bearing: -17.6,  // Angled view
       antialias: true, // Required for 3D building edges
       
-      // Explicitly enable all perspective/camera gestures
-      dragPan: true,         // One-finger click & drag to pan
-      dragRotate: true,      // Two-finger click & drag (Right-click) to pitch and rotate
-      touchPitch: true,      // Two-finger swipe on touchscreens to pitch
-      touchZoomRotate: true, // Two-finger pinch to zoom/rotate
+      // Disable all native MapLibre gestures
+      dragPan: false,
+      dragRotate: false,
+      touchPitch: false,
+      touchZoomRotate: false,
+      scrollZoom: false,
+      doubleClickZoom: false,
+      keyboard: false,
       
-      // Restrict panning to a ~3km radius, heavily weighted North towards Central Park
+      // Restrict panning to cover the entirety of Manhattan
       // Format: [ [west, south], [east, north] ]
       maxBounds: [
-        [-74.0200, 40.7400], // Southwest coordinate (Chelsea/Hudson)
-        [-73.9500, 40.8000]  // Northeast coordinate (Upper East Side / Top of Central Park)
+        [-74.0479, 40.6829], // Southwest coordinate (Battery Park/Hudson)
+        [-73.9067, 40.8790]  // Northeast coordinate (Inwood/Harlem River)
       ]
     });
 
@@ -159,7 +164,154 @@ class MapLibreServiceSingleton {
         },
         labelLayerId
       );
+
+      // Add the 3D landmark overlay on top of the buildings layer
+      LandmarkOverlayService.addToMap(this.map);
     });
+
+    this.setupCustomInputHandlers();
+  }
+
+  private customCursor: HTMLElement | null = null;
+  private activePointers: Map<number, {x: number, y: number}> = new Map();
+  private isOrbiting: boolean = false;
+  private lastOrbitX: number = 0;
+  private lastOrbitY: number = 0;
+  private initialPinchDistance: number = 0;
+  private initialZoom: number = 0;
+  private lastPanCenterX: number = 0;
+  private lastPanCenterY: number = 0;
+
+  private setupCustomInputHandlers() {
+    if (!this.mapContainer || !this.map) return;
+
+
+
+    const container = this.mapContainer;
+    
+    // Prevent context menu to allow smooth right-click (2-finger) dragging
+    container.addEventListener('contextmenu', (e: MouseEvent) => {
+      e.preventDefault();
+    });
+
+    // 1. Wheel events for Trackpad scroll (Pan) and Pinch (Zoom)
+    container.addEventListener('wheel', (e: WheelEvent) => {
+      e.preventDefault(); // Prevent standard page scroll
+      
+      if (e.ctrlKey) {
+        // Pinch to zoom (trackpad pinch sends wheel with ctrlKey)
+        const zoomDelta = e.deltaY * -0.01;
+        const currentZoom = this.map.getZoom();
+        this.map.setZoom(currentZoom + zoomDelta);
+      } else {
+        // 2-Finger scroll to Pan
+        this.map.panBy([e.deltaX, e.deltaY], { animate: false });
+      }
+    }, { passive: false });
+
+    // 2. Pointer events for Touch & Mouse dragging
+    container.addEventListener('pointerdown', (e: PointerEvent) => {
+      this.activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      container.setPointerCapture(e.pointerId);
+      
+      const pts = Array.from(this.activePointers.values());
+      
+      // Right-click or 2-finger touch -> Orbit
+      if (e.button === 2 || this.activePointers.size === 2) {
+        this.isOrbiting = true;
+        
+        if (pts.length === 2) {
+          this.lastOrbitX = (pts[0].x + pts[1].x) / 2;
+          this.lastOrbitY = (pts[0].y + pts[1].y) / 2;
+          this.initialPinchDistance = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+          this.initialZoom = this.map.getZoom();
+        } else {
+          this.lastOrbitX = e.clientX;
+          this.lastOrbitY = e.clientY;
+        }
+      } 
+      // Left-click / 1-finger touch -> Pan
+      else if (e.button === 0 && this.activePointers.size === 1) {
+        this.isOrbiting = false;
+        this.lastPanCenterX = e.clientX;
+        this.lastPanCenterY = e.clientY;
+      }
+    });
+
+    container.addEventListener('pointermove', (e: PointerEvent) => {
+      // Update custom UI cursor position (1-Finger Scroll/Drag - No Press)
+
+
+      if (this.activePointers.has(e.pointerId)) {
+        this.activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      }
+
+      const pts = Array.from(this.activePointers.values());
+
+      if (this.isOrbiting) {
+        // Orbit (Update Pitch and Bearing)
+        let cx = e.clientX;
+        let cy = e.clientY;
+        
+        if (pts.length === 2) {
+          cx = (pts[0].x + pts[1].x) / 2;
+          cy = (pts[0].y + pts[1].y) / 2;
+          
+          // Also handle Pinch Zoom if 2 fingers are touching
+          const currentDistance = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+          const distanceDelta = currentDistance - this.initialPinchDistance;
+          const zoomDelta = distanceDelta * 0.01;
+          this.map.setZoom(this.initialZoom + zoomDelta);
+        }
+
+        const deltaX = cx - this.lastOrbitX;
+        const deltaY = cy - this.lastOrbitY;
+        
+        this.lastOrbitX = cx;
+        this.lastOrbitY = cy;
+        
+        const currentBearing = this.map.getBearing();
+        const currentPitch = this.map.getPitch();
+        
+        // Reduced sensitivity to make the camera movement slower
+        const bearingSensitivity = 0.15;
+        const pitchSensitivity = 0.15;
+        
+        this.map.setBearing(currentBearing - deltaX * bearingSensitivity);
+        
+        let newPitch = currentPitch - deltaY * pitchSensitivity;
+        if (newPitch < 0) newPitch = 0;
+        if (newPitch > 85) newPitch = 85; // MapLibre max pitch
+        this.map.setPitch(newPitch);
+      } 
+      else if (!this.isOrbiting && this.activePointers.size === 1 && (e.buttons & 1)) {
+        // 1-Finger Left-Click Drag -> Pan
+        const panDeltaX = this.lastPanCenterX - e.clientX;
+        const panDeltaY = this.lastPanCenterY - e.clientY;
+        this.lastPanCenterX = e.clientX;
+        this.lastPanCenterY = e.clientY;
+        
+        this.map.panBy([panDeltaX, panDeltaY], { animate: false });
+      }
+    });
+
+    const removePointer = (e: PointerEvent) => {
+      this.activePointers.delete(e.pointerId);
+      container.releasePointerCapture(e.pointerId);
+      
+      if (this.activePointers.size === 0) {
+        this.isOrbiting = false;
+      } else if (this.activePointers.size === 1) {
+        // Re-initialize orbit for remaining finger
+        this.isOrbiting = true;
+        const pt = Array.from(this.activePointers.values())[0];
+        this.lastOrbitX = pt.x;
+        this.lastOrbitY = pt.y;
+      }
+    };
+
+    container.addEventListener('pointerup', removePointer);
+    container.addEventListener('pointercancel', removePointer);
   }
 
   /**
@@ -266,6 +418,9 @@ class MapLibreServiceSingleton {
 
   /** Hide the map container */
   hideMap(): void {
+    // Clean up the 3D landmark overlay before hiding
+    LandmarkOverlayService.removeFromMap();
+
     if (this.mapContainer) {
       this.mapContainer.style.display = 'none';
     }
