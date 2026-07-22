@@ -81,8 +81,8 @@
       "grimy": "venue_financial_district_office_bg_grimy",
       "ruined": "venue_financial_district_office_bg_ruined"
     },
-    "latitude": 40.7545,
-    "longitude": -73.983
+    "latitude": 40.707,
+    "longitude": -74.011
   },
   {
     "id": "nyc_hospital",
@@ -120,8 +120,8 @@
       "grimy": "venue_nyc_hospital_bg_grimy",
       "ruined": "venue_nyc_hospital_bg_ruined"
     },
-    "latitude": 40.761,
-    "longitude": -73.988
+    "latitude": 40.789,
+    "longitude": -73.953
   },
   {
     "id": "times_square",
@@ -240,8 +240,8 @@
       "grimy": "venue_hot_dog_bg_grimy",
       "ruined": "venue_hot_dog_bg_ruined"
     },
-    "latitude": 40.7575,
-    "longitude": -73.99
+    "latitude": 40.7308,
+    "longitude": -73.9973
   },
   {
     "id": "subway_station",
@@ -274,8 +274,8 @@
       "grimy": "venue_subway_station_bg_grimy",
       "ruined": "venue_subway_station_bg_ruined"
     },
-    "latitude": 40.7555,
-    "longitude": -73.987
+    "latitude": 40.7527,
+    "longitude": -73.9772
   },
   {
     "id": "empire_state_building",
@@ -311,8 +311,8 @@
       "grimy": "venue_chelsea_office_bg_grimy",
       "ruined": "venue_chelsea_office_bg_ruined"
     },
-    "latitude": 40.7535,
-    "longitude": -73.992
+    "latitude": 40.7484,
+    "longitude": -73.9857
   },
   {
     "id": "gym",
@@ -346,8 +346,8 @@
       "grimy": "venue_gym_bg_grimy",
       "ruined": "venue_gym_bg_ruined"
     },
-    "latitude": 40.76,
-    "longitude": -73.991
+    "latitude": 40.7816,
+    "longitude": -73.9786
   },
   {
     "id": "central_park",
@@ -385,8 +385,8 @@
       "grimy": "venue_central_park_bg_grimy",
       "ruined": "venue_central_park_bg_ruined"
     },
-    "latitude": 40.7625,
-    "longitude": -73.986
+    "latitude": 40.7738,
+    "longitude": -73.9708
   },
   {
     "id": "public_library",
@@ -420,8 +420,8 @@
       "grimy": "venue_public_library_bg_grimy",
       "ruined": "venue_public_library_bg_ruined"
     },
-    "latitude": 40.754,
-    "longitude": -73.9815
+    "latitude": 40.7532,
+    "longitude": -73.9822
   },
   {
     "id": "art_studio",
@@ -456,8 +456,8 @@
       "grimy": "venue_art_studio_bg_grimy",
       "ruined": "venue_art_studio_bg_ruined"
     },
-    "latitude": 40.7555,
-    "longitude": -73.9935
+    "latitude": 40.7233,
+    "longitude": -74.003
   },
   {
     "id": "construction_site",
@@ -508,8 +508,8 @@
       "grimy": "venue_construction_site_bg_grimy",
       "ruined": "venue_construction_site_bg_ruined"
     },
-    "latitude": 40.7595,
-    "longitude": -73.9815
+    "latitude": 40.8115,
+    "longitude": -73.9465
   },
   {
     "id": "tech_startup",
@@ -543,8 +543,8 @@
       "grimy": "venue_tech_startup_bg_grimy",
       "ruined": "venue_tech_startup_bg_ruined"
     },
-    "latitude": 40.753,
-    "longitude": -73.989
+    "latitude": 40.7405,
+    "longitude": -73.9903
   },
   {
     "id": "ferry_docks",
@@ -577,7 +577,7 @@
       "grimy": "venue_ferry_docks_bg_grimy",
       "ruined": "venue_ferry_docks_bg_ruined"
     },
-    "latitude": 40.7615,
-    "longitude": -73.9935
+    "latitude": 40.7011,
+    "longitude": -74.0132
   }
 ]
