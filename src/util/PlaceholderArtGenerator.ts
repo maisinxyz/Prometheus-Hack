@@ -35,11 +35,11 @@ export function generatePlaceholderTexture(
 
     // Outer plastic rim colored by bin type
     graphics.fillStyle(color, 1);
-    graphics.fillRoundedRect(cx - holeW/2, cy - holeH/2, holeW, holeH, 12);
-    
+    graphics.fillRoundedRect(cx - holeW / 2, cy - holeH / 2, holeW, holeH, 12);
+
     // Deep black hole for trash
     graphics.fillStyle(0x111111, 1);
-    graphics.fillRoundedRect(cx - holeW/2 + 15, cy - holeH/2 + 15, holeW - 30, holeH - 30, 8);
+    graphics.fillRoundedRect(cx - holeW / 2 + 15, cy - holeH / 2 + 15, holeW - 30, holeH - 30, 8);
   } else if (isCircle) {
     const radius = Math.min(width, height) / 2;
     graphics.fillStyle(color, 1);
@@ -95,7 +95,7 @@ export function generateEmojiLogo(scene: Phaser.Scene, key: string, emoji: strin
     ctx.arc(size / 2, size / 2, size / 2 - 4, 0, 2 * Math.PI);
     ctx.fillStyle = isUnlocked ? '#ffffff' : '#374151'; // White vs Dark grey
     ctx.fill();
-    
+
     // Border
     ctx.lineWidth = 4;
     ctx.strokeStyle = isUnlocked ? '#22c55e' : '#9ca3af'; // Green vs Light grey
@@ -105,12 +105,12 @@ export function generateEmojiLogo(scene: Phaser.Scene, key: string, emoji: strin
     ctx.font = `${size * 0.55}px Arial`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    
+
     if (!isUnlocked) {
       // Grayed out for locked
       ctx.filter = 'grayscale(100%) opacity(40%)';
     }
-    
+
     ctx.fillText(emoji, size / 2, size / 2 + size * 0.05);
   }
   scene.textures.addCanvas(key, canvas);
@@ -169,7 +169,7 @@ export function generateBinPlaceholder(
 
     if (ctxB) {
       const baseColor = Phaser.Display.Color.IntegerToColor(color);
-      
+
       // Hinged Lid at the back
       ctxB.fillStyle = baseColor.clone().darken(30).rgba;
       ctxB.beginPath();
@@ -275,12 +275,12 @@ export function generateBinPlaceholder(
         tCtx.textAlign = 'center';
         tCtx.textBaseline = 'middle';
         tCtx.fillText(logo, logoSize, logoSize);
-        
+
         // Use source-in to replace all non-transparent pixels with solid white
         tCtx.globalCompositeOperation = 'source-in';
         tCtx.fillStyle = '#ffffff';
         tCtx.fillRect(0, 0, logoSize * 2, logoSize * 2);
-        
+
         // Draw the resulting white silhouette onto the main bin texture
         ctxF.drawImage(tempCanvas, cx - logoSize, logoCenterY - logoSize);
       }
@@ -290,7 +290,7 @@ export function generateBinPlaceholder(
       ctxF.font = `bold 16px "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif`;
       const labelText = label.toUpperCase();
       const textWidth = Math.max(ctxF.measureText(labelText).width + 32, 90); // 16px padding on sides
-      
+
       // Draw white sticker background
       ctxF.fillStyle = 'rgba(255, 255, 255, 0.95)';
       ctxF.beginPath();
@@ -306,7 +306,7 @@ export function generateBinPlaceholder(
       ctxF.textAlign = 'center';
       ctxF.textBaseline = 'middle';
       ctxF.fillText(labelText, cx, textCenterY);
-      
+
       // Reset shadows just in case
       ctxF.shadowBlur = 0;
       ctxF.shadowOffsetY = 0;

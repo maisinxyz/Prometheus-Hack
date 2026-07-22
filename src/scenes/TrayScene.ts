@@ -41,6 +41,9 @@ export class TrayScene extends Phaser.Scene {
   private roundScore: number = 0;
   private totalDrops: number = 0;
   private correctDrops: number = 0;
+  
+  private currentEventId: 'smog' | 'flood' | 'normal' | 'festival' = 'normal';
+  private scoreMultiplier: number = 1;
 
   /** Timer values — defaults to 30s, overridden by Track E's difficulty system */
   private roundTimerMs: number = 30000;
@@ -109,10 +112,64 @@ export class TrayScene extends Phaser.Scene {
     // Start the round timer (B.8)
     this.startTimer();
 
+    const totalChi = this.chiSystem.getTotalChi(venuesData.map(v => v.id));
+    const maxChi = venuesData.length * 100;
+    
+    let weatherName = '';
+    let weatherDesc = '';
+    let weatherEffect = '';
+    let weatherColor = '#ffffff';
+    
+    if (totalChi <= maxChi * 0.25) {
+      this.currentEventId = 'smog';
+      weatherName = 'Smog Day';
+      weatherDesc = 'The city is choked with toxic smog.';
+      weatherEffect = 'Visibility severely reduced. Use your pointer to see!';
+      weatherColor = '#dc2626'; // red
+      
+      const smog = this.add.rectangle(0, 0, 1920, 1080, 0x1a1a1a, 0.98).setOrigin(0).setDepth(90);
+      
+      const spotlight = this.make.graphics({ x: 960, y: 540, add: false });
+      spotlight.fillStyle(0xffffff, 1);
+      spotlight.fillCircle(0, 0, 250);
+      
+      const mask = new Phaser.Display.Masks.BitmapMask(this, spotlight);
+      mask.invertAlpha = true;
+      smog.setMask(mask);
+      
+      this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
+        spotlight.x = pointer.x;
+        spotlight.y = pointer.y;
+      });
+    } else if (totalChi <= maxChi * 0.5) {
+      this.currentEventId = 'flood';
+      weatherName = 'Flash Flood';
+      weatherDesc = 'Climate change has caused severe flooding.';
+      weatherEffect = 'Trash bobs erratically in the water!';
+      weatherColor = '#f59e0b'; // orange
+    } else if (totalChi <= maxChi * 0.75) {
+      this.currentEventId = 'normal';
+      weatherName = 'Clear Skies';
+      weatherDesc = 'The environment is stabilizing.';
+      weatherEffect = 'Normal conditions.';
+      weatherColor = '#10b981'; // emerald
+    } else {
+      this.currentEventId = 'festival';
+      weatherName = 'Eco-Festival';
+      weatherDesc = 'The city celebrates your zero-waste efforts!';
+      weatherEffect = 'Score multiplier x2!';
+      weatherColor = '#a855f7'; // purple
+      this.scoreMultiplier = 2;
+    }
+
     // Launch HUD overlay scene
     this.scene.launch('HUDScene', {
       roundTimerMs: this.roundTimerMs,
       venueId: this.venueId,
+      weatherName,
+      weatherDesc,
+      weatherEffect,
+      weatherColor
     });
 
     // Debug keybind: press F to force-end round
@@ -248,13 +305,26 @@ export class TrayScene extends Phaser.Scene {
       }
 
       const item = new TrashItem(
-        this, 
-        x, 
-        y, 
-        randomItemDef, 
+        this,
+        x,
+        y,
+        randomItemDef,
         this.currentTier.visualCuesActive // Pass visual cues setting (E.4)
       );
+      item.setDepth(10);
       this.items.push(item);
+
+      if (this.currentEventId === 'flood') {
+        this.tweens.add({
+          targets: item,
+          y: `-=${10 + Math.random() * 20}`,
+          x: `+=${(Math.random() - 0.5) * 30}`,
+          yoyo: true,
+          repeat: -1,
+          duration: 800 + Math.random() * 600,
+          ease: 'Sine.easeInOut'
+        });
+      }
     }
   }
 
@@ -321,9 +391,10 @@ export class TrayScene extends Phaser.Scene {
       item,
       venueId: this.venueId,
       onScore: (points: number, isCorrect: boolean) => {
-        this.roundScore += points;
+        const pts = points * this.scoreMultiplier;
+        this.roundScore += pts;
         gameEvents.emit(GAME_EVENTS.ITEM_DROPPED, {
-          result: { correct: isCorrect, pointsAwarded: points, velocityMultiplier: 1 }
+          result: { correct: isCorrect, pointsAwarded: pts, velocityMultiplier: 1 }
         });
       },
       onComplete: (success: boolean) => {
@@ -341,21 +412,23 @@ export class TrayScene extends Phaser.Scene {
         // Apply scoring based on minigame result
         if (success) {
           // Award massive bonus for properly separating items!
-          this.roundScore += 500;
+          const pts = 500 * this.scoreMultiplier;
+          this.roundScore += pts;
           this.correctDrops++;
           this.comboSystem.registerCorrect();
           this.cameras.main.shake(100, 0.005);
           gameEvents.emit(GAME_EVENTS.ITEM_DROPPED, {
-            result: { correct: true, pointsAwarded: 500, velocityMultiplier: 1 }
+            result: { correct: true, pointsAwarded: pts, velocityMultiplier: 1 }
           });
         } else {
           // Normal penalty for failing the minigame
           const penaltyResult = this.scoringSystem.resolveDrop('none', 'none', 0, 0, this.currentTier.errorPenaltyMultiplier, false);
-          this.roundScore += penaltyResult.pointsAwarded;
+          const pts = penaltyResult.pointsAwarded * this.scoreMultiplier;
+          this.roundScore += pts;
           this.comboSystem.registerIncorrect();
           this.cameras.main.shake(80, 0.002);
           gameEvents.emit(GAME_EVENTS.ITEM_DROPPED, {
-            result: { correct: false, pointsAwarded: penaltyResult.pointsAwarded, velocityMultiplier: 1 }
+            result: { correct: false, pointsAwarded: pts, velocityMultiplier: 1 }
           });
         }
         
@@ -364,7 +437,7 @@ export class TrayScene extends Phaser.Scene {
     });
   }
 
-  /** Handle a resolved drop — scoring, combo, events, cleanup */
+  /** Handle a resolved drop ?" scoring, combo, events, cleanup */
   private handleDrop(item: TrashItem, bin: Bin): void {
     const result = this.scoringSystem.resolveDrop(
       item.itemDef.correctBinId,
@@ -374,6 +447,8 @@ export class TrayScene extends Phaser.Scene {
       this.currentTier.errorPenaltyMultiplier, // Pass penalty scaling (E.3)
       item.itemDef.isComposite // Pass composite flag (Cluster B)
     );
+
+    result.pointsAwarded = result.pointsAwarded * this.scoreMultiplier;
 
     // Update score
     this.roundScore += result.pointsAwarded;

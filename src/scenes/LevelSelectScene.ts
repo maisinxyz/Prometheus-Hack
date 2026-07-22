@@ -70,6 +70,33 @@ export class LevelSelectScene extends Phaser.Scene {
     const totalChi = this.chiSystem.getTotalChi(venuesData.map(v => v.id));
     const maxChi = venuesData.length * 100;
 
+    let weatherName = '';
+    let weatherDesc = '';
+    let weatherEffect = '';
+    let weatherColor = '#ffffff';
+    
+    if (totalChi <= maxChi * 0.25) {
+      weatherName = 'Smog Day';
+      weatherDesc = 'The city is choked with toxic smog.';
+      weatherEffect = 'Visibility severely reduced.';
+      weatherColor = '#dc2626'; // red
+    } else if (totalChi <= maxChi * 0.5) {
+      weatherName = 'Flash Flood';
+      weatherDesc = 'Climate change has caused severe flooding.';
+      weatherEffect = 'Trash bobs erratically in the water!';
+      weatherColor = '#f59e0b'; // orange
+    } else if (totalChi <= maxChi * 0.75) {
+      weatherName = 'Clear Skies';
+      weatherDesc = 'The environment is stabilizing.';
+      weatherEffect = 'Normal conditions.';
+      weatherColor = '#10b981'; // emerald
+    } else {
+      weatherName = 'Eco-Festival';
+      weatherDesc = 'The city celebrates your zero-waste efforts!';
+      weatherEffect = 'Score multiplier x2!';
+      weatherColor = '#a855f7'; // purple
+    }
+
     const uiContainer = document.createElement('div');
     uiContainer.id = 'level-select-ui';
     uiContainer.style.position = 'absolute';
@@ -86,6 +113,24 @@ export class LevelSelectScene extends Phaser.Scene {
       </button>
     `;
     document.body.appendChild(uiContainer);
+
+    const weatherEventContainer = document.createElement('div');
+    weatherEventContainer.id = 'map-weather-event';
+    weatherEventContainer.style.position = 'absolute';
+    weatherEventContainer.style.bottom = '20px';
+    weatherEventContainer.style.right = '20px';
+    weatherEventContainer.style.width = '450px';
+    weatherEventContainer.style.background = 'rgba(0,0,0,0.7)';
+    weatherEventContainer.style.border = `2px solid ${weatherColor}`;
+    weatherEventContainer.style.padding = '15px';
+    weatherEventContainer.style.zIndex = '20';
+    weatherEventContainer.style.pointerEvents = 'none';
+    weatherEventContainer.innerHTML = `
+      <div style="font-family: Arial, sans-serif; font-size: 28px; color: ${weatherColor}; font-weight: bold; margin-bottom: 5px;">${weatherName}</div>
+      <div style="font-family: Arial, sans-serif; font-size: 18px; color: #aaaaaa; margin-bottom: 5px;">${weatherDesc}</div>
+      <div style="font-family: Arial, sans-serif; font-size: 18px; color: #ffffff; font-style: italic;">Effect: ${weatherEffect}</div>
+    `;
+    document.body.appendChild(weatherEventContainer);
 
     const smogOverlay = document.createElement('div');
     smogOverlay.id = 'smog-overlay';
@@ -157,6 +202,7 @@ export class LevelSelectScene extends Phaser.Scene {
       document.getElementById('level-select-ui')?.remove();
       document.getElementById('smog-overlay')?.remove();
       document.getElementById('future-desc-box')?.remove();
+      document.getElementById('map-weather-event')?.remove();
       MapLibreService.toggleFutureVision(false, 0, 0); // Reset map style
       MapLibreService.hideMap();
       MapLibreService.removeAllAnnotations();
