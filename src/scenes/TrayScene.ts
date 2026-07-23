@@ -531,9 +531,10 @@ export class TrayScene extends Phaser.Scene {
       this.comboSystem.registerCorrect();
       bin.playDropAnimation();
       
-      // Award Compost for paper or food waste
-      if (item.itemDef.correctBinId === 'paper' || item.itemDef.correctBinId === 'compost') {
-        this.gardenSystem.addCompost(1);
+      // Award progress based on correct bin
+      const targetBinId = item.itemDef.correctBinId;
+      if (['compost', 'recycling', 'plastic', 'landfill'].includes(targetBinId)) {
+        this.gardenSystem.addProgress(targetBinId, 1);
       }
 
       // Track C: Particle FX on correct sort (C.1)

@@ -3,6 +3,7 @@ import { TrashItem } from '../entities/TrashItem';
 import { Bin } from '../entities/Bin';
 import binsData from '../data/bins.json';
 import { BinDef } from '../data/schemas/binSchema';
+import { GardenSystem } from '../systems/GardenSystem';
 
 export class SeparationMinigameScene extends Phaser.Scene {
   private targetItem!: TrashItem;
@@ -10,6 +11,7 @@ export class SeparationMinigameScene extends Phaser.Scene {
   private onScore?: (points: number, isCorrect: boolean) => void;
   private venueId?: string;
   private bins: Bin[] = [];
+  private gardenSystem!: GardenSystem;
   
   // Shared state
   private mainItemSprite!: Phaser.GameObjects.Sprite;
@@ -54,6 +56,7 @@ export class SeparationMinigameScene extends Phaser.Scene {
   }
 
   create() {
+    this.gardenSystem = new GardenSystem();
     const width = this.cameras.main.width;
     const height = this.cameras.main.height;
 
@@ -285,6 +288,7 @@ export class SeparationMinigameScene extends Phaser.Scene {
           if (this.onScore) {
             this.onScore(200, true);
           }
+          this.gardenSystem.addProgress('landfill', 1);
           
           // Change to empty can
           this.mainItemSprite.setTexture('item_can_empty');
@@ -445,6 +449,7 @@ export class SeparationMinigameScene extends Phaser.Scene {
           if (this.onScore) {
             this.onScore(100, true);
           }
+          this.gardenSystem.addProgress('compost', 1);
 
           // Update the box texture to the next stage
           const seq = this.boxFoodSequence[this.boxFoodIndex]!;
@@ -495,6 +500,7 @@ export class SeparationMinigameScene extends Phaser.Scene {
             if (this.onScore) {
               this.onScore(500, true);
             }
+            this.gardenSystem.addProgress('plastic', 1);
             this.complete(true);
           } else {
             this.complete(false);
@@ -782,6 +788,7 @@ export class SeparationMinigameScene extends Phaser.Scene {
             if (idx > -1) activeComponentSprites.splice(idx, 1);
             gameObject.destroy();
             if (this.onScore) this.onScore(100, true);
+            this.gardenSystem.addProgress(gameObject.getData('targetBin'), 1);
 
             // If all components are cleared, make core sprite draggable
             if (activeComponentSprites.length === 0) {
@@ -800,6 +807,7 @@ export class SeparationMinigameScene extends Phaser.Scene {
             this.complete(false); // must clear components first
           } else if (droppedBin.binDef.id === config.coreTargetBin) {
             if (this.onScore) this.onScore(200, true);
+            this.gardenSystem.addProgress(config.coreTargetBin, 1);
             this.complete(true);
           } else {
             this.complete(false);

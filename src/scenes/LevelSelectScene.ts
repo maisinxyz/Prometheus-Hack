@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { ChiSystem } from '../systems/ChiSystem';
+import { GardenSystem } from '../systems/GardenSystem';
 import venuesData from '../data/venues.json';
 import { MapLibreService } from '../services/MapLibreService';
 
@@ -9,6 +10,7 @@ import { MapLibreService } from '../services/MapLibreService';
  */
 export class LevelSelectScene extends Phaser.Scene {
   private chiSystem!: ChiSystem;
+  private gardenSystem!: GardenSystem;
 
   constructor() {
     super({ key: 'LevelSelectScene' });
@@ -16,6 +18,7 @@ export class LevelSelectScene extends Phaser.Scene {
 
   async create(): Promise<void> {
     this.chiSystem = new ChiSystem();
+    this.gardenSystem = new GardenSystem();
 
     // 1. Initialize and show the 3D Apple MapKit view behind the canvas
     await MapLibreService.createMap();
@@ -104,10 +107,37 @@ export class LevelSelectScene extends Phaser.Scene {
     uiContainer.style.left = '20px';
     uiContainer.style.zIndex = '20';
     uiContainer.style.pointerEvents = 'auto';
+    const compostLvl = this.gardenSystem.getCompostLevel();
+    const isLocked = compostLvl < 5;
+    const compostProg = (this.gardenSystem.getRawCount('compost') % 30) / 30 * 100;
+    const recyclingProg = (this.gardenSystem.getRawCount('recycling') % 30) / 30 * 100;
+    const plasticProg = (this.gardenSystem.getRawCount('plastic') % 30) / 30 * 100;
+    const landfillProg = (this.gardenSystem.getRawCount('landfill') % 50) / 50 * 100;
+
+    const renderBar = (name: string, lvl: number, prog: number, locked: boolean, color: string, icon: string) => `
+      <div style="margin-bottom: 8px;">
+        <div style="display: flex; justify-content: space-between; font-size: 14px; color: #fff; text-shadow: 0 1px 2px #000;">
+          <span>${icon} ${name} ${locked ? '🔒 (Needs Compost Lvl 5)' : `Lvl ${lvl}`}</span>
+        </div>
+        <div style="width: 100%; height: 12px; background: rgba(0,0,0,0.5); border-radius: 6px; overflow: hidden; border: 1px solid #444;">
+          <div style="width: ${prog}%; height: 100%; background: ${locked ? '#555' : color};"></div>
+        </div>
+      </div>
+    `;
+
     uiContainer.innerHTML = `
       <div style="color: #facc15; font-family: sans-serif; font-size: 24px; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8); margin-bottom: 10px;">
         Total CHI: ${Math.floor(totalChi)} / ${maxChi}
       </div>
+      
+      <div style="background: rgba(20,20,20,0.85); padding: 15px; border-radius: 10px; border: 1px solid #444; margin-bottom: 10px; width: 300px; font-family: sans-serif;">
+        <div style="color: #fff; font-weight: bold; font-size: 16px; margin-bottom: 10px; text-transform: uppercase;">Garden Progress</div>
+        ${renderBar('Compost', compostLvl, compostProg, false, '#22c55e', '🍎')}
+        ${renderBar('Recycling', this.gardenSystem.getRecyclingLevel(), recyclingProg, isLocked, '#3b82f6', '♻️')}
+        ${renderBar('Plastic', this.gardenSystem.getPlasticLevel(), plasticProg, isLocked, '#6b7280', '🧴')}
+        ${renderBar('Landfill', this.gardenSystem.getLandfillLevel(), landfillProg, isLocked, '#a8a29e', '🗑️')}
+      </div>
+
       <div style="display: flex; gap: 10px;">
         <button id="future-btn" style="background: #2563eb; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
           Toggle Future Vision

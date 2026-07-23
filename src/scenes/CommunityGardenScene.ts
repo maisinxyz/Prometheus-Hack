@@ -7,14 +7,6 @@ export class CommunityGardenScene extends Phaser.Scene {
   private gardenSystem!: GardenSystem;
   private chiSystem!: ChiSystem;
 
-  private compostText!: Phaser.GameObjects.Text;
-  private treeSprite!: Phaser.GameObjects.Text;
-  private habitatsGroup!: Phaser.GameObjects.Group;
-  private upgradeTreeBtn!: Phaser.GameObjects.Text;
-  private buildPollinatorBtn!: Phaser.GameObjects.Text;
-  private buildBirdhouseBtn!: Phaser.GameObjects.Text;
-  private npcSprite?: Phaser.GameObjects.Text;
-
   constructor() {
     super({ key: 'CommunityGardenScene' });
   }
@@ -23,188 +15,171 @@ export class CommunityGardenScene extends Phaser.Scene {
     this.gardenSystem = new GardenSystem();
     this.chiSystem = new ChiSystem();
 
-    // 1. Weather/Climate Sync
-    const totalChi = this.chiSystem.getTotalChi(venuesData.map(v => v.id));
-    const maxChi = venuesData.length * 100;
-    
-    // Default pleasant background
-    this.cameras.main.setBackgroundColor('#87CEEB'); 
+    const compostLvl = this.gardenSystem.getCompostLevel();
+    const recyclingLvl = this.gardenSystem.getRecyclingLevel();
+    const plasticLvl = this.gardenSystem.getPlasticLevel();
+    const landfillLvl = this.gardenSystem.getLandfillLevel();
 
-    let isSmog = false;
-    let isEco = false;
-    if (totalChi <= maxChi * 0.25) {
-      isSmog = true;
-      this.cameras.main.setBackgroundColor('#555555');
-    } else if (totalChi > maxChi * 0.75) {
-      isEco = true;
-      this.cameras.main.setBackgroundColor('#00BFFF');
+    // 1. Background (Base dirt)
+    this.cameras.main.setBackgroundColor('#87CEEB'); // Sky blue
+    this.add.rectangle(0, 540, 1920, 540, 0x654321).setOrigin(0, 0); // Dirt ground
+
+    // Landfill: Park Sign and Animals
+    if (landfillLvl >= 1) {
+      this.add.text(960, 450, 'JAONG PARK', { 
+        fontSize: '48px', color: '#fff', fontStyle: 'bold', stroke: '#000', 
+        strokeThickness: 4, backgroundColor: '#8b4513', padding: { x: 20, y: 10 } 
+      }).setOrigin(0.5);
+    }
+    
+    // Compost: Grass, Flowers, Bushes, Bugs
+    // Grass
+    if (compostLvl >= 1) {
+      const grassPercent = compostLvl >= 5 ? 100 : (compostLvl >= 4 ? 75 : (compostLvl >= 3 ? 50 : (compostLvl >= 2 ? 30 : 10)));
+      this.add.rectangle(0, 540, 1920 * (grassPercent / 100), 540, 0x22c55e).setOrigin(0, 0);
+    }
+    if (compostLvl >= 6) {
+      // Wildflowers
+      for (let i=0; i<15; i++) this.add.text(Phaser.Math.Between(100, 1800), Phaser.Math.Between(550, 1000), '🌸', { fontSize: '40px' });
+    }
+    if (compostLvl >= 7) {
+      // Bushes
+      for (let i=0; i<8; i++) this.add.text(Phaser.Math.Between(100, 1800), Phaser.Math.Between(550, 1000), '🌿', { fontSize: '60px' });
+    }
+    if (compostLvl >= 8) {
+      // Dragonflies
+      this.createFlyingEmoji('🦗', 4); 
+    }
+    if (compostLvl >= 9) {
+      // Butterflies
+      this.createFlyingEmoji('🦋', 5);
+    }
+    if (compostLvl >= 10) {
+      // Bees
+      this.createFlyingEmoji('🐝', 6);
     }
 
-    // Background image based on phase
-    const treePhase = this.gardenSystem.getTreePhase();
-    const bgKey = treePhase === 1 ? 'park_dirt' : 'park_grass';
-    const bg = this.add.image(960, 540, bgKey);
-    const scaleX = 1920 / bg.width;
-    const scaleY = 1080 / bg.height;
-    bg.setScale(Math.max(scaleX, scaleY));
+    // Recycling: Trees, Benches, Humans
+    if (recyclingLvl >= 1) {
+      const treeScale = recyclingLvl >= 5 ? 1 : (recyclingLvl >= 4 ? 0.75 : (recyclingLvl >= 3 ? 0.5 : 0.33));
+      const tree = this.add.text(400, 700, '🌳', { fontSize: '200px' }).setOrigin(0.5, 1);
+      tree.setScale(treeScale);
+      
+      const tree2 = this.add.text(1500, 800, '🌳', { fontSize: '200px' }).setOrigin(0.5, 1);
+      tree2.setScale(treeScale);
+    }
+    if (recyclingLvl >= 6) {
+      this.add.text(300, 750, '🪑', { fontSize: '80px' }).setOrigin(0.5, 1); // Bench
+      this.add.text(1400, 850, '🪑', { fontSize: '80px' }).setOrigin(0.5, 1);
+    }
+    if (recyclingLvl >= 7) {
+      this.add.text(200, 700, '🏮', { fontSize: '100px' }).setOrigin(0.5, 1); // Lamp
+      this.add.text(1300, 800, '🏮', { fontSize: '100px' }).setOrigin(0.5, 1);
+    }
+    if (recyclingLvl >= 8) {
+      this.add.text(300, 730, '🧑‍🤝‍🧑', { fontSize: '50px' }).setOrigin(0.5, 1); // People on bench
+      this.add.text(1400, 830, '🎸👨‍🎤', { fontSize: '50px' }).setOrigin(0.5, 1); // Guitar person
+    }
+    if (recyclingLvl >= 9) {
+      this.add.text(700, 900, '🍱🪑', { fontSize: '80px' }).setOrigin(0.5, 1); // Picnic table
+    }
+    if (recyclingLvl >= 10) {
+      this.add.text(700, 870, '👨‍👩‍👧‍👦', { fontSize: '60px' }).setOrigin(0.5, 1); // People at table
+    }
 
-    // Weather overlay
-    if (isSmog) {
+    // Plastic: Pond
+    if (plasticLvl >= 1) {
+      const pondColor = plasticLvl >= 9 ? 0x00ffff : 0x0ea5e9; // Sparkly vibrant blue vs normal
+      this.add.ellipse(960, 850, 600, 200, pondColor);
+      
+      if (plasticLvl >= 2) {
+        this.add.text(800, 850, '🐟', { fontSize: '40px' }).setOrigin(0.5);
+        this.add.text(1050, 820, '🐟', { fontSize: '30px' }).setOrigin(0.5);
+      }
+      if (plasticLvl >= 3) {
+        this.add.text(700, 800, '🌾', { fontSize: '60px' }).setOrigin(0.5, 1); // Cattails
+        this.add.text(1200, 900, '🌾', { fontSize: '60px' }).setOrigin(0.5, 1);
+      }
+      if (plasticLvl >= 4) {
+        this.add.text(900, 830, '🦆', { fontSize: '50px' }).setOrigin(0.5);
+        this.add.text(960, 870, '🦆', { fontSize: '40px' }).setOrigin(0.5);
+      }
+      if (plasticLvl >= 5) {
+        this.add.text(850, 800, '🍃', { fontSize: '40px' }).setOrigin(0.5); // Lilypad
+        this.add.text(1050, 900, '🍃', { fontSize: '40px' }).setOrigin(0.5);
+      }
+      if (plasticLvl >= 6) this.add.text(850, 790, '🐸', { fontSize: '30px' }).setOrigin(0.5);
+      if (plasticLvl >= 7) this.createFlyingEmoji('🕊️', 3);
+      if (plasticLvl >= 8) this.add.text(1100, 930, '🐢', { fontSize: '40px' }).setOrigin(0.5);
+      if (plasticLvl >= 9) {
+        // Sparkles
+        for (let i=0; i<10; i++) {
+          const sp = this.add.text(Phaser.Math.Between(700, 1200), Phaser.Math.Between(750, 950), '✨', { fontSize: '20px' });
+          this.tweens.add({ targets: sp, alpha: 0, yoyo: true, repeat: -1, duration: 800 + Math.random()*1000, delay: Math.random()*1000 });
+        }
+      }
+      if (plasticLvl >= 10) this.add.text(960, 820, '⛲', { fontSize: '150px' }).setOrigin(0.5, 1);
+    }
+
+    // Landfill animals
+    if (landfillLvl >= 2) {
+      this.add.text(1200, 700, '🐇', { fontSize: '40px' }).setOrigin(0.5, 1);
+      this.add.text(1250, 720, '🐇', { fontSize: '30px' }).setOrigin(0.5, 1);
+    }
+    if (landfillLvl >= 3) {
+      this.add.text(450, 750, '🐿️', { fontSize: '30px' }).setOrigin(0.5, 1);
+      this.add.text(400, 680, '🐿️', { fontSize: '30px' }).setOrigin(0.5, 1); // on tree
+    }
+    if (landfillLvl >= 4) {
+      this.add.text(1600, 900, '🐈', { fontSize: '50px' }).setOrigin(0.5, 1);
+    }
+    if (landfillLvl >= 5) {
+      this.add.text(600, 950, '🐕', { fontSize: '60px' }).setOrigin(0.5, 1);
+    }
+
+    // Weather overlay (smog)
+    const totalChi = this.chiSystem.getTotalChi(venuesData.map(v => v.id));
+    const maxChi = venuesData.length * 100;
+    if (totalChi <= maxChi * 0.25) {
       this.add.rectangle(0, 0, 1920, 1080, 0x1a1a1a, 0.4).setOrigin(0);
       this.add.text(960, 100, 'Warning: Severe Smog in the City', { fontSize: '32px', color: '#ff4444', fontStyle: 'bold' }).setOrigin(0.5);
-    } else if (isEco) {
+    } else if (totalChi > maxChi * 0.75) {
       this.add.rectangle(0, 0, 1920, 1080, 0xffffff, 0.1).setOrigin(0);
       this.add.text(960, 100, 'Eco-Festival Active! The garden is thriving.', { fontSize: '32px', color: '#fbbf24', fontStyle: 'bold' }).setOrigin(0.5);
     }
 
-    // Title
-    this.add.text(960, 40, 'Community Park', { fontSize: '64px', color: '#ffffff', fontStyle: 'bold', stroke: '#000', strokeThickness: 6 }).setOrigin(0.5);
-
-    // Compost Display
-    this.compostText = this.add.text(40, 40, '', { fontSize: '48px', color: '#facc15', fontStyle: 'bold', stroke: '#000', strokeThickness: 4 });
-    this.updateCompostUI();
+    // Level Summary UI overlay
+    const summaryUi = this.add.container(40, 120);
+    const bgRect = this.add.rectangle(0, 0, 320, 200, 0x000000, 0.8).setOrigin(0);
+    bgRect.setStrokeStyle(2, 0x444444);
+    summaryUi.add(bgRect);
+    
+    summaryUi.add(this.add.text(10, 10, 'Garden Levels', { fontSize: '24px', color: '#fff', fontStyle: 'bold' }));
+    summaryUi.add(this.add.text(10, 50, `🍎 Compost: Lvl ${compostLvl}`, { fontSize: '20px', color: '#22c55e' }));
+    summaryUi.add(this.add.text(10, 80, `♻️ Recycling: ${compostLvl < 5 ? '🔒' : 'Lvl ' + recyclingLvl}`, { fontSize: '20px', color: compostLvl < 5 ? '#555' : '#3b82f6' }));
+    summaryUi.add(this.add.text(10, 110, `🧴 Plastic: ${compostLvl < 5 ? '🔒' : 'Lvl ' + plasticLvl}`, { fontSize: '20px', color: compostLvl < 5 ? '#555' : '#6b7280' }));
+    summaryUi.add(this.add.text(10, 140, `🗑️ Landfill: ${compostLvl < 5 ? '🔒' : 'Lvl ' + landfillLvl}`, { fontSize: '20px', color: compostLvl < 5 ? '#555' : '#a8a29e' }));
 
     // Back Button
-    const backBtn = this.add.text(40, 1000, '⬅ Back to Map', { fontSize: '32px', color: '#ffffff', backgroundColor: '#333', padding: { x: 20, y: 10 } })
+    this.add.text(40, 40, '⬅ Back to Map', { fontSize: '32px', color: '#ffffff', backgroundColor: '#333', padding: { x: 20, y: 10 } })
       .setInteractive({ useHandCursor: true })
       .on('pointerdown', () => {
         this.scene.start('LevelSelectScene');
       });
-
-    this.habitatsGroup = this.add.group();
-
-    // Draw Tree
-    this.treeSprite = this.add.text(960, 650, '', { fontSize: '200px' }).setOrigin(0.5, 1);
-    this.updateTreeVisuals();
-
-    // Draw Habitats
-    this.drawHabitats();
-
-    // UI Buttons for Upgrades
-    this.createUpgradeUI();
   }
 
-  private updateCompostUI() {
-    this.compostText.setText(`Compost: ${this.gardenSystem.getCompost()}`);
-  }
-
-  private updateTreeVisuals() {
-    const phase = this.gardenSystem.getTreePhase();
-    if (phase === 1) this.treeSprite.setText('🌱');
-    else if (phase === 2) this.treeSprite.setText('🌳');
-    else if (phase === 3) this.treeSprite.setText('🌸🌳🌸');
-  }
-
-  private drawHabitats() {
-    this.habitatsGroup.clear(true, true);
-    
-    if (this.gardenSystem.isHabitatUnlocked('pollinator')) {
-      this.habitatsGroup.add(this.add.text(1300, 750, '🦋🌻', { fontSize: '80px' }).setOrigin(0.5, 1));
-    }
-    if (this.gardenSystem.isHabitatUnlocked('birdhouse')) {
-      this.habitatsGroup.add(this.add.text(600, 600, '🏠🐦', { fontSize: '80px' }).setOrigin(0.5, 1));
-    }
-
-    // If any habitat is unlocked, spawn a community NPC who walks around
-    if (this.gardenSystem.getUnlockedHabitats().length > 0 && !this.npcSprite) {
-      this.npcSprite = this.add.text(400, 720, '🧑‍🌾', { fontSize: '100px' }).setOrigin(0.5, 1);
+  private createFlyingEmoji(emoji: string, count: number) {
+    for (let i = 0; i < count; i++) {
+      const bug = this.add.text(Phaser.Math.Between(100, 1800), Phaser.Math.Between(100, 800), emoji, { fontSize: '30px' });
       this.tweens.add({
-        targets: this.npcSprite,
-        x: 1500,
-        duration: 8000,
+        targets: bug,
+        x: `+=${Phaser.Math.Between(-300, 300)}`,
+        y: `+=${Phaser.Math.Between(-150, 150)}`,
+        duration: 3000 + Math.random() * 2000,
         yoyo: true,
         repeat: -1,
-        ease: 'Sine.easeInOut',
-        onYoyo: () => { this.npcSprite?.setScale(-1, 1); },
-        onRepeat: () => { this.npcSprite?.setScale(1, 1); }
+        ease: 'Sine.easeInOut'
       });
-    }
-  }
-
-  private createUpgradeUI() {
-    const startX = 960;
-    
-    // Tree Upgrade
-    this.upgradeTreeBtn = this.add.text(startX, 900, '', { fontSize: '24px', backgroundColor: '#2563eb', padding: { x: 15, y: 10 }, color: '#fff' })
-      .setOrigin(0.5).setInteractive({ useHandCursor: true })
-      .on('pointerdown', () => {
-        const phase = this.gardenSystem.getTreePhase();
-        if (phase === 1 && this.gardenSystem.spendCompost(10)) {
-          this.gardenSystem.upgradeTree();
-          this.refreshAll();
-        } else if (phase === 2 && this.gardenSystem.spendCompost(25)) {
-          this.gardenSystem.upgradeTree();
-          this.refreshAll();
-        }
-      });
-
-    // Pollinator Patch
-    this.buildPollinatorBtn = this.add.text(startX - 450, 900, 'Build Pollinator Patch (15 Compost)', { fontSize: '24px', backgroundColor: '#16a34a', padding: { x: 15, y: 10 }, color: '#fff' })
-      .setOrigin(0.5).setInteractive({ useHandCursor: true })
-      .on('pointerdown', () => {
-        if (!this.gardenSystem.isHabitatUnlocked('pollinator') && this.gardenSystem.getTreePhase() >= 2) {
-          if (this.gardenSystem.spendCompost(15)) {
-            this.gardenSystem.unlockHabitat('pollinator');
-            this.refreshAll();
-          }
-        }
-      });
-
-    // Birdhouse
-    this.buildBirdhouseBtn = this.add.text(startX + 450, 900, 'Build Birdhouse (20 Compost)', { fontSize: '24px', backgroundColor: '#ea580c', padding: { x: 15, y: 10 }, color: '#fff' })
-      .setOrigin(0.5).setInteractive({ useHandCursor: true })
-      .on('pointerdown', () => {
-        if (!this.gardenSystem.isHabitatUnlocked('birdhouse') && this.gardenSystem.getTreePhase() >= 3) {
-          if (this.gardenSystem.spendCompost(20)) {
-            this.gardenSystem.unlockHabitat('birdhouse');
-            this.refreshAll();
-          }
-        }
-      });
-
-    this.updateButtons();
-  }
-
-  private refreshAll() {
-    this.updateCompostUI();
-    this.updateTreeVisuals();
-    this.drawHabitats();
-    this.updateButtons();
-  }
-
-  private updateButtons() {
-    const phase = this.gardenSystem.getTreePhase();
-    const compost = this.gardenSystem.getCompost();
-
-    // Tree btn
-    if (phase === 1) {
-      this.upgradeTreeBtn.setText('Upgrade Tree to Phase 2 (10 Compost)');
-      this.upgradeTreeBtn.setAlpha(compost >= 10 ? 1 : 0.5);
-    } else if (phase === 2) {
-      this.upgradeTreeBtn.setText('Upgrade Tree to Phase 3 (25 Compost)');
-      this.upgradeTreeBtn.setAlpha(compost >= 25 ? 1 : 0.5);
-    } else {
-      this.upgradeTreeBtn.setText('Tree Fully Upgraded!').setAlpha(0.5).disableInteractive();
-    }
-
-    // Pollinator btn
-    if (this.gardenSystem.isHabitatUnlocked('pollinator')) {
-      this.buildPollinatorBtn.setText('Pollinator Patch Built!').setAlpha(0.5).disableInteractive();
-    } else if (phase < 2) {
-      this.buildPollinatorBtn.setText('Requires Tree Phase 2').setAlpha(0.5).disableInteractive();
-    } else {
-      this.buildPollinatorBtn.setText('Build Pollinator Patch (15 Compost)').setInteractive();
-      this.buildPollinatorBtn.setAlpha(compost >= 15 ? 1 : 0.5);
-    }
-
-    // Birdhouse btn
-    if (this.gardenSystem.isHabitatUnlocked('birdhouse')) {
-      this.buildBirdhouseBtn.setText('Birdhouse Built!').setAlpha(0.5).disableInteractive();
-    } else if (phase < 3) {
-      this.buildBirdhouseBtn.setText('Requires Tree Phase 3').setAlpha(0.5).disableInteractive();
-    } else {
-      this.buildBirdhouseBtn.setText('Build Birdhouse (20 Compost)').setInteractive();
-      this.buildBirdhouseBtn.setAlpha(compost >= 20 ? 1 : 0.5);
     }
   }
 }
