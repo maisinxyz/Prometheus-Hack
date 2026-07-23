@@ -20,18 +20,15 @@ export class CommunityGardenScene extends Phaser.Scene {
     const plasticLvl = this.gardenSystem.getPlasticLevel();
     const landfillLvl = this.gardenSystem.getLandfillLevel();
 
-    // 1. Background — Sky
-    this.cameras.main.setBackgroundColor('#87CEEB');
-
-    // 2. Base ground — dirt (always visible as the empty plot)
-    const dirt = this.add.image(960, 810, 'garden_dirt').setOrigin(0.5, 0.5);
-    dirt.setDisplaySize(1920, 540);
+    // 1. Base ground — dirt (Aerial view of the park, fills the entire screen)
+    const dirt = this.add.image(960, 540, 'park_dirt').setOrigin(0.5, 0.5);
+    dirt.setDisplaySize(1920, 1080);
 
     // ===== COMPOST: Grass, Flowers, Bushes, Bugs =====
     if (compostLvl >= 1) {
       const grassAlpha = compostLvl >= 5 ? 1.0 : (compostLvl >= 4 ? 0.75 : (compostLvl >= 3 ? 0.5 : (compostLvl >= 2 ? 0.3 : 0.1)));
-      const grass = this.add.image(960, 810, 'garden_grass').setOrigin(0.5, 0.5);
-      grass.setDisplaySize(1920, 540);
+      const grass = this.add.image(960, 540, 'park_grass').setOrigin(0.5, 0.5);
+      grass.setDisplaySize(1920, 1080);
       grass.setAlpha(grassAlpha);
     }
     if (compostLvl >= 6) {
