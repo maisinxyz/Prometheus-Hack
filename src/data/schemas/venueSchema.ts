@@ -16,6 +16,17 @@ export const VenueSchema = z.object({
   }),
   latitude: z.number().optional(),
   longitude: z.number().optional(),
+  binPositions: z.array(z.object({
+    x: z.number(),
+    y: z.number(),
+    scale: z.number().optional()
+  })).optional(),
+  spawnZones: z.record(z.string(), z.object({
+    x: z.number(),
+    y: z.number(),
+    width: z.number(),
+    height: z.number()
+  })).optional(),
 });
 
 export type VenueDef = z.infer<typeof VenueSchema>;

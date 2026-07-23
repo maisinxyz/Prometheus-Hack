@@ -41,6 +41,9 @@
     "componentIds": [],
     "venueIds": [
       "mackenzie_cafe"
+    ],
+    "allowedZones": [
+      "TableZone"
     ]
   },
   {
@@ -52,6 +55,9 @@
     "componentIds": [],
     "venueIds": [
       "mackenzie_cafe"
+    ],
+    "allowedZones": [
+      "TableZone"
     ]
   },
   {
@@ -63,6 +69,10 @@
     "componentIds": [],
     "venueIds": [
       "mackenzie_cafe"
+    ],
+    "allowedZones": [
+      "TableZone",
+      "GroundZone"
     ]
   },
   {
@@ -74,6 +84,10 @@
     "componentIds": [],
     "venueIds": [
       "mackenzie_cafe"
+    ],
+    "allowedZones": [
+      "TableZone",
+      "GroundZone"
     ]
   },
   {
@@ -213,6 +227,9 @@
     "componentIds": [],
     "venueIds": [
       "mackenzie_cafe"
+    ],
+    "allowedZones": [
+      "TableZone"
     ]
   },
   {
@@ -594,7 +611,7 @@
     "venueIds": [
       "gym"
     ],
-    "emoji": "🍌"
+    "emoji": "\ud83c\udf4c"
   },
   {
     "id": "broken_jump_rope",
@@ -814,6 +831,9 @@
     "componentIds": [],
     "venueIds": [
       "construction_site"
+    ],
+    "allowedZones": [
+      "GroundZone"
     ]
   },
   {
@@ -825,6 +845,9 @@
     "componentIds": [],
     "venueIds": [
       "construction_site"
+    ],
+    "allowedZones": [
+      "GroundZone"
     ]
   },
   {
@@ -847,6 +870,9 @@
     "componentIds": [],
     "venueIds": [
       "construction_site"
+    ],
+    "allowedZones": [
+      "GroundZone"
     ]
   },
   {
@@ -858,6 +884,9 @@
     "componentIds": [],
     "venueIds": [
       "construction_site"
+    ],
+    "allowedZones": [
+      "GroundZone"
     ]
   },
   {
@@ -869,6 +898,9 @@
     "componentIds": [],
     "venueIds": [
       "construction_site"
+    ],
+    "allowedZones": [
+      "GroundZone"
     ]
   },
   {
@@ -1067,6 +1099,9 @@
     "componentIds": [],
     "venueIds": [
       "mackenzie_cafe"
+    ],
+    "allowedZones": [
+      "TableZone"
     ]
   },
   {
@@ -1090,7 +1125,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🏷️"
+    "emoji": "\ud83c\udff7\ufe0f"
   },
   {
     "id": "cardboard_drink_carrier",
@@ -1102,7 +1137,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "📦"
+    "emoji": "\ud83d\udce6"
   },
   {
     "id": "glass_juice_bottle",
@@ -1114,7 +1149,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🧃"
+    "emoji": "\ud83e\uddc3"
   },
   {
     "id": "half_eaten_muffin",
@@ -1126,7 +1161,10 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🧁"
+    "emoji": "\ud83e\uddc1",
+    "allowedZones": [
+      "TableZone"
+    ]
   },
   {
     "id": "banana_peel",
@@ -1138,7 +1176,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🍌"
+    "emoji": "\ud83c\udf4c"
   },
   {
     "id": "orange_peel",
@@ -1150,7 +1188,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🍊"
+    "emoji": "\ud83c\udf4a"
   },
   {
     "id": "iced_tea_with_lemon",
@@ -1165,7 +1203,10 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🍹"
+    "emoji": "\ud83c\udf79",
+    "allowedZones": [
+      "TableZone"
+    ]
   },
   {
     "id": "lemon_wedge",
@@ -1177,7 +1218,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🍋"
+    "emoji": "\ud83c\udf4b"
   },
   {
     "id": "iced_tea_cup",
@@ -1189,7 +1230,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🥤"
+    "emoji": "\ud83e\udd64"
   },
   {
     "id": "tea_leaves",
@@ -1201,7 +1242,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🌿"
+    "emoji": "\ud83c\udf3f"
   },
   {
     "id": "sandwich_crusts",
@@ -1213,7 +1254,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🥪"
+    "emoji": "\ud83e\udd6a"
   },
   {
     "id": "plastic_yogurt_container",
@@ -1225,7 +1266,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🍦"
+    "emoji": "\ud83c\udf66"
   },
   {
     "id": "receipt",
@@ -1237,7 +1278,11 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🧾"
+    "emoji": "\ud83e\uddfe",
+    "allowedZones": [
+      "TableZone",
+      "GroundZone"
+    ]
   },
   {
     "id": "sugar_packet",
@@ -1249,7 +1294,11 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🧂"
+    "emoji": "\ud83e\uddc2",
+    "allowedZones": [
+      "TableZone",
+      "GroundZone"
+    ]
   },
   {
     "id": "stirring_stick",
@@ -1261,7 +1310,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🥢"
+    "emoji": "\ud83e\udd62"
   },
   {
     "id": "croissant_crumbs",
@@ -1273,7 +1322,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🥐"
+    "emoji": "\ud83e\udd50"
   },
   {
     "id": "egg_shell",
@@ -1285,7 +1334,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🥚"
+    "emoji": "\ud83e\udd5a"
   },
   {
     "id": "milk_carton",
@@ -1297,7 +1346,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🥛"
+    "emoji": "\ud83e\udd5b"
   },
   {
     "id": "aluminum_foil_wrap",
@@ -1309,7 +1358,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🫓"
+    "emoji": "\ud83e\uded3"
   },
   {
     "id": "plastic_cup",
@@ -1321,7 +1370,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🥤"
+    "emoji": "\ud83e\udd64"
   },
   {
     "id": "paper_bag",
@@ -1333,7 +1382,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🛍️"
+    "emoji": "\ud83d\udecd\ufe0f"
   },
   {
     "id": "used_coffee_filter",
@@ -1345,7 +1394,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "☕"
+    "emoji": "\u2615"
   },
   {
     "id": "cookie_crumbs",
@@ -1357,7 +1406,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🍪"
+    "emoji": "\ud83c\udf6a"
   },
   {
     "id": "butter_packet_foil",
@@ -1369,7 +1418,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🧈"
+    "emoji": "\ud83e\uddc8"
   },
   {
     "id": "jam_packet",
@@ -1381,7 +1430,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🍓"
+    "emoji": "\ud83c\udf53"
   },
   {
     "id": "broken_ceramic_mug",
@@ -1393,7 +1442,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "☕"
+    "emoji": "\u2615"
   },
   {
     "id": "salad_in_plastic_bowl",
@@ -1408,7 +1457,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🥗"
+    "emoji": "\ud83e\udd57"
   },
   {
     "id": "salad_scraps",
@@ -1418,7 +1467,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥬"
+    "emoji": "\ud83e\udd6c"
   },
   {
     "id": "salad_plastic_bowl",
@@ -1428,7 +1477,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥣"
+    "emoji": "\ud83e\udd63"
   },
   {
     "id": "soup_in_paper_cup",
@@ -1443,7 +1492,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🍲"
+    "emoji": "\ud83c\udf72"
   },
   {
     "id": "soup_liquid",
@@ -1453,7 +1502,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥣"
+    "emoji": "\ud83e\udd63"
   },
   {
     "id": "soup_paper_cup",
@@ -1463,7 +1512,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥡"
+    "emoji": "\ud83e\udd61"
   },
   {
     "id": "sandwich_in_wrapper",
@@ -1478,7 +1527,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🥪"
+    "emoji": "\ud83e\udd6a"
   },
   {
     "id": "sandwich_scraps",
@@ -1488,7 +1537,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥪"
+    "emoji": "\ud83e\udd6a"
   },
   {
     "id": "wax_wrapper",
@@ -1498,7 +1547,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "📜"
+    "emoji": "\ud83d\udcdc"
   },
   {
     "id": "muffin_in_paper_liner",
@@ -1513,7 +1562,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🧁"
+    "emoji": "\ud83e\uddc1"
   },
   {
     "id": "muffin_crumbs",
@@ -1523,7 +1572,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥮"
+    "emoji": "\ud83e\udd6e"
   },
   {
     "id": "paper_liner",
@@ -1533,7 +1582,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "📄"
+    "emoji": "\ud83d\udcc4"
   },
   {
     "id": "yogurt_with_granola",
@@ -1549,7 +1598,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🍨"
+    "emoji": "\ud83c\udf68"
   },
   {
     "id": "granola",
@@ -1559,7 +1608,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🌾"
+    "emoji": "\ud83c\udf3e"
   },
   {
     "id": "yogurt_cup",
@@ -1569,7 +1618,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥛"
+    "emoji": "\ud83e\udd5b"
   },
   {
     "id": "plastic_spoon",
@@ -1579,7 +1628,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥄"
+    "emoji": "\ud83e\udd44"
   },
   {
     "id": "coffee_with_sleeve_lid",
@@ -1595,7 +1644,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "☕"
+    "emoji": "\u2615"
   },
   {
     "id": "smoothie_cup_with_straw",
@@ -1609,7 +1658,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🥤"
+    "emoji": "\ud83e\udd64"
   },
   {
     "id": "smoothie_cup",
@@ -1619,7 +1668,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥤"
+    "emoji": "\ud83e\udd64"
   },
   {
     "id": "smoothie_straw",
@@ -1629,7 +1678,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥢"
+    "emoji": "\ud83e\udd62"
   },
   {
     "id": "bagel_in_paper_bag",
@@ -1644,7 +1693,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🥯"
+    "emoji": "\ud83e\udd6f"
   },
   {
     "id": "bagel_scraps",
@@ -1654,7 +1703,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥯"
+    "emoji": "\ud83e\udd6f"
   },
   {
     "id": "bagel_paper_bag",
@@ -1664,7 +1713,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🛍️"
+    "emoji": "\ud83d\udecd\ufe0f"
   },
   {
     "id": "pasta_in_takeout_box",
@@ -1680,7 +1729,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🍝"
+    "emoji": "\ud83c\udf5d"
   },
   {
     "id": "pasta_scraps",
@@ -1690,7 +1739,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🍝"
+    "emoji": "\ud83c\udf5d"
   },
   {
     "id": "takeout_container",
@@ -1700,7 +1749,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🍱"
+    "emoji": "\ud83c\udf71"
   },
   {
     "id": "takeout_fork",
@@ -1710,7 +1759,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🍴"
+    "emoji": "\ud83c\udf74"
   },
   {
     "id": "tea_bag_in_cup",
@@ -1726,7 +1775,7 @@
     "venueIds": [
       "mackenzie_cafe"
     ],
-    "emoji": "🍵"
+    "emoji": "\ud83c\udf75"
   },
   {
     "id": "used_tea_bag",
@@ -1736,7 +1785,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🫖"
+    "emoji": "\ud83e\uded6"
   },
   {
     "id": "tea_paper_cup",
@@ -1746,7 +1795,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🍵"
+    "emoji": "\ud83c\udf75"
   },
   {
     "id": "tea_plastic_lid",
@@ -1756,7 +1805,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "💿"
+    "emoji": "\ud83d\udcbf"
   },
   {
     "id": "drywall_scrap",
@@ -1768,7 +1817,10 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "🧱"
+    "emoji": "\ud83e\uddf1",
+    "allowedZones": [
+      "GroundZone"
+    ]
   },
   {
     "id": "wire_clippings",
@@ -1780,7 +1832,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "🔌"
+    "emoji": "\ud83d\udd0c"
   },
   {
     "id": "concrete_chunk",
@@ -1792,7 +1844,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "🪨"
+    "emoji": "\ud83e\udea8"
   },
   {
     "id": "metal_rebar_piece",
@@ -1804,7 +1856,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "🔩"
+    "emoji": "\ud83d\udd29"
   },
   {
     "id": "fiberglass_insulation",
@@ -1816,7 +1868,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "🧶"
+    "emoji": "\ud83e\uddf6"
   },
   {
     "id": "sawdust_bag",
@@ -1828,7 +1880,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "🪵"
+    "emoji": "\ud83e\udeb5"
   },
   {
     "id": "used_sandpaper",
@@ -1840,7 +1892,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "📄"
+    "emoji": "\ud83d\udcc4"
   },
   {
     "id": "broken_tile",
@@ -1852,7 +1904,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "🟫"
+    "emoji": "\ud83d\udfeb"
   },
   {
     "id": "copper_pipe_scrap",
@@ -1864,7 +1916,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "🔧"
+    "emoji": "\ud83d\udd27"
   },
   {
     "id": "lumber_offcut",
@@ -1876,7 +1928,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "🪵"
+    "emoji": "\ud83e\udeb5"
   },
   {
     "id": "paint_roller",
@@ -1888,7 +1940,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "🖌️"
+    "emoji": "\ud83d\udd8c\ufe0f"
   },
   {
     "id": "duct_tape_roll",
@@ -1900,7 +1952,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "🩹"
+    "emoji": "\ud83e\ude79"
   },
   {
     "id": "glass_window_shard",
@@ -1912,7 +1964,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "🪟"
+    "emoji": "\ud83e\ude9f"
   },
   {
     "id": "paint_can_with_brush",
@@ -1927,7 +1979,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "🪣"
+    "emoji": "\ud83e\udea3"
   },
   {
     "id": "dried_paint_brush",
@@ -1937,7 +1989,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🖌️"
+    "emoji": "\ud83d\udd8c\ufe0f"
   },
   {
     "id": "empty_paint_can",
@@ -1947,7 +1999,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🪣"
+    "emoji": "\ud83e\udea3"
   },
   {
     "id": "nails_in_cardboard",
@@ -1962,7 +2014,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "📦"
+    "emoji": "\ud83d\udce6"
   },
   {
     "id": "loose_nails",
@@ -1972,7 +2024,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "📌"
+    "emoji": "\ud83d\udccc"
   },
   {
     "id": "nail_box_cardboard",
@@ -1982,7 +2034,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "📦"
+    "emoji": "\ud83d\udce6"
   },
   {
     "id": "insulation_in_plastic_wrap",
@@ -1997,7 +2049,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "🎁"
+    "emoji": "\ud83c\udf81"
   },
   {
     "id": "insulation_piece",
@@ -2007,7 +2059,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🧶"
+    "emoji": "\ud83e\uddf6"
   },
   {
     "id": "insulation_plastic_wrap",
@@ -2017,7 +2069,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🛍️"
+    "emoji": "\ud83d\udecd\ufe0f"
   },
   {
     "id": "tile_in_paper_packaging",
@@ -2032,7 +2084,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "📬"
+    "emoji": "\ud83d\udcec"
   },
   {
     "id": "tile_piece",
@@ -2042,7 +2094,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🟫"
+    "emoji": "\ud83d\udfeb"
   },
   {
     "id": "tile_paper_wrap",
@@ -2052,7 +2104,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "📰"
+    "emoji": "\ud83d\udcf0"
   },
   {
     "id": "screws_in_plastic_bag",
@@ -2067,7 +2119,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "🔩"
+    "emoji": "\ud83d\udd29"
   },
   {
     "id": "metal_screws",
@@ -2077,7 +2129,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🔩"
+    "emoji": "\ud83d\udd29"
   },
   {
     "id": "screw_plastic_bag",
@@ -2087,7 +2139,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🛍️"
+    "emoji": "\ud83d\udecd\ufe0f"
   },
   {
     "id": "wood_with_nails",
@@ -2102,7 +2154,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "🪵"
+    "emoji": "\ud83e\udeb5"
   },
   {
     "id": "wood_plank",
@@ -2112,7 +2164,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🪵"
+    "emoji": "\ud83e\udeb5"
   },
   {
     "id": "embedded_nails",
@@ -2122,7 +2174,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "📌"
+    "emoji": "\ud83d\udccc"
   },
   {
     "id": "caulk_tube_with_cap",
@@ -2137,7 +2189,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "🧴"
+    "emoji": "\ud83e\uddf4"
   },
   {
     "id": "caulk_tube_body",
@@ -2147,7 +2199,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🧴"
+    "emoji": "\ud83e\uddf4"
   },
   {
     "id": "caulk_cap",
@@ -2157,7 +2209,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "⚫"
+    "emoji": "\u26ab"
   },
   {
     "id": "pipe_in_styrofoam",
@@ -2172,7 +2224,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "📦"
+    "emoji": "\ud83d\udce6"
   },
   {
     "id": "metal_pipe",
@@ -2182,7 +2234,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🔧"
+    "emoji": "\ud83d\udd27"
   },
   {
     "id": "pipe_styrofoam",
@@ -2192,7 +2244,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "📦"
+    "emoji": "\ud83d\udce6"
   },
   {
     "id": "lumber_in_shrink_wrap",
@@ -2207,7 +2259,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "🎁"
+    "emoji": "\ud83c\udf81"
   },
   {
     "id": "shrink_wrap_lumber",
@@ -2217,7 +2269,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🪵"
+    "emoji": "\ud83e\udeb5"
   },
   {
     "id": "shrink_wrap_plastic",
@@ -2227,7 +2279,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🛍️"
+    "emoji": "\ud83d\udecd\ufe0f"
   },
   {
     "id": "window_frame_with_glass",
@@ -2242,7 +2294,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "🪟"
+    "emoji": "\ud83e\ude9f"
   },
   {
     "id": "window_glass",
@@ -2252,7 +2304,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🪟"
+    "emoji": "\ud83e\ude9f"
   },
   {
     "id": "window_frame_wood",
@@ -2262,7 +2314,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🪵"
+    "emoji": "\ud83e\udeb5"
   },
   {
     "id": "ketchup_packet",
@@ -2274,7 +2326,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🟥"
+    "emoji": "\ud83d\udfe5"
   },
   {
     "id": "mustard_packet",
@@ -2286,7 +2338,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🟨"
+    "emoji": "\ud83d\udfe8"
   },
   {
     "id": "relish_cup",
@@ -2298,7 +2350,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🟩"
+    "emoji": "\ud83d\udfe9"
   },
   {
     "id": "paper_hot_dog_tray",
@@ -2310,7 +2362,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🌭"
+    "emoji": "\ud83c\udf2d"
   },
   {
     "id": "soda_cup_lid",
@@ -2322,7 +2374,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "⚫"
+    "emoji": "\u26ab"
   },
   {
     "id": "pretzel_crumbs",
@@ -2334,7 +2386,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🥨"
+    "emoji": "\ud83e\udd68"
   },
   {
     "id": "corn_cob",
@@ -2346,7 +2398,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🌽"
+    "emoji": "\ud83c\udf3d"
   },
   {
     "id": "wax_paper_wrapper",
@@ -2358,7 +2410,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "📜"
+    "emoji": "\ud83d\udcdc"
   },
   {
     "id": "wooden_skewer",
@@ -2370,7 +2422,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🥢"
+    "emoji": "\ud83e\udd62"
   },
   {
     "id": "onion_rings_grease_paper",
@@ -2382,7 +2434,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🧅"
+    "emoji": "\ud83e\uddc5"
   },
   {
     "id": "plastic_utensil_pack",
@@ -2394,7 +2446,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🍴"
+    "emoji": "\ud83c\udf74"
   },
   {
     "id": "churro_paper_sleeve",
@@ -2406,7 +2458,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🥖"
+    "emoji": "\ud83e\udd56"
   },
   {
     "id": "aluminum_soda_can",
@@ -2418,7 +2470,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🥫"
+    "emoji": "\ud83e\udd6b"
   },
   {
     "id": "hot_dog_in_foil",
@@ -2433,7 +2485,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🌭"
+    "emoji": "\ud83c\udf2d"
   },
   {
     "id": "hot_dog_scraps",
@@ -2443,7 +2495,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🌭"
+    "emoji": "\ud83c\udf2d"
   },
   {
     "id": "hot_dog_foil",
@@ -2453,7 +2505,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🫓"
+    "emoji": "\ud83e\uded3"
   },
   {
     "id": "nachos_in_tray",
@@ -2468,7 +2520,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🧀"
+    "emoji": "\ud83e\uddc0"
   },
   {
     "id": "nacho_scraps",
@@ -2478,7 +2530,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🧀"
+    "emoji": "\ud83e\uddc0"
   },
   {
     "id": "nacho_tray",
@@ -2488,7 +2540,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🍽️"
+    "emoji": "\ud83c\udf7d\ufe0f"
   },
   {
     "id": "soda_cup_with_straw",
@@ -2503,7 +2555,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🥤"
+    "emoji": "\ud83e\udd64"
   },
   {
     "id": "soda_paper_cup",
@@ -2513,7 +2565,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥤"
+    "emoji": "\ud83e\udd64"
   },
   {
     "id": "soda_plastic_straw",
@@ -2523,7 +2575,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥢"
+    "emoji": "\ud83e\udd62"
   },
   {
     "id": "fries_in_paper_cone",
@@ -2538,7 +2590,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🍟"
+    "emoji": "\ud83c\udf5f"
   },
   {
     "id": "fry_scraps",
@@ -2548,7 +2600,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🍟"
+    "emoji": "\ud83c\udf5f"
   },
   {
     "id": "paper_cone",
@@ -2558,7 +2610,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "📜"
+    "emoji": "\ud83d\udcdc"
   },
   {
     "id": "pretzel_in_bag",
@@ -2573,7 +2625,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🥨"
+    "emoji": "\ud83e\udd68"
   },
   {
     "id": "pretzel_leftover",
@@ -2583,7 +2635,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥨"
+    "emoji": "\ud83e\udd68"
   },
   {
     "id": "pretzel_plastic_bag",
@@ -2593,7 +2645,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🛍️"
+    "emoji": "\ud83d\udecd\ufe0f"
   },
   {
     "id": "kebab_on_skewer_in_wrapper",
@@ -2609,7 +2661,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🍢"
+    "emoji": "\ud83c\udf62"
   },
   {
     "id": "kebab_scraps",
@@ -2619,7 +2671,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🍖"
+    "emoji": "\ud83c\udf56"
   },
   {
     "id": "kebab_skewer",
@@ -2629,7 +2681,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥢"
+    "emoji": "\ud83e\udd62"
   },
   {
     "id": "kebab_foil_wrapper",
@@ -2639,7 +2691,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🫓"
+    "emoji": "\ud83e\uded3"
   },
   {
     "id": "ice_cream_in_cup",
@@ -2655,7 +2707,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🍦"
+    "emoji": "\ud83c\udf66"
   },
   {
     "id": "melted_ice_cream",
@@ -2665,7 +2717,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🍦"
+    "emoji": "\ud83c\udf66"
   },
   {
     "id": "ice_cream_cup",
@@ -2675,7 +2727,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥤"
+    "emoji": "\ud83e\udd64"
   },
   {
     "id": "ice_cream_spoon",
@@ -2685,7 +2737,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥄"
+    "emoji": "\ud83e\udd44"
   },
   {
     "id": "water_bottle_with_label",
@@ -2700,7 +2752,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "💧"
+    "emoji": "\ud83d\udca7"
   },
   {
     "id": "water_bottle_body",
@@ -2710,7 +2762,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🍶"
+    "emoji": "\ud83c\udf76"
   },
   {
     "id": "bottle_paper_label",
@@ -2720,7 +2772,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🏷️"
+    "emoji": "\ud83c\udff7\ufe0f"
   },
   {
     "id": "cotton_candy_on_stick",
@@ -2736,7 +2788,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🍭"
+    "emoji": "\ud83c\udf6d"
   },
   {
     "id": "cotton_candy_residue",
@@ -2746,7 +2798,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🍬"
+    "emoji": "\ud83c\udf6c"
   },
   {
     "id": "candy_paper_cone",
@@ -2756,7 +2808,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "📜"
+    "emoji": "\ud83d\udcdc"
   },
   {
     "id": "candy_stick",
@@ -2766,7 +2818,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥢"
+    "emoji": "\ud83e\udd62"
   },
   {
     "id": "loaded_dog_in_box",
@@ -2782,7 +2834,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "📦"
+    "emoji": "\ud83d\udce6"
   },
   {
     "id": "loaded_dog_scraps",
@@ -2792,7 +2844,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🌭"
+    "emoji": "\ud83c\udf2d"
   },
   {
     "id": "dog_cardboard_box",
@@ -2802,7 +2854,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "📦"
+    "emoji": "\ud83d\udce6"
   },
   {
     "id": "dog_wax_paper",
@@ -2812,7 +2864,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "📜"
+    "emoji": "\ud83d\udcdc"
   },
   {
     "id": "playbill",
@@ -2824,7 +2876,7 @@
     "venueIds": [
       "broadway_theater"
     ],
-    "emoji": "🎭"
+    "emoji": "\ud83c\udfad"
   },
   {
     "id": "ticket_stub",
@@ -2836,7 +2888,7 @@
     "venueIds": [
       "broadway_theater"
     ],
-    "emoji": "🎟️"
+    "emoji": "\ud83c\udf9f\ufe0f"
   },
   {
     "id": "opera_glasses_broken",
@@ -2848,7 +2900,7 @@
     "venueIds": [
       "broadway_theater"
     ],
-    "emoji": "🔭"
+    "emoji": "\ud83d\udd2d"
   },
   {
     "id": "candy_wrapper",
@@ -2860,7 +2912,7 @@
     "venueIds": [
       "broadway_theater"
     ],
-    "emoji": "🍬"
+    "emoji": "\ud83c\udf6c"
   },
   {
     "id": "popcorn_kernels",
@@ -2872,7 +2924,7 @@
     "venueIds": [
       "broadway_theater"
     ],
-    "emoji": "🍿"
+    "emoji": "\ud83c\udf7f"
   },
   {
     "id": "popcorn_in_box",
@@ -2887,7 +2939,7 @@
     "venueIds": [
       "broadway_theater"
     ],
-    "emoji": "🍿"
+    "emoji": "\ud83c\udf7f"
   },
   {
     "id": "popcorn_scraps",
@@ -2897,7 +2949,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🍿"
+    "emoji": "\ud83c\udf7f"
   },
   {
     "id": "cardboard_popcorn_box",
@@ -2907,7 +2959,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥡"
+    "emoji": "\ud83e\udd61"
   },
   {
     "id": "champagne_in_plastic",
@@ -2922,7 +2974,7 @@
     "venueIds": [
       "broadway_theater"
     ],
-    "emoji": "🥂"
+    "emoji": "\ud83e\udd42"
   },
   {
     "id": "champagne_liquid",
@@ -2932,7 +2984,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "💧"
+    "emoji": "\ud83d\udca7"
   },
   {
     "id": "plastic_flute",
@@ -2942,7 +2994,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥂"
+    "emoji": "\ud83e\udd42"
   },
   {
     "id": "latex_gloves",
@@ -2954,7 +3006,7 @@
     "venueIds": [
       "nyc_hospital"
     ],
-    "emoji": "🧤"
+    "emoji": "\ud83e\udde4"
   },
   {
     "id": "medical_mask",
@@ -2966,7 +3018,7 @@
     "venueIds": [
       "nyc_hospital"
     ],
-    "emoji": "😷"
+    "emoji": "\ud83d\ude37"
   },
   {
     "id": "empty_pill_bottle",
@@ -2978,7 +3030,7 @@
     "venueIds": [
       "nyc_hospital"
     ],
-    "emoji": "💊"
+    "emoji": "\ud83d\udc8a"
   },
   {
     "id": "paper_prescription_bag",
@@ -2990,7 +3042,7 @@
     "venueIds": [
       "nyc_hospital"
     ],
-    "emoji": "🛍️"
+    "emoji": "\ud83d\udecd\ufe0f"
   },
   {
     "id": "used_bandages",
@@ -3002,7 +3054,7 @@
     "venueIds": [
       "nyc_hospital"
     ],
-    "emoji": "🩹"
+    "emoji": "\ud83e\ude79"
   },
   {
     "id": "tongue_depressor",
@@ -3014,7 +3066,7 @@
     "venueIds": [
       "nyc_hospital"
     ],
-    "emoji": "🥢"
+    "emoji": "\ud83e\udd62"
   },
   {
     "id": "cotton_swabs",
@@ -3026,7 +3078,7 @@
     "venueIds": [
       "nyc_hospital"
     ],
-    "emoji": "🦯"
+    "emoji": "\ud83e\uddaf"
   },
   {
     "id": "paper_gown",
@@ -3038,7 +3090,7 @@
     "venueIds": [
       "nyc_hospital"
     ],
-    "emoji": "🥼"
+    "emoji": "\ud83e\udd7c"
   },
   {
     "id": "empty_saline_bag",
@@ -3050,7 +3102,7 @@
     "venueIds": [
       "nyc_hospital"
     ],
-    "emoji": "💧"
+    "emoji": "\ud83d\udca7"
   },
   {
     "id": "pill_bottle_with_cotton",
@@ -3065,7 +3117,7 @@
     "venueIds": [
       "nyc_hospital"
     ],
-    "emoji": "💊"
+    "emoji": "\ud83d\udc8a"
   },
   {
     "id": "cotton_ball",
@@ -3075,7 +3127,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "☁️"
+    "emoji": "\u2601\ufe0f"
   },
   {
     "id": "syringe_in_wrapper",
@@ -3090,7 +3142,7 @@
     "venueIds": [
       "nyc_hospital"
     ],
-    "emoji": "💉"
+    "emoji": "\ud83d\udc89"
   },
   {
     "id": "plastic_syringe",
@@ -3100,7 +3152,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "💉"
+    "emoji": "\ud83d\udc89"
   },
   {
     "id": "syringe_plastic_wrap",
@@ -3110,7 +3162,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🛍️"
+    "emoji": "\ud83d\udecd\ufe0f"
   },
   {
     "id": "iv_bag_with_tube",
@@ -3125,7 +3177,7 @@
     "venueIds": [
       "nyc_hospital"
     ],
-    "emoji": "🩸"
+    "emoji": "\ud83e\ude78"
   },
   {
     "id": "iv_tube",
@@ -3135,7 +3187,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "〰️"
+    "emoji": "\u3030\ufe0f"
   },
   {
     "id": "bandaid_with_wrapper",
@@ -3150,7 +3202,7 @@
     "venueIds": [
       "nyc_hospital"
     ],
-    "emoji": "🩹"
+    "emoji": "\ud83e\ude79"
   },
   {
     "id": "bandaid_paper_wrap",
@@ -3160,7 +3212,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "📜"
+    "emoji": "\ud83d\udcdc"
   },
   {
     "id": "thermometer_in_case",
@@ -3175,7 +3227,7 @@
     "venueIds": [
       "nyc_hospital"
     ],
-    "emoji": "🌡️"
+    "emoji": "\ud83c\udf21\ufe0f"
   },
   {
     "id": "digital_thermometer",
@@ -3185,7 +3237,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🌡️"
+    "emoji": "\ud83c\udf21\ufe0f"
   },
   {
     "id": "thermometer_plastic_case",
@@ -3195,7 +3247,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🖊️"
+    "emoji": "\ud83d\udd8a\ufe0f"
   },
   {
     "id": "used_paint_palette",
@@ -3207,7 +3259,7 @@
     "venueIds": [
       "art_studio"
     ],
-    "emoji": "🎨"
+    "emoji": "\ud83c\udfa8"
   },
   {
     "id": "dried_clay_lump",
@@ -3219,7 +3271,7 @@
     "venueIds": [
       "art_studio"
     ],
-    "emoji": "🟤"
+    "emoji": "\ud83d\udfe4"
   },
   {
     "id": "charcoal_stick_stub",
@@ -3231,7 +3283,7 @@
     "venueIds": [
       "art_studio"
     ],
-    "emoji": "⬛"
+    "emoji": "\u2b1b"
   },
   {
     "id": "broken_canvas_frame",
@@ -3243,7 +3295,7 @@
     "venueIds": [
       "art_studio"
     ],
-    "emoji": "🖼️"
+    "emoji": "\ud83d\uddbc\ufe0f"
   },
   {
     "id": "crumpled_sketch_paper",
@@ -3255,7 +3307,7 @@
     "venueIds": [
       "art_studio"
     ],
-    "emoji": "📄"
+    "emoji": "\ud83d\udcc4"
   },
   {
     "id": "empty_gesso_bottle",
@@ -3267,7 +3319,7 @@
     "venueIds": [
       "art_studio"
     ],
-    "emoji": "🧴"
+    "emoji": "\ud83e\uddf4"
   },
   {
     "id": "dried_marker",
@@ -3279,7 +3331,7 @@
     "venueIds": [
       "art_studio"
     ],
-    "emoji": "🖍️"
+    "emoji": "\ud83d\udd8d\ufe0f"
   },
   {
     "id": "empty_spray_paint_can",
@@ -3291,7 +3343,7 @@
     "venueIds": [
       "art_studio"
     ],
-    "emoji": "🥫"
+    "emoji": "\ud83e\udd6b"
   },
   {
     "id": "dirty_rag",
@@ -3303,7 +3355,7 @@
     "venueIds": [
       "art_studio"
     ],
-    "emoji": "🧻"
+    "emoji": "\ud83e\uddfb"
   },
   {
     "id": "linoleum_scrap",
@@ -3315,7 +3367,7 @@
     "venueIds": [
       "art_studio"
     ],
-    "emoji": "🟩"
+    "emoji": "\ud83d\udfe9"
   },
   {
     "id": "paint_tube_with_cap",
@@ -3330,7 +3382,7 @@
     "venueIds": [
       "art_studio"
     ],
-    "emoji": "🖌️"
+    "emoji": "\ud83d\udd8c\ufe0f"
   },
   {
     "id": "paint_tube_body",
@@ -3340,7 +3392,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🎨"
+    "emoji": "\ud83c\udfa8"
   },
   {
     "id": "paint_cap_plastic",
@@ -3350,7 +3402,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "⚫"
+    "emoji": "\u26ab"
   },
   {
     "id": "sketchbook_with_spiral",
@@ -3365,7 +3417,7 @@
     "venueIds": [
       "art_studio"
     ],
-    "emoji": "📓"
+    "emoji": "\ud83d\udcd3"
   },
   {
     "id": "sketchbook_paper",
@@ -3375,7 +3427,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "📄"
+    "emoji": "\ud83d\udcc4"
   },
   {
     "id": "metal_spiral_binding",
@@ -3385,7 +3437,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "〰️"
+    "emoji": "\u3030\ufe0f"
   },
   {
     "id": "easel_with_canvas",
@@ -3400,7 +3452,7 @@
     "venueIds": [
       "art_studio"
     ],
-    "emoji": "🖼️"
+    "emoji": "\ud83d\uddbc\ufe0f"
   },
   {
     "id": "wooden_easel",
@@ -3410,7 +3462,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🪵"
+    "emoji": "\ud83e\udeb5"
   },
   {
     "id": "painted_canvas",
@@ -3420,7 +3472,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🖼️"
+    "emoji": "\ud83d\uddbc\ufe0f"
   },
   {
     "id": "brush_in_jar",
@@ -3435,7 +3487,7 @@
     "venueIds": [
       "art_studio"
     ],
-    "emoji": "🖌️"
+    "emoji": "\ud83d\udd8c\ufe0f"
   },
   {
     "id": "dirty_brush",
@@ -3445,7 +3497,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🖌️"
+    "emoji": "\ud83d\udd8c\ufe0f"
   },
   {
     "id": "plastic_water_jar",
@@ -3455,7 +3507,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🫙"
+    "emoji": "\ud83e\uded9"
   },
   {
     "id": "energy_drink_can",
@@ -3467,7 +3519,7 @@
     "venueIds": [
       "tech_startup"
     ],
-    "emoji": "🔋"
+    "emoji": "\ud83d\udd0b"
   },
   {
     "id": "empty_soylent_bottle",
@@ -3479,7 +3531,7 @@
     "venueIds": [
       "tech_startup"
     ],
-    "emoji": "🍼"
+    "emoji": "\ud83c\udf7c"
   },
   {
     "id": "vr_headset_strap",
@@ -3491,7 +3543,7 @@
     "venueIds": [
       "tech_startup"
     ],
-    "emoji": "🥽"
+    "emoji": "\ud83e\udd7d"
   },
   {
     "id": "broken_usb_drive",
@@ -3503,7 +3555,7 @@
     "venueIds": [
       "tech_startup"
     ],
-    "emoji": "💾"
+    "emoji": "\ud83d\udcbe"
   },
   {
     "id": "protein_bar_wrapper",
@@ -3515,7 +3567,7 @@
     "venueIds": [
       "tech_startup"
     ],
-    "emoji": "🍫"
+    "emoji": "\ud83c\udf6b"
   },
   {
     "id": "mechanical_keyboard_switch",
@@ -3527,7 +3579,7 @@
     "venueIds": [
       "tech_startup"
     ],
-    "emoji": "⌨️"
+    "emoji": "\u2328\ufe0f"
   },
   {
     "id": "smart_water_bottle",
@@ -3539,7 +3591,7 @@
     "venueIds": [
       "tech_startup"
     ],
-    "emoji": "💧"
+    "emoji": "\ud83d\udca7"
   },
   {
     "id": "plastic_cold_brew_cup",
@@ -3551,7 +3603,7 @@
     "venueIds": [
       "tech_startup"
     ],
-    "emoji": "🧊"
+    "emoji": "\ud83e\uddca"
   },
   {
     "id": "metal_kombucha_cap",
@@ -3563,7 +3615,7 @@
     "venueIds": [
       "tech_startup"
     ],
-    "emoji": "🍾"
+    "emoji": "\ud83c\udf7e"
   },
   {
     "id": "empty_ramen_cup",
@@ -3575,7 +3627,7 @@
     "venueIds": [
       "tech_startup"
     ],
-    "emoji": "🍜"
+    "emoji": "\ud83c\udf5c"
   },
   {
     "id": "laptop_with_battery",
@@ -3590,7 +3642,7 @@
     "venueIds": [
       "tech_startup"
     ],
-    "emoji": "💻"
+    "emoji": "\ud83d\udcbb"
   },
   {
     "id": "broken_laptop_shell",
@@ -3600,7 +3652,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "💻"
+    "emoji": "\ud83d\udcbb"
   },
   {
     "id": "lithium_ion_battery",
@@ -3610,7 +3662,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🔋"
+    "emoji": "\ud83d\udd0b"
   },
   {
     "id": "takeout_sushi_container",
@@ -3625,7 +3677,7 @@
     "venueIds": [
       "tech_startup"
     ],
-    "emoji": "🍣"
+    "emoji": "\ud83c\udf63"
   },
   {
     "id": "plastic_sushi_tray",
@@ -3635,7 +3687,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🍱"
+    "emoji": "\ud83c\udf71"
   },
   {
     "id": "soy_sauce_packet",
@@ -3645,7 +3697,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥟"
+    "emoji": "\ud83e\udd5f"
   },
   {
     "id": "boba_tea_cup",
@@ -3661,7 +3713,7 @@
     "venueIds": [
       "tech_startup"
     ],
-    "emoji": "🧋"
+    "emoji": "\ud83e\uddcb"
   },
   {
     "id": "plastic_boba_cup",
@@ -3671,7 +3723,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥤"
+    "emoji": "\ud83e\udd64"
   },
   {
     "id": "boba_straw",
@@ -3681,7 +3733,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥢"
+    "emoji": "\ud83e\udd62"
   },
   {
     "id": "leftover_boba_pearls",
@@ -3691,7 +3743,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🧋"
+    "emoji": "\ud83e\uddcb"
   },
   {
     "id": "poke_bowl_container",
@@ -3706,7 +3758,7 @@
     "venueIds": [
       "tech_startup"
     ],
-    "emoji": "🥗"
+    "emoji": "\ud83e\udd57"
   },
   {
     "id": "paper_poke_bowl",
@@ -3716,7 +3768,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥗"
+    "emoji": "\ud83e\udd57"
   },
   {
     "id": "plastic_poke_lid",
@@ -3726,7 +3778,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "💿"
+    "emoji": "\ud83d\udcbf"
   },
   {
     "id": "crumpled_balance_sheet",
@@ -3738,7 +3790,7 @@
     "venueIds": [
       "financial_district_office"
     ],
-    "emoji": "📄"
+    "emoji": "\ud83d\udcc4"
   },
   {
     "id": "empty_espresso_cup",
@@ -3750,7 +3802,7 @@
     "venueIds": [
       "financial_district_office"
     ],
-    "emoji": "☕"
+    "emoji": "\u2615"
   },
   {
     "id": "broken_stapler",
@@ -3762,7 +3814,7 @@
     "venueIds": [
       "financial_district_office"
     ],
-    "emoji": "🗜️"
+    "emoji": "\ud83d\udddc\ufe0f"
   },
   {
     "id": "shredded_documents",
@@ -3774,7 +3826,7 @@
     "venueIds": [
       "financial_district_office"
     ],
-    "emoji": "✂️"
+    "emoji": "\u2702\ufe0f"
   },
   {
     "id": "empty_salad_dressing_cup",
@@ -3786,7 +3838,7 @@
     "venueIds": [
       "financial_district_office"
     ],
-    "emoji": "🥣"
+    "emoji": "\ud83e\udd63"
   },
   {
     "id": "binder_clip",
@@ -3798,7 +3850,7 @@
     "venueIds": [
       "financial_district_office"
     ],
-    "emoji": "📎"
+    "emoji": "\ud83d\udcce"
   },
   {
     "id": "leather_portfolio_scrap",
@@ -3810,7 +3862,7 @@
     "venueIds": [
       "financial_district_office"
     ],
-    "emoji": "💼"
+    "emoji": "\ud83d\udcbc"
   },
   {
     "id": "stock_ticker_tape",
@@ -3822,7 +3874,7 @@
     "venueIds": [
       "financial_district_office"
     ],
-    "emoji": "📈"
+    "emoji": "\ud83d\udcc8"
   },
   {
     "id": "cigar_butt",
@@ -3834,7 +3886,7 @@
     "venueIds": [
       "financial_district_office"
     ],
-    "emoji": "🚬"
+    "emoji": "\ud83d\udeac"
   },
   {
     "id": "empty_scotch_glass",
@@ -3846,7 +3898,7 @@
     "venueIds": [
       "financial_district_office"
     ],
-    "emoji": "🥃"
+    "emoji": "\ud83e\udd43"
   },
   {
     "id": "takeout_salad_bowl",
@@ -3861,7 +3913,7 @@
     "venueIds": [
       "financial_district_office"
     ],
-    "emoji": "🥗"
+    "emoji": "\ud83e\udd57"
   },
   {
     "id": "plastic_salad_bowl",
@@ -3871,7 +3923,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥣"
+    "emoji": "\ud83e\udd63"
   },
   {
     "id": "salad_leftovers",
@@ -3881,7 +3933,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥬"
+    "emoji": "\ud83e\udd6c"
   },
   {
     "id": "file_folder_with_cd",
@@ -3896,7 +3948,7 @@
     "venueIds": [
       "financial_district_office"
     ],
-    "emoji": "📁"
+    "emoji": "\ud83d\udcc1"
   },
   {
     "id": "paper_file_folder",
@@ -3906,7 +3958,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "📁"
+    "emoji": "\ud83d\udcc1"
   },
   {
     "id": "data_cd",
@@ -3916,7 +3968,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "💿"
+    "emoji": "\ud83d\udcbf"
   },
   {
     "id": "briefcase_with_lunch",
@@ -3931,7 +3983,7 @@
     "venueIds": [
       "financial_district_office"
     ],
-    "emoji": "💼"
+    "emoji": "\ud83d\udcbc"
   },
   {
     "id": "broken_briefcase",
@@ -3941,7 +3993,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "💼"
+    "emoji": "\ud83d\udcbc"
   },
   {
     "id": "half_eaten_sandwich",
@@ -3951,7 +4003,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥪"
+    "emoji": "\ud83e\udd6a"
   },
   {
     "id": "business_card_holder",
@@ -3966,7 +4018,7 @@
     "venueIds": [
       "financial_district_office"
     ],
-    "emoji": "📇"
+    "emoji": "\ud83d\udcc7"
   },
   {
     "id": "metal_card_holder",
@@ -3976,7 +4028,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🗄️"
+    "emoji": "\ud83d\uddc4\ufe0f"
   },
   {
     "id": "paper_business_cards",
@@ -3986,7 +4038,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "📇"
+    "emoji": "\ud83d\udcc7"
   },
   {
     "id": "metro_card",
@@ -3998,7 +4050,7 @@
     "venueIds": [
       "subway_station"
     ],
-    "emoji": "💳"
+    "emoji": "\ud83d\udcb3"
   },
   {
     "id": "crumpled_newspaper",
@@ -4010,7 +4062,7 @@
     "venueIds": [
       "subway_station"
     ],
-    "emoji": "📰"
+    "emoji": "\ud83d\udcf0"
   },
   {
     "id": "discarded_face_mask",
@@ -4022,7 +4074,7 @@
     "venueIds": [
       "subway_station"
     ],
-    "emoji": "😷"
+    "emoji": "\ud83d\ude37"
   },
   {
     "id": "pigeon_feather",
@@ -4034,7 +4086,7 @@
     "venueIds": [
       "subway_station"
     ],
-    "emoji": "🪶"
+    "emoji": "\ud83e\udeb6"
   },
   {
     "id": "chewed_gum",
@@ -4046,7 +4098,7 @@
     "venueIds": [
       "subway_station"
     ],
-    "emoji": "🍬"
+    "emoji": "\ud83c\udf6c"
   },
   {
     "id": "empty_chip_bag",
@@ -4058,7 +4110,7 @@
     "venueIds": [
       "subway_station"
     ],
-    "emoji": "🎒"
+    "emoji": "\ud83c\udf92"
   },
   {
     "id": "ticket_receipt",
@@ -4070,7 +4122,7 @@
     "venueIds": [
       "subway_station"
     ],
-    "emoji": "🧾"
+    "emoji": "\ud83e\uddfe"
   },
   {
     "id": "broken_umbrella_spoke",
@@ -4082,7 +4134,7 @@
     "venueIds": [
       "subway_station"
     ],
-    "emoji": "☂️"
+    "emoji": "\u2602\ufe0f"
   },
   {
     "id": "coffee_stirrer",
@@ -4094,7 +4146,7 @@
     "venueIds": [
       "subway_station"
     ],
-    "emoji": "🥢"
+    "emoji": "\ud83e\udd62"
   },
   {
     "id": "half_eaten_bagel",
@@ -4106,7 +4158,7 @@
     "venueIds": [
       "subway_station"
     ],
-    "emoji": "🥯"
+    "emoji": "\ud83e\udd6f"
   },
   {
     "id": "subway_sandwich_wrapper",
@@ -4121,7 +4173,7 @@
     "venueIds": [
       "subway_station"
     ],
-    "emoji": "🥪"
+    "emoji": "\ud83e\udd6a"
   },
   {
     "id": "subway_sub_scraps",
@@ -4131,7 +4183,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥪"
+    "emoji": "\ud83e\udd6a"
   },
   {
     "id": "subway_paper_wrap",
@@ -4141,7 +4193,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "📜"
+    "emoji": "\ud83d\udcdc"
   },
   {
     "id": "pizza_slice_on_plate",
@@ -4156,7 +4208,7 @@
     "venueIds": [
       "subway_station"
     ],
-    "emoji": "🍕"
+    "emoji": "\ud83c\udf55"
   },
   {
     "id": "pizza_crust",
@@ -4166,7 +4218,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🍕"
+    "emoji": "\ud83c\udf55"
   },
   {
     "id": "paper_plate",
@@ -4176,7 +4228,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🍽️"
+    "emoji": "\ud83c\udf7d\ufe0f"
   },
   {
     "id": "deli_coffee_cup",
@@ -4191,7 +4243,7 @@
     "venueIds": [
       "subway_station"
     ],
-    "emoji": "☕"
+    "emoji": "\u2615"
   },
   {
     "id": "deli_paper_cup",
@@ -4201,7 +4253,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥤"
+    "emoji": "\ud83e\udd64"
   },
   {
     "id": "plastic_coffee_lid",
@@ -4211,7 +4263,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "⚫"
+    "emoji": "\u26ab"
   },
   {
     "id": "headphones_in_case",
@@ -4226,7 +4278,7 @@
     "venueIds": [
       "subway_station"
     ],
-    "emoji": "🎧"
+    "emoji": "\ud83c\udfa7"
   },
   {
     "id": "broken_headphones",
@@ -4236,7 +4288,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🎧"
+    "emoji": "\ud83c\udfa7"
   },
   {
     "id": "plastic_earbud_case",
@@ -4246,7 +4298,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "📦"
+    "emoji": "\ud83d\udce6"
   },
   {
     "id": "tourist_map_pamphlet",
@@ -4258,7 +4310,7 @@
     "venueIds": [
       "times_square"
     ],
-    "emoji": "🗺️"
+    "emoji": "\ud83d\uddfa\ufe0f"
   },
   {
     "id": "discarded_broadway_flyer",
@@ -4270,7 +4322,7 @@
     "venueIds": [
       "times_square"
     ],
-    "emoji": "🪧"
+    "emoji": "\ud83e\udea7"
   },
   {
     "id": "novelty_foam_finger_scrap",
@@ -4282,7 +4334,7 @@
     "venueIds": [
       "times_square"
     ],
-    "emoji": "🧤"
+    "emoji": "\ud83e\udde4"
   },
   {
     "id": "empty_halal_cart_sauce",
@@ -4294,7 +4346,7 @@
     "venueIds": [
       "times_square"
     ],
-    "emoji": "🥣"
+    "emoji": "\ud83e\udd63"
   },
   {
     "id": "roasted_nuts_paper_bag",
@@ -4306,7 +4358,7 @@
     "venueIds": [
       "times_square"
     ],
-    "emoji": "🛍️"
+    "emoji": "\ud83d\udecd\ufe0f"
   },
   {
     "id": "fake_designer_sunglasses",
@@ -4318,7 +4370,7 @@
     "venueIds": [
       "times_square"
     ],
-    "emoji": "🕶️"
+    "emoji": "\ud83d\udd76\ufe0f"
   },
   {
     "id": "light_up_toy_broken",
@@ -4330,7 +4382,7 @@
     "venueIds": [
       "times_square"
     ],
-    "emoji": "🔦"
+    "emoji": "\ud83d\udd26"
   },
   {
     "id": "souvenir_snow_globe_shard",
@@ -4342,7 +4394,7 @@
     "venueIds": [
       "times_square"
     ],
-    "emoji": "🔮"
+    "emoji": "\ud83d\udd2e"
   },
   {
     "id": "i_love_ny_keychain",
@@ -4354,7 +4406,7 @@
     "venueIds": [
       "times_square"
     ],
-    "emoji": "🗝️"
+    "emoji": "\ud83d\udddd\ufe0f"
   },
   {
     "id": "street_vendor_pretzel",
@@ -4366,7 +4418,7 @@
     "venueIds": [
       "times_square"
     ],
-    "emoji": "🥨"
+    "emoji": "\ud83e\udd68"
   },
   {
     "id": "halal_cart_platter",
@@ -4381,7 +4433,7 @@
     "venueIds": [
       "times_square"
     ],
-    "emoji": "🥡"
+    "emoji": "\ud83e\udd61"
   },
   {
     "id": "styrofoam_platter",
@@ -4391,7 +4443,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥡"
+    "emoji": "\ud83e\udd61"
   },
   {
     "id": "chicken_over_rice_scraps",
@@ -4401,7 +4453,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🍛"
+    "emoji": "\ud83c\udf5b"
   },
   {
     "id": "shopping_bag_with_receipt",
@@ -4416,7 +4468,7 @@
     "venueIds": [
       "times_square"
     ],
-    "emoji": "🛍️"
+    "emoji": "\ud83d\udecd\ufe0f"
   },
   {
     "id": "shopping_paper_bag",
@@ -4426,7 +4478,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🛍️"
+    "emoji": "\ud83d\udecd\ufe0f"
   },
   {
     "id": "store_receipt",
@@ -4436,7 +4488,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🧾"
+    "emoji": "\ud83e\uddfe"
   },
   {
     "id": "disposable_camera_used",
@@ -4451,7 +4503,7 @@
     "venueIds": [
       "times_square"
     ],
-    "emoji": "📸"
+    "emoji": "\ud83d\udcf8"
   },
   {
     "id": "camera_plastic_shell",
@@ -4461,7 +4513,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "📷"
+    "emoji": "\ud83d\udcf7"
   },
   {
     "id": "camera_battery",
@@ -4471,7 +4523,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🔋"
+    "emoji": "\ud83d\udd0b"
   },
   {
     "id": "oversized_soda_cup",
@@ -4486,7 +4538,7 @@
     "venueIds": [
       "times_square"
     ],
-    "emoji": "🥤"
+    "emoji": "\ud83e\udd64"
   },
   {
     "id": "large_plastic_cup",
@@ -4496,7 +4548,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥤"
+    "emoji": "\ud83e\udd64"
   },
   {
     "id": "large_plastic_lid",
@@ -4506,7 +4558,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "💿"
+    "emoji": "\ud83d\udcbf"
   },
   {
     "id": "torn_book_page",
@@ -4518,7 +4570,7 @@
     "venueIds": [
       "public_library"
     ],
-    "emoji": "📄"
+    "emoji": "\ud83d\udcc4"
   },
   {
     "id": "broken_reading_glasses",
@@ -4530,7 +4582,7 @@
     "venueIds": [
       "public_library"
     ],
-    "emoji": "👓"
+    "emoji": "\ud83d\udc53"
   },
   {
     "id": "empty_ink_cartridge",
@@ -4542,7 +4594,7 @@
     "venueIds": [
       "public_library"
     ],
-    "emoji": "🖨️"
+    "emoji": "\ud83d\udda8\ufe0f"
   },
   {
     "id": "crumpled_study_notes",
@@ -4554,7 +4606,7 @@
     "venueIds": [
       "public_library"
     ],
-    "emoji": "📝"
+    "emoji": "\ud83d\udcdd"
   },
   {
     "id": "pencil_shavings",
@@ -4566,7 +4618,7 @@
     "venueIds": [
       "public_library"
     ],
-    "emoji": "✏️"
+    "emoji": "\u270f\ufe0f"
   },
   {
     "id": "library_card_expired",
@@ -4578,7 +4630,7 @@
     "venueIds": [
       "public_library"
     ],
-    "emoji": "💳"
+    "emoji": "\ud83d\udcb3"
   },
   {
     "id": "dust_bunny",
@@ -4590,7 +4642,7 @@
     "venueIds": [
       "public_library"
     ],
-    "emoji": "🌫️"
+    "emoji": "\ud83c\udf2b\ufe0f"
   },
   {
     "id": "bookmark_scrap",
@@ -4602,7 +4654,7 @@
     "venueIds": [
       "public_library"
     ],
-    "emoji": "🔖"
+    "emoji": "\ud83d\udd16"
   },
   {
     "id": "dried_glue_stick",
@@ -4614,7 +4666,7 @@
     "venueIds": [
       "public_library"
     ],
-    "emoji": "🖍️"
+    "emoji": "\ud83d\udd8d\ufe0f"
   },
   {
     "id": "highlighter_cap",
@@ -4626,7 +4678,7 @@
     "venueIds": [
       "public_library"
     ],
-    "emoji": "🟡"
+    "emoji": "\ud83d\udfe1"
   },
   {
     "id": "library_coffee_cup",
@@ -4641,7 +4693,7 @@
     "venueIds": [
       "public_library"
     ],
-    "emoji": "☕"
+    "emoji": "\u2615"
   },
   {
     "id": "library_paper_cup",
@@ -4651,7 +4703,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥤"
+    "emoji": "\ud83e\udd64"
   },
   {
     "id": "library_coffee_sleeve",
@@ -4661,7 +4713,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "📦"
+    "emoji": "\ud83d\udce6"
   },
   {
     "id": "magazine_in_plastic_sleeve",
@@ -4676,7 +4728,7 @@
     "venueIds": [
       "public_library"
     ],
-    "emoji": "📖"
+    "emoji": "\ud83d\udcd6"
   },
   {
     "id": "glossy_magazine",
@@ -4686,7 +4738,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "📖"
+    "emoji": "\ud83d\udcd6"
   },
   {
     "id": "plastic_magazine_sleeve",
@@ -4696,7 +4748,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🛍️"
+    "emoji": "\ud83d\udecd\ufe0f"
   },
   {
     "id": "snack_box_with_crumbs",
@@ -4711,7 +4763,7 @@
     "venueIds": [
       "public_library"
     ],
-    "emoji": "🍱"
+    "emoji": "\ud83c\udf71"
   },
   {
     "id": "cardboard_snack_box",
@@ -4721,7 +4773,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "📦"
+    "emoji": "\ud83d\udce6"
   },
   {
     "id": "cracker_crumbs",
@@ -4731,7 +4783,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🍘"
+    "emoji": "\ud83c\udf58"
   },
   {
     "id": "cd_audiobook",
@@ -4746,7 +4798,7 @@
     "venueIds": [
       "public_library"
     ],
-    "emoji": "💿"
+    "emoji": "\ud83d\udcbf"
   },
   {
     "id": "cd_case_plastic",
@@ -4756,7 +4808,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "💽"
+    "emoji": "\ud83d\udcbd"
   },
   {
     "id": "audiobook_disc",
@@ -4766,7 +4818,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "💿"
+    "emoji": "\ud83d\udcbf"
   },
   {
     "id": "broken_jump_rope",
@@ -4778,7 +4830,7 @@
     "venueIds": [
       "gym"
     ],
-    "emoji": "🪢"
+    "emoji": "\ud83e\udea2"
   },
   {
     "id": "sweaty_towel_scrap",
@@ -4790,7 +4842,7 @@
     "venueIds": [
       "gym"
     ],
-    "emoji": "🧻"
+    "emoji": "\ud83e\uddfb"
   },
   {
     "id": "empty_preworkout_tub",
@@ -4802,7 +4854,7 @@
     "venueIds": [
       "gym"
     ],
-    "emoji": "🛢️"
+    "emoji": "\ud83d\udee2\ufe0f"
   },
   {
     "id": "torn_yoga_mat",
@@ -4814,7 +4866,7 @@
     "venueIds": [
       "gym"
     ],
-    "emoji": "🧘"
+    "emoji": "\ud83e\uddd8"
   },
   {
     "id": "cracked_shaker_bottle",
@@ -4826,7 +4878,7 @@
     "venueIds": [
       "gym"
     ],
-    "emoji": "🍼"
+    "emoji": "\ud83c\udf7c"
   },
   {
     "id": "used_athletic_tape",
@@ -4838,7 +4890,7 @@
     "venueIds": [
       "gym"
     ],
-    "emoji": "🩹"
+    "emoji": "\ud83e\ude79"
   },
   {
     "id": "energy_gel_packet",
@@ -4850,7 +4902,7 @@
     "venueIds": [
       "gym"
     ],
-    "emoji": "🍯"
+    "emoji": "\ud83c\udf6f"
   },
   {
     "id": "gym_wipes",
@@ -4862,7 +4914,7 @@
     "venueIds": [
       "gym"
     ],
-    "emoji": "🧻"
+    "emoji": "\ud83e\uddfb"
   },
   {
     "id": "weightlifting_chalk_dust",
@@ -4874,7 +4926,7 @@
     "venueIds": [
       "gym"
     ],
-    "emoji": "☁️"
+    "emoji": "\u2601\ufe0f"
   },
   {
     "id": "broken_combination_lock",
@@ -4886,7 +4938,7 @@
     "venueIds": [
       "gym"
     ],
-    "emoji": "🔒"
+    "emoji": "\ud83d\udd12"
   },
   {
     "id": "protein_shake_in_cup",
@@ -4901,7 +4953,7 @@
     "venueIds": [
       "gym"
     ],
-    "emoji": "🥤"
+    "emoji": "\ud83e\udd64"
   },
   {
     "id": "plastic_shaker_cup",
@@ -4911,7 +4963,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥤"
+    "emoji": "\ud83e\udd64"
   },
   {
     "id": "leftover_protein_shake",
@@ -4921,7 +4973,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "💧"
+    "emoji": "\ud83d\udca7"
   },
   {
     "id": "gym_membership_packet",
@@ -4936,7 +4988,7 @@
     "venueIds": [
       "gym"
     ],
-    "emoji": "📂"
+    "emoji": "\ud83d\udcc2"
   },
   {
     "id": "paper_welcome_folder",
@@ -4946,7 +4998,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "📁"
+    "emoji": "\ud83d\udcc1"
   },
   {
     "id": "plastic_key_fob",
@@ -4956,7 +5008,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🗝️"
+    "emoji": "\ud83d\udddd\ufe0f"
   },
   {
     "id": "banana_with_peel",
@@ -4971,7 +5023,7 @@
     "venueIds": [
       "gym"
     ],
-    "emoji": "🍌"
+    "emoji": "\ud83c\udf4c"
   },
   {
     "id": "banana_fruit",
@@ -4981,7 +5033,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🍌"
+    "emoji": "\ud83c\udf4c"
   },
   {
     "id": "banana_peel_scrap",
@@ -4991,7 +5043,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🍌"
+    "emoji": "\ud83c\udf4c"
   },
   {
     "id": "smoothie_cup_with_straw",
@@ -5006,7 +5058,7 @@
     "venueIds": [
       "gym"
     ],
-    "emoji": "🥤"
+    "emoji": "\ud83e\udd64"
   },
   {
     "id": "plastic_smoothie_cup",
@@ -5016,7 +5068,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥤"
+    "emoji": "\ud83e\udd64"
   },
   {
     "id": "plastic_smoothie_straw",
@@ -5026,7 +5078,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥢"
+    "emoji": "\ud83e\udd62"
   },
   {
     "id": "fallen_tree_branch",
@@ -5038,7 +5090,7 @@
     "venueIds": [
       "central_park"
     ],
-    "emoji": "🪵"
+    "emoji": "\ud83e\udeb5"
   },
   {
     "id": "duck_feather",
@@ -5050,7 +5102,7 @@
     "venueIds": [
       "central_park"
     ],
-    "emoji": "🪶"
+    "emoji": "\ud83e\udeb6"
   },
   {
     "id": "crumpled_trail_map",
@@ -5062,7 +5114,7 @@
     "venueIds": [
       "central_park"
     ],
-    "emoji": "🗺️"
+    "emoji": "\ud83d\uddfa\ufe0f"
   },
   {
     "id": "broken_frisbee",
@@ -5074,7 +5126,7 @@
     "venueIds": [
       "central_park"
     ],
-    "emoji": "🥏"
+    "emoji": "\ud83e\udd4f"
   },
   {
     "id": "deflated_balloon",
@@ -5086,7 +5138,7 @@
     "venueIds": [
       "central_park"
     ],
-    "emoji": "🎈"
+    "emoji": "\ud83c\udf88"
   },
   {
     "id": "squirrel_chewed_acorn",
@@ -5098,7 +5150,7 @@
     "venueIds": [
       "central_park"
     ],
-    "emoji": "🌰"
+    "emoji": "\ud83c\udf30"
   },
   {
     "id": "wilted_flower_bouquet",
@@ -5110,7 +5162,7 @@
     "venueIds": [
       "central_park"
     ],
-    "emoji": "💐"
+    "emoji": "\ud83d\udc90"
   },
   {
     "id": "dog_waste_bag",
@@ -5122,7 +5174,7 @@
     "venueIds": [
       "central_park"
     ],
-    "emoji": "🐕"
+    "emoji": "\ud83d\udc15"
   },
   {
     "id": "broken_kite_string",
@@ -5134,7 +5186,7 @@
     "venueIds": [
       "central_park"
     ],
-    "emoji": "🪁"
+    "emoji": "\ud83e\ude81"
   },
   {
     "id": "apple_core",
@@ -5146,7 +5198,7 @@
     "venueIds": [
       "central_park"
     ],
-    "emoji": "🍎"
+    "emoji": "\ud83c\udf4e"
   },
   {
     "id": "picnic_sandwich_wrap",
@@ -5161,7 +5213,7 @@
     "venueIds": [
       "central_park"
     ],
-    "emoji": "🥪"
+    "emoji": "\ud83e\udd6a"
   },
   {
     "id": "picnic_aluminum_foil",
@@ -5171,7 +5223,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🪩"
+    "emoji": "\ud83e\udea9"
   },
   {
     "id": "picnic_sandwich_scraps",
@@ -5181,7 +5233,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥪"
+    "emoji": "\ud83e\udd6a"
   },
   {
     "id": "ice_cream_in_wrapper",
@@ -5196,7 +5248,7 @@
     "venueIds": [
       "central_park"
     ],
-    "emoji": "🍦"
+    "emoji": "\ud83c\udf66"
   },
   {
     "id": "wooden_popsicle_stick",
@@ -5206,7 +5258,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🪵"
+    "emoji": "\ud83e\udeb5"
   },
   {
     "id": "ice_cream_plastic_wrap",
@@ -5216,7 +5268,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🛍️"
+    "emoji": "\ud83d\udecd\ufe0f"
   },
   {
     "id": "water_bottle_with_cap",
@@ -5231,7 +5283,7 @@
     "venueIds": [
       "central_park"
     ],
-    "emoji": "💧"
+    "emoji": "\ud83d\udca7"
   },
   {
     "id": "park_water_bottle",
@@ -5241,7 +5293,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "💧"
+    "emoji": "\ud83d\udca7"
   },
   {
     "id": "park_bottle_cap",
@@ -5251,7 +5303,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "⚫"
+    "emoji": "\u26ab"
   },
   {
     "id": "bird_seed_bag",
@@ -5266,7 +5318,7 @@
     "venueIds": [
       "central_park"
     ],
-    "emoji": "🐦"
+    "emoji": "\ud83d\udc26"
   },
   {
     "id": "paper_seed_bag",
@@ -5276,7 +5328,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🛍️"
+    "emoji": "\ud83d\udecd\ufe0f"
   },
   {
     "id": "spilled_bird_seed",
@@ -5286,7 +5338,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🌾"
+    "emoji": "\ud83c\udf3e"
   },
   {
     "id": "rusty_fishing_hook",
@@ -5298,7 +5350,7 @@
     "venueIds": [
       "ferry_docks"
     ],
-    "emoji": "🪝"
+    "emoji": "\ud83e\ude9d"
   },
   {
     "id": "tangled_fishing_line",
@@ -5310,7 +5362,7 @@
     "venueIds": [
       "ferry_docks"
     ],
-    "emoji": "🎣"
+    "emoji": "\ud83c\udfa3"
   },
   {
     "id": "barnacle_shell",
@@ -5322,7 +5374,7 @@
     "venueIds": [
       "ferry_docks"
     ],
-    "emoji": "🐚"
+    "emoji": "\ud83d\udc1a"
   },
   {
     "id": "soggy_boarding_pass",
@@ -5334,7 +5386,7 @@
     "venueIds": [
       "ferry_docks"
     ],
-    "emoji": "🎫"
+    "emoji": "\ud83c\udfab"
   },
   {
     "id": "broken_dock_plank",
@@ -5346,7 +5398,7 @@
     "venueIds": [
       "ferry_docks"
     ],
-    "emoji": "🪵"
+    "emoji": "\ud83e\udeb5"
   },
   {
     "id": "crab_shell",
@@ -5358,7 +5410,7 @@
     "venueIds": [
       "ferry_docks"
     ],
-    "emoji": "🦀"
+    "emoji": "\ud83e\udd80"
   },
   {
     "id": "seaweed_clump",
@@ -5370,7 +5422,7 @@
     "venueIds": [
       "ferry_docks"
     ],
-    "emoji": "🌿"
+    "emoji": "\ud83c\udf3f"
   },
   {
     "id": "torn_life_vest",
@@ -5382,7 +5434,7 @@
     "venueIds": [
       "ferry_docks"
     ],
-    "emoji": "🦺"
+    "emoji": "\ud83e\uddba"
   },
   {
     "id": "rusty_bolt",
@@ -5394,7 +5446,7 @@
     "venueIds": [
       "ferry_docks"
     ],
-    "emoji": "🔩"
+    "emoji": "\ud83d\udd29"
   },
   {
     "id": "sunscreen_bottle",
@@ -5406,7 +5458,7 @@
     "venueIds": [
       "ferry_docks"
     ],
-    "emoji": "🧴"
+    "emoji": "\ud83e\uddf4"
   },
   {
     "id": "fish_and_chips_box",
@@ -5421,7 +5473,7 @@
     "venueIds": [
       "ferry_docks"
     ],
-    "emoji": "🐟"
+    "emoji": "\ud83d\udc1f"
   },
   {
     "id": "greasy_cardboard_box",
@@ -5431,7 +5483,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "📦"
+    "emoji": "\ud83d\udce6"
   },
   {
     "id": "fish_scraps",
@@ -5441,7 +5493,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🐟"
+    "emoji": "\ud83d\udc1f"
   },
   {
     "id": "clam_chowder_cup",
@@ -5456,7 +5508,7 @@
     "venueIds": [
       "ferry_docks"
     ],
-    "emoji": "🥣"
+    "emoji": "\ud83e\udd63"
   },
   {
     "id": "styrofoam_chowder_cup",
@@ -5466,7 +5518,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥣"
+    "emoji": "\ud83e\udd63"
   },
   {
     "id": "chowder_leftovers",
@@ -5476,7 +5528,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🍲"
+    "emoji": "\ud83c\udf72"
   },
   {
     "id": "rope_with_buoy",
@@ -5491,7 +5543,7 @@
     "venueIds": [
       "ferry_docks"
     ],
-    "emoji": "⚓"
+    "emoji": "\u2693"
   },
   {
     "id": "frayed_rope",
@@ -5501,7 +5553,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🪢"
+    "emoji": "\ud83e\udea2"
   },
   {
     "id": "plastic_buoy",
@@ -5511,7 +5563,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🔴"
+    "emoji": "\ud83d\udd34"
   },
   {
     "id": "observation_deck_ticket",
@@ -5523,7 +5575,7 @@
     "venueIds": [
       "empire_state_building"
     ],
-    "emoji": "🎫"
+    "emoji": "\ud83c\udfab"
   },
   {
     "id": "crushed_souvenir_cup",
@@ -5535,7 +5587,7 @@
     "venueIds": [
       "empire_state_building"
     ],
-    "emoji": "🥤"
+    "emoji": "\ud83e\udd64"
   },
   {
     "id": "broken_snow_globe",
@@ -5547,7 +5599,7 @@
     "venueIds": [
       "empire_state_building"
     ],
-    "emoji": "🔮"
+    "emoji": "\ud83d\udd2e"
   },
   {
     "id": "crumpled_city_guide",
@@ -5559,7 +5611,7 @@
     "venueIds": [
       "empire_state_building"
     ],
-    "emoji": "📖"
+    "emoji": "\ud83d\udcd6"
   },
   {
     "id": "lobby_coffee_stirrer",
@@ -5571,7 +5623,7 @@
     "venueIds": [
       "empire_state_building"
     ],
-    "emoji": "🥢"
+    "emoji": "\ud83e\udd62"
   },
   {
     "id": "elevator_button_cap",
@@ -5583,7 +5635,7 @@
     "venueIds": [
       "empire_state_building"
     ],
-    "emoji": "🔘"
+    "emoji": "\ud83d\udd18"
   },
   {
     "id": "art_deco_tile_chip",
@@ -5595,7 +5647,7 @@
     "venueIds": [
       "empire_state_building"
     ],
-    "emoji": "🔷"
+    "emoji": "\ud83d\udd37"
   },
   {
     "id": "empty_hand_sanitizer",
@@ -5607,7 +5659,7 @@
     "venueIds": [
       "empire_state_building"
     ],
-    "emoji": "🧴"
+    "emoji": "\ud83e\uddf4"
   },
   {
     "id": "used_tissue",
@@ -5619,7 +5671,7 @@
     "venueIds": [
       "empire_state_building"
     ],
-    "emoji": "🤧"
+    "emoji": "\ud83e\udd27"
   },
   {
     "id": "penny_from_deck",
@@ -5631,7 +5683,7 @@
     "venueIds": [
       "empire_state_building"
     ],
-    "emoji": "🪙"
+    "emoji": "\ud83e\ude99"
   },
   {
     "id": "gift_shop_bag",
@@ -5646,7 +5698,7 @@
     "venueIds": [
       "empire_state_building"
     ],
-    "emoji": "🛍️"
+    "emoji": "\ud83d\udecd\ufe0f"
   },
   {
     "id": "paper_gift_bag",
@@ -5656,7 +5708,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🛍️"
+    "emoji": "\ud83d\udecd\ufe0f"
   },
   {
     "id": "plastic_tissue_paper",
@@ -5666,7 +5718,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🧻"
+    "emoji": "\ud83e\uddfb"
   },
   {
     "id": "tourist_lunch_tray",
@@ -5681,7 +5733,7 @@
     "venueIds": [
       "empire_state_building"
     ],
-    "emoji": "🍱"
+    "emoji": "\ud83c\udf71"
   },
   {
     "id": "plastic_lunch_tray",
@@ -5691,7 +5743,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🍽️"
+    "emoji": "\ud83c\udf7d\ufe0f"
   },
   {
     "id": "lunch_food_scraps",
@@ -5701,7 +5753,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🥗"
+    "emoji": "\ud83e\udd57"
   },
   {
     "id": "binoculars_in_box",
@@ -5716,7 +5768,7 @@
     "venueIds": [
       "empire_state_building"
     ],
-    "emoji": "🔭"
+    "emoji": "\ud83d\udd2d"
   },
   {
     "id": "broken_binoculars",
@@ -5726,7 +5778,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🔭"
+    "emoji": "\ud83d\udd2d"
   },
   {
     "id": "cardboard_binocular_box",
@@ -5736,7 +5788,7 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "📦"
+    "emoji": "\ud83d\udce6"
   },
   {
     "id": "dummy_foodboxfull",
@@ -5793,7 +5845,7 @@
     "venueIds": [
       "nyc_hospital"
     ],
-    "emoji": "🤧"
+    "emoji": "\ud83e\udd27"
   },
   {
     "id": "empty_pill_bottle",
@@ -5805,7 +5857,7 @@
     "venueIds": [
       "nyc_hospital"
     ],
-    "emoji": "💊"
+    "emoji": "\ud83d\udc8a"
   },
   {
     "id": "disposable_mask",
@@ -5817,7 +5869,7 @@
     "venueIds": [
       "nyc_hospital"
     ],
-    "emoji": "😷"
+    "emoji": "\ud83d\ude37"
   },
   {
     "id": "paper_patient_gown",
@@ -5829,7 +5881,7 @@
     "venueIds": [
       "nyc_hospital"
     ],
-    "emoji": "👗"
+    "emoji": "\ud83d\udc57"
   },
   {
     "id": "saline_flush_syringe",
@@ -5841,7 +5893,7 @@
     "venueIds": [
       "nyc_hospital"
     ],
-    "emoji": "💉"
+    "emoji": "\ud83d\udc89"
   },
   {
     "id": "hospital_wristband",
@@ -5853,7 +5905,7 @@
     "venueIds": [
       "nyc_hospital"
     ],
-    "emoji": "📿"
+    "emoji": "\ud83d\udcff"
   },
   {
     "id": "tongue_depressor",
@@ -5865,7 +5917,7 @@
     "venueIds": [
       "nyc_hospital"
     ],
-    "emoji": "🪵"
+    "emoji": "\ud83e\udeb5"
   },
   {
     "id": "wood_scrap",
@@ -5877,7 +5929,10 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "🪵"
+    "emoji": "\ud83e\udeb5",
+    "allowedZones": [
+      "GroundZone"
+    ]
   },
   {
     "id": "bent_nail",
@@ -5889,7 +5944,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "📌"
+    "emoji": "\ud83d\udccc"
   },
   {
     "id": "paint_can_empty",
@@ -5901,7 +5956,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "🪣"
+    "emoji": "\ud83e\udea3"
   },
   {
     "id": "plastic_sheeting",
@@ -5913,7 +5968,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "🧻"
+    "emoji": "\ud83e\uddfb"
   },
   {
     "id": "cardboard_tube",
@@ -5925,7 +5980,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "📦"
+    "emoji": "\ud83d\udce6"
   },
   {
     "id": "styrofoam_insulation",
@@ -5937,7 +5992,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "🧊"
+    "emoji": "\ud83e\uddca"
   },
   {
     "id": "torn_blueprint",
@@ -5949,7 +6004,7 @@
     "venueIds": [
       "construction_site"
     ],
-    "emoji": "📐"
+    "emoji": "\ud83d\udcd0"
   },
   {
     "id": "half_eaten_hot_dog",
@@ -5961,7 +6016,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🌭"
+    "emoji": "\ud83c\udf2d"
   },
   {
     "id": "hot_dog_bun_scraps",
@@ -5973,7 +6028,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🍞"
+    "emoji": "\ud83c\udf5e"
   },
   {
     "id": "used_mustard_packet",
@@ -5985,7 +6040,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🟡"
+    "emoji": "\ud83d\udfe1"
   },
   {
     "id": "ketchup_packet",
@@ -5997,7 +6052,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🔴"
+    "emoji": "\ud83d\udd34"
   },
   {
     "id": "sauerkraut_scraps",
@@ -6009,7 +6064,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🥬"
+    "emoji": "\ud83e\udd6c"
   },
   {
     "id": "pretzel_wrapper",
@@ -6021,7 +6076,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🥨"
+    "emoji": "\ud83e\udd68"
   },
   {
     "id": "relish_cup",
@@ -6033,7 +6088,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🫒"
+    "emoji": "\ud83e\uded2"
   },
   {
     "id": "paper_food_tray",
@@ -6045,7 +6100,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🍽️"
+    "emoji": "\ud83c\udf7d\ufe0f"
   },
   {
     "id": "soda_cup_lid",
@@ -6057,7 +6112,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "⭕"
+    "emoji": "\u2b55"
   },
   {
     "id": "dirty_napkin_pile",
@@ -6069,7 +6124,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🧻"
+    "emoji": "\ud83e\uddfb"
   },
   {
     "id": "onion_rings_scraps",
@@ -6081,7 +6136,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🧅"
+    "emoji": "\ud83e\uddc5"
   },
   {
     "id": "foil_hot_dog_wrapper",
@@ -6093,7 +6148,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🫓"
+    "emoji": "\ud83e\uded3"
   },
   {
     "id": "plastic_utensil_pack",
@@ -6105,7 +6160,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🍴"
+    "emoji": "\ud83c\udf74"
   },
   {
     "id": "wax_paper_liner",
@@ -6117,7 +6172,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "📜"
+    "emoji": "\ud83d\udcdc"
   },
   {
     "id": "corn_cob",
@@ -6129,7 +6184,7 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🌽"
+    "emoji": "\ud83c\udf3d"
   },
   {
     "id": "plastic_cup_with_straw",

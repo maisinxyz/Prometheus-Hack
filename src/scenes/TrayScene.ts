@@ -271,16 +271,34 @@ export class TrayScene extends Phaser.Scene {
     const binDefs = binsData as BinDef[];
     const binCount = binDefs.length;
     
+    const venueData = venuesData.find(v => v.id === this.venueId);
+    
     // Group bins evenly
     const startX = (width / 2) - (spacing * (binCount - 1)) / 2;
 
     for (let i = 0; i < binCount; i++) {
       const binDef = binDefs[i]!;
-      const x = startX + i * spacing;
-      const bin = new Bin(this, x, binY, binDef);
+      let x = startX + i * spacing;
+      let y = binY;
+      let scale = binScale;
+      
+      if (venueData && venueData.binPositions && venueData.binPositions.length > i) {
+        const binPos = venueData.binPositions[i]!;
+        x = binPos.x;
+        y = binPos.y;
+        if ('scale' in binPos && binPos.scale !== undefined) {
+          scale = binPos.scale;
+        }
+      }
+      
+      const bin = new Bin(this, x, y, binDef);
       bin.setDepth(50);
+      
+      if (scale !== 1 || isCafe) {
+        bin.setScale(scale);
+      }
+      
       if (isCafe) {
-        bin.setScale(binScale);
         bin.backSprite.setDepth(1); // Set lower depth to keep them in the back
         bin.frontSprite.setDepth(3);
       }
@@ -312,11 +330,32 @@ export class TrayScene extends Phaser.Scene {
       let maxAttempts = 20;
       let safeSpawnFound = false;
 
+      // Extract valid zones based on allowedZones
+      let validZones: any[] = [];
+      const venueSpawnZones = venueData.spawnZones as Record<string, {x: number, y: number, width: number, height: number}> | undefined;
+      
+      if (venueSpawnZones && itemDef.allowedZones && itemDef.allowedZones.length > 0) {
+        for (const zoneName of itemDef.allowedZones) {
+          if (venueSpawnZones[zoneName]) {
+            validZones.push(venueSpawnZones[zoneName]);
+          }
+        }
+      }
+
       while (maxAttempts > 0 && !safeSpawnFound) {
-        // Enforce padding to not spawn off-screen edges
-        const padding = 100;
-        const x = Phaser.Math.Between(padding, 1920 - padding);
-        const y = Phaser.Math.Between(padding, 1080 - 300); // Leave room at bottom for bins
+        let x, y;
+        
+        if (validZones.length > 0) {
+          // Pick a random valid zone
+          const zone = validZones[Phaser.Math.Between(0, validZones.length - 1)];
+          x = Phaser.Math.Between(zone.x, zone.x + zone.width);
+          y = Phaser.Math.Between(zone.y, zone.y + zone.height);
+        } else {
+          // Enforce padding to not spawn off-screen edges
+          const padding = 100;
+          x = Phaser.Math.Between(padding, 1920 - padding);
+          y = Phaser.Math.Between(padding, 1080 - 300); // Leave room at bottom for bins
+        }
 
         // Estimate item bounds (assuming approx 100x100 size for safety)
         const spawnRect = new Phaser.Geom.Rectangle(x - 50, y - 50, 100, 100);
@@ -343,13 +382,25 @@ export class TrayScene extends Phaser.Scene {
           const item = new TrashItem(this, x, y, itemDef, this.currentTier.visualCuesActive);
           item.setDepth(20); // Enforce middle depth
           
-          item.y -= 50;
-          this.tweens.add({
-            targets: item,
-            y: y,
-            duration: Phaser.Math.Between(400, 700),
-            ease: 'Bounce.easeOut'
-          });
+          if (validZones.length > 0) {
+            // Natural surface spawn: small hop or already resting
+            item.y -= 10;
+            this.tweens.add({
+              targets: item,
+              y: y,
+              duration: Phaser.Math.Between(150, 300),
+              ease: 'Sine.easeOut'
+            });
+          } else {
+            // Default drop-in spawn
+            item.y -= 50;
+            this.tweens.add({
+              targets: item,
+              y: y,
+              duration: Phaser.Math.Between(400, 700),
+              ease: 'Bounce.easeOut'
+            });
+          }
 
           this.items.push(item);
 
@@ -387,7 +438,7 @@ export class TrayScene extends Phaser.Scene {
           if (this.crusher.acceptsItem(item)) {
             // It's a rock, crush it!
             this.crusher.crushItem(item, (newItemDef, spawnX, spawnY) => {
-              const newItem = new TrashItem(this, spawnX, spawnY, newItemDef, this.currentTier.visualCues);
+              const newItem = new TrashItem(this, spawnX, spawnY, newItemDef, this.currentTier.visualCuesActive);
               // Float it out like a newly spawned item
               newItem.y -= 50;
               this.tweens.add({

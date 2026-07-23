@@ -44,7 +44,17 @@
       "ruined": "venue_mackenzie_cafe_bg_ruined"
     },
     "latitude": 40.7565,
-    "longitude": -73.987
+    "longitude": -73.987,
+    "binPositions": [
+      { "x": 720, "y": 600, "scale": 0.6 },
+      { "x": 880, "y": 600, "scale": 0.6 },
+      { "x": 1040, "y": 600, "scale": 0.6 },
+      { "x": 1200, "y": 600, "scale": 0.6 }
+    ],
+    "spawnZones": {
+      "TableZone": { "x": 200, "y": 300, "width": 1500, "height": 300 },
+      "GroundZone": { "x": 100, "y": 700, "width": 1720, "height": 200 }
+    }
   },
   {
     "id": "financial_district_office",
@@ -479,7 +489,17 @@
       "ruined": "venue_construction_site_bg_ruined"
     },
     "latitude": 40.8115,
-    "longitude": -73.9465
+    "longitude": -73.9465,
+    "binPositions": [
+      { "x": 400, "y": 900 },
+      { "x": 650, "y": 900 },
+      { "x": 900, "y": 900 },
+      { "x": 1150, "y": 900 }
+    ],
+    "spawnZones": {
+      "GroundZone": { "x": 100, "y": 700, "width": 1400, "height": 200 },
+      "AirZone": { "x": 100, "y": 200, "width": 1720, "height": 400 }
+    }
   },
   {
     "id": "tech_startup",

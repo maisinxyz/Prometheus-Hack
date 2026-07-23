@@ -156,7 +156,7 @@ class MapLibreServiceSingleton {
             // MapTiler uses render_height and render_min_height directly.
             // Using direct values stops the buildings from dynamically scaling (growing) on zoom.
             'fill-extrusion-height': ['get', 'render_height'],
-            'fill-extrusion-base': ['get', 'render_min_height'],
+            'fill-extrusion-base': ['coalesce', ['get', 'render_min_height'], 0],
             
             // Adding a slight ambient light reflection effect by lowering opacity slightly
             'fill-extrusion-opacity': 0.85
@@ -166,7 +166,7 @@ class MapLibreServiceSingleton {
       );
 
       // Add the 3D landmark overlay on top of the buildings layer
-      LandmarkOverlayService.addToMap(this.map);
+      // LandmarkOverlayService.addToMap(this.map); // Temporarily disabled to prevent WebGL context issues
     });
 
     this.setupCustomInputHandlers();
@@ -211,6 +211,9 @@ class MapLibreServiceSingleton {
 
     // 2. Pointer events for Touch & Mouse dragging
     container.addEventListener('pointerdown', (e: PointerEvent) => {
+      // If clicking on a MapLibre control (like zoom buttons), let it handle the event natively
+      if ((e.target as HTMLElement).closest('.maplibregl-ctrl')) return;
+
       this.activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
       container.setPointerCapture(e.pointerId);
       

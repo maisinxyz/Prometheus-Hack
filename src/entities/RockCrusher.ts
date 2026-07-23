@@ -15,23 +15,72 @@ export class RockCrusher extends Phaser.GameObjects.Sprite {
     // Generate a procedural texture if the image isn't available
     if (!scene.textures.exists('machine_rock_crusher')) {
       const gfx = scene.make.graphics({ x: 0, y: 0, add: false });
-      // Machine body
-      gfx.fillStyle(0x2563eb, 1); // Blue
-      gfx.fillRect(0, 40, 200, 180);
-      // Funnel (red trapezoid)
-      gfx.fillStyle(0xdc2626, 1);
-      gfx.fillRect(20, 0, 160, 50);
-      gfx.fillRect(40, 0, 120, 10);
-      // Base (black)
-      gfx.fillStyle(0x1a1a1a, 1);
-      gfx.fillRect(0, 220, 200, 30);
-      // Wheel (gray circle)
-      gfx.fillStyle(0x6b7280, 1);
-      gfx.fillCircle(160, 130, 40);
+      
+      // Main Chassis (Yellow)
+      gfx.fillStyle(0xfacc15, 1); // Bright industrial yellow
+      gfx.fillRoundedRect(30, 80, 180, 130, 10);
+      
+      // Base / Treads (Dark Grey/Black)
+      gfx.fillStyle(0x1f2937, 1);
+      gfx.fillRoundedRect(10, 210, 220, 40, 5);
+      
+      // Treads inner wheels
+      gfx.fillStyle(0x4b5563, 1);
+      for (let i = 0; i < 5; i++) {
+        gfx.fillCircle(40 + i * 40, 230, 12);
+      }
+      
+      // Hopper (Dark Grey/Yellow)
+      gfx.fillStyle(0xeab308, 1); // Slightly darker yellow
+      gfx.beginPath();
+      gfx.moveTo(20, 20);
+      gfx.lineTo(200, 20);
+      gfx.lineTo(150, 80);
+      gfx.lineTo(60, 80);
+      gfx.closePath();
+      gfx.fillPath();
+      
+      // Hopper inner shadow
       gfx.fillStyle(0x374151, 1);
-      gfx.fillCircle(160, 130, 15);
-      // Label
-      gfx.generateTexture('machine_rock_crusher', 200, 250);
+      gfx.beginPath();
+      gfx.moveTo(35, 25);
+      gfx.lineTo(185, 25);
+      gfx.lineTo(145, 75);
+      gfx.lineTo(65, 75);
+      gfx.closePath();
+      gfx.fillPath();
+
+      // Conveyor Belt Output
+      gfx.fillStyle(0x374151, 1); // Dark metal frame
+      gfx.fillRect(170, 150, 70, 20);
+      
+      gfx.fillStyle(0x111827, 1); // Rubber belt
+      gfx.fillRect(175, 145, 65, 30);
+      
+      // Crusher drum / gears exposed
+      gfx.fillStyle(0x111827, 1); // Hole background
+      gfx.fillCircle(110, 140, 40);
+      
+      // Gear / drum teeth
+      gfx.fillStyle(0x9ca3af, 1); // Metal drum
+      gfx.fillCircle(110, 140, 30);
+      gfx.fillStyle(0x4b5563, 1); // Center axis
+      gfx.fillCircle(110, 140, 10);
+      
+      // Hazard Stripes on Chassis
+      gfx.fillStyle(0x000000, 1);
+      for (let i = 0; i < 4; i++) {
+        gfx.beginPath();
+        gfx.moveTo(30 + i*40, 190);
+        gfx.lineTo(50 + i*40, 190);
+        gfx.lineTo(40 + i*40, 210);
+        gfx.lineTo(20 + i*40, 210);
+        gfx.closePath();
+        gfx.fillPath();
+      }
+      
+      // Generate the texture (Width 250, Height 260)
+      gfx.generateTexture('machine_rock_crusher', 250, 260);
       gfx.destroy();
     }
 

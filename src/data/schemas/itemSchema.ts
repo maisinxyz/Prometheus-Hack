@@ -13,6 +13,7 @@ export const ItemSchema = z.object({
   componentIds: z.array(z.string()),
   venueIds: z.array(z.string()),
   emoji: z.string().optional(),
+  allowedZones: z.array(z.string()).optional(),
 });
 
 export type TrashItemDef = z.infer<typeof ItemSchema>;

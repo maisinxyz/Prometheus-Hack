@@ -126,29 +126,55 @@ export class LevelSelectScene extends Phaser.Scene {
     `;
 
     uiContainer.innerHTML = `
-      <div style="color: #facc15; font-family: sans-serif; font-size: 24px; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8); margin-bottom: 10px;">
-        Total CHI: ${Math.floor(totalChi)} / ${maxChi}
+      <div id="stats-toggle-btn" style="background: rgba(40,40,40,0.9); color: white; border: 1px solid #555; padding: 5px 10px; font-size: 12px; border-radius: 5px; cursor: pointer; font-family: sans-serif; margin-bottom: 10px; display: inline-block;">
+        ◀ Hide Stats
       </div>
-      
-      <div style="background: rgba(20,20,20,0.85); padding: 15px; border-radius: 10px; border: 1px solid #444; margin-bottom: 10px; width: 300px; font-family: sans-serif;">
-        <div style="color: #fff; font-weight: bold; font-size: 16px; margin-bottom: 10px; text-transform: uppercase;">Garden Progress</div>
-        ${renderBar('Compost', compostLvl, compostProg, false, '#22c55e', '🍎')}
-        ${renderBar('Recycling', this.gardenSystem.getRecyclingLevel(), recyclingProg, isLocked, '#3b82f6', '♻️')}
-        ${renderBar('Plastic', this.gardenSystem.getPlasticLevel(), plasticProg, isLocked, '#6b7280', '🧴')}
-        ${renderBar('Landfill', this.gardenSystem.getLandfillLevel(), landfillProg, isLocked, '#a8a29e', '🗑️')}
-      </div>
+      <div id="stats-content-area" style="transition: transform 0.3s ease, opacity 0.3s ease; transform-origin: top left;">
+        <div style="color: #facc15; font-family: sans-serif; font-size: 24px; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8); margin-bottom: 10px;">
+          Total CHI: ${Math.floor(totalChi)} / ${maxChi}
+        </div>
+        
+        <div style="background: rgba(20,20,20,0.85); padding: 15px; border-radius: 10px; border: 1px solid #444; margin-bottom: 10px; width: 300px; font-family: sans-serif;">
+          <div style="color: #fff; font-weight: bold; font-size: 16px; margin-bottom: 10px; text-transform: uppercase;">Garden Progress</div>
+          ${renderBar('Compost', compostLvl, compostProg, false, '#22c55e', '🍎')}
+          ${renderBar('Recycling', this.gardenSystem.getRecyclingLevel(), recyclingProg, isLocked, '#3b82f6', '♻️')}
+          ${renderBar('Plastic', this.gardenSystem.getPlasticLevel(), plasticProg, isLocked, '#6b7280', '🧴')}
+          ${renderBar('Landfill', this.gardenSystem.getLandfillLevel(), landfillProg, isLocked, '#a8a29e', '🗑️')}
+        </div>
 
-      <div style="display: flex; gap: 10px;">
-        <button id="future-btn" style="background: #2563eb; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
-          Toggle Future Vision
-        </button>
-        <button id="garden-btn" style="background: #16a34a; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
-          Visit Community Park
-        </button>
+        <div style="display: flex; gap: 10px;">
+          <button id="future-btn" style="background: #2563eb; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+            Toggle Future Vision
+          </button>
+          <button id="garden-btn" style="background: #16a34a; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+            Visit Community Park
+          </button>
+        </div>
       </div>
     `;
     document.body.appendChild(uiContainer);
     
+    // Logic to toggle stats visibility
+    let statsVisible = true;
+    document.getElementById('stats-toggle-btn')?.addEventListener('click', (e) => {
+      statsVisible = !statsVisible;
+      const content = document.getElementById('stats-content-area');
+      const btn = e.target as HTMLElement;
+      if (content) {
+        if (statsVisible) {
+          content.style.transform = 'translateX(0)';
+          content.style.opacity = '1';
+          content.style.pointerEvents = 'auto';
+          btn.innerText = '◀ Hide Stats';
+        } else {
+          content.style.transform = 'translateX(-120%)';
+          content.style.opacity = '0';
+          content.style.pointerEvents = 'none';
+          btn.innerText = '▶ Show Stats';
+        }
+      }
+    });
+
     document.getElementById('garden-btn')?.addEventListener('click', () => {
       this.scene.start('CommunityGardenScene');
     });

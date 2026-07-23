@@ -79,12 +79,9 @@ export class BootScene extends Phaser.Scene {
       this.load.image(`venue_icon_${vid}`, `assets/sprites/ui/venues/${vid}.png`);
     }
     this.load.image('main_menu_bg', 'assets/sprites/items/main_menu_bg.png');
-    this.load.image('venue_mackenzie_cafe_bg_clean', 'assets/sprites/items/venue_mackenzie_cafe_bg_clean.png');
-    this.load.image('venue_financial_district_office_bg_clean', 'assets/sprites/items/venue_financial_district_office_bg_clean.png');
-    this.load.image('venue_times_square_bg_clean', 'assets/sprites/items/venue_times_square_bg_clean.png');
-    this.load.image('venue_nyc_hospital_bg_clean', 'assets/sprites/items/venue_nyc_hospital_bg_clean.png');
-    this.load.image('venue_construction_site_bg_clean', 'assets/sprites/items/venue_construction_site_bg_clean.png');
-    this.load.image('venue_hot_dog_bg_clean', 'assets/sprites/items/venue_hot_dog_bg_clean.png');
+    for (const venue of venuesData) {
+      this.load.image(venue.backgroundKeys.clean, `assets/sprites/items/${venue.backgroundKeys.clean}.png`);
+    }
   }
 
   async create(): Promise<void> {
