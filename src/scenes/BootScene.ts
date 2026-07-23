@@ -30,7 +30,7 @@ export class BootScene extends Phaser.Scene {
       const key = item.spriteKey;
       this.load.image(key, `assets/sprites/items/${key}.png`);
     }
-    
+
     // Additional textures not bound to a specific item's spriteKey
     this.load.image('item_fanta_full', 'assets/sprites/items/item_fanta_full.png');
     this.load.image('item_pepsi_full', 'assets/sprites/items/item_pepsi_full.png');
@@ -53,6 +53,20 @@ export class BootScene extends Phaser.Scene {
     this.load.image('bg_construction_site', 'assets/sprites/items/construction_bg.png');
     this.load.image('park_dirt', 'assets/images/park_dirt.png');
     this.load.image('park_grass', 'assets/images/park_grass.png');
+
+    // Garden assets (photorealistic AI-generated, transparent PNGs)
+    this.load.image('garden_dirt', 'assets/garden/garden_dirt.png');
+    this.load.image('garden_grass', 'assets/garden/garden_grass.png');
+    this.load.image('garden_tree', 'assets/garden/garden_tree.png');
+    this.load.image('garden_pond', 'assets/garden/garden_pond.png');
+    this.load.image('garden_flower', 'assets/garden/garden_flower.png');
+    this.load.image('garden_bush', 'assets/garden/garden_bush.png');
+    this.load.image('garden_bench', 'assets/garden/garden_bench.png');
+    this.load.image('garden_fountain', 'assets/garden/garden_fountain.png');
+    this.load.image('garden_lamp', 'assets/garden/garden_lamp.png');
+    this.load.image('garden_duck', 'assets/garden/garden_duck.png');
+    this.load.image('garden_turtle', 'assets/garden/garden_turtle.png');
+    this.load.image('garden_rabbit', 'assets/garden/garden_rabbit.png');
 
     // Load venue icons
     const venueIds = [
@@ -91,7 +105,7 @@ export class BootScene extends Phaser.Scene {
         else if (item.correctBinId === 'plastic') colorHex = 0x6b7280;
         else if (item.correctBinId === 'landfill') colorHex = 0x111111;
         else if (item.correctBinId === 'none') colorHex = 0xef4444; // Composites
-        
+
         // Ensure the Emoji generator is imported from PlaceholderArtGenerator.ts
         const emoji = item.emoji || '❓';
         generateEmojiItemSprite(this, key, emoji, colorHex, 128);
@@ -113,7 +127,7 @@ export class BootScene extends Phaser.Scene {
     if (this.failedLoads.has('nyc_map_bg') || !this.textures.exists('nyc_map_bg')) {
       generatePlaceholderTexture(this, 'nyc_map_bg', 0x1E3A8A, 'NEW YORK CITY (3D MAP HERE)', 2500, 2500);
     }
-    
+
     // 4. Venue Backgrounds Fallbacks
     const venueColors: Record<string, number> = {
       'mackenzie_cafe': 0x8b4513,
