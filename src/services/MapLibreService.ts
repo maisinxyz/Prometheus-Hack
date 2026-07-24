@@ -204,7 +204,7 @@ class MapLibreServiceSingleton {
           'source-layer': 'water',
           'paint': {
             'fill-color': '#021833', // Deep, realistic navy blue
-            'fill-opacity': 0.4 // Tints the satellite image below naturally
+            'fill-opacity': 0.85 // Strong tint to cover the green satellite water
           }
         },
         labelLayerId
@@ -495,7 +495,8 @@ class MapLibreServiceSingleton {
 
     if (!isActive) {
       // Revert to normal immediately
-      trySetColor('normal-water-tint', 'fill-opacity', 0.4); // Restore normal realistic blue water
+      trySetColor('normal-water-tint', 'fill-opacity', 0.85); 
+      this.map.setLayoutProperty('flood-layer', 'visibility', 'none');
       trySetColor('flood-layer', 'fill-extrusion-height-transition', { duration: 0, delay: 0 });
       trySetColor('flood-layer', 'fill-extrusion-opacity', 0); // Hide completely
       trySetColor('flood-layer', 'fill-extrusion-height', 0);
@@ -533,6 +534,9 @@ class MapLibreServiceSingleton {
       trySetColor('background', 'background-color', '#2d2a28');
       trySetColor('landcover', 'fill-color', '#2d2a28');
       
+      if (this.map.getLayer('flood-layer')) {
+        this.map.setLayoutProperty('flood-layer', 'visibility', 'visible');
+      }
       trySetColor('flood-layer', 'fill-extrusion-opacity', 0.85);
       trySetColor('flood-layer', 'fill-extrusion-height-transition', { duration: 5000, delay: 0 });
       trySetColor('flood-layer', 'fill-extrusion-height', 500);
@@ -550,6 +554,9 @@ class MapLibreServiceSingleton {
       trySetColor('background', 'background-color', '#c2a47c');
       trySetColor('landcover', 'fill-color', '#c2a47c');
       
+      if (this.map.getLayer('flood-layer')) {
+        this.map.setLayoutProperty('flood-layer', 'visibility', 'none');
+      }
       trySetColor('flood-layer', 'fill-extrusion-height-transition', { duration: 0, delay: 0 });
       trySetColor('flood-layer', 'fill-extrusion-opacity', 0);
       trySetColor('flood-layer', 'fill-extrusion-height', 0);
