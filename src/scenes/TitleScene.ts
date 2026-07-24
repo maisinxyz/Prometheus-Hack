@@ -26,7 +26,7 @@ export class TitleScene extends Phaser.Scene {
 
     // Title Text
     const title = this.add.text(960, 300, 'TrashDash: NYC Echo', {
-      fontFamily: 'Arial, sans-serif',
+      fontFamily: '"Nunito", sans-serif',
       fontSize: '96px',
       color: '#ffffff',
       fontStyle: 'bold',
@@ -40,7 +40,7 @@ export class TitleScene extends Phaser.Scene {
     playBtnBg.setStrokeStyle(4, 0xffffff);
     
     const playBtnText = this.add.text(0, 0, 'PLAY', {
-      fontFamily: 'Arial, sans-serif',
+      fontFamily: '"Nunito", sans-serif',
       fontSize: '48px',
       color: '#ffffff',
       fontStyle: 'bold',
@@ -76,7 +76,7 @@ export class TitleScene extends Phaser.Scene {
     devBtnBg.setStrokeStyle(4, 0xffffff);
     
     const devBtnText = this.add.text(0, 0, 'DEVELOPER MODE', {
-      fontFamily: 'Arial, sans-serif',
+      fontFamily: '"Nunito", sans-serif',
       fontSize: '32px',
       color: '#ffffff',
       fontStyle: 'bold',

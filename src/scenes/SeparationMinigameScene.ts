@@ -66,7 +66,7 @@ export class SeparationMinigameScene extends Phaser.Scene {
     bg.setInteractive(); // Block clicks
 
     this.add.text(width / 2, 80, 'Separation Mode', {
-      fontFamily: 'Arial, sans-serif',
+      fontFamily: '"Nunito", sans-serif',
       fontSize: '48px',
       color: '#ffffff',
       fontStyle: 'bold',
@@ -148,7 +148,7 @@ export class SeparationMinigameScene extends Phaser.Scene {
 
   private setupSodaMinigame(width: number, height: number) {
     this.add.text(width / 2, 130, 'Click to check if full. Empty it in Landfill, then recycle the can.', {
-      fontFamily: 'Arial', fontSize: '24px', color: '#aaaaaa'
+      fontFamily: '"Nunito", sans-serif', fontSize: '24px', color: '#aaaaaa'
     }).setOrigin(0.5);
 
     // Center sprite
@@ -160,7 +160,7 @@ export class SeparationMinigameScene extends Phaser.Scene {
     
     // Instructional text at the bottom
     this.checkText = this.add.text(width / 2, height - 50, 'Press soda can to check if soda is empty', {
-      fontFamily: 'Arial', fontSize: '24px', color: '#ffffff', fontStyle: 'bold'
+      fontFamily: '"Nunito", sans-serif', fontSize: '24px', color: '#ffffff', fontStyle: 'bold'
     }).setOrigin(0.5);
     
     // If it's already empty, we consider it emptied
@@ -334,7 +334,7 @@ export class SeparationMinigameScene extends Phaser.Scene {
     this.updateSpriteScale();
 
     this.checkText = this.add.text(width / 2, height - 50, 'Press food box to check inside', {
-      fontFamily: 'Arial', fontSize: '24px', color: '#ffffff', fontStyle: 'bold'
+      fontFamily: '"Nunito", sans-serif', fontSize: '24px', color: '#ffffff', fontStyle: 'bold'
     }).setOrigin(0.5);
 
     // If it's empty, clicking once reveals the empty box and the user can drag it to plastic
@@ -349,7 +349,7 @@ export class SeparationMinigameScene extends Phaser.Scene {
           this.updateSpriteScale();
           // Instructional text
           this.add.text(width / 2, height - 50, 'Box is empty! Drag to the Recycling bin.', {
-            fontFamily: 'Arial', fontSize: '22px', color: '#22c55e', fontStyle: 'bold'
+            fontFamily: '"Nunito", sans-serif', fontSize: '22px', color: '#22c55e', fontStyle: 'bold'
           }).setOrigin(0.5);
         }
       });
@@ -415,7 +415,7 @@ export class SeparationMinigameScene extends Phaser.Scene {
 
         // Show instruction
         this.add.text(width / 2, 130, 'Drag food items out of the box into the Compost bin!', {
-          fontFamily: 'Arial', fontSize: '22px', color: '#aaaaaa'
+          fontFamily: '"Nunito", sans-serif', fontSize: '22px', color: '#aaaaaa'
         }).setOrigin(0.5);
 
         // Spawn the first food item
@@ -466,7 +466,7 @@ export class SeparationMinigameScene extends Phaser.Scene {
             this.mainItemSprite.setInteractive({ useHandCursor: true });
             this.input.setDraggable(this.mainItemSprite, true);
             this.add.text(width / 2, height - 50, 'Now drag the plastic container to the Recycling bin!', {
-              fontFamily: 'Arial', fontSize: '22px', color: '#3b82f6', fontStyle: 'bold'
+              fontFamily: '"Nunito", sans-serif', fontSize: '22px', color: '#3b82f6', fontStyle: 'bold'
             }).setOrigin(0.5).setDepth(200);
           }
         } else {
@@ -716,7 +716,7 @@ export class SeparationMinigameScene extends Phaser.Scene {
     }
 
     this.add.text(width / 2, 130, 'Tap to separate the items, then sort all pieces!', {
-      fontFamily: 'Arial', fontSize: '24px', color: '#aaaaaa'
+      fontFamily: '"Nunito", sans-serif', fontSize: '24px', color: '#aaaaaa'
     }).setOrigin(0.5);
 
     this.mainItemSprite = this.add.sprite(width / 2, height / 2 + 100, this.targetItem.itemDef.spriteKey);
@@ -725,7 +725,7 @@ export class SeparationMinigameScene extends Phaser.Scene {
     this.mainItemSprite.setInteractive({ useHandCursor: true });
 
     this.checkText = this.add.text(width / 2, height - 50, 'Tap to separate components', {
-      fontFamily: 'Arial', fontSize: '24px', color: '#ffffff', fontStyle: 'bold'
+      fontFamily: '"Nunito", sans-serif', fontSize: '24px', color: '#ffffff', fontStyle: 'bold'
     }).setOrigin(0.5);
 
     const activeComponentSprites: Phaser.GameObjects.Sprite[] = [];
@@ -759,7 +759,7 @@ export class SeparationMinigameScene extends Phaser.Scene {
         });
 
         this.add.text(width / 2, height - 50, 'Drag all pieces to their correct bins!', {
-          fontFamily: 'Arial', fontSize: '22px', color: '#22c55e', fontStyle: 'bold'
+          fontFamily: '"Nunito", sans-serif', fontSize: '22px', color: '#22c55e', fontStyle: 'bold'
         }).setOrigin(0.5).setDepth(200);
       }
     });

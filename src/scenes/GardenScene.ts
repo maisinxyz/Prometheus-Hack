@@ -14,7 +14,7 @@ export class GardenScene extends Phaser.Scene {
 
     // Title
     const title = this.add.text(width / 2, 80, 'Community Garden', {
-      fontFamily: 'Arial, sans-serif',
+      fontFamily: '"Nunito", sans-serif',
       fontSize: '48px',
       color: '#ffffff',
       fontStyle: 'bold',
@@ -37,7 +37,7 @@ export class GardenScene extends Phaser.Scene {
 
     // Placeholder text in the plot
     const emptyText = this.add.text(width / 2, height / 2 + 50, 'Empty Plot\nNothing planted here yet...', {
-      fontFamily: 'Arial, sans-serif',
+      fontFamily: '"Nunito", sans-serif',
       fontSize: '32px',
       color: '#a38a7a',
       align: 'center',
@@ -53,7 +53,7 @@ export class GardenScene extends Phaser.Scene {
     btnBg.setStrokeStyle(4, 0x000000);
     
     const btnText = this.add.text(width / 2, height - 100, 'Back to Map', {
-      fontFamily: 'Arial, sans-serif',
+      fontFamily: '"Nunito", sans-serif',
       fontSize: '24px',
       color: '#000000',
       fontStyle: 'bold'

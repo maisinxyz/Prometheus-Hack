@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { gameEvents, GAME_EVENTS, DropResult } from '../systems/GameEvents';
+import { UI_THEME } from '../config/UITheme';
 
 /**
  * HUDScene — Score/combo/timer overlay with juice effects.
@@ -12,6 +13,7 @@ import { gameEvents, GAME_EVENTS, DropResult } from '../systems/GameEvents';
 export class HUDScene extends Phaser.Scene {
   private scoreText!: Phaser.GameObjects.Text;
   private comboText!: Phaser.GameObjects.Text;
+  private comboPill!: Phaser.GameObjects.Container;
   private timerText!: Phaser.GameObjects.Text;
   private feedbackText!: Phaser.GameObjects.Text;
 
@@ -49,42 +51,67 @@ export class HUDScene extends Phaser.Scene {
     // Generate the fire particle texture if needed
     this.createFireParticleTexture();
 
-    // --- Score display (top-left) ---
-    this.scoreText = this.add.text(40, 60, 'SCORE: 0', {
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '36px',
+    // Helper to draw a glossy pill behind text
+    const createPill = (x: number, y: number, width: number, height: number, colors: string[] = [...UI_THEME.primaryGradient]) => {
+      const container = this.add.container(x, y);
+      const colorTop = Phaser.Display.Color.HexStringToColor(colors[0]).color;
+      const colorBottom = Phaser.Display.Color.HexStringToColor(colors[1]).color;
+      
+      const shadow = this.add.graphics();
+      shadow.fillStyle(0x000000, 0.4);
+      shadow.fillRoundedRect(-width / 2 + 4, -height / 2 + 6, width, height, UI_THEME.cornerRadius);
+      
+      const bg = this.add.graphics();
+      bg.fillGradientStyle(colorTop, colorTop, colorBottom, colorBottom, 1);
+      bg.fillRoundedRect(-width / 2, -height / 2, width, height, UI_THEME.cornerRadius);
+      
+      const gloss = this.add.graphics();
+      gloss.fillStyle(0xffffff, UI_THEME.glossHighlightAlpha);
+      const r = UI_THEME.cornerRadius;
+      gloss.fillRoundedRect(-width / 2 + 2, -height / 2 + 2, width - 4, height * 0.4, { tl: r-2, tr: r-2, bl: 0, br: 0 } as any);
+      
+      container.add([shadow, bg, gloss]);
+      container.setDepth(190);
+      return container;
+    };
+
+    // --- Score display (top-right) ---
+    createPill(1780, 75, 240, 60);
+    this.scoreText = this.add.text(1780, 75, 'SCORE: 0', {
+      fontFamily: '"Nunito", sans-serif',
+      fontSize: '28px',
       color: '#ffffff',
       fontStyle: 'bold',
-      stroke: '#000000',
-      strokeThickness: 4,
+      shadow: { offsetX: 0, offsetY: 2, color: 'rgba(0,0,0,0.5)', blur: 2, fill: true }
     });
-    this.scoreText.setDepth(200);
+    this.scoreText.setOrigin(0.5).setDepth(200);
 
-    // --- Combo display (top-right) ---
-    this.comboText = this.add.text(1880, 60, '', {
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '36px',
-      color: '#00FFFF',
+    // --- Combo display (top-left) ---
+    this.comboPill = createPill(140, 75, 240, 60);
+    this.comboPill.setAlpha(0); // Hide initially
+    this.comboText = this.add.text(140, 75, '', {
+      fontFamily: '"Nunito", sans-serif',
+      fontSize: '28px',
+      color: '#ffffff',
       fontStyle: 'bold',
-      stroke: '#000000',
-      strokeThickness: 4,
+      shadow: { offsetX: 0, offsetY: 2, color: 'rgba(0,0,0,0.5)', blur: 2, fill: true }
     });
-    this.comboText.setOrigin(1, 0).setDepth(200);
+    this.comboText.setOrigin(0.5).setDepth(200);
 
     // --- Timer display (top-center) ---
-    this.timerText = this.add.text(960, 30, '', {
-      fontFamily: 'Arial, sans-serif',
-      fontSize: '48px',
+    createPill(960, 50, 200, 70);
+    this.timerText = this.add.text(960, 50, '', {
+      fontFamily: '"Nunito", sans-serif',
+      fontSize: '36px',
       color: '#ffffff',
       fontStyle: 'bold',
-      stroke: '#000000',
-      strokeThickness: 4,
+      shadow: { offsetX: 0, offsetY: 2, color: 'rgba(0,0,0,0.5)', blur: 2, fill: true }
     });
-    this.timerText.setOrigin(0.5, 0).setDepth(200);
+    this.timerText.setOrigin(0.5).setDepth(200);
 
     // --- Feedback text (center, fades out) ---
     this.feedbackText = this.add.text(960, 540, '', {
-      fontFamily: 'Arial, sans-serif',
+      fontFamily: '"Nunito", sans-serif',
       fontSize: '64px',
       fontStyle: 'bold',
       stroke: '#000000',
@@ -99,7 +126,7 @@ export class HUDScene extends Phaser.Scene {
       .setInteractive({ useHandCursor: true })
       .setDepth(200);
     const resetBtnText = this.add.text(1800, 1000, '🔄 Reset CHI (No Smog)', {
-      fontFamily: 'Arial, sans-serif', fontSize: '16px', color: '#ffffff', fontStyle: 'bold'
+      fontFamily: '"Nunito", sans-serif', fontSize: '16px', color: '#ffffff', fontStyle: 'bold'
     }).setOrigin(0.5, 0.5).setDepth(201);
     resetBtnBg.on('pointerdown', () => {
       // Set all venues to 100 CHI (max) to remove smog
@@ -116,8 +143,18 @@ export class HUDScene extends Phaser.Scene {
     gameEvents.on(
       GAME_EVENTS.ITEM_DROPPED,
       (payload: { result: DropResult }) => {
+        // Animate score counter
+        this.tweens.addCounter({
+          from: this.currentScore,
+          to: this.currentScore + payload.result.pointsAwarded,
+          duration: 300,
+          ease: 'Sine.easeOut',
+          onUpdate: (tween) => {
+            this.scoreText.setText(`SCORE: ${Math.round(tween.getValue())}`);
+          }
+        });
+        
         this.currentScore += payload.result.pointsAwarded;
-        this.scoreText.setText(`SCORE: ${this.currentScore}`);
 
         // Show feedback
         if (payload.result.correct) {
@@ -133,12 +170,13 @@ export class HUDScene extends Phaser.Scene {
       GAME_EVENTS.COMBO_CHANGED,
       (payload: { combo: number }) => {
         if (payload.combo > 0) {
+          this.comboPill.setAlpha(1);
           this.comboText.setText(`COMBO ×${payload.combo}`);
           // Scale pulse on combo increase
           this.tweens.add({
-            targets: this.comboText,
-            scaleX: 1.3,
-            scaleY: 1.3,
+            targets: [this.comboText, this.comboPill],
+            scaleX: 1.15,
+            scaleY: 1.15,
             duration: 100,
             yoyo: true,
             ease: 'Sine.easeOut',
@@ -146,13 +184,14 @@ export class HUDScene extends Phaser.Scene {
 
           // Change combo text color at higher combos
           if (payload.combo >= 5) {
-            this.comboText.setColor('#FF6600');
+            this.comboText.setColor(UI_THEME.dangerAccent);
           } else if (payload.combo >= 3) {
-            this.comboText.setColor('#FFD700');
+            this.comboText.setColor(UI_THEME.goldAccent[0]);
           } else {
-            this.comboText.setColor('#00FFFF');
+            this.comboText.setColor('#ffffff');
           }
         } else {
+          this.comboPill.setAlpha(0);
           this.comboText.setText('');
         }
 

@@ -29,7 +29,7 @@ export class LevelSelectScene extends Phaser.Scene {
 
     // 2. Setup HUD Overlay (Transparent Phaser Canvas)
     const title = this.add.text(960, 80, 'Select a Level', {
-      fontFamily: 'Arial, sans-serif',
+      fontFamily: '"Nunito", sans-serif',
       fontSize: '48px',
       color: '#ffffff',
       fontStyle: 'bold',
@@ -116,13 +116,14 @@ export class LevelSelectScene extends Phaser.Scene {
         banner.style.top = '140px';
         banner.style.left = '50%';
         banner.style.transform = 'translateX(-50%)';
-        banner.style.background = 'linear-gradient(90deg, #F59E0B, #FCD34D)';
-        banner.style.color = '#000';
+        banner.style.background = 'linear-gradient(to bottom, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 100%), linear-gradient(90deg, #FBBF24, #F59E0B)';
+        banner.style.color = '#fff';
         banner.style.padding = '15px 40px';
         banner.style.borderRadius = '30px';
         banner.style.fontWeight = 'bold';
         banner.style.fontSize = '24px';
-        banner.style.boxShadow = '0 10px 20px rgba(0,0,0,0.5)';
+        banner.style.textShadow = '0 2px 4px rgba(0,0,0,0.5)';
+        banner.style.boxShadow = 'inset 0 4px 0 rgba(255,255,255,0.2), 0 10px 20px rgba(0,0,0,0.5)';
         banner.style.zIndex = '100';
         banner.textContent = `New Level Unlocked: ${currentName}!`;
         document.body.appendChild(banner);
@@ -191,41 +192,47 @@ export class LevelSelectScene extends Phaser.Scene {
     const plasticProg = (this.gardenSystem.getRawCount('plastic') % 30) / 30 * 100;
     const landfillProg = (this.gardenSystem.getRawCount('landfill') % 50) / 50 * 100;
 
-    const renderBar = (name: string, lvl: number, prog: number, locked: boolean, color: string, icon: string) => `
-      <div style="margin-bottom: 8px;">
-        <div style="display: flex; justify-content: space-between; font-size: 14px; color: #fff; text-shadow: 0 1px 2px #000;">
-          <span>${icon} ${name} ${locked ? '🔒 (Needs Compost Lvl 5)' : `Lvl ${lvl}`}</span>
+    const renderBar = (name: string, lvl: number, prog: number, locked: boolean, color: string) => `
+      <div style="margin-bottom: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: #f8fafc; font-weight: 700; margin-bottom: 6px;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div style="width: 10px; height: 10px; border-radius: 50%; background: ${color}; box-shadow: 0 0 6px ${color};"></div>
+            <span>${name}</span>
+          </div>
+          <span style="color: #cbd5e1;">${locked ? '🔒 Needs Lvl 5' : `Lvl ${lvl}`}</span>
         </div>
-        <div style="width: 100%; height: 12px; background: rgba(0,0,0,0.5); border-radius: 6px; overflow: hidden; border: 1px solid #444;">
-          <div style="width: ${prog}%; height: 100%; background: ${locked ? '#555' : color};"></div>
+        <div style="width: 100%; height: 8px; background: rgba(0,0,0,0.4); border-radius: 4px; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);">
+          <div style="width: ${prog}%; height: 100%; background: ${locked ? '#475569' : color}; border-radius: 4px;"></div>
         </div>
       </div>
     `;
 
     uiContainer.innerHTML = `
-      <div id="stats-toggle-btn" style="background: rgba(40,40,40,0.9); color: white; border: 1px solid #555; padding: 5px 10px; font-size: 12px; border-radius: 5px; cursor: pointer; font-family: sans-serif; margin-bottom: 10px; display: inline-block;">
-        ◀ Hide Stats
-      </div>
-      <div id="stats-content-area" style="transition: transform 0.3s ease, opacity 0.3s ease; transform-origin: top left;">
-        <div style="color: #facc15; font-family: sans-serif; font-size: 24px; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8); margin-bottom: 10px;">
-          Total CHI: ${Math.floor(totalChi)} / ${maxChi}
-        </div>
+      <div style="background: linear-gradient(135deg, rgba(30,41,59,0.9), rgba(15,23,42,0.95)); backdrop-filter: blur(8px); padding: 20px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); box-shadow: inset 0 2px 4px rgba(255,255,255,0.05), 0 10px 25px rgba(0,0,0,0.4); width: 320px; box-sizing: border-box; position: relative;">
         
-        <div style="background: rgba(20,20,20,0.85); padding: 15px; border-radius: 10px; border: 1px solid #444; margin-bottom: 10px; width: 300px; font-family: sans-serif;">
-          <div style="color: #fff; font-weight: bold; font-size: 16px; margin-bottom: 10px; text-transform: uppercase;">Garden Progress</div>
-          ${renderBar('Compost', compostLvl, compostProg, false, '#22c55e', '🍎')}
-          ${renderBar('Recycling', this.gardenSystem.getRecyclingLevel(), recyclingProg, isLocked, '#3b82f6', '♻️')}
-          ${renderBar('Plastic', this.gardenSystem.getPlasticLevel(), plasticProg, isLocked, '#6b7280', '🧴')}
-          ${renderBar('Landfill', this.gardenSystem.getLandfillLevel(), landfillProg, isLocked, '#a8a29e', '🗑️')}
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <div style="color: #f1f5f9; font-weight: 800; font-size: 18px; letter-spacing: 0.5px;">COMMUNITY GARDEN</div>
+          <div id="stats-toggle-btn" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 4px 8px; font-size: 12px; border-radius: 5px; cursor: pointer; font-family: 'Nunito', sans-serif;">Hide</div>
         </div>
 
-        <div style="display: flex; gap: 10px;">
-          <button id="future-btn" style="background: #2563eb; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
-            Toggle Future Vision
-          </button>
-          <button id="garden-btn" style="background: #16a34a; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
-            Visit Community Park
-          </button>
+        <div id="stats-content-area" style="transition: max-height 0.3s ease, opacity 0.3s ease; max-height: 800px; opacity: 1; overflow: hidden;">
+          <div style="color: #facc15; font-family: 'Nunito', sans-serif; font-size: 24px; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8); margin-bottom: 16px;">
+            Total CHI: ${Math.floor(totalChi)} / ${maxChi}
+          </div>
+          
+          ${renderBar('Compost', compostLvl, compostProg, false, '#34D399')}
+          ${renderBar('Recycling', this.gardenSystem.getRecyclingLevel(), recyclingProg, isLocked, '#3b82f6')}
+          ${renderBar('Plastic', this.gardenSystem.getPlasticLevel(), plasticProg, isLocked, '#FBBF24')}
+          ${renderBar('Landfill', this.gardenSystem.getLandfillLevel(), landfillProg, isLocked, '#9ca3af')}
+
+          <div style="display: flex; gap: 12px; width: 100%; box-sizing: border-box; margin-top: 16px;">
+            <button id="future-btn" style="flex: 1; background: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 100%), linear-gradient(90deg, #3b82f6, #2563eb); color: #ffffff; border: 1px solid rgba(255,255,255,0.1); padding: 12px 8px; font-size: 14px; border-radius: 12px; cursor: pointer; font-weight: bold; box-shadow: inset 0 2px 0 rgba(255,255,255,0.15), 0 4px 12px rgba(37,99,235,0.3); text-shadow: 0 1px 2px rgba(0,0,0,0.3); transition: transform 0.1s ease;">
+              Future Vision
+            </button>
+            <button id="garden-btn" style="flex: 1; background: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 100%), linear-gradient(90deg, #0F9D74, #34D399); color: #ffffff; border: 1px solid rgba(255,255,255,0.1); padding: 12px 8px; font-size: 14px; border-radius: 12px; cursor: pointer; font-weight: bold; box-shadow: inset 0 2px 0 rgba(255,255,255,0.15), 0 4px 12px rgba(15,157,116,0.3); text-shadow: 0 1px 2px rgba(0,0,0,0.3); transition: transform 0.1s ease;">
+              Community Park
+            </button>
+          </div>
         </div>
       </div>
     `;
@@ -235,7 +242,7 @@ export class LevelSelectScene extends Phaser.Scene {
     const currentChiHud = document.createElement('div');
     currentChiHud.id = 'current-chi-hud';
     currentChiHud.style.position = 'absolute';
-    currentChiHud.style.bottom = '120px'; // bottom middle
+    currentChiHud.style.bottom = '20px'; // very bottom
     currentChiHud.style.left = '50%';
     currentChiHud.style.transform = 'translateX(-50%)';
     currentChiHud.style.width = '400px';
@@ -250,7 +257,7 @@ export class LevelSelectScene extends Phaser.Scene {
     const fillPercent = Math.min(100, Math.max(0, (currentVenueChi / safeThreshold) * 100));
     
     currentChiHud.innerHTML = `
-      <div style="color: #fff; font-family: sans-serif; font-size: 16px; font-weight: bold; text-align: center; margin-bottom: 8px;">
+      <div style="color: #fff; font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: bold; text-align: center; margin-bottom: 8px;">
         ${currentName} CHI Progress (${Math.floor(currentVenueChi)} / ${nextUnlockThreshold})
       </div>
       <div style="width: 100%; height: 12px; background: #222; border-radius: 6px; overflow: hidden;">
@@ -267,14 +274,29 @@ export class LevelSelectScene extends Phaser.Scene {
     recenterBtn.style.width = '60px';
     recenterBtn.style.height = '60px';
     recenterBtn.style.borderRadius = '30px';
-    recenterBtn.style.background = '#3b82f6';
+    recenterBtn.style.background = 'linear-gradient(to bottom, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 100%), linear-gradient(90deg, #0F9D74, #34D399)';
     recenterBtn.style.color = '#fff';
-    recenterBtn.style.border = '2px solid #fff';
+    recenterBtn.style.border = 'none';
     recenterBtn.style.fontSize = '24px';
     recenterBtn.style.cursor = 'pointer';
-    recenterBtn.style.boxShadow = '0 4px 6px rgba(0,0,0,0.3)';
+    recenterBtn.style.boxShadow = 'inset 0 4px 0 rgba(255,255,255,0.2), 0 4px 6px rgba(0,0,0,0.3)';
     recenterBtn.style.zIndex = '20';
-    recenterBtn.innerHTML = '🎯';
+    recenterBtn.style.transition = 'transform 0.1s ease';
+    recenterBtn.addEventListener('mousedown', () => recenterBtn.style.transform = 'scale(0.95)');
+    recenterBtn.addEventListener('mouseup', () => recenterBtn.style.transform = 'scale(1)');
+    recenterBtn.addEventListener('mouseleave', () => recenterBtn.style.transform = 'scale(1)');
+    recenterBtn.style.display = 'flex';
+    recenterBtn.style.alignItems = 'center';
+    recenterBtn.style.justifyContent = 'center';
+    recenterBtn.innerHTML = `
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M12 2v2"></path>
+        <path d="M12 20v2"></path>
+        <path d="M2 12h2"></path>
+        <path d="M20 12h2"></path>
+      </svg>
+    `;
     recenterBtn.title = 'Recenter Camera';
     recenterBtn.addEventListener('click', () => {
       MapCameraController.lockOnNode(currentLng, currentLat);
@@ -284,21 +306,20 @@ export class LevelSelectScene extends Phaser.Scene {
     
     // Logic to toggle stats visibility
     let statsVisible = true;
-    document.getElementById('stats-toggle-btn')?.addEventListener('click', (e) => {
-      statsVisible = !statsVisible;
+    document.getElementById('stats-toggle-btn')?.addEventListener('click', () => {
       const content = document.getElementById('stats-content-area');
-      const btn = e.target as HTMLElement;
-      if (content) {
-        if (statsVisible) {
-          content.style.transform = 'translateX(0)';
-          content.style.opacity = '1';
-          content.style.pointerEvents = 'auto';
-          btn.innerText = '◀ Hide Stats';
-        } else {
-          content.style.transform = 'translateX(-120%)';
+      const btn = document.getElementById('stats-toggle-btn');
+      if (content && btn) {
+        if (content.style.opacity !== '0') {
+          content.style.maxHeight = '0px';
           content.style.opacity = '0';
           content.style.pointerEvents = 'none';
-          btn.innerText = '▶ Show Stats';
+          btn.innerText = 'Show';
+        } else {
+          content.style.maxHeight = '800px';
+          content.style.opacity = '1';
+          content.style.pointerEvents = 'auto';
+          btn.innerText = 'Hide';
         }
       }
     });
@@ -317,13 +338,46 @@ export class LevelSelectScene extends Phaser.Scene {
     weatherEventContainer.style.border = `2px solid ${weatherColor}`;
     weatherEventContainer.style.padding = '15px';
     weatherEventContainer.style.zIndex = '20';
-    weatherEventContainer.style.pointerEvents = 'none';
+    weatherEventContainer.style.pointerEvents = 'auto'; // allow clicking close button
     weatherEventContainer.innerHTML = `
+      <div id="close-weather-btn" style="position: absolute; top: 10px; right: 15px; color: #fff; cursor: pointer; font-size: 20px; font-family: 'Nunito', sans-serif; font-weight: bold;">&times;</div>
       <div style="font-family: Arial, sans-serif; font-size: 28px; color: ${weatherColor}; font-weight: bold; margin-bottom: 5px;">${weatherName}</div>
       <div style="font-family: Arial, sans-serif; font-size: 18px; color: #aaaaaa; margin-bottom: 5px;">${weatherDesc}</div>
       <div style="font-family: Arial, sans-serif; font-size: 18px; color: #ffffff; font-style: italic;">Effect: ${weatherEffect}</div>
     `;
     document.body.appendChild(weatherEventContainer);
+
+    // Weather pull-out tab
+    const weatherTab = document.createElement('div');
+    weatherTab.id = 'weather-tab';
+    weatherTab.style.position = 'absolute';
+    weatherTab.style.bottom = '40px';
+    weatherTab.style.right = '0px';
+    weatherTab.style.background = 'rgba(220, 38, 38, 0.9)';
+    weatherTab.style.color = '#fff';
+    weatherTab.style.padding = '8px 12px';
+    weatherTab.style.borderTopLeftRadius = '8px';
+    weatherTab.style.borderBottomLeftRadius = '8px';
+    weatherTab.style.cursor = 'pointer';
+    weatherTab.style.display = 'none';
+    weatherTab.style.zIndex = '20';
+    weatherTab.style.fontFamily = "'Nunito', sans-serif";
+    weatherTab.style.fontWeight = 'bold';
+    weatherTab.style.fontSize = '14px';
+    weatherTab.innerText = '◀ Weather';
+    document.body.appendChild(weatherTab);
+
+    // Make weather warning hideable
+    setTimeout(() => {
+      document.getElementById('close-weather-btn')?.addEventListener('click', () => {
+        weatherEventContainer.style.display = 'none';
+        weatherTab.style.display = 'block';
+      });
+      weatherTab.addEventListener('click', () => {
+        weatherEventContainer.style.display = 'block';
+        weatherTab.style.display = 'none';
+      });
+    }, 0);
 
     const smogOverlay = document.createElement('div');
     smogOverlay.id = 'smog-overlay';
@@ -415,6 +469,7 @@ export class LevelSelectScene extends Phaser.Scene {
       document.getElementById('smog-overlay')?.remove();
       document.getElementById('future-desc-box')?.remove();
       document.getElementById('map-weather-event')?.remove();
+      document.getElementById('weather-tab')?.remove();
       document.getElementById('current-chi-hud')?.remove();
       document.getElementById('recenter-btn')?.remove();
       levelNodes.forEach(n => n.remove());
