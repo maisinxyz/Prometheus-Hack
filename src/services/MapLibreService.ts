@@ -60,30 +60,29 @@ class MapLibreServiceSingleton {
 
     this.map = new ml.Map({
       container: this.mapContainer,
-      // MapTiler Basic V2 Dark includes the necessary 3D building vector data
-      style: `https://api.maptiler.com/maps/basic-v2-dark/style.json?key=${mapTilerKey}`,
+      // Task 2.1: Use a brighter base style for the "toy city" look
+      style: `https://api.maptiler.com/maps/basic-v2/style.json?key=${mapTilerKey}`,
       center: [this.CENTER_LNG, this.CENTER_LAT],
       zoom: 15.5,
-      minZoom: 14.5,   // Prevent zooming out too far
-      maxZoom: 19,     // Prevent zooming in too close
+      minZoom: 13,
+      maxZoom: 19,
       pitch: 60,       // 3D perspective
       bearing: -17.6,  // Angled view
       antialias: true, // Required for 3D building edges
       
-      // Disable all native MapLibre gestures
-      dragPan: false,
-      dragRotate: false,
-      touchPitch: false,
-      touchZoomRotate: false,
-      scrollZoom: false,
-      doubleClickZoom: false,
-      keyboard: false,
+      // We re-enable native gestures per Task 2.5 ("standard MapLibre pan/zoom/rotate gestures stay enabled")
+      dragPan: true,
+      dragRotate: true,
+      touchPitch: true,
+      touchZoomRotate: true,
+      scrollZoom: true,
+      doubleClickZoom: true,
+      keyboard: true,
       
-      // Restrict panning to cover the entirety of Manhattan
-      // Format: [ [west, south], [east, north] ]
+      // Restrict panning
       maxBounds: [
-        [-74.0479, 40.6829], // Southwest coordinate (Battery Park/Hudson)
-        [-73.9067, 40.8790]  // Northeast coordinate (Inwood/Harlem River)
+        [-74.0479, 40.6829], // Southwest coordinate
+        [-73.9067, 40.8790]  // Northeast coordinate
       ]
     });
 
@@ -94,7 +93,7 @@ class MapLibreServiceSingleton {
     });
     this.map.addControl(scaleControl, 'top-right');
 
-    // Add Navigation Controls (Compass and Zoom) so the user visually knows they can pitch/rotate
+    // Add Navigation Controls
     const navControl = new ml.NavigationControl({
       visualizePitch: true,
       showCompass: true,
@@ -104,25 +103,10 @@ class MapLibreServiceSingleton {
 
     this.map.on('error', (e: any) => {
       console.error('MapLibre Map Error:', e);
-      if (e && e.error && (e.error.status === 401 || e.error.status === 403)) {
-        const warning = document.createElement('div');
-        warning.style.position = 'absolute';
-        warning.style.top = '10px';
-        warning.style.left = '50%';
-        warning.style.transform = 'translateX(-50%)';
-        warning.style.background = 'rgba(255,0,0,0.8)';
-        warning.style.color = '#fff';
-        warning.style.padding = '10px 20px';
-        warning.style.borderRadius = '5px';
-        warning.style.zIndex = '9999';
-        warning.innerHTML = `<strong>Missing MapTiler Key!</strong><br/>Please paste your free MapTiler key into MapLibreService.ts line 47.`;
-        document.body.appendChild(warning);
-      }
     });
 
     // Wait for the style to load to add 3D buildings layer
     this.map.on('style.load', () => {
-      // Find a label layer to insert the 3D buildings beneath so text isn't obscured
       const layers = this.map.getStyle().layers;
       let labelLayerId;
       for (const layer of layers) {
@@ -132,7 +116,6 @@ class MapLibreServiceSingleton {
         }
       }
 
-      // MapTiler's vector schema uses 'maptiler_planet' as the source
       this.map.addLayer(
         {
           'id': '3d-buildings',
@@ -140,36 +123,29 @@ class MapLibreServiceSingleton {
           'source-layer': 'building',
           'filter': ['has', 'render_height'],
           'type': 'fill-extrusion',
-          'minzoom': 14.5,
+          'minzoom': 13,
           'paint': {
-            // Height-based color interpolation to simulate realistic building materials
+            // Task 2.1: Toy-city style brighter building colors
             'fill-extrusion-color': [
               'interpolate',
               ['linear'],
               ['get', 'render_height'],
-              0, '#8c7b6d',   // Brownstone / brick for low-rises
-              40, '#9a948e',  // Grey concrete for mid-rises
-              120, '#5a788c', // Light bluish glass for skyscrapers
-              300, '#36536b'  // Deep blue glass for ultra-tall super-slenders
+              0, '#faf0e6',   // Linen / warm white
+              40, '#ffe4c4',  // Bisque / light beige
+              120, '#b0e0e6', // Powder blue for skyscrapers
+              300, '#87cefa'  // Light sky blue for super-slenders
             ],
-            
-            // MapTiler uses render_height and render_min_height directly.
-            // Using direct values stops the buildings from dynamically scaling (growing) on zoom.
             'fill-extrusion-height': ['get', 'render_height'],
             'fill-extrusion-base': ['coalesce', ['get', 'render_min_height'], 0],
-            
-            // Adding a slight ambient light reflection effect by lowering opacity slightly
-            'fill-extrusion-opacity': 0.85
+            'fill-extrusion-opacity': 0.95 // Higher opacity for more solid toy look
           }
         },
         labelLayerId
       );
-
-      // Add the 3D landmark overlay on top of the buildings layer
-      // LandmarkOverlayService.addToMap(this.map); // Temporarily disabled to prevent WebGL context issues
     });
 
-    this.setupCustomInputHandlers();
+    // We no longer need custom input handlers since native is enabled
+    // this.setupCustomInputHandlers();
   }
 
   private customCursor: HTMLElement | null = null;

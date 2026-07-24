@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="TrashDash: NYC Echo — A recycling sorting game that teaches NYC waste disposal through fast-paced gameplay" />
     <title>TrashDash: NYC Echo</title>
+    <!-- MapLibre GL JS -->
+    <link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet" />
+    <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
     <style>
       * {
         margin: 0;
@@ -20,6 +23,16 @@
         overflow: hidden;
         position: relative;
       }
+      #mapkit-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: 0;
+        background: #111 url('/assets/ui/map_placeholder.png') center/cover;
+        display: none; /* Hidden by default, shown by LevelSelectScene */
+      }
       #game-container {
         position: fixed;
         top: 0;
@@ -28,9 +41,88 @@
         height: 100vh;
         z-index: 10;
       }
+      /* When map is active, let pointer events pass through the transparent Phaser canvas to the map */
+      #game-container.map-active {
+        pointer-events: none;
+      }
+      #game-container.map-active canvas {
+        pointer-events: none;
+      }
+      /* MapKit annotation styling */
+      .venue-annotation {
+        pointer-events: auto;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        transform: translate(-50%, -100%);
+        filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+        transition: transform 0.1s ease;
+      }
+      .venue-annotation:hover {
+        transform: translate(-50%, -100%) scale(1.1);
+      }
+      .venue-annotation.locked {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+      .venue-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 12px;
+        background: rgba(0,0,0,0.6);
+        backdrop-filter: blur(8px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid rgba(255,255,255,0.3);
+      }
+      .venue-icon img {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+      }
+      .venue-label {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        color: #ffffff;
+        text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+        text-align: center;
+        white-space: nowrap;
+        max-width: 120px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .venue-chi {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 11px;
+        font-weight: 500;
+        color: #facc15;
+        text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      }
+      .venue-chi.locked {
+        color: #ef4444;
+      }
+      .venue-chi-bar {
+        width: 80px;
+        height: 6px;
+        background: rgba(0,0,0,0.4);
+        border-radius: 3px;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,0.2);
+      }
+      .venue-chi-bar-fill {
+        height: 100%;
+        background: #facc15;
+        border-radius: 3px;
+        transition: width 0.3s ease;
+      }
     </style>
   </head>
   <body>
+    <div id="mapkit-container"></div>
     <div id="game-container"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>

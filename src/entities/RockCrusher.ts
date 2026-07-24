@@ -1,7 +1,6 @@
 import Phaser from 'phaser';
 import { TrashItem } from './TrashItem';
 import { TrashItemDef } from '../data/schemas/itemSchema';
-import { gameEvents, GAME_EVENTS } from '../systems/GameEvents';
 import itemsData from '../data/items.json';
 
 export class RockCrusher extends Phaser.GameObjects.Sprite {

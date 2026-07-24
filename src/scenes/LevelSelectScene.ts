@@ -3,6 +3,9 @@ import { ChiSystem } from '../systems/ChiSystem';
 import { GardenSystem } from '../systems/GardenSystem';
 import venuesData from '../data/venues.json';
 import { MapLibreService } from '../services/MapLibreService';
+import { LevelNode, NodeState } from '../entities/LevelNode';
+import { PathOverlayService } from '../services/PathOverlayService';
+import { MapCameraController } from '../services/MapCameraController';
 
 /**
  * LevelSelectScene — Interactive 3D Map UI using MapLibre GL JS.
@@ -37,46 +40,111 @@ export class LevelSelectScene extends Phaser.Scene {
     title.setScrollFactor(0);
     title.setShadow(0, 4, 'rgba(0,0,0,0.5)', 8);
 
-    // 3. Process venues and create HTML annotations
-    // TASK 1.5: Strictly sequential unlock gating.
-    // Venue at position N is interactive ONLY if position N-1's CHI >= venue[N].unlockChiThreshold.
-    // Position 1 (index 0) is always unlocked.
-    const annotationsData = [];
+    // 3. Process progression synchronously
+    let unlockedCount = 0;
+    let currentVenueChi = 0;
+    let nextUnlockThreshold = 100;
+    let currentLng = -73.9855;
+    let currentLat = 40.7580;
+    let currentName = '';
+    const levelNodes: LevelNode[] = [];
+    
+    const map = MapLibreService.getMap();
+    MapCameraController.setMap(map);
 
     for (let i = 0; i < venuesData.length; i++) {
-      const venue = venuesData[i];
-      const currentChi = this.chiSystem.getChi(venue.id);
-
-      // Strictly sequential: check the PRECEDING venue's CHI, not a running variable
+      const venue = venuesData[i] as any;
       let isUnlocked = false;
       if (i === 0) {
-        isUnlocked = true; // First venue always unlocked
+        isUnlocked = true;
       } else {
-        const previousVenueId = venuesData[i - 1].id;
-        const previousVenueChi = this.chiSystem.getChi(previousVenueId);
+        const previousVenueChi = this.chiSystem.getChi((venuesData[i - 1] as any).id);
         isUnlocked = previousVenueChi >= venue.unlockChiThreshold;
       }
 
-      // Default Times Square fallback if coordinates are missing
-      const lat = (venue as any).latitude || 40.7580;
-      const lng = (venue as any).longitude || -73.9855;
-
-      annotationsData.push({
-        venueId: venue.id,
-        displayName: venue.displayName,
-        latitude: lat,
-        longitude: lng,
-        currentChi: currentChi,
-        isUnlocked: isUnlocked,
-        unlockThreshold: venue.unlockChiThreshold,
-        iconUrl: `/assets/sprites/ui/venues/${venue.id}.png`,
-        onSelect: (id: string) => {
-          this.scene.start('TrayScene', { venueId: id });
+      if (isUnlocked) {
+        unlockedCount++;
+        currentVenueChi = this.chiSystem.getChi(venue.id);
+        currentLng = (venue as any).longitude || -73.9855;
+        currentLat = (venue as any).latitude || 40.7580;
+        currentName = venue.displayName;
+        if (i + 1 < venuesData.length) {
+          nextUnlockThreshold = (venuesData[i + 1] as any).unlockChiThreshold;
+        } else {
+          nextUnlockThreshold = currentVenueChi; // Maxed out
         }
-      });
+      }
     }
 
-    MapLibreService.addVenueAnnotations(annotationsData);
+    const setupMapLayers = () => {
+      PathOverlayService.addToMap(map);
+
+      for (let i = 0; i < venuesData.length; i++) {
+        const venue = venuesData[i] as any;
+        let isUnlocked = i < unlockedCount;
+        let state = NodeState.LOCKED;
+        if (isUnlocked) {
+          state = (i === unlockedCount - 1) ? NodeState.CURRENT : NodeState.UNLOCKED;
+        }
+
+        const lat = (venue as any).latitude || 40.7580;
+        const lng = (venue as any).longitude || -73.9855;
+
+        const node = new LevelNode(map, {
+          venueId: venue.id,
+          displayName: venue.displayName,
+          latitude: lat,
+          longitude: lng,
+          index: i,
+          state,
+          onClick: (id: string) => {
+            this.scene.start('TrayScene', { venueId: id });
+          }
+        });
+        levelNodes.push(node);
+      }
+
+      // Check Unlock Sequence
+      const lastSeenCountStr = localStorage.getItem('trashdash_last_unlocked_count');
+      const lastSeenCount = lastSeenCountStr ? parseInt(lastSeenCountStr, 10) : 1;
+      
+      if (unlockedCount > lastSeenCount) {
+        try { this.sound.play('chime'); } catch (e) {} // best effort
+        
+        const banner = document.createElement('div');
+        banner.style.position = 'absolute';
+        banner.style.top = '140px';
+        banner.style.left = '50%';
+        banner.style.transform = 'translateX(-50%)';
+        banner.style.background = 'linear-gradient(90deg, #F59E0B, #FCD34D)';
+        banner.style.color = '#000';
+        banner.style.padding = '15px 40px';
+        banner.style.borderRadius = '30px';
+        banner.style.fontWeight = 'bold';
+        banner.style.fontSize = '24px';
+        banner.style.boxShadow = '0 10px 20px rgba(0,0,0,0.5)';
+        banner.style.zIndex = '100';
+        banner.textContent = `New Level Unlocked: ${currentName}!`;
+        document.body.appendChild(banner);
+        
+        setTimeout(() => {
+          banner.style.transition = 'opacity 0.5s ease';
+          banner.style.opacity = '0';
+          setTimeout(() => banner.remove(), 500);
+        }, 2500);
+
+        MapCameraController.driftToNode(currentLng, currentLat, 2000);
+        localStorage.setItem('trashdash_last_unlocked_count', unlockedCount.toString());
+      } else {
+        MapCameraController.lockOnNode(currentLng, currentLat);
+      }
+    };
+
+    if (map.isStyleLoaded()) {
+      setupMapLayers();
+    } else {
+      map.once('style.load', setupMapLayers);
+    }
 
     // 4. UI Overlay (HTML) for Total CHI and Future Vision
     const totalChi = this.chiSystem.getTotalChi(venuesData.map(v => v.id));
@@ -162,6 +230,57 @@ export class LevelSelectScene extends Phaser.Scene {
       </div>
     `;
     document.body.appendChild(uiContainer);
+
+    // 4.5 Task 2.5/2.6: Current CHI HUD & Recenter Button
+    const currentChiHud = document.createElement('div');
+    currentChiHud.id = 'current-chi-hud';
+    currentChiHud.style.position = 'absolute';
+    currentChiHud.style.top = '140px'; // below title
+    currentChiHud.style.left = '50%';
+    currentChiHud.style.transform = 'translateX(-50%)';
+    currentChiHud.style.width = '400px';
+    currentChiHud.style.background = 'rgba(0,0,0,0.85)';
+    currentChiHud.style.padding = '10px 20px';
+    currentChiHud.style.borderRadius = '20px';
+    currentChiHud.style.border = '2px solid #3b82f6';
+    currentChiHud.style.zIndex = '20';
+    
+    // Handle math safely
+    const safeThreshold = nextUnlockThreshold > 0 ? nextUnlockThreshold : 100;
+    const fillPercent = Math.min(100, Math.max(0, (currentVenueChi / safeThreshold) * 100));
+    
+    currentChiHud.innerHTML = `
+      <div style="color: #fff; font-family: sans-serif; font-size: 16px; font-weight: bold; text-align: center; margin-bottom: 8px;">
+        ${currentName} CHI Progress (${Math.floor(currentVenueChi)} / ${nextUnlockThreshold})
+      </div>
+      <div style="width: 100%; height: 12px; background: #222; border-radius: 6px; overflow: hidden;">
+        <div style="width: ${fillPercent}%; height: 100%; background: #FCD34D; box-shadow: 0 0 12px #FCD34D;"></div>
+      </div>
+    `;
+    document.body.appendChild(currentChiHud);
+
+    const recenterBtn = document.createElement('button');
+    recenterBtn.id = 'recenter-btn';
+    recenterBtn.style.position = 'absolute';
+    recenterBtn.style.bottom = '40px';
+    recenterBtn.style.left = '20px';
+    recenterBtn.style.width = '60px';
+    recenterBtn.style.height = '60px';
+    recenterBtn.style.borderRadius = '30px';
+    recenterBtn.style.background = '#3b82f6';
+    recenterBtn.style.color = '#fff';
+    recenterBtn.style.border = '2px solid #fff';
+    recenterBtn.style.fontSize = '24px';
+    recenterBtn.style.cursor = 'pointer';
+    recenterBtn.style.boxShadow = '0 4px 6px rgba(0,0,0,0.3)';
+    recenterBtn.style.zIndex = '20';
+    recenterBtn.innerHTML = '🎯';
+    recenterBtn.title = 'Recenter Camera';
+    recenterBtn.addEventListener('click', () => {
+      MapCameraController.lockOnNode(currentLng, currentLat);
+    });
+    document.body.appendChild(recenterBtn);
+    
     
     // Logic to toggle stats visibility
     let statsVisible = true;
@@ -277,9 +396,12 @@ export class LevelSelectScene extends Phaser.Scene {
       document.getElementById('smog-overlay')?.remove();
       document.getElementById('future-desc-box')?.remove();
       document.getElementById('map-weather-event')?.remove();
+      document.getElementById('current-chi-hud')?.remove();
+      document.getElementById('recenter-btn')?.remove();
+      levelNodes.forEach(n => n.remove());
+      PathOverlayService.removeFromMap();
       MapLibreService.toggleFutureVision(false, 0, 0); // Reset map style
       MapLibreService.hideMap();
-      MapLibreService.removeAllAnnotations();
     });
   }
 }
