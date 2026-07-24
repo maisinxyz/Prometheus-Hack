@@ -61,7 +61,7 @@ class MapLibreServiceSingleton {
     this.map = new ml.Map({
       container: this.mapContainer,
       // Task 2.1: Use a brighter base style for the "toy city" look
-      style: `https://api.maptiler.com/maps/basic-v2/style.json?key=${mapTilerKey}`,
+      style: `https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json`,
       center: [this.CENTER_LNG, this.CENTER_LAT],
       zoom: 15.5,
       minZoom: 13,
