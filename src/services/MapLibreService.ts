@@ -39,6 +39,9 @@ class MapLibreServiceSingleton {
 
     // Show container immediately so MapLibre can calculate dimensions
     this.mapContainer.style.display = 'block';
+    // Add a smooth CSS transition to prevent flashing when changing filters
+    this.mapContainer.style.transition = 'filter 2s ease-in-out';
+    this.mapContainer.style.willChange = 'filter';
 
     // Don't recreate if already exists
     if (this.map) {
@@ -64,7 +67,7 @@ class MapLibreServiceSingleton {
       style: `https://api.maptiler.com/maps/hybrid/style.json?key=${mapTilerKey}`,
       center: [this.CENTER_LNG, this.CENTER_LAT],
       zoom: 15.5,
-      minZoom: 13,
+      minZoom: 14, // Strongly restrict zoom out to 14 so buildings NEVER disappear from the vector tiles dropping out!
       maxZoom: 19,
       pitch: 60,       // 3D perspective
       bearing: -17.6,  // Angled view
@@ -129,8 +132,8 @@ class MapLibreServiceSingleton {
           'source': 'maptiler_planet',
           'source-layer': 'building',
           'filter': ['has', 'render_height'],
+          'minzoom': 10, // Set to 10 so buildings never disappear during zoom bounce
           'type': 'fill-extrusion',
-          'minzoom': 13,
           'paint': {
             // Photorealistic but vibrant mesh colors
             'fill-extrusion-color': [
@@ -142,9 +145,66 @@ class MapLibreServiceSingleton {
               120, '#93c5fd', // bright sky glass
               300, '#60a5fa'  // vibrant blue glass
             ],
-            'fill-extrusion-height': ['get', 'render_height'],
-            'fill-extrusion-base': ['coalesce', ['get', 'render_min_height'], 0],
+            'fill-extrusion-height': ['*', ['get', 'render_height'], 3.0], // Make buildings 3x taller
+            'fill-extrusion-base': ['coalesce', ['*', ['get', 'render_min_height'], 3.0], 0],
             'fill-extrusion-opacity': 0.85 // Slight transparency for mesh over photo look
+          }
+        },
+        labelLayerId
+      );
+
+      // Add Flood Zone layer for Sea Level Rise (Idea #2)
+      // A massive polygon that rises from below the ground to swallow everything.
+      this.map.addSource('flood-zone', {
+        'type': 'geojson',
+        'data': {
+          'type': 'FeatureCollection',
+          'features': [{
+            'type': 'Feature',
+            'properties': {},
+            'geometry': {
+              'type': 'Polygon',
+              'coordinates': [
+                [
+                  [-75.5, 39.5],
+                  [-75.5, 41.5],
+                  [-73.0, 41.5],
+                  [-73.0, 39.5],
+                  [-75.5, 39.5]
+                ]
+              ]
+            }
+          }]
+        }
+      });
+
+      this.map.addLayer(
+        {
+          'id': 'flood-layer',
+          'type': 'fill-extrusion',
+          'source': 'flood-zone',
+          'paint': {
+            'fill-extrusion-color': '#0f3c5c', // Realistic deep ocean blue (Reverted back to this per request)
+            'fill-extrusion-height': 0, // Starts flat
+            'fill-extrusion-base': 0,
+            'fill-extrusion-opacity': 0, // 0 opacity when inactive so it doesn't paint the ground blue!
+            'fill-extrusion-opacity-transition': { duration: 1000, delay: 0 },
+            'fill-extrusion-height-transition': { duration: 0, delay: 0 } // Default to 0, changed dynamically when activated
+          }
+        },
+        labelLayerId
+      );
+
+      // Tint the satellite image's normal green/brown water to be blue
+      this.map.addLayer(
+        {
+          'id': 'normal-water-tint',
+          'type': 'fill',
+          'source': 'maptiler_planet',
+          'source-layer': 'water',
+          'paint': {
+            'fill-color': '#021833', // Deep, realistic navy blue
+            'fill-opacity': 0.4 // Tints the satellite image below naturally
           }
         },
         labelLayerId
@@ -434,7 +494,12 @@ class MapLibreServiceSingleton {
     };
 
     if (!isActive) {
-      // Revert to normal
+      // Revert to normal immediately
+      trySetColor('normal-water-tint', 'fill-opacity', 0.4); // Restore normal realistic blue water
+      trySetColor('flood-layer', 'fill-extrusion-height-transition', { duration: 0, delay: 0 });
+      trySetColor('flood-layer', 'fill-extrusion-opacity', 0); // Hide completely
+      trySetColor('flood-layer', 'fill-extrusion-height', 0);
+      
       this.map.setPaintProperty('3d-buildings', 'fill-extrusion-color', [
         'interpolate',
         ['linear'],
@@ -455,6 +520,11 @@ class MapLibreServiceSingleton {
       const isUtopia = totalChi >= (maxChi / 2);
       if (isUtopia) {
         // Eco-Utopia
+        trySetColor('normal-water-tint', 'fill-opacity', 0.5); // Extra blue!
+        trySetColor('flood-layer', 'fill-extrusion-height-transition', { duration: 0, delay: 0 });
+        trySetColor('flood-layer', 'fill-extrusion-opacity', 0); // Hide completely
+        trySetColor('flood-layer', 'fill-extrusion-height', 0);
+        
         this.map.setPaintProperty('3d-buildings', 'fill-extrusion-color', [
           'interpolate',
           ['linear'],
@@ -472,19 +542,26 @@ class MapLibreServiceSingleton {
       } else {
         // Bleak Future
         this.map.setPaintProperty('3d-buildings', 'fill-extrusion-color', [
-          'interpolate',
-          ['linear'],
-          ['get', 'render_height'],
-          0, '#4a3d31', // Rust
-          40, '#3a3e3d', // Dark soot
-          120, '#2e3a2d', // Toxic green
-          300, '#1d1d1d' // Smog black
-        ]);
-        document.getElementById('mapkit-container')!.style.filter = 'sepia(0.6) hue-rotate(50deg) saturate(1.2)';
+            'interpolate',
+            ['linear'],
+            ['get', 'render_height'],
+            0, '#8b7355', // Grimy light brown
+            40, '#6b543c', // Grimy mid brown
+            120, '#4a3928', // Dark grimy brown
+            300, '#2b1d12' // Very dark brown
+          ]);
+        // A much lighter filter that maintains contrast and color distinction (Reverted back)
+        document.getElementById('mapkit-container')!.style.filter = 'saturate(0.8) sepia(0.3) contrast(1.1) brightness(0.9)';
         
-        trySetColor('water', 'fill-color', '#4a3c31'); // Muddy brown sludge ocean
+        trySetColor('normal-water-tint', 'fill-opacity', 0); // Hide the normal blue tint so it doesn't clash with the bleak future
+        trySetColor('water', 'fill-color', '#0f3c5c'); // Match the realistic deep ocean blue
         trySetColor('background', 'background-color', '#2d2a28'); // Dirty gray-brown land
         trySetColor('landcover', 'fill-color', '#2d2a28');
+        // Trigger the Sea Level Rise!
+        trySetColor('flood-layer', 'fill-extrusion-opacity', 0.85); // Make it visible
+        // Faster transition and lower height reduces MapLibre's rendering jitter
+        trySetColor('flood-layer', 'fill-extrusion-height-transition', { duration: 4000, delay: 0 });
+        trySetColor('flood-layer', 'fill-extrusion-height', 60);
       }
     }
   }

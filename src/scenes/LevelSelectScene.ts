@@ -335,7 +335,7 @@ export class LevelSelectScene extends Phaser.Scene {
     smogOverlay.style.pointerEvents = 'none';
     smogOverlay.style.zIndex = '5'; // Below UI (which is 20) but above map
     smogOverlay.style.opacity = '0';
-    smogOverlay.style.transition = 'opacity 1s ease';
+    smogOverlay.style.transition = 'all 1s ease';
     document.body.appendChild(smogOverlay);
 
     const descBox = document.createElement('div');
@@ -375,13 +375,14 @@ export class LevelSelectScene extends Phaser.Scene {
           descBox.style.border = '2px solid #16a34a';
           descBox.innerHTML = '<strong style="color:#16a34a; font-size: 24px;">Year 2076: Eco-Utopia</strong><br/><br/>Your incredible dedication to recycling and zero-waste initiatives has transformed New York City. The air is pristine, urban forests thrive among the skyscrapers, and the rivers are crystal clear. You have saved the city from environmental collapse.';
         } else {
-          smogOverlay.style.background = 'linear-gradient(to bottom, rgba(100, 80, 60, 0.7) 0%, rgba(80, 70, 60, 0.4) 100%)';
-          smogOverlay.style.backdropFilter = 'sepia(0.5) blur(1px)';
+          // Less oppressive smog so the player can actually see the city and the rising ocean!
+          smogOverlay.style.background = 'linear-gradient(to bottom, rgba(50, 40, 30, 0.4) 0%, rgba(30, 25, 20, 0.2) 100%)';
+          smogOverlay.style.backdropFilter = 'grayscale(0.5) contrast(1.1)';
           smogOverlay.style.opacity = '1';
 
           descBox.style.display = 'block';
           descBox.style.border = '2px solid #dc2626';
-          descBox.innerHTML = '<strong style="color:#dc2626; font-size: 24px;">Year 2076: Environmental Collapse</strong><br/><br/>Decades of unchecked waste, overflowing landfills, and polluted waterways have decimated New York City. A thick, toxic gray-brown smog chokes the air permanently. The Hudson River is a sludge of toxic waste, and the streets are stained with decades of grime. This is the bleak future of inaction.';
+          descBox.innerHTML = '<strong style="color:#dc2626; font-size: 24px;">Year 2076: Environmental Collapse</strong><br/><br/>Decades of unchecked waste, overflowing landfills, and polluted waterways have decimated New York City. A thick, toxic gray-brown smog chokes the air permanently. Even worse, the rising global temperatures have triggered a catastrophic sea level rise! Watch as a sludge of toxic ocean water rises up to swallow the streets. This is the bleak future of inaction.';
         }
       } else {
         btn.style.background = '#2563eb';
