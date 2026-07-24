@@ -363,26 +363,44 @@ export class LevelSelectScene extends Phaser.Scene {
       MapLibreService.toggleFutureVision(isFutureVisionActive, totalChi, maxChi);
       const btn = document.getElementById('future-btn')!;
       if (isFutureVisionActive) {
-        const isUtopia = totalChi >= maxChi / 2;
-        btn.style.background = isUtopia ? '#16a34a' : '#dc2626';
-        
-        if (isUtopia) {
-          smogOverlay.style.background = 'linear-gradient(to bottom, rgba(150, 255, 200, 0.2) 0%, rgba(100, 200, 255, 0.1) 100%)';
-          smogOverlay.style.backdropFilter = 'saturate(1.2)';
-          smogOverlay.style.opacity = '1';
+        const percent = maxChi > 0 ? (totalChi / maxChi) : 0;
+        descBox.style.display = 'block';
 
-          descBox.style.display = 'block';
-          descBox.style.border = '2px solid #16a34a';
-          descBox.innerHTML = '<strong style="color:#16a34a; font-size: 24px;">Year 2076: Eco-Utopia</strong><br/><br/>Your incredible dedication to recycling and zero-waste initiatives has transformed New York City. The air is pristine, urban forests thrive among the skyscrapers, and the rivers are crystal clear. You have saved the city from environmental collapse.';
-        } else {
-          // Less oppressive smog so the player can actually see the city and the rising ocean!
+        if (percent <= 0.25) {
+          btn.style.background = '#dc2626'; // red
           smogOverlay.style.background = 'linear-gradient(to bottom, rgba(50, 40, 30, 0.4) 0%, rgba(30, 25, 20, 0.2) 100%)';
           smogOverlay.style.backdropFilter = 'grayscale(0.5) contrast(1.1)';
           smogOverlay.style.opacity = '1';
-
-          descBox.style.display = 'block';
           descBox.style.border = '2px solid #dc2626';
-          descBox.innerHTML = '<strong style="color:#dc2626; font-size: 24px;">Year 2076: Environmental Collapse</strong><br/><br/>Decades of unchecked waste, overflowing landfills, and polluted waterways have decimated New York City. A thick, toxic gray-brown smog chokes the air permanently. Even worse, the rising global temperatures have triggered a catastrophic sea level rise! Watch as a sludge of toxic ocean water rises up to swallow the streets. This is the bleak future of inaction.';
+          descBox.innerHTML = '<strong style="color:#dc2626; font-size: 24px;">Year 2076: The Drowned City</strong><br/><br/>Decades of unchecked waste, overflowing landfills, and polluted waterways have decimated New York City. A thick, toxic gray-brown smog chokes the air permanently. Even worse, the rising global temperatures have triggered a catastrophic sea level rise! Watch as a sludge of toxic ocean water rises up to swallow the streets. This is the bleak future of inaction.';
+        } else if (percent <= 0.50) {
+          btn.style.background = '#ea580c'; // orange
+          smogOverlay.style.background = 'linear-gradient(to bottom, rgba(255, 200, 100, 0.15) 0%, rgba(255, 150, 50, 0.1) 100%)';
+          smogOverlay.style.backdropFilter = 'saturate(1.2)';
+          smogOverlay.style.opacity = '1';
+          descBox.style.border = '2px solid #ea580c';
+          descBox.innerHTML = '<strong style="color:#ea580c; font-size: 24px;">Year 2076: The Scorched Earth</strong><br/><br/>You stopped the oceans from rising, but failed to stop global warming. The rivers ran completely dry, leaving cracked dirt in their wake. An unrelenting heatwave bakes the city under a blinding, scorching sun. The city has become an uninhabitable concrete desert.';
+        } else if (percent <= 0.74) {
+          btn.style.background = '#4b5563'; // gray
+          smogOverlay.style.background = 'linear-gradient(to bottom, rgba(100, 100, 80, 0.5) 0%, rgba(80, 80, 60, 0.3) 100%)';
+          smogOverlay.style.backdropFilter = 'blur(1px) sepia(0.3)';
+          smogOverlay.style.opacity = '1';
+          descBox.style.border = '2px solid #9ca3af';
+          descBox.innerHTML = `<strong style="color:#9ca3af; font-size: 24px;">Year 2076: The Great Smog</strong><br/><br/>The oceans didn't rise, and the rivers didn't dry up, but the air is barely breathable. Decades of industrial waste have choked the sky in a thick, yellowish-gray fog. The city is sterile, dull, and lifeless. Humanity survives, but at a miserable, suffocating cost.`;
+        } else if (percent < 1.0) {
+          btn.style.background = '#16a34a'; // green
+          smogOverlay.style.background = 'linear-gradient(to bottom, rgba(150, 255, 200, 0.2) 0%, rgba(100, 200, 255, 0.1) 100%)';
+          smogOverlay.style.backdropFilter = 'saturate(1.2)';
+          smogOverlay.style.opacity = '1';
+          descBox.style.border = '2px solid #16a34a';
+          descBox.innerHTML = '<strong style="color:#16a34a; font-size: 24px;">Year 2076: Eco-Utopia</strong><br/><br/>Your incredible dedication to recycling and zero-waste initiatives has transformed New York City. The air is pristine, urban forests thrive among the skyscrapers, and the rivers are crystal clear. You have saved the city from environmental collapse.';
+        } else {
+          btn.style.background = '#ca8a04'; // gold
+          smogOverlay.style.background = 'linear-gradient(to bottom, rgba(255, 215, 0, 0.1) 0%, rgba(255, 150, 0, 0.05) 100%)';
+          smogOverlay.style.backdropFilter = 'saturate(1.3) contrast(1.1)';
+          smogOverlay.style.opacity = '1';
+          descBox.style.border = '2px solid #facc15';
+          descBox.innerHTML = `<strong style="color:#facc15; font-size: 24px; text-shadow: 0 0 5px rgba(250,204,21,0.5);">Year 2076: The Golden Age</strong><br/><br/>A flawless, perfect equilibrium. You didn't just save the city—you elevated it into a beacon of environmental perfection for the rest of the world to follow. The air is perfectly pure, the water sparkles, and humanity thrives in perfect harmony with nature.`;
         }
       } else {
         btn.style.background = '#2563eb';

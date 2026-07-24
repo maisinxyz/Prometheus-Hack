@@ -140,14 +140,14 @@ class MapLibreServiceSingleton {
               'interpolate',
               ['linear'],
               ['get', 'render_height'],
-              0, '#d1d5db',   // realistic light gray concrete
-              40, '#fca5a5',  // bright warm brick
-              120, '#93c5fd', // bright sky glass
-              300, '#60a5fa'  // vibrant blue glass
+              0, '#c7bcae',   // realistic light stone/brick
+              40, '#9e9e9e',  // concrete grey
+              120, '#7a8c99', // realistic grey-blue glass
+              300, '#4d5d69'  // dark steel/glass
             ],
             'fill-extrusion-height': ['*', ['get', 'render_height'], 3.0], // Make buildings 3x taller
             'fill-extrusion-base': ['coalesce', ['*', ['get', 'render_min_height'], 3.0], 0],
-            'fill-extrusion-opacity': 0.85 // Slight transparency for mesh over photo look
+            'fill-extrusion-opacity': 1.0 // Fully solid, no transparency
           }
         },
         labelLayerId
@@ -504,65 +504,106 @@ class MapLibreServiceSingleton {
         'interpolate',
         ['linear'],
         ['get', 'render_height'],
-        0, '#8c7b6d',   // Brownstone / brick for low-rises
-        40, '#9a948e',  // Grey concrete for mid-rises
-        120, '#5a788c', // Light bluish glass for skyscrapers
-        300, '#36536b'  // Deep blue glass for ultra-tall super-slenders
+        0, '#c7bcae',
+        40, '#9e9e9e',
+        120, '#7a8c99',
+        300, '#4d5d69'
       ]);
       document.getElementById('mapkit-container')!.style.filter = '';
       
-      // Try reverting to some typical dark map colors (or leave as overrides if they look fine in normal)
-      // MapTiler basic-v2-dark water is usually dark blue/black.
       trySetColor('water', 'fill-color', '#1a232c'); 
       trySetColor('background', 'background-color', '#202020');
       trySetColor('landcover', 'fill-color', '#252525');
+      return;
+    }
+
+    const percent = maxChi > 0 ? (totalChi / maxChi) : 0;
+
+    if (percent <= 0.25) {
+      // Tier 1: The Drowned City (0-25%)
+      this.map.setPaintProperty('3d-buildings', 'fill-extrusion-color', [
+        'interpolate', ['linear'], ['get', 'render_height'],
+        0, '#8b7355', 40, '#6b543c', 120, '#4a3928', 300, '#2b1d12'
+      ]);
+      document.getElementById('mapkit-container')!.style.filter = 'saturate(0.8) sepia(0.3) contrast(1.1) brightness(0.9)';
+      
+      trySetColor('normal-water-tint', 'fill-opacity', 0);
+      trySetColor('water', 'fill-color', '#0f3c5c');
+      trySetColor('background', 'background-color', '#2d2a28');
+      trySetColor('landcover', 'fill-color', '#2d2a28');
+      
+      trySetColor('flood-layer', 'fill-extrusion-opacity', 0.85);
+      trySetColor('flood-layer', 'fill-extrusion-height-transition', { duration: 5000, delay: 0 });
+      trySetColor('flood-layer', 'fill-extrusion-height', 500);
+
+    } else if (percent <= 0.50) {
+      // Tier 2: The Scorched Earth (26-50%)
+      this.map.setPaintProperty('3d-buildings', 'fill-extrusion-color', [
+        'interpolate', ['linear'], ['get', 'render_height'],
+        0, '#fefce8', 40, '#fef08a', 120, '#fde047', 300, '#eab308'
+      ]);
+      document.getElementById('mapkit-container')!.style.filter = 'brightness(1.2) contrast(1.2) saturate(1.5) sepia(0.4)';
+      
+      trySetColor('normal-water-tint', 'fill-opacity', 0);
+      trySetColor('water', 'fill-color', '#d2b48c'); // Cracked dirt color
+      trySetColor('background', 'background-color', '#c2a47c');
+      trySetColor('landcover', 'fill-color', '#c2a47c');
+      
+      trySetColor('flood-layer', 'fill-extrusion-height-transition', { duration: 0, delay: 0 });
+      trySetColor('flood-layer', 'fill-extrusion-opacity', 0);
+      trySetColor('flood-layer', 'fill-extrusion-height', 0);
+
+    } else if (percent <= 0.74) {
+      // Tier 3: The Great Smog (51-74%)
+      this.map.setPaintProperty('3d-buildings', 'fill-extrusion-color', [
+        'interpolate', ['linear'], ['get', 'render_height'],
+        0, '#9ca3af', 40, '#6b7280', 120, '#4b5563', 300, '#374151'
+      ]);
+      document.getElementById('mapkit-container')!.style.filter = 'grayscale(0.6) sepia(0.5) contrast(0.9) brightness(0.9)';
+      
+      trySetColor('normal-water-tint', 'fill-opacity', 0);
+      trySetColor('water', 'fill-color', '#5c4a3d'); // Murky brown
+      trySetColor('background', 'background-color', '#333333');
+      trySetColor('landcover', 'fill-color', '#333333');
+      
+      trySetColor('flood-layer', 'fill-extrusion-height-transition', { duration: 0, delay: 0 });
+      trySetColor('flood-layer', 'fill-extrusion-opacity', 0);
+      trySetColor('flood-layer', 'fill-extrusion-height', 0);
+
+    } else if (percent < 1.0) {
+      // Tier 4: Eco-Utopia (75-99%)
+      this.map.setPaintProperty('3d-buildings', 'fill-extrusion-color', [
+        'interpolate', ['linear'], ['get', 'render_height'],
+        0, '#b8e0d2', 40, '#80cfa9', 120, '#d1f2eb', 300, '#aed6f1'
+      ]);
+      document.getElementById('mapkit-container')!.style.filter = 'hue-rotate(-10deg) saturate(1.5)';
+      
+      trySetColor('normal-water-tint', 'fill-opacity', 0.5);
+      trySetColor('water', 'fill-color', '#0077be');
+      trySetColor('background', 'background-color', '#1b3f2b');
+      trySetColor('landcover', 'fill-color', '#1b3f2b');
+      
+      trySetColor('flood-layer', 'fill-extrusion-height-transition', { duration: 0, delay: 0 });
+      trySetColor('flood-layer', 'fill-extrusion-opacity', 0);
+      trySetColor('flood-layer', 'fill-extrusion-height', 0);
+
     } else {
-      const isUtopia = totalChi >= (maxChi / 2);
-      if (isUtopia) {
-        // Eco-Utopia
-        trySetColor('normal-water-tint', 'fill-opacity', 0.5); // Extra blue!
-        trySetColor('flood-layer', 'fill-extrusion-height-transition', { duration: 0, delay: 0 });
-        trySetColor('flood-layer', 'fill-extrusion-opacity', 0); // Hide completely
-        trySetColor('flood-layer', 'fill-extrusion-height', 0);
-        
-        this.map.setPaintProperty('3d-buildings', 'fill-extrusion-color', [
-          'interpolate',
-          ['linear'],
-          ['get', 'render_height'],
-          0, '#b8e0d2',
-          40, '#80cfa9',
-          120, '#d1f2eb',
-          300, '#aed6f1'
-        ]);
-        document.getElementById('mapkit-container')!.style.filter = 'hue-rotate(-10deg) saturate(1.5)';
-        
-        trySetColor('water', 'fill-color', '#0077be'); // Crisp blue water
-        trySetColor('background', 'background-color', '#1b3f2b'); // Deep green land
-        trySetColor('landcover', 'fill-color', '#1b3f2b');
-      } else {
-        // Bleak Future
-        this.map.setPaintProperty('3d-buildings', 'fill-extrusion-color', [
-            'interpolate',
-            ['linear'],
-            ['get', 'render_height'],
-            0, '#8b7355', // Grimy light brown
-            40, '#6b543c', // Grimy mid brown
-            120, '#4a3928', // Dark grimy brown
-            300, '#2b1d12' // Very dark brown
-          ]);
-        // A much lighter filter that maintains contrast and color distinction (Reverted back)
-        document.getElementById('mapkit-container')!.style.filter = 'saturate(0.8) sepia(0.3) contrast(1.1) brightness(0.9)';
-        
-        trySetColor('normal-water-tint', 'fill-opacity', 0); // Hide the normal blue tint so it doesn't clash with the bleak future
-        trySetColor('water', 'fill-color', '#0f3c5c'); // Match the realistic deep ocean blue
-        trySetColor('background', 'background-color', '#2d2a28'); // Dirty gray-brown land
-        trySetColor('landcover', 'fill-color', '#2d2a28');
-        // Trigger the Sea Level Rise!
-        trySetColor('flood-layer', 'fill-extrusion-opacity', 0.85); // Make it visible
-        // Faster transition and lower height reduces MapLibre's rendering jitter
-        trySetColor('flood-layer', 'fill-extrusion-height-transition', { duration: 4000, delay: 0 });
-        trySetColor('flood-layer', 'fill-extrusion-height', 60);
-      }
+      // Tier 5: The Golden Age (100%)
+      this.map.setPaintProperty('3d-buildings', 'fill-extrusion-color', [
+        'interpolate', ['linear'], ['get', 'render_height'],
+        0, '#ffffff', 40, '#fef3c7', 120, '#fde68a', 300, '#fcd34d'
+      ]);
+      document.getElementById('mapkit-container')!.style.filter = 'sepia(0.4) saturate(2.0) contrast(1.2) brightness(1.1)';
+      
+      trySetColor('normal-water-tint', 'fill-color', '#06b6d4'); // Glowing cyan
+      trySetColor('normal-water-tint', 'fill-opacity', 0.6);
+      trySetColor('water', 'fill-color', '#0ea5e9');
+      trySetColor('background', 'background-color', '#d97706');
+      trySetColor('landcover', 'fill-color', '#d97706');
+      
+      trySetColor('flood-layer', 'fill-extrusion-height-transition', { duration: 0, delay: 0 });
+      trySetColor('flood-layer', 'fill-extrusion-opacity', 0);
+      trySetColor('flood-layer', 'fill-extrusion-height', 0);
     }
   }
 }
