@@ -33,7 +33,7 @@ export class CorrectionOverlayScene extends Phaser.Scene {
     // Title
     this.add
       .text(960, 150, 'Correction Review', {
-        fontFamily: 'Arial, sans-serif',
+        fontFamily: '"Nunito", sans-serif',
         fontSize: '48px',
         color: '#ffffff',
         fontStyle: 'bold',
@@ -42,7 +42,7 @@ export class CorrectionOverlayScene extends Phaser.Scene {
 
     if (this.corrections.length === 0) {
       this.add.text(960, 300, 'Perfect Sorting!', {
-        fontFamily: 'Arial, sans-serif',
+        fontFamily: '"Nunito", sans-serif',
         fontSize: '48px',
         color: '#22c55e',
         fontStyle: 'bold'
@@ -59,7 +59,7 @@ export class CorrectionOverlayScene extends Phaser.Scene {
         const rowText = `${itemDisplayName}\nYou put it in: ${binUsedName} | Should go in: ${correctBinName}\nWhy: ${explanation}`;
 
         this.add.text(400, startY, rowText, {
-          fontFamily: 'Arial, sans-serif',
+          fontFamily: '"Nunito", sans-serif',
           fontSize: '28px',
           color: '#ffffff',
           lineSpacing: 10,
@@ -72,7 +72,7 @@ export class CorrectionOverlayScene extends Phaser.Scene {
 
     // Continue Button
     const continueBtn = this.add.text(960, 950, 'Continue', {
-      fontFamily: 'Arial, sans-serif',
+      fontFamily: '"Nunito", sans-serif',
       fontSize: '48px',
       color: '#ffffff',
       backgroundColor: '#3b82f6',

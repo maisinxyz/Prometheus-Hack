@@ -282,6 +282,7 @@ DEFINITION OF DONE: Both docs accurately reflect the post-overhaul state — no 
 ACTION: npm run build / test / lint all pass with zero errors. Commit: "Step 7: full regression, new test coverage, QA pass, docs update". Tag this commit as premium-overhaul-v1-complete.
 
 To do (AI should ignore this):
-1. Improve placements and orintetaions of trash bins. also maybe personalize bins for each level.
+1. Improve placements and orintations of trash bins. also maybe personalize bins for each level.
 2. Ensure trash placements are good. 
 3. add sprites for trash.
+4. ensure all garbage items work for each level. 

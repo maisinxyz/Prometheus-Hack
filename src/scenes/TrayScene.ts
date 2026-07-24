@@ -202,7 +202,7 @@ export class TrayScene extends Phaser.Scene {
       bg.setDepth(0);
       
       const venueLabel = this.add.text(30, 20, 'Construction Site', {
-        fontFamily: 'Arial, sans-serif', fontSize: '28px', color: '#ffffff', fontStyle: 'bold'
+        fontFamily: '"Nunito", sans-serif', fontSize: '28px', color: '#ffffff', fontStyle: 'bold'
       }).setAlpha(0.6).setDepth(50);
       return;
     }
@@ -226,7 +226,7 @@ export class TrayScene extends Phaser.Scene {
     // Venue name in the corner
     const venueName = venueData?.displayName ?? this.venueId;
     const venueLabel = this.add.text(30, 20, venueName, {
-      fontFamily: 'Arial, sans-serif',
+      fontFamily: '"Nunito", sans-serif',
       fontSize: '28px',
       color: '#ffffff',
       fontStyle: 'bold',
@@ -595,7 +595,7 @@ export class TrayScene extends Phaser.Scene {
 
       // Floating animation
       const text = this.add.text(bin.x, bin.y - 50, '+Bonus!', {
-        fontFamily: 'Arial',
+        fontFamily: '"Nunito", sans-serif',
         fontSize: '32px',
         color: '#22c55e',
         stroke: '#000000',
@@ -718,7 +718,7 @@ export class TrayScene extends Phaser.Scene {
 
     // Score display
     const scoreText = this.add.text(960, 350, `Score: ${this.roundScore}`, {
-      fontFamily: 'Arial, sans-serif',
+      fontFamily: '"Nunito", sans-serif',
       fontSize: '72px',
       color: '#ffffff',
       fontStyle: 'bold',
@@ -728,7 +728,7 @@ export class TrayScene extends Phaser.Scene {
     // Accuracy
     const accColor = accuracyPct >= 50 ? '#22C55E' : '#EF4444';
     const accText = this.add.text(960, 450, `Accuracy: ${accuracyPct}%`, {
-      fontFamily: 'Arial, sans-serif',
+      fontFamily: '"Nunito", sans-serif',
       fontSize: '48px',
       color: accColor,
     });
@@ -740,7 +740,7 @@ export class TrayScene extends Phaser.Scene {
       530,
       `${this.correctDrops}/${this.totalDrops} correct`,
       {
-        fontFamily: 'Arial, sans-serif',
+        fontFamily: '"Nunito", sans-serif',
         fontSize: '32px',
         color: '#aaaaaa',
       }
@@ -749,7 +749,7 @@ export class TrayScene extends Phaser.Scene {
 
     // Instructions
     const instrText = this.add.text(960, 650, 'Click to play again  |  ESC for level select', {
-      fontFamily: 'Arial, sans-serif',
+      fontFamily: '"Nunito", sans-serif',
       fontSize: '24px',
       color: '#888888',
     });

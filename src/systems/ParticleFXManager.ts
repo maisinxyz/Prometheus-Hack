@@ -116,7 +116,7 @@ export class ParticleFXManager {
 
     // Track 11: Accessibility pass - Checkmark icon
     const checkText = this.scene.add.text(position.x, position.y - 20, '✓', {
-      fontFamily: 'Arial, sans-serif',
+      fontFamily: '"Nunito", sans-serif',
       fontSize: '48px',
       color: '#22c55e',
       fontStyle: 'bold',
@@ -161,7 +161,7 @@ export class ParticleFXManager {
 
     // Track 11: Accessibility pass - X icon
     const crossText = this.scene.add.text(position.x, position.y - 20, '✗', {
-      fontFamily: 'Arial, sans-serif',
+      fontFamily: '"Nunito", sans-serif',
       fontSize: '48px',
       color: '#ef4444',
       fontStyle: 'bold',

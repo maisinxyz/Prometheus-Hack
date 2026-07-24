@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { TrashItemDef } from '../data/schemas/itemSchema';
 import { gameEvents, GAME_EVENTS } from '../systems/GameEvents';
+import { UI_THEME } from '../config/UITheme';
 
 /**
  * TrashItem — Draggable trash item sprite.
@@ -68,20 +69,21 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
       this.displayHeight = 80;
       this.scaleX = this.scaleY;
     }
+    const targetScale = this.scaleX;
 
     // Set depth so items render above background
     this.setDepth(10);
 
     // --- F.4: Procedural Drop Shadow ---
     this.dropShadow = scene.add.sprite(x + 6, y + 8, itemDef.spriteKey);
-    this.dropShadow.setScale(this.scaleX * 0.95, this.scaleY * 0.95);
+    this.dropShadow.setScale(targetScale * 0.95);
     this.dropShadow.setTint(0x000000);
     this.dropShadow.setAlpha(0.35);
     this.dropShadow.setDepth(9); // Behind the main sprite
 
     // Add text label under the item
     this.labelText = scene.add.text(x, y + 50, itemDef.displayName, {
-      fontFamily: 'Arial, sans-serif',
+      fontFamily: '"Nunito", sans-serif',
       fontSize: '14px',
       color: '#ffffff',
       fontStyle: 'bold',
@@ -90,6 +92,25 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
     });
     this.labelText.setOrigin(0.5);
     this.labelText.setDepth(12);
+
+    // --- Pop-in Animation ---
+    this.setScale(0);
+    this.dropShadow.setScale(0);
+    this.labelText.setScale(0);
+
+    scene.tweens.add({
+      targets: [this, this.labelText],
+      scale: targetScale,
+      duration: UI_THEME.popInDuration,
+      ease: 'Back.easeOut'
+    });
+    
+    scene.tweens.add({
+      targets: this.dropShadow,
+      scale: targetScale * 0.95,
+      duration: UI_THEME.popInDuration,
+      ease: 'Back.easeOut'
+    });
 
     // --- E.4: Difficulty Tier Visual Cues ---
     if (this.visualCuesActive) {
