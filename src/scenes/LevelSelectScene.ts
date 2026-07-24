@@ -77,7 +77,7 @@ export class LevelSelectScene extends Phaser.Scene {
     }
 
     const setupMapLayers = () => {
-      PathOverlayService.addToMap(map);
+      PathOverlayService.addToMap(map, unlockedCount);
 
       for (let i = 0; i < venuesData.length; i++) {
         const venue = venuesData[i] as any;

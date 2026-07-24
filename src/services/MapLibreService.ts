@@ -68,7 +68,7 @@ class MapLibreServiceSingleton {
       maxZoom: 19,
       pitch: 60,       // 3D perspective
       bearing: -17.6,  // Angled view
-      antialias: true, // Required for 3D building edges
+      antialias: false, // Turned off for better performance when zoomed in with 3D buildings
       
       // We re-enable native gestures per Task 2.5 ("standard MapLibre pan/zoom/rotate gestures stay enabled")
       dragPan: true,
