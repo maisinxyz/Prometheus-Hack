@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@types/three": "^0.185.1",
+    "duck-duck-scrape": "^2.2.7",
     "howler": "^2.2.4",
     "phaser": "^3.80.0",
     "three": "^0.185.1",

@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { ChiSystem } from '../systems/ChiSystem';
 import { GardenSystem } from '../systems/GardenSystem';
 import venuesData from '../data/venues.json';
+import codexData from '../data/codex.json';
 import { MapLibreService } from '../services/MapLibreService';
 import { LevelNode, NodeState } from '../entities/LevelNode';
 import { PathOverlayService } from '../services/PathOverlayService';
@@ -225,12 +226,15 @@ export class LevelSelectScene extends Phaser.Scene {
           ${renderBar('Plastic', this.gardenSystem.getPlasticLevel(), plasticProg, isLocked, '#FBBF24')}
           ${renderBar('Landfill', this.gardenSystem.getLandfillLevel(), landfillProg, isLocked, '#9ca3af')}
 
-          <div style="display: flex; gap: 12px; width: 100%; box-sizing: border-box; margin-top: 16px;">
-            <button id="future-btn" style="flex: 1; background: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 100%), linear-gradient(90deg, #3b82f6, #2563eb); color: #ffffff; border: 1px solid rgba(255,255,255,0.1); padding: 12px 8px; font-size: 14px; border-radius: 12px; cursor: pointer; font-weight: bold; box-shadow: inset 0 2px 0 rgba(255,255,255,0.15), 0 4px 12px rgba(37,99,235,0.3); text-shadow: 0 1px 2px rgba(0,0,0,0.3); transition: transform 0.1s ease;">
+          <div style="display: flex; gap: 8px; width: 100%; box-sizing: border-box; margin-top: 16px;">
+            <button id="future-btn" style="flex: 1; background: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 100%), linear-gradient(90deg, #3b82f6, #2563eb); color: #ffffff; border: 1px solid rgba(255,255,255,0.1); padding: 12px 4px; font-size: 13px; border-radius: 10px; cursor: pointer; font-weight: bold; box-shadow: inset 0 2px 0 rgba(255,255,255,0.15), 0 4px 12px rgba(37,99,235,0.3); text-shadow: 0 1px 2px rgba(0,0,0,0.3); transition: transform 0.1s ease;">
               Future Vision
             </button>
-            <button id="garden-btn" style="flex: 1; background: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 100%), linear-gradient(90deg, #0F9D74, #34D399); color: #ffffff; border: 1px solid rgba(255,255,255,0.1); padding: 12px 8px; font-size: 14px; border-radius: 12px; cursor: pointer; font-weight: bold; box-shadow: inset 0 2px 0 rgba(255,255,255,0.15), 0 4px 12px rgba(15,157,116,0.3); text-shadow: 0 1px 2px rgba(0,0,0,0.3); transition: transform 0.1s ease;">
+            <button id="garden-btn" style="flex: 1; background: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 100%), linear-gradient(90deg, #0F9D74, #34D399); color: #ffffff; border: 1px solid rgba(255,255,255,0.1); padding: 12px 4px; font-size: 13px; border-radius: 10px; cursor: pointer; font-weight: bold; box-shadow: inset 0 2px 0 rgba(255,255,255,0.15), 0 4px 12px rgba(15,157,116,0.3); text-shadow: 0 1px 2px rgba(0,0,0,0.3); transition: transform 0.1s ease;">
               Community Park
+            </button>
+            <button id="codex-btn" style="flex: 1; background: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 100%), linear-gradient(90deg, #9333ea, #a855f7); color: #ffffff; border: 1px solid rgba(255,255,255,0.1); padding: 12px 4px; font-size: 13px; border-radius: 10px; cursor: pointer; font-weight: bold; box-shadow: inset 0 2px 0 rgba(255,255,255,0.15), 0 4px 12px rgba(168,85,247,0.3); text-shadow: 0 1px 2px rgba(0,0,0,0.3); transition: transform 0.1s ease;">
+              Historical Snapshots
             </button>
           </div>
         </div>
@@ -463,6 +467,210 @@ export class LevelSelectScene extends Phaser.Scene {
       }
     });
 
+    // --- Time Machine Codex UI ---
+    const codexOverlay = document.createElement('div');
+    codexOverlay.id = 'codex-overlay';
+    codexOverlay.style.position = 'absolute';
+    codexOverlay.style.top = '0';
+    codexOverlay.style.left = '0';
+    codexOverlay.style.width = '100vw';
+    codexOverlay.style.height = '100vh';
+    codexOverlay.style.background = 'rgba(15, 23, 42, 0.95)';
+    codexOverlay.style.backdropFilter = 'blur(10px)';
+    codexOverlay.style.zIndex = '100'; // Above everything
+    codexOverlay.style.display = 'none';
+    codexOverlay.style.alignItems = 'center';
+    codexOverlay.style.justifyContent = 'center';
+
+    const codexContainer = document.createElement('div');
+    codexContainer.style.width = '90%';
+    codexContainer.style.maxWidth = '1200px';
+    codexContainer.style.height = '80%';
+    codexContainer.style.display = 'flex';
+    codexContainer.style.background = '#1e293b';
+    codexContainer.style.borderRadius = '16px';
+    codexContainer.style.border = '2px solid #a855f7';
+    codexContainer.style.boxShadow = '0 20px 50px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.1)';
+    codexContainer.style.overflow = 'hidden';
+
+    // Left Panel: List of venues
+    const codexList = document.createElement('div');
+    codexList.style.width = '350px';
+    codexList.style.background = '#0f172a';
+    codexList.style.borderRight = '1px solid #334155';
+    codexList.style.padding = '20px';
+    codexList.style.overflowY = 'auto';
+    
+    const listHeader = document.createElement('div');
+    listHeader.innerHTML = '<div style="color: #a855f7; font-size: 24px; font-weight: 900; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;">Historical Snapshots</div><div style="color: #94a3b8; font-size: 14px; margin-bottom: 20px;">100% complete an area to unlock its historical snapshot.</div>';
+    codexList.appendChild(listHeader);
+
+    // Right Panel: Details
+    const codexDetails = document.createElement('div');
+    codexDetails.style.flex = '1';
+    codexDetails.style.padding = '40px';
+    codexDetails.style.display = 'flex';
+    codexDetails.style.flexDirection = 'column';
+    codexDetails.style.position = 'relative';
+
+    const closeCodexBtn = document.createElement('button');
+    closeCodexBtn.innerHTML = '&times;';
+    closeCodexBtn.style.position = 'absolute';
+    closeCodexBtn.style.top = '20px';
+    closeCodexBtn.style.right = '20px';
+    closeCodexBtn.style.background = 'transparent';
+    closeCodexBtn.style.border = 'none';
+    closeCodexBtn.style.color = '#94a3b8';
+    closeCodexBtn.style.fontSize = '36px';
+    closeCodexBtn.style.cursor = 'pointer';
+    closeCodexBtn.onclick = () => {
+      codexOverlay.style.display = 'none';
+    };
+    codexDetails.appendChild(closeCodexBtn);
+
+    const detailsContent = document.createElement('div');
+    detailsContent.style.flex = '1';
+    detailsContent.style.display = 'flex';
+    detailsContent.style.flexDirection = 'column';
+    detailsContent.style.alignItems = 'center';
+    detailsContent.style.justifyContent = 'center';
+    detailsContent.innerHTML = '<div style="color: #64748b; font-size: 24px; font-style: italic;">Select an unlocked entry from the list to view its historical snapshot.</div>';
+    codexDetails.appendChild(detailsContent);
+
+    codexContainer.appendChild(codexList);
+    codexContainer.appendChild(codexDetails);
+    codexOverlay.appendChild(codexContainer);
+    document.body.appendChild(codexOverlay);
+
+    // Build the list
+    const populateCodex = () => {
+      // Clear existing list except header
+      while (codexList.children.length > 1) {
+        codexList.removeChild(codexList.lastChild!);
+      }
+
+      let unlockedEntries = 0;
+      venuesData.forEach((venue: any) => {
+        const venueChi = this.chiSystem.getChi(venue.id);
+        const isMaxed = venueChi >= 100;
+        
+        const entry = document.createElement('div');
+        entry.style.padding = '15px';
+        entry.style.marginBottom = '10px';
+        entry.style.borderRadius = '8px';
+        entry.style.display = 'flex';
+        entry.style.alignItems = 'center';
+        entry.style.gap = '15px';
+        entry.style.transition = 'all 0.2s';
+        
+        if (isMaxed) {
+          unlockedEntries++;
+          const codexEntry = codexData.find(c => c.venueId === venue.id);
+          entry.style.background = 'rgba(168, 85, 247, 0.1)';
+          entry.style.border = '1px solid rgba(168, 85, 247, 0.3)';
+          entry.style.cursor = 'pointer';
+          entry.innerHTML = `
+            <div style="font-size: 24px;">🕰️</div>
+            <div>
+              <div style="color: #f1f5f9; font-weight: bold; font-size: 16px;">${venue.displayName}</div>
+              <div style="color: #a855f7; font-size: 12px; margin-top: 4px;">UNLOCKED</div>
+            </div>
+          `;
+          entry.onmouseenter = () => entry.style.background = 'rgba(168, 85, 247, 0.2)';
+          entry.onmouseleave = () => entry.style.background = 'rgba(168, 85, 247, 0.1)';
+          
+          entry.onclick = () => {
+            // Update right panel
+            if (codexEntry) {
+              const hasAfter = codexEntry.afterImageUrl && codexEntry.afterDescription;
+              
+              detailsContent.innerHTML = `
+                <div style="width: 100%; height: 100%; overflow-y: auto; padding-right: 20px;">
+                  <h2 style="color: #f1f5f9; font-size: 32px; margin-bottom: 10px; font-family: 'Nunito', sans-serif;">${codexEntry.title}</h2>
+                  <div style="color: #a855f7; font-size: 18px; margin-bottom: 30px; font-weight: bold;">Location: ${venue.displayName}</div>
+                  
+                  ${hasAfter ? (
+                    codexEntry.isHypotheticalFuture ? `
+                    <div style="display: flex; gap: 20px; margin-bottom: 30px;">
+                      <!-- CURRENT -->
+                      <div style="flex: 1;">
+                        <div style="color: #10b981; font-size: 16px; font-weight: bold; margin-bottom: 10px; text-transform: uppercase;">Current (Eco-Restored)</div>
+                        <div style="width: 100%; height: 250px; background: #000; border-radius: 12px; margin-bottom: 15px; overflow: hidden; border: 2px solid #334155;">
+                          <img src="${codexEntry.afterImageUrl}" style="width: 100%; height: 100%; object-fit: cover; filter: saturate(1.2) contrast(1.1);" onerror="this.style.display='none';" />
+                        </div>
+                        <div style="color: #cbd5e1; font-size: 14px; line-height: 1.6; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 8px; border-left: 4px solid #10b981;">
+                          ${codexEntry.afterDescription}
+                        </div>
+                      </div>
+                      
+                      <!-- FUTURE -->
+                      <div style="flex: 1;">
+                        <div style="color: #ef4444; font-size: 16px; font-weight: bold; margin-bottom: 10px; text-transform: uppercase;">Future (If we do nothing)</div>
+                        <div style="width: 100%; height: 250px; background: #000; border-radius: 12px; margin-bottom: 15px; overflow: hidden; border: 2px solid #334155;">
+                          <img src="${codexEntry.imageUrl}" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8;" onerror="this.style.display='none';" />
+                        </div>
+                        <div style="color: #cbd5e1; font-size: 14px; line-height: 1.6; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 8px; border-left: 4px solid #ef4444;">
+                          ${codexEntry.description}
+                        </div>
+                      </div>
+                    </div>
+                    ` : `
+                    <div style="display: flex; gap: 20px; margin-bottom: 30px;">
+                      <!-- BEFORE -->
+                      <div style="flex: 1;">
+                        <div style="color: #ef4444; font-size: 16px; font-weight: bold; margin-bottom: 10px; text-transform: uppercase;">Before (Historical)</div>
+                        <div style="width: 100%; height: 250px; background: #000; border-radius: 12px; margin-bottom: 15px; overflow: hidden; border: 2px solid #334155;">
+                          <img src="${codexEntry.imageUrl}" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; filter: sepia(0.4) contrast(1.1);" onerror="this.style.display='none';" />
+                        </div>
+                        <div style="color: #cbd5e1; font-size: 14px; line-height: 1.6; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 8px; border-left: 4px solid #ef4444;">
+                          ${codexEntry.description}
+                        </div>
+                      </div>
+                      
+                      <!-- AFTER -->
+                      <div style="flex: 1;">
+                        <div style="color: #10b981; font-size: 16px; font-weight: bold; margin-bottom: 10px; text-transform: uppercase;">After (Eco-Restored)</div>
+                        <div style="width: 100%; height: 250px; background: #000; border-radius: 12px; margin-bottom: 15px; overflow: hidden; border: 2px solid #334155;">
+                          <img src="${codexEntry.afterImageUrl}" style="width: 100%; height: 100%; object-fit: cover; filter: saturate(1.2) contrast(1.1);" onerror="this.style.display='none';" />
+                        </div>
+                        <div style="color: #cbd5e1; font-size: 14px; line-height: 1.6; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 8px; border-left: 4px solid #10b981;">
+                          ${codexEntry.afterDescription}
+                        </div>
+                      </div>
+                    </div>
+                  `
+                  ) : `
+                    <div style="width: 100%; max-width: 700px; height: 400px; background: #000; border-radius: 12px; margin-bottom: 30px; overflow: hidden; border: 2px solid #334155; position: relative;">
+                      <img src="${codexEntry.imageUrl}" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; filter: sepia(0.4) contrast(1.1);" onerror="this.style.display='none';" />
+                    </div>
+                    <div style="color: #cbd5e1; font-size: 18px; line-height: 1.6; max-width: 800px; text-align: left; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 8px; border-left: 4px solid #a855f7;">
+                      ${codexEntry.description}
+                    </div>
+                  `}
+                </div>
+              `;
+            }
+          };
+        } else {
+          entry.style.background = 'rgba(255,255,255,0.05)';
+          entry.style.border = '1px solid rgba(255,255,255,0.1)';
+          entry.innerHTML = `
+            <div style="font-size: 24px; filter: grayscale(1); opacity: 0.5;">🔒</div>
+            <div>
+              <div style="color: #64748b; font-weight: bold; font-size: 16px;">${venue.displayName}</div>
+              <div style="color: #475569; font-size: 12px; margin-top: 4px;">Reach 100 CHI to unlock</div>
+            </div>
+          `;
+        }
+        codexList.appendChild(entry);
+      });
+    };
+
+    document.getElementById('codex-btn')?.addEventListener('click', () => {
+      populateCodex();
+      codexOverlay.style.display = 'flex';
+    });
+
     // 5. Cleanup MapKit UI when leaving this scene
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       document.getElementById('level-select-ui')?.remove();
@@ -472,6 +680,7 @@ export class LevelSelectScene extends Phaser.Scene {
       document.getElementById('weather-tab')?.remove();
       document.getElementById('current-chi-hud')?.remove();
       document.getElementById('recenter-btn')?.remove();
+      document.getElementById('codex-overlay')?.remove();
       levelNodes.forEach(n => n.remove());
       PathOverlayService.removeFromMap();
       MapLibreService.toggleFutureVision(false, 0, 0); // Reset map style

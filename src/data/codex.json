@@ -1,0 +1,124 @@
+[
+  {
+    "venueId": "construction_site",
+    "title": "Early Skyscraper Boom (1920s)",
+    "description": "During the rapid expansion of the New York skyline in the 1920s, construction waste was haphazardly dumped or burned on-site. The lack of environmental regulation meant heavy metals and toxic dust frequently blanketed surrounding neighborhoods.",
+    "imageUrl": "/assets/codex/codex_construction_1784881071264.png",
+    "afterDescription": "(AI Visualization) This is what we are hoping for: modern eco-friendly construction techniques that utilize recycled materials, green scaffolding, and on-site solar power, completely eliminating toxic dust and waste.",
+    "afterImageUrl": "/assets/codex/after_construction_1784881340779.png"
+  },
+  {
+    "venueId": "broadway_theater",
+    "title": "The Smoggy White Way (1940s)",
+    "description": "Before clean air acts, Broadway theaters burned coal for heat. The resulting thick, suffocating smog often coated the glamorous theater district in a layer of black soot.",
+    "imageUrl": "/assets/codex/codex_broadway_1784881055491.png",
+    "afterDescription": "The theater district has improved significantly since the coal era, utilizing LED lighting, but there is still substantial room for improvement to eliminate single-use plastic cups and playbill litter.",
+    "afterImageUrl": "/assets/codex/after_broadway_1784881289018.png"
+  },
+  {
+    "venueId": "ferry_docks",
+    "title": "Industrial Harbor Decay (1890s)",
+    "description": "The golden age of steam travel brought intense pollution to New York's harbor, as seen in this actual historical photo of the Gowanus Canal. Factories directly dumped raw industrial waste into the water, while coal-powered ferries choked the air.",
+    "imageUrl": "/assets/codex/codex_docks_1784881047916.png",
+    "afterDescription": "While harbor water quality has improved significantly since the steam era, there is still ample room for improvement to protect marine life from microplastics and fuel leaks.",
+    "afterImageUrl": "/assets/codex/after_docks_1784881281306.png"
+  },
+  {
+    "venueId": "tech_startup",
+    "title": "E-Waste Epidemic (Early 2000s)",
+    "description": "The rapid rise of disposable technology created a new crisis: e-waste. Before strict recycling mandates, millions of old computers were dumped into landfills, leaching lead and lithium into the groundwater.",
+    "imageUrl": "/assets/codex/tech_dirty_1784882801730.png",
+    "afterDescription": "As seen in this actual modern photo, tech startups now operate out of bright, eco-conscious offices with robust e-waste recycling programs and carbon-neutral energy grids.",
+    "afterImageUrl": "/assets/codex/tech_clean_1784882028318.png"
+  },
+  {
+    "venueId": "subway_station",
+    "title": "The Graffiti and Grime Era (1970s)",
+    "description": "In the 1970s, the NYC subway system hit rock bottom. Rampant graffiti and deferred maintenance turned the stations into massive underground trash receptacles, as seen in this historical photo.",
+    "imageUrl": "/assets/codex/subway_station_dirty.svg",
+    "afterDescription": "As seen in this actual modern photo, the subway system is now a shining example of clean, efficient mass transit, with bright lighting and spotless subway cars.",
+    "afterImageUrl": "/assets/codex/subway_station_clean.svg"
+  },
+  {
+    "venueId": "empire_state_building",
+    "title": "The Paper Mountain (1960s)",
+    "description": "Before the digital age, mega-office buildings generated mountains of paper waste daily. With no recycling infrastructure, this volume of waste was incinerated locally, raining ash down on Midtown Manhattan and causing severe smog.",
+    "imageUrl": "/assets/codex/empire_state_building_dirty.svg",
+    "afterDescription": "As seen in this actual modern aerial photo, the Empire State Building now pierces through crystal clear, smog-free skies, leading the city's green energy retrofitting initiative.",
+    "afterImageUrl": "/assets/codex/empire_state_building_clean.svg"
+  },
+  {
+    "venueId": "gym",
+    "title": "The Plastic Boom (1980s)",
+    "description": "The fitness craze popularized single-use plastics. This marked a turning point where non-biodegradable plastics began permanently polluting the city's environment, waterways, and oceans, as seen here.",
+    "imageUrl": "/assets/codex/gym_dirty.svg",
+    "afterDescription": "As seen in this actual modern photo, state-of-the-art gyms now feature reusable water stations and equipment made entirely from recycled oceanic plastics.",
+    "afterImageUrl": "/assets/codex/gym_clean.svg"
+  },
+  {
+    "venueId": "public_library",
+    "title": "Acid Paper Decay (1950s)",
+    "description": "Throughout the early 20th century, books were printed on cheap, acidic paper. As millions of these books decayed, the chemical breakdown destroyed the archives and contributed to poor indoor air quality.",
+    "imageUrl": "/assets/codex/public_library_dirty.svg",
+    "afterDescription": "As seen in this actual modern photo, the New York Public Library Rose Main Reading Room is a pristine sanctuary of preserved knowledge and healthy, filtered air.",
+    "afterImageUrl": "/assets/codex/library_clean_1784882035649.png"
+  },
+  {
+    "venueId": "art_studio",
+    "title": "Toxic Pigments (1930s)",
+    "description": "Artists often worked with highly toxic heavy metals like lead white and cadmium red. When improperly disposed of, these toxins poisoned the local environment and water supply, akin to generic hazardous waste sites.",
+    "imageUrl": "/assets/codex/art_studio_dirty.svg",
+    "afterDescription": "As seen in this actual photo, modern art studios now prioritize non-toxic, eco-friendly paints and meticulous hazardous waste disposal systems.",
+    "afterImageUrl": "/assets/codex/art_studio_clean.svg"
+  },
+  {
+    "venueId": "financial_district_office",
+    "title": "Wall Street Waste (1980s)",
+    "description": "The excess of the 1980s financial boom led to unparalleled commercial waste. Millions of disposable styrofoam coffee cups and takeout containers flooded the streets daily, leading to extreme street-level litter.",
+    "imageUrl": "/assets/codex/financial_district_office_dirty.svg",
+    "afterDescription": "As seen in this actual photo, Wall Street and the Financial District are now kept immaculately clean through aggressive recycling mandates and zero-waste office policies.",
+    "afterImageUrl": "/assets/codex/financial_district_office_clean.svg"
+  },
+  {
+    "venueId": "central_park",
+    "title": "The Trashing of the Park (1970s)",
+    "description": "(AI Visualization) This could occur if we don't take action: Central Park could become severely neglected, overgrown, heavily vandalized, and buried under massive, uncontrolled piles of garbage.",
+    "imageUrl": "/assets/codex/codex_central_park_1784881033540.png",
+    "isHypotheticalFuture": true,
+    "afterDescription": "As seen in this actual modern photo, Central Park remains a lush, pristine eco-utopian oasis in the heart of the city thanks to dedicated sanitation and conservation efforts.",
+    "afterImageUrl": "/assets/codex/after_central_park_1784881295763.png"
+  },
+  {
+    "venueId": "times_square",
+    "title": "The Gritty Crossroads (1970s)",
+    "description": "(AI Visualization) This could occur if we don't take action: Times Square could devolve into extreme grime, where thick smog blots out the neon lights and gutters overflow with refuse, standing as a stark reminder of urban decay.",
+    "imageUrl": "/assets/codex/codex_times_square_1784881040822.png",
+    "isHypotheticalFuture": true,
+    "afterDescription": "As seen in this actual modern photo, Times Square is a breathtaking, pedestrian-friendly plaza, kept remarkably clean and vibrant through massive urban renewal projects.",
+    "afterImageUrl": "/assets/codex/after_times_square_1784881271147.png"
+  },
+  {
+    "venueId": "nyc_hospital",
+    "title": "Medical Waste Crisis (1988)",
+    "description": "In the summer of 1988, improperly disposed medical waste washed ashore on beaches. This terrifying environmental failure forced immediate closures and led to strict modern medical waste laws.",
+    "imageUrl": "/assets/codex/nyc_hospital_dirty.svg",
+    "afterDescription": "As seen in this actual modern photo, top-tier NYC hospitals now boast zero-emission architecture and flawless, sterilized biomedical waste processing.",
+    "afterImageUrl": "/assets/codex/nyc_hospital_clean.svg"
+  },
+  {
+    "venueId": "hot_dog_stand",
+    "title": "The Street Food Plight (1990s)",
+    "description": "The explosion of street food vendors led to a crisis of unmanaged public waste. Overflowing street corner trash cans caused by foil wrappers and plastic utensils became breeding grounds for vermin.",
+    "imageUrl": "/assets/codex/hot_dog_stand_dirty.svg",
+    "afterDescription": "As seen in this actual photo, iconic New York street food carts now exclusively use compostable packaging, maintaining vibrant, clean city corners.",
+    "afterImageUrl": "/assets/codex/hot_dog_stand_clean.svg"
+  },
+  {
+    "venueId": "mackenzie_cafe",
+    "title": "The Single-Use Epidemic (2010s)",
+    "description": "The modern coffee culture explosion brought the convenience of single-use, poly-lined coffee cups and plastic lids. Before compostable alternatives existed, these cups formed a significant percentage of landfill waste.",
+    "imageUrl": "/assets/codex/mackenzie_cafe_dirty.svg",
+    "afterDescription": "As seen in this actual modern photo, bustling city cafes now serve entirely in reusable ceramics or 100% biodegradable cups, eliminating coffee waste.",
+    "afterImageUrl": "/assets/codex/mackenzie_cafe_clean.svg"
+  }
+]
