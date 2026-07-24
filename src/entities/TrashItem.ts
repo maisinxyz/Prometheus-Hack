@@ -23,6 +23,13 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
   /** Timestamp when the current drag started (for velocity scoring) */
   public dragStartTimeMs: number = 0;
 
+  /**
+   * TASK 1.6: Guard flag to prevent double-processing of a single drop.
+   * Set to true once handleDrop() processes this item. Any subsequent
+   * dragend events on the same item will be ignored.
+   */
+  public processed: boolean = false;
+
   /** The lock-on reticle graphic shown during drag */
   private reticle: Phaser.GameObjects.Graphics | null = null;
   private reticleTween: Phaser.Tweens.Tween | null = null;

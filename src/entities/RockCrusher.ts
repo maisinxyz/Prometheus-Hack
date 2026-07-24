@@ -87,8 +87,8 @@ export class RockCrusher extends Phaser.GameObjects.Sprite {
     super(scene, x, y, 'machine_rock_crusher');
     scene.add.existing(this);
     
-    // Scale it to fit well on screen (MacBook Air M2: 2560x1664 native, 1920x1080 game canvas)
-    this.setScale(0.4);
+    // Scale it to fit well on screen 
+    this.setScale(1.1); // Made larger per user request
     this.setDepth(50);
     
     // Calculate the input zone (top funnel area)
@@ -103,10 +103,10 @@ export class RockCrusher extends Phaser.GameObjects.Sprite {
       height * 0.35
     );
 
-    // Output zone is at the bottom-left
+    // Output zone is at the bottom-left, made it push out further to the left
     this.outputOffset = {
-      x: -width * 0.2,
-      y: height * 0.4
+      x: -width * 0.8,
+      y: height * 0.3
     };
   }
 

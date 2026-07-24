@@ -101,4 +101,30 @@ describe('ScoringSystem.resolveDrop', () => {
       expect(result.velocityMultiplier).toBe(1.0);
     });
   });
+
+  // --- Regression Tests ---
+  describe('regression test: double-fire bug (TASK 1.6)', () => {
+    it('simulates the double-fire symptom (correct drop followed by incorrect drop)', () => {
+      // The bug's symptom: "removes points and adds points even though the item is properly thrown away"
+      // This was caused by the item tweening across bins and triggering dragend twice.
+      // We simulate the two resolveDrop calls to ensure the math itself was always deterministic
+      // and that the issue was purely event double-firing (which is now guarded by item.processed).
+      const drop1Time = startTime + 1000;
+      const result1 = system.resolveDrop('paper', 'paper', startTime, drop1Time);
+      
+      const drop2Time = startTime + 1200; // 200ms later during tween
+      const result2 = system.resolveDrop('paper', 'landfill', startTime, drop2Time);
+      
+      // First drop (correct) should give positive points
+      expect(result1.correct).toBe(true);
+      expect(result1.pointsAwarded).toBe(SCORING.CORRECT_BIN_POINTS * SCORING.VELOCITY_FAST_MULTIPLIER); // 100
+      
+      // Second drop (incorrect, overlapping wrong bin during fall) gives massive penalty
+      expect(result2.correct).toBe(false);
+      expect(result2.pointsAwarded).toBe(SCORING.CONTAMINATION_PENALTY); // -100
+      
+      // Net score would be 0, explaining the "points removed after adding" symptom.
+      // By confirming this pure logic, we validate the fix must be at the event-emission layer (TrayScene).
+    });
+  });
 });

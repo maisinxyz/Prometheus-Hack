@@ -38,13 +38,24 @@ export class LevelSelectScene extends Phaser.Scene {
     title.setShadow(0, 4, 'rgba(0,0,0,0.5)', 8);
 
     // 3. Process venues and create HTML annotations
-    let previousVenueChi = 0; // First level assumes 0 threshold needed
+    // TASK 1.5: Strictly sequential unlock gating.
+    // Venue at position N is interactive ONLY if position N-1's CHI >= venue[N].unlockChiThreshold.
+    // Position 1 (index 0) is always unlocked.
     const annotationsData = [];
 
     for (let i = 0; i < venuesData.length; i++) {
       const venue = venuesData[i];
-      const isUnlocked = i === 0 || previousVenueChi >= venue.unlockChiThreshold;
       const currentChi = this.chiSystem.getChi(venue.id);
+
+      // Strictly sequential: check the PRECEDING venue's CHI, not a running variable
+      let isUnlocked = false;
+      if (i === 0) {
+        isUnlocked = true; // First venue always unlocked
+      } else {
+        const previousVenueId = venuesData[i - 1].id;
+        const previousVenueChi = this.chiSystem.getChi(previousVenueId);
+        isUnlocked = previousVenueChi >= venue.unlockChiThreshold;
+      }
 
       // Default Times Square fallback if coordinates are missing
       const lat = (venue as any).latitude || 40.7580;
@@ -63,8 +74,6 @@ export class LevelSelectScene extends Phaser.Scene {
           this.scene.start('TrayScene', { venueId: id });
         }
       });
-
-      previousVenueChi = currentChi;
     }
 
     MapLibreService.addVenueAnnotations(annotationsData);

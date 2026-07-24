@@ -105,10 +105,8 @@ export class TrayScene extends Phaser.Scene {
 
     // Create rock crusher for construction site
     if (this.venueId === 'construction_site') {
-      // Place it on the right side of the 1920x1080 game canvas
-      // Using hardcoded coords within the logical canvas to guarantee visibility
-      // MacBook Air M2: 2560x1664 native, game uses FIT mode at 1920x1080
-      this.crusher = new RockCrusher(this, 1600, 400);
+      // Place it on the bottom right, aligned vertically with the bins
+      this.crusher = new RockCrusher(this, 1650, 850);
       this.crusher.setDepth(50);
     }
 
@@ -142,20 +140,7 @@ export class TrayScene extends Phaser.Scene {
       weatherEffect = 'Visibility severely reduced. Use your pointer to see!';
       weatherColor = '#dc2626'; // red
       
-      const smog = this.add.rectangle(0, 0, 1920, 1080, 0x1a1a1a, 0.98).setOrigin(0).setDepth(90);
-      
-      const spotlight = this.make.graphics({ x: 960, y: 540, add: false });
-      spotlight.fillStyle(0xffffff, 1);
-      spotlight.fillCircle(0, 0, 250);
-      
-      const mask = new Phaser.Display.Masks.BitmapMask(this, spotlight);
-      mask.invertAlpha = true;
-      smog.setMask(mask);
-      
-      this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
-        spotlight.x = pointer.x;
-        spotlight.y = pointer.y;
-      });
+      // Removed the visual smog overlay per user request — it now only shows on LevelSelectScene
     } else if (totalChi <= maxChi * 0.5) {
       this.currentEventId = 'flood';
       weatherName = 'Flash Flood';
@@ -433,6 +418,10 @@ export class TrayScene extends Phaser.Scene {
 
         const item = gameObject;
 
+        // TASK 1.6: Guard against double-processing — if this item was already
+        // resolved by a prior dragend event during its destruction tween, skip it.
+        if (item.processed) return;
+
         // Check overlap with crusher first
         if (this.crusher && this.crusher.intersectsInput(item.x, item.y)) {
           if (this.crusher.acceptsItem(item)) {
@@ -562,6 +551,15 @@ export class TrayScene extends Phaser.Scene {
 
   /** Handle a resolved drop ?" scoring, combo, events, cleanup */
   private handleDrop(item: TrashItem, bin: Bin): void {
+    // TASK 1.6: Prevent double-processing of the same item.
+    // Root cause: dragend can fire while the item is still tweening from a prior drop,
+    // because the item isn't removed from the items array until the tween completes.
+    // Setting processed=true and disabling interactive immediately prevents any
+    // subsequent dragend from re-resolving this item.
+    if (item.processed) return;
+    item.processed = true;
+    item.disableInteractive();
+
     const result = this.scoringSystem.resolveDrop(
       item.itemDef.correctBinId,
       bin.binDef.id,
