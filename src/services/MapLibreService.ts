@@ -82,10 +82,10 @@ class MapLibreServiceSingleton {
       doubleClickZoom: true,
       keyboard: true,
       
-      // Restrict panning
+      // Restrict panning (gives enough room for Chelsea/West Village)
       maxBounds: [
-        [-74.0479, 40.6829], // Southwest coordinate
-        [-73.9067, 40.8790]  // Northeast coordinate
+        [-74.0600, 40.6800], // Southwest coordinate
+        [-73.9000, 40.8400]  // Northeast coordinate
       ]
     });
 

@@ -286,3 +286,5 @@ To do (AI should ignore this):
 2. Ensure trash placements are good. 
 3. add sprites for trash.
 4. ensure all garbage items work for each level. 
+5. Ended off with Step 3 (continue with step 4)
+6. Too much clutter on levels screen, make it look more clear.
