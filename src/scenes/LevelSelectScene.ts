@@ -235,7 +235,7 @@ export class LevelSelectScene extends Phaser.Scene {
     const currentChiHud = document.createElement('div');
     currentChiHud.id = 'current-chi-hud';
     currentChiHud.style.position = 'absolute';
-    currentChiHud.style.top = '140px'; // below title
+    currentChiHud.style.bottom = '120px'; // bottom middle
     currentChiHud.style.left = '50%';
     currentChiHud.style.transform = 'translateX(-50%)';
     currentChiHud.style.width = '400px';

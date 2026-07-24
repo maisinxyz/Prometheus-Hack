@@ -60,8 +60,8 @@ class MapLibreServiceSingleton {
 
     this.map = new ml.Map({
       container: this.mapContainer,
-      // Task 2.1: Use a brighter base style for the "toy city" look
-      style: `https://basemaps.cartocdn.com/gl/voyager-gl-style/style.json`,
+      // Task 2.1: Use a photorealistic satellite style with hybrid labels
+      style: `https://api.maptiler.com/maps/hybrid/style.json?key=${mapTilerKey}`,
       center: [this.CENTER_LNG, this.CENTER_LAT],
       zoom: 15.5,
       minZoom: 13,
@@ -116,6 +116,13 @@ class MapLibreServiceSingleton {
         }
       }
 
+      if (!this.map.getSource('maptiler_planet')) {
+        this.map.addSource('maptiler_planet', {
+          type: 'vector',
+          url: `https://api.maptiler.com/tiles/v3/tiles.json?key=${mapTilerKey}`
+        });
+      }
+
       this.map.addLayer(
         {
           'id': '3d-buildings',
@@ -125,19 +132,19 @@ class MapLibreServiceSingleton {
           'type': 'fill-extrusion',
           'minzoom': 13,
           'paint': {
-            // Task 2.1: Toy-city style brighter building colors
+            // Photorealistic but vibrant mesh colors
             'fill-extrusion-color': [
               'interpolate',
               ['linear'],
               ['get', 'render_height'],
-              0, '#faf0e6',   // Linen / warm white
-              40, '#ffe4c4',  // Bisque / light beige
-              120, '#b0e0e6', // Powder blue for skyscrapers
-              300, '#87cefa'  // Light sky blue for super-slenders
+              0, '#d1d5db',   // realistic light gray concrete
+              40, '#fca5a5',  // bright warm brick
+              120, '#93c5fd', // bright sky glass
+              300, '#60a5fa'  // vibrant blue glass
             ],
             'fill-extrusion-height': ['get', 'render_height'],
             'fill-extrusion-base': ['coalesce', ['get', 'render_min_height'], 0],
-            'fill-extrusion-opacity': 0.95 // Higher opacity for more solid toy look
+            'fill-extrusion-opacity': 0.85 // Slight transparency for mesh over photo look
           }
         },
         labelLayerId
