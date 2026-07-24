@@ -509,6 +509,7 @@ class MapLibreServiceSingleton {
         120, '#7a8c99',
         300, '#4d5d69'
       ]);
+      this.map.setPaintProperty('3d-buildings', 'fill-extrusion-opacity', 1.0);
       document.getElementById('mapkit-container')!.style.filter = '';
       
       trySetColor('water', 'fill-color', '#1a232c'); 
