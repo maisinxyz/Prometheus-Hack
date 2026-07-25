@@ -21,6 +21,13 @@ export class LevelSelectScene extends Phaser.Scene {
   }
 
   async create(): Promise<void> {
+    const existingMusic = this.sound.sounds.find(s => s.key === 'map_music');
+    if (!existingMusic) {
+      this.sound.play('map_music', { loop: true, volume: 0.5 });
+    } else if (!existingMusic.isPlaying) {
+      existingMusic.play();
+    }
+
     this.chiSystem = new ChiSystem();
     this.gardenSystem = new GardenSystem();
 
@@ -89,6 +96,7 @@ export class LevelSelectScene extends Phaser.Scene {
           index: i,
           state,
           onClick: (id: string) => {
+            this.sound.stopAll();
             this.scene.start('TrayScene', { venueId: id });
           }
         });
@@ -300,7 +308,49 @@ export class LevelSelectScene extends Phaser.Scene {
       MapCameraController.lockOnNode(currentLng, currentLat);
     });
     document.body.appendChild(recenterBtn);
+      
+    // Add Volume Slider for Map Music
+    const volumeContainer = document.createElement('div');
+    volumeContainer.id = 'volume-container';
+    volumeContainer.style.position = 'absolute';
+    volumeContainer.style.bottom = '110px';
+    volumeContainer.style.left = '20px';
+    volumeContainer.style.background = 'rgba(15, 23, 42, 0.8)';
+    volumeContainer.style.padding = '10px';
+    volumeContainer.style.borderRadius = '8px';
+    volumeContainer.style.display = 'flex';
+    volumeContainer.style.alignItems = 'center';
+    volumeContainer.style.gap = '10px';
+    volumeContainer.style.backdropFilter = 'blur(4px)';
+    volumeContainer.style.border = '1px solid rgba(255, 255, 255, 0.1)';
+    volumeContainer.style.color = '#f1f5f9';
+    volumeContainer.style.fontFamily = 'monospace';
+    volumeContainer.style.zIndex = '20';
+
+    const volumeLabel = document.createElement('span');
+    volumeLabel.innerText = 'Music Vol:';
+    volumeLabel.style.fontSize = '12px';
     
+    const volumeSlider = document.createElement('input');
+    volumeSlider.type = 'range';
+    volumeSlider.min = '0';
+    volumeSlider.max = '1';
+    volumeSlider.step = '0.01';
+    volumeSlider.value = '0.5';
+    volumeSlider.style.width = '80px';
+    
+    volumeSlider.addEventListener('input', (e) => {
+      const vol = parseFloat((e.target as HTMLInputElement).value);
+      const music = this.sound.sounds.find(s => s.key === 'map_music');
+      if (music) {
+        (music as Phaser.Sound.WebAudioSound).setVolume(vol);
+      }
+    });
+
+    volumeContainer.appendChild(volumeLabel);
+    volumeContainer.appendChild(volumeSlider);
+    document.body.appendChild(volumeContainer);
+
     
     // Logic to toggle stats visibility
     document.getElementById('stats-toggle-btn')?.addEventListener('click', () => {
@@ -341,6 +391,7 @@ export class LevelSelectScene extends Phaser.Scene {
     });
 
     document.getElementById('garden-btn')?.addEventListener('click', () => {
+      this.sound.stopAll();
       this.scene.start('CommunityGardenScene');
     });
 
@@ -794,6 +845,7 @@ export class LevelSelectScene extends Phaser.Scene {
       document.getElementById('weather-tab')?.remove();
       document.getElementById('current-chi-hud')?.remove();
       document.getElementById('recenter-btn')?.remove();
+      document.getElementById('volume-container')?.remove();
       document.getElementById('codex-overlay')?.remove();
       document.getElementById('dev-panel')?.remove();
       levelNodes.forEach(n => n.remove());

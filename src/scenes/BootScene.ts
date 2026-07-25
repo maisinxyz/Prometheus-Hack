@@ -25,6 +25,9 @@ export class BootScene extends Phaser.Scene {
       this.failedLoads.add(fileObj.key);
     });
 
+    // Load audio
+    this.load.audio('map_music', 'assets/audio/map_music.webm');
+
     // 1. Load Items
     for (const item of itemsData) {
       const key = item.spriteKey;
