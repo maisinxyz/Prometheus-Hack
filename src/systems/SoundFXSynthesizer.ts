@@ -1,4 +1,4 @@
-import { Howler } from 'howler';
+import { Howler, Howl } from 'howler';
 
 /**
  * Advanced Procedural Foley Synthesizer
@@ -9,7 +9,26 @@ export class SoundFXSynthesizer {
   private ctx: AudioContext | null = null;
   private pinkNoiseBuffer: AudioBuffer | null = null;
 
-  private constructor() {}
+  private constructor() {
+    this.setupUnlock();
+  }
+
+  private setupUnlock() {
+    const unlock = () => {
+      if (this.ctx && this.ctx.state === 'suspended') {
+        this.ctx.resume().catch(() => {});
+      }
+      if (typeof Howler !== 'undefined' && Howler.ctx && Howler.ctx.state === 'suspended') {
+        Howler.ctx.resume().catch(() => {});
+      }
+    };
+    
+    // Listen to all possible interaction events to forcefully unlock audio on iOS/Safari
+    window.addEventListener('pointerdown', unlock, { passive: true });
+    window.addEventListener('touchstart', unlock, { passive: true });
+    window.addEventListener('click', unlock, { passive: true });
+    window.addEventListener('keydown', unlock, { passive: true });
+  }
 
   public static getInstance(): SoundFXSynthesizer {
     if (!SoundFXSynthesizer.instance) {
@@ -19,13 +38,31 @@ export class SoundFXSynthesizer {
   }
 
   private getContext(): AudioContext | null {
-    if (this.ctx) return this.ctx;
+    if (this.ctx) {
+      if (this.ctx.state === 'suspended') this.ctx.resume().catch(() => {});
+      return this.ctx;
+    }
     
     if (typeof Howler !== 'undefined' && Howler.ctx) {
       this.ctx = Howler.ctx as AudioContext;
+      if (this.ctx.state === 'suspended') this.ctx.resume().catch(() => {});
       this.generatePinkNoise();
       return this.ctx;
     }
+    
+    // Fallback if Howler isn't ready
+    try {
+      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      if (AudioContextClass) {
+        this.ctx = new AudioContextClass();
+        if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume().catch(() => {});
+        this.generatePinkNoise();
+        return this.ctx;
+      }
+    } catch {
+      // Ignore
+    }
+    
     return null;
   }
 
@@ -49,234 +86,176 @@ export class SoundFXSynthesizer {
     }
   }
 
-  public playDropSFX(itemId: string, spriteKey?: string) {
-    this.getContext();
-    if (!this.ctx) return;
-    
-    const key = spriteKey || itemId;
-    
-    if (key.includes('rock') || key.includes('brick') || key.includes('concrete')) {
-      this.playGravelCrunch();
-    } else if (key.includes('tape') || key.includes('paper') || key.includes('tissue') || key.includes('wrapper') || key.includes('napkin')) {
-      this.playCrumple();
-    } else if (key.includes('glass') || key.includes('bottle') || key.includes('can')) {
-      this.playGlassShatter();
-    } else {
-      this.playCardboardDrop();
-    }
-  }
+  // --- Retro 8-bit Video Game Sounds ---
+  // Pure synthesized chiptune audio, no remote fetches needed.
 
-  public playCardboardDrop() {
+  public playCardboardDrop(weight: number = 0.5) {
+    this.getContext();
     if (!this.ctx) return;
     const t = this.ctx.currentTime;
     
-    // Analog kick drum style thud
+    // Retro "boop" (square wave pitch drop)
     const osc = this.ctx.createOscillator();
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(250, t);
-    osc.frequency.exponentialRampToValueAtTime(40, t + 0.1);
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(300, t);
+    osc.frequency.exponentialRampToValueAtTime(100, t + 0.1);
     
     const gain = this.ctx.createGain();
     gain.gain.setValueAtTime(0, t);
-    gain.gain.linearRampToValueAtTime(3.0, t + 0.01); // Very loud punch
+    gain.gain.linearRampToValueAtTime(0.5 * weight, t + 0.01);
     gain.gain.exponentialRampToValueAtTime(0.01, t + 0.15);
     
-    osc.connect(gain);
-    gain.connect(this.ctx.destination);
+    osc.connect(gain).connect(this.ctx.destination);
     osc.start(t);
     osc.stop(t + 0.2);
   }
 
-  public playCrumple() {
+  public playCrumple(weight: number = 0.3) {
+    this.getContext();
     if (!this.ctx || !this.pinkNoiseBuffer) return;
     const t = this.ctx.currentTime;
     
+    // Retro "blip" (short noise burst)
     const noise = this.ctx.createBufferSource();
     noise.buffer = this.pinkNoiseBuffer;
     
     const filter = this.ctx.createBiquadFilter();
     filter.type = 'highpass';
-    filter.frequency.value = 800; // Let more sound through
+    filter.frequency.value = 4000;
     
     const gain = this.ctx.createGain();
     gain.gain.setValueAtTime(0, t);
+    gain.gain.linearRampToValueAtTime(0.6 * weight, t + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.01, t + 0.08);
     
-    // Multiple fast loud crinkles
-    for(let i=0; i<6; i++) {
-      const time = t + (i * 0.06) + (Math.random() * 0.02);
-      gain.gain.setValueAtTime(0, time);
-      gain.gain.linearRampToValueAtTime(4.0 + Math.random()*2, time + 0.01);
-      gain.gain.exponentialRampToValueAtTime(0.01, time + 0.05);
-    }
-    
-    noise.connect(filter);
-    filter.connect(gain);
-    gain.connect(this.ctx.destination);
-    
+    noise.connect(filter).connect(gain).connect(this.ctx.destination);
     noise.start(t);
-    noise.stop(t + 0.5);
+    noise.stop(t + 0.1);
   }
 
-  public playGlassShatter() {
-    if (!this.ctx) return;
-    const t = this.ctx.currentTime;
-    
-    // FM synthesis for glass/metal clank
-    const carrier = this.ctx.createOscillator();
-    carrier.type = 'sine';
-    carrier.frequency.setValueAtTime(2200, t);
-    
-    const modulator = this.ctx.createOscillator();
-    modulator.type = 'square';
-    modulator.frequency.setValueAtTime(3500, t);
-    
-    const modGain = this.ctx.createGain();
-    modGain.gain.setValueAtTime(2000, t); // Modulation index
-    
-    modulator.connect(modGain);
-    modGain.connect(carrier.frequency); // FM modulation
-    
-    const gain = this.ctx.createGain();
-    gain.gain.setValueAtTime(0, t);
-    gain.gain.linearRampToValueAtTime(2.0, t + 0.01);
-    gain.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
-    
-    carrier.connect(gain);
-    gain.connect(this.ctx.destination);
-    
-    modulator.start(t);
-    carrier.start(t);
-    modulator.stop(t + 0.4);
-    carrier.stop(t + 0.4);
-    
-    // Also add a little highpass noise for the scatter
-    if (this.pinkNoiseBuffer) {
-      const noise = this.ctx.createBufferSource();
-      noise.buffer = this.pinkNoiseBuffer;
-      const noiseFilter = this.ctx.createBiquadFilter();
-      noiseFilter.type = 'highpass';
-      noiseFilter.frequency.value = 3000;
-      const noiseGain = this.ctx.createGain();
-      noiseGain.gain.setValueAtTime(0, t + 0.05);
-      noiseGain.gain.linearRampToValueAtTime(3.0, t + 0.06);
-      noiseGain.gain.exponentialRampToValueAtTime(0.01, t + 0.25);
-      noise.connect(noiseFilter).connect(noiseGain).connect(this.ctx.destination);
-      noise.start(t);
-      noise.stop(t + 0.3);
-    }
-  }
-
-  public playGravelCrunch() {
-    if (!this.ctx || !this.pinkNoiseBuffer) return;
-    const t = this.ctx.currentTime;
-    
-    const noise = this.ctx.createBufferSource();
-    noise.buffer = this.pinkNoiseBuffer;
-    
-    // Combine sawtooth for heavy grit
-    const osc = this.ctx.createOscillator();
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(60, t);
-    
-    const filter = this.ctx.createBiquadFilter();
-    filter.type = 'bandpass';
-    filter.frequency.setValueAtTime(1200, t);
-    filter.frequency.exponentialRampToValueAtTime(200, t + 0.2);
-    
-    const gain = this.ctx.createGain();
-    gain.gain.setValueAtTime(0, t);
-    gain.gain.linearRampToValueAtTime(4.0, t + 0.02);
-    gain.gain.exponentialRampToValueAtTime(0.1, t + 0.15);
-    gain.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
-    
-    noise.connect(filter);
-    osc.connect(filter);
-    filter.connect(gain);
-    gain.connect(this.ctx.destination);
-    
-    noise.start(t);
-    osc.start(t);
-    noise.stop(t + 0.35);
-    osc.stop(t + 0.35);
-  }
-
-  /** Continuous Grinding for Rock Crusher */
-  public playCrusherGrind() {
+  public playGlassShatter(weight: number = 0.7) {
     this.getContext();
     if (!this.ctx || !this.pinkNoiseBuffer) return;
     const t = this.ctx.currentTime;
     
+    // Retro "crash" (white noise high pass explosion)
+    const noise = this.ctx.createBufferSource();
+    noise.buffer = this.pinkNoiseBuffer;
+    
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = 'highpass';
+    filter.frequency.setValueAtTime(1000, t);
+    filter.frequency.linearRampToValueAtTime(5000, t + 0.2);
+    
+    const gain = this.ctx.createGain();
+    gain.gain.setValueAtTime(0, t);
+    gain.gain.linearRampToValueAtTime(1.0 * weight, t + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
+    
+    noise.connect(filter).connect(gain).connect(this.ctx.destination);
+    noise.start(t);
+    noise.stop(t + 0.35);
+  }
+
+  public playGravelCrunch(weight: number = 1.0) {
+    this.getContext();
+    if (!this.ctx || !this.pinkNoiseBuffer) return;
+    const t = this.ctx.currentTime;
+    
+    // Retro "thud/crunch" (low pass noise burst)
     const noise = this.ctx.createBufferSource();
     noise.buffer = this.pinkNoiseBuffer;
     
     const filter = this.ctx.createBiquadFilter();
     filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(1000, t);
-    filter.frequency.linearRampToValueAtTime(2000, t + 0.2);
-    filter.frequency.linearRampToValueAtTime(800, t + 0.5);
+    filter.frequency.setValueAtTime(2000, t);
+    filter.frequency.exponentialRampToValueAtTime(300, t + 0.15);
     
+    const gain = this.ctx.createGain();
+    gain.gain.setValueAtTime(0, t);
+    gain.gain.linearRampToValueAtTime(1.2 * weight, t + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.01, t + 0.2);
+    
+    noise.connect(filter).connect(gain).connect(this.ctx.destination);
+    noise.start(t);
+    noise.stop(t + 0.25);
+  }
+
+  public playCrusherGrind() {
+    this.getContext();
+    if (!this.ctx) return;
+    const t = this.ctx.currentTime;
+    
+    // Retro "machine rumble" (sawtooth with LFO)
     const osc = this.ctx.createOscillator();
     osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(50, t);
-    osc.frequency.linearRampToValueAtTime(30, t + 0.5);
+    osc.frequency.setValueAtTime(60, t);
+    osc.frequency.linearRampToValueAtTime(30, t + 0.4);
+    
+    // Add rapid amplitude modulation to simulate gears
+    const amOsc = this.ctx.createOscillator();
+    amOsc.type = 'square';
+    amOsc.frequency.value = 25; // 25Hz chatter
+    
+    const amGain = this.ctx.createGain();
+    amGain.gain.value = 0.8;
+    amOsc.connect(amGain.gain);
+    amOsc.start(t);
+    amOsc.stop(t + 0.5);
     
     const masterGain = this.ctx.createGain();
     masterGain.gain.setValueAtTime(0, t);
-    masterGain.gain.linearRampToValueAtTime(4.0, t + 0.05); // VERY LOUD
-    masterGain.gain.setValueAtTime(4.0, t + 0.4);
-    masterGain.gain.exponentialRampToValueAtTime(0.01, t + 0.6);
+    masterGain.gain.linearRampToValueAtTime(1.5, t + 0.05); // Very loud
+    masterGain.gain.exponentialRampToValueAtTime(0.01, t + 0.5);
     
-    noise.connect(filter);
-    filter.connect(masterGain);
-    osc.connect(masterGain);
+    osc.connect(amGain);
+    amGain.connect(masterGain);
     masterGain.connect(this.ctx.destination);
     
-    noise.start(t);
     osc.start(t);
-    noise.stop(t + 0.65);
-    osc.stop(t + 0.65);
+    osc.stop(t + 0.55);
   }
-  /** Error Buzz */
+
   public playErrorBuzz() {
     this.getContext();
     if (!this.ctx) return;
     const t = this.ctx.currentTime;
     
+    // Classic 8-bit wrong answer buzz
     const osc = this.ctx.createOscillator();
     osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(150, t);
+    osc.frequency.setValueAtTime(120, t);
     osc.frequency.linearRampToValueAtTime(100, t + 0.2);
     
     const gain = this.ctx.createGain();
     gain.gain.setValueAtTime(0, t);
-    gain.gain.linearRampToValueAtTime(1.0, t + 0.05);
+    gain.gain.linearRampToValueAtTime(0.5, t + 0.02);
     gain.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
     
-    osc.connect(gain);
-    gain.connect(this.ctx.destination);
-    
+    osc.connect(gain).connect(this.ctx.destination);
     osc.start(t);
     osc.stop(t + 0.35);
   }
-  public playErrorBuzz() {
+
+  public playDropSFX(itemId: string, spriteKey?: string) {
+    this.getContext();
     if (!this.ctx) return;
-    const t = this.ctx.currentTime;
     
-    const osc = this.ctx.createOscillator();
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(150, t);
-    osc.frequency.linearRampToValueAtTime(100, t + 0.2);
+    const key = (spriteKey || itemId).toLowerCase();
     
-    const gain = this.ctx.createGain();
-    gain.gain.setValueAtTime(0, t);
-    gain.gain.linearRampToValueAtTime(1.0, t + 0.05);
-    gain.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
-    
-    osc.connect(gain);
-    gain.connect(this.ctx.destination);
-    
-    osc.start(t);
-    osc.stop(t + 0.35);
+    // Scale volume based on material weight
+    if (key.includes('rock') || key.includes('brick') || key.includes('concrete')) {
+      this.playGravelCrunch(1.5); // Very heavy
+    } else if (key.includes('tape') || key.includes('paper') || key.includes('tissue') || key.includes('wrapper') || key.includes('napkin')) {
+      this.playCrumple(0.3); // Very light
+    } else if (key.includes('glass') || key.includes('bottle') || key.includes('can') || key.includes('jar')) {
+      this.playGlassShatter(0.8); // Medium-heavy and sharp
+    } else if (key.includes('box') || key.includes('cardboard') || key.includes('carton')) {
+      this.playCardboardDrop(0.6); // Medium
+    } else {
+      // Default light drop
+      this.playCardboardDrop(0.4);
+    }
   }
 }
 
