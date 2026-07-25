@@ -207,7 +207,22 @@ class MapLibreServiceSingleton {
             'fill-opacity': 0.85 // Strong tint to cover the green satellite water
           }
         },
-        labelLayerId
+        '3d-buildings'
+      );
+
+      // Add a second tint layer for smaller rivers/canals (waterway) to ensure consistent color everywhere
+      this.map.addLayer(
+        {
+          'id': 'normal-waterway-tint',
+          'type': 'fill',
+          'source': 'maptiler_planet',
+          'source-layer': 'waterway',
+          'paint': {
+            'fill-color': '#021833',
+            'fill-opacity': 0.85
+          }
+        },
+        '3d-buildings'
       );
     });
 
@@ -496,6 +511,9 @@ class MapLibreServiceSingleton {
     if (!isActive) {
       // Revert to normal immediately
       trySetColor('normal-water-tint', 'fill-opacity', 0.85); 
+      trySetColor('normal-water-tint', 'fill-color', '#021833');
+      trySetColor('normal-waterway-tint', 'fill-opacity', 0.85); 
+      trySetColor('normal-waterway-tint', 'fill-color', '#021833');
       this.map.setLayoutProperty('flood-layer', 'visibility', 'none');
       trySetColor('flood-layer', 'fill-extrusion-height-transition', { duration: 0, delay: 0 });
       trySetColor('flood-layer', 'fill-extrusion-opacity', 0); // Hide completely
@@ -513,7 +531,6 @@ class MapLibreServiceSingleton {
       this.map.setPaintProperty('3d-buildings', 'fill-extrusion-opacity', 1.0);
       document.getElementById('mapkit-container')!.style.filter = '';
       
-      trySetColor('water', 'fill-color', '#1a232c'); 
       trySetColor('background', 'background-color', '#202020');
       trySetColor('landcover', 'fill-color', '#252525');
       return;
@@ -530,7 +547,7 @@ class MapLibreServiceSingleton {
       document.getElementById('mapkit-container')!.style.filter = 'saturate(0.8) sepia(0.3) contrast(1.1) brightness(0.9)';
       
       trySetColor('normal-water-tint', 'fill-opacity', 0);
-      trySetColor('water', 'fill-color', '#0f3c5c');
+      trySetColor('normal-waterway-tint', 'fill-opacity', 0);
       trySetColor('background', 'background-color', '#2d2a28');
       trySetColor('landcover', 'fill-color', '#2d2a28');
       
@@ -550,7 +567,7 @@ class MapLibreServiceSingleton {
       document.getElementById('mapkit-container')!.style.filter = 'brightness(1.2) contrast(1.2) saturate(1.5) sepia(0.4)';
       
       trySetColor('normal-water-tint', 'fill-opacity', 0);
-      trySetColor('water', 'fill-color', '#d2b48c'); // Cracked dirt color
+      trySetColor('normal-waterway-tint', 'fill-opacity', 0);
       trySetColor('background', 'background-color', '#c2a47c');
       trySetColor('landcover', 'fill-color', '#c2a47c');
       
@@ -570,7 +587,7 @@ class MapLibreServiceSingleton {
       document.getElementById('mapkit-container')!.style.filter = 'grayscale(0.6) sepia(0.5) contrast(0.9) brightness(0.9)';
       
       trySetColor('normal-water-tint', 'fill-opacity', 0);
-      trySetColor('water', 'fill-color', '#5c4a3d'); // Murky brown
+      trySetColor('normal-waterway-tint', 'fill-opacity', 0);
       trySetColor('background', 'background-color', '#333333');
       trySetColor('landcover', 'fill-color', '#333333');
       
@@ -580,16 +597,20 @@ class MapLibreServiceSingleton {
 
     } else if (percent < 1.0) {
       // Tier 4: Eco-Utopia (75-99%)
+      // Realistic clean buildings (slightly cleaner than normal)
       this.map.setPaintProperty('3d-buildings', 'fill-extrusion-color', [
         'interpolate', ['linear'], ['get', 'render_height'],
-        0, '#b8e0d2', 40, '#80cfa9', 120, '#d1f2eb', 300, '#aed6f1'
+        0, '#e5e7eb', 40, '#d1d5db', 120, '#9ca3af', 300, '#6b7280'
       ]);
-      document.getElementById('mapkit-container')!.style.filter = 'hue-rotate(-10deg) saturate(1.5)';
+      document.getElementById('mapkit-container')!.style.filter = 'saturate(1.15) contrast(1.05)';
       
-      trySetColor('normal-water-tint', 'fill-opacity', 0.5);
-      trySetColor('water', 'fill-color', '#0077be');
-      trySetColor('background', 'background-color', '#1b3f2b');
-      trySetColor('landcover', 'fill-color', '#1b3f2b');
+      // The ocean cannot be tinted due to missing vector polygons, so we tint the rivers extremely dark to match the ocean's natural deep teal.
+      trySetColor('normal-water-tint', 'fill-opacity', 0.65);
+      trySetColor('normal-water-tint', 'fill-color', '#0369a1'); // Brighter, rich sky blue to keep it vibrant
+      trySetColor('normal-waterway-tint', 'fill-opacity', 0.65);
+      trySetColor('normal-waterway-tint', 'fill-color', '#0369a1'); 
+      trySetColor('background', 'background-color', '#22c55e'); // Healthy green
+      trySetColor('landcover', 'fill-color', '#22c55e');
       
       trySetColor('flood-layer', 'fill-extrusion-height-transition', { duration: 0, delay: 0 });
       trySetColor('flood-layer', 'fill-extrusion-opacity', 0);
@@ -597,17 +618,21 @@ class MapLibreServiceSingleton {
 
     } else {
       // Tier 5: The Golden Age (100%)
+      // Realistic breathtaking future: Gleaming white/glass buildings, emerald parks, crystal azure water
       this.map.setPaintProperty('3d-buildings', 'fill-extrusion-color', [
         'interpolate', ['linear'], ['get', 'render_height'],
-        0, '#ffffff', 40, '#fef3c7', 120, '#fde68a', 300, '#fcd34d'
+        0, '#ffffff', 40, '#f8fafc', 120, '#f1f5f9', 300, '#e2e8f0'
       ]);
-      document.getElementById('mapkit-container')!.style.filter = 'sepia(0.4) saturate(2.0) contrast(1.2) brightness(1.1)';
+      // The ocean cannot be tinted due to missing polygons, so we make the natural ocean extremely vibrant with CSS,
+      // and then apply a matching vibrant teal tint to the river to unify them.
+      document.getElementById('mapkit-container')!.style.filter = 'saturate(2.0) contrast(1.1) brightness(1.15)';
       
-      trySetColor('normal-water-tint', 'fill-color', '#06b6d4'); // Glowing cyan
-      trySetColor('normal-water-tint', 'fill-opacity', 0.6);
-      trySetColor('water', 'fill-color', '#0ea5e9');
-      trySetColor('background', 'background-color', '#d97706');
-      trySetColor('landcover', 'fill-color', '#d97706');
+      trySetColor('normal-water-tint', 'fill-opacity', 0.65);
+      trySetColor('normal-water-tint', 'fill-color', '#0369a1'); // Brighter, rich sky blue to keep it vibrant
+      trySetColor('normal-waterway-tint', 'fill-opacity', 0.65);
+      trySetColor('normal-waterway-tint', 'fill-color', '#0369a1');
+      trySetColor('background', 'background-color', '#10b981'); // Ultra lush emerald green
+      trySetColor('landcover', 'fill-color', '#10b981');
       
       trySetColor('flood-layer', 'fill-extrusion-height-transition', { duration: 0, delay: 0 });
       trySetColor('flood-layer', 'fill-extrusion-opacity', 0);
