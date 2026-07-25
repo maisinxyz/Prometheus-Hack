@@ -765,7 +765,7 @@ export class LevelSelectScene extends Phaser.Scene {
       devPanel.id = 'dev-panel';
       devPanel.style.position = 'absolute';
       devPanel.style.bottom = '120px';
-      devPanel.style.left = '20px';
+      devPanel.style.right = '20px';
       devPanel.style.background = 'rgba(220, 38, 38, 0.9)';
       devPanel.style.padding = '15px';
       devPanel.style.borderRadius = '8px';

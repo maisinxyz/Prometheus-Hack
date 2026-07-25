@@ -57,17 +57,19 @@
     "venueId": "art_studio",
     "title": "Toxic Pigments (1930s)",
     "description": "Artists often worked with highly toxic heavy metals like lead white and cadmium red. When improperly disposed of, these toxins poisoned the local environment and water supply, akin to generic hazardous waste sites.",
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/36/The_Artist%27s_Studio_by_Johannes_Gumpp.jpg",
+    "imageUrl": "/assets/codex/art_before_ai.jpg",
     "afterDescription": "As seen in this actual photo, modern art studios now prioritize non-toxic, eco-friendly paints and meticulous hazardous waste disposal systems.",
-    "afterImageUrl": "https://upload.wikimedia.org/wikipedia/commons/9/98/ArtistStudio.png"
+    "afterImageUrl": "/assets/codex/art_after_ai.jpg",
+    "customAfterLabel": "Current (Eco-Restored)"
   },
   {
     "venueId": "financial_district_office",
     "title": "Wall Street Waste (1980s)",
-    "description": "The excess of the 1980s financial boom led to unparalleled commercial waste. Millions of disposable styrofoam coffee cups and takeout containers flooded the streets daily, leading to extreme street-level litter.",
+    "description": "Before modern sustainability initiatives, financial district office buildings consumed enormous amounts of electricity for lighting, heating, cooling, and early computer systems. Much of this electricity was generated from fossil fuels, contributing to air pollution and greenhouse gas emissions. Older office equipment and electronics also produced electronic waste that required careful disposal to prevent hazardous materials from entering the environment.",
     "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/01/NYSE-floor.jpg",
-    "afterDescription": "As seen in this actual photo, Wall Street and the Financial District are now kept immaculately clean through aggressive recycling mandates and zero-waste office policies.",
-    "afterImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Wall_Street_%2855314253740%29.jpg/3840px-Wall_Street_%2855314253740%29.jpg"
+    "afterDescription": "Today, many financial district office buildings have adopted energy-efficient lighting, smart heating and cooling systems, and more efficient computer infrastructure to reduce electricity consumption. Increasing use of renewable energy, improved building standards, and responsible electronic waste recycling have helped lower greenhouse gas emissions and minimize the environmental impact of office operations.",
+    "afterImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Wall_Street_%2855314253740%29.jpg/3840px-Wall_Street_%2855314253740%29.jpg",
+    "customAfterLabel": "Current (Eco-Restored)"
   },
   {
     "venueId": "central_park",
@@ -93,22 +95,26 @@
     "description": "In the summer of 1988, improperly disposed medical waste washed ashore on beaches. This terrifying environmental failure forced immediate closures and led to strict modern medical waste laws.",
     "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/88/Hospital-de-Bellvitge.jpg",
     "afterDescription": "As seen in this actual modern photo, top-tier NYC hospitals now boast zero-emission architecture and flawless, sterilized biomedical waste processing.",
-    "afterImageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8f/The_Mount_Sinai_Hospital.png"
+    "afterImageUrl": "/assets/codex/hospital_after_ai.jpg",
+    "customAfterLabel": "Current (Eco-Restored)"
   },
   {
     "venueId": "hot_dog_stand",
     "title": "The Street Food Plight (1990s)",
-    "description": "The explosion of street food vendors led to a crisis of unmanaged public waste. Overflowing street corner trash cans caused by foil wrappers and plastic utensils became breeding grounds for vermin.",
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/09/Hot_dog_stand.jpg",
-    "afterDescription": "As seen in this actual photo, iconic New York street food carts now exclusively use compostable packaging, maintaining vibrant, clean city corners.",
-    "afterImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/NYCHotDog2024.jpg/3840px-NYCHotDog2024.jpg"
+    "description": "Currently, traditional street food vendors rely heavily on single-use plastics, unrecyclable foil wrappers, and noisy, polluting fossil-fuel generators. This leads to overflowing public trash cans that attract vermin, and contributes directly to localized air pollution on crowded city blocks.",
+    "imageUrl": "/assets/codex/hotdog_current_ai.jpg",
+    "afterDescription": "In the future, we need to transition all street carts to fully solar-powered setups with zero-emission cooking elements. All food must be served in 100% biodegradable or even edible packaging, completely eliminating the massive footprint of single-use street food waste.",
+    "afterImageUrl": "/assets/codex/hotdog_future_ai.jpg",
+    "customBeforeLabel": "Current",
+    "customAfterLabel": "Future (Eco-Restored)"
   },
   {
     "venueId": "mackenzie_cafe",
     "title": "The Single-Use Epidemic (2010s)",
     "description": "The modern coffee culture explosion brought the convenience of single-use, poly-lined coffee cups and plastic lids. Before compostable alternatives existed, these cups formed a significant percentage of landfill waste.",
-    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/ea/Coffee_Shop_%288339247167%29.jpg",
-    "afterDescription": "As seen in this actual modern photo, bustling city cafes now serve entirely in reusable ceramics or 100% biodegradable cups, eliminating coffee waste.",
-    "afterImageUrl": "https://upload.wikimedia.org/wikipedia/commons/f/fd/Caf%C3%A9_de_Flore.jpg"
+    "imageUrl": "/assets/codex/mackenzie_before_ai.jpg",
+    "afterDescription": "While some modern cafes now offer reusable ceramics, the vast majority of takeaway orders still rely heavily on single-use cups. Although some are biodegradable and there is slightly less waste than in the past, the sheer daily volume of disposable coffee cups still creates a massive environmental burden that must be aggressively changed.",
+    "afterImageUrl": "/assets/codex/mackenzie_current_ai.jpg",
+    "customAfterLabel": "Current (Eco-Restored)"
   }
 ]
