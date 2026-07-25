@@ -1,5 +1,5 @@
-import { gameEvents, GAME_EVENTS, DropResult } from './GameEvents';
-import { Howl } from 'howler';
+import { Howl, Howler } from 'howler';
+import { soundFXSynthesizer } from './SoundFXSynthesizer';
 
 /**
  * AudioLayerManager — Layered-stem adaptive soundtrack using Howler.js.
@@ -155,34 +155,12 @@ export class AudioLayerManager {
    * Per user request and PRD Track C.
    */
   playDropSFX(itemId: string, isCorrect: boolean): void {
-    if (typeof Howl === 'undefined') return;
-
-    let sfxName = 'thud'; // Default
-    if (itemId === 'smartphone' || itemId === 'laptop_battery') {
-      sfxName = 'zap'; // Electronic sound
-    } else if (itemId.includes('paper') || itemId.includes('napkin') || itemId.includes('document')) {
-      sfxName = 'rustle'; // Paper sound
-    } else if (itemId.includes('plastic')) {
-      sfxName = 'crinkle'; // Plastic sound
-    } else if (itemId.includes('glass') || itemId.includes('bottle')) {
-      sfxName = 'clink'; // Glass sound
-    }
+    if (typeof Howler === 'undefined') return;
 
     if (!isCorrect) {
-      sfxName = 'error_buzz'; // Override with error sound if wrong
-    }
-
-    try {
-      const sfx = new Howl({
-        src: [`/assets/audio/sfx/${sfxName}.mp3`],
-        volume: 0.6,
-        onloaderror: () => {
-          // Silently skip if specific SFX file doesn't exist yet
-        },
-      });
-      sfx.play();
-    } catch {
-      // Skip if Howler isn't available
+      soundFXSynthesizer.playErrorBuzz();
+    } else {
+      soundFXSynthesizer.playDropSFX(itemId);
     }
   }
 

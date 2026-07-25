@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { TrashItem } from './TrashItem';
 import { TrashItemDef } from '../data/schemas/itemSchema';
 import itemsData from '../data/items.json';
+import { soundFXSynthesizer } from '../systems/SoundFXSynthesizer';
 
 export class RockCrusher extends Phaser.GameObjects.Sprite {
   // Define input and output zones relative to the crusher's center
@@ -139,6 +140,9 @@ export class RockCrusher extends Phaser.GameObjects.Sprite {
   ): void {
     if (this.isCrushing) return;
     this.isCrushing = true;
+
+    // Play grinding sound
+    soundFXSynthesizer.playCrusherGrind(this.scene);
 
     // Visual feedback: shake the machine
     this.scene.tweens.add({

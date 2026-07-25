@@ -2,6 +2,7 @@ import { gameEvents, GAME_EVENTS } from './GameEvents';
 import { ChiSystem } from './ChiSystem';
 import { VenueDecayState } from './VenueDecayState';
 import { perfectStreakSystem } from './PerfectStreakSystem';
+import { soundFXSynthesizer } from './SoundFXSynthesizer';
 
 /**
  * MetaGameController — Wires round-ended events to meta-game systems.
@@ -18,6 +19,9 @@ class MetaGameController {
     
     // Subscribe to events
     gameEvents.on(GAME_EVENTS.ROUND_ENDED, this.onRoundEnded, this);
+    
+    // Initialize procedural audio system
+    soundFXSynthesizer.init();
   }
 
   public static getInstance(): MetaGameController {
