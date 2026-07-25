@@ -18,6 +18,7 @@ import { ParallaxLayer } from '../entities/ParallaxLayer';
 import { DifficultySystem } from '../systems/DifficultySystem';
 import { DifficultyTierDef } from '../data/schemas/difficultyTierSchema';
 import { GardenSystem } from '../systems/GardenSystem';
+import { TutorialController } from '../systems/TutorialController';
 
 /**
  * TrayScene — Core disposal loop.
@@ -44,6 +45,9 @@ export class TrayScene extends Phaser.Scene {
   private roundScore: number = 0;
   private totalDrops: number = 0;
   private correctDrops: number = 0;
+  
+  private tutorialActive: boolean = false;
+  private tutorialController!: TutorialController;
   
   private crusher: RockCrusher | null = null;
   
@@ -122,8 +126,37 @@ export class TrayScene extends Phaser.Scene {
       gameEvents.off(GAME_EVENTS.ITEM_CLICKED, this.handleItemClicked, this);
     });
 
-    // Start the round timer (B.8)
-    this.startTimer();
+    // Start the round timer (B.8) unless in tutorial
+    this.tutorialController = new TutorialController(this);
+    
+    // Check if this is the first venue and tutorial hasn't been completed
+    if (this.venueId === venuesData[0].id && !localStorage.getItem('trashdash_tutorial_complete')) {
+      this.tutorialActive = true;
+      
+      // Override to 4 items for tutorial round
+      this.itemsPerTray = 4;
+      
+      // Despawn excess items if we spawned too many
+      while (this.items.length > this.itemsPerTray) {
+        const item = this.items.pop();
+        if (item) item.destroy();
+      }
+      
+      // Select the first item and its matching bin
+      const targetItem = this.items[0];
+      const targetBin = this.bins.find(b => b.binDef.id === targetItem.itemDef.correctBinId) || this.bins[0];
+      
+      // Disable dragging for all other items
+      this.items.forEach(item => {
+        if (item !== targetItem) {
+          item.disableInteractive();
+        }
+      });
+      
+      this.tutorialController.startTutorial(targetItem, targetBin);
+    } else {
+      this.startTimer();
+    }
 
     const totalChi = this.chiSystem.getTotalChi(venuesData.map(v => v.id));
     const maxChi = venuesData.length * 100;
@@ -411,6 +444,30 @@ export class TrayScene extends Phaser.Scene {
    * Per PRD Track B, step B.5.
    */
   private setupDropDetection(): void {
+    // Listen for pointerdown on items to trigger tutorials cleanly before a drag starts
+    this.events.on('item_pressed', (item: any) => {
+      if (item.itemDef.id === 'broken_brick_piece') {
+        if (!localStorage.getItem('trashdash_interactive_tutorial_complete')) {
+          localStorage.setItem('trashdash_interactive_tutorial_complete', 'true');
+          
+          // Forcefully release the global pointer so 'dragstart' never fires!
+          this.input.activePointer.isDown = false;
+          
+          this.pauseTimer();
+          this.scene.pause('TrayScene');
+          this.scene.launch('InteractiveTutorialOverlay');
+        }
+      }
+    });
+
+    this.input.on(
+      'dragstart',
+      (_pointer: Phaser.Input.Pointer, gameObject: Phaser.GameObjects.GameObject) => {
+        if (!(gameObject instanceof TrashItem) || this.roundEnded) return;
+        // (Drag start logic if any)
+      }
+    );
+
     this.input.on(
       'dragend',
       (_pointer: Phaser.Input.Pointer, gameObject: Phaser.GameObjects.GameObject) => {
@@ -569,6 +626,20 @@ export class TrayScene extends Phaser.Scene {
       item.itemDef.isComposite // Pass composite flag (Cluster B)
     );
 
+    // If tutorial is active and they dropped the item correctly
+    if (this.tutorialActive && result.correct && this.items.length > 0) {
+      this.tutorialActive = false;
+      this.tutorialController.completeTutorial();
+      
+      // Re-enable dragging for all remaining items
+      this.items.forEach(i => {
+        if (i.active) i.setInteractive({ draggable: true });
+      });
+      
+      // Start the timer
+      this.startTimer();
+    }
+
     result.pointsAwarded = result.pointsAwarded * this.scoreMultiplier;
 
     // Update score
@@ -655,6 +726,24 @@ export class TrayScene extends Phaser.Scene {
     });
   }
 
+  /** Timer pausing for overlays */
+  private pauseTimeMs: number = 0;
+  
+  public pauseTimer(): void {
+    if (this.timerEvent && !this.timerEvent.paused) {
+      this.timerEvent.paused = true;
+      this.pauseTimeMs = Date.now();
+    }
+  }
+
+  public resumeTimer(): void {
+    if (this.timerEvent && this.timerEvent.paused) {
+      this.timerEvent.paused = false;
+      const pausedDuration = Date.now() - this.pauseTimeMs;
+      this.roundStartTimeMs += pausedDuration;
+    }
+  }
+
   /** Start the round countdown timer */
   private startTimer(): void {
     this.roundStartTimeMs = Date.now();
@@ -676,6 +765,11 @@ export class TrayScene extends Phaser.Scene {
   private endRound(): void {
     if (this.roundEnded) return;
     this.roundEnded = true;
+
+    // Set tutorial complete flag if we ran it
+    if (this.venueId === venuesData[0].id) {
+      localStorage.setItem('trashdash_tutorial_complete', 'true');
+    }
 
     // Stop the timer
     if (this.timerEvent) {

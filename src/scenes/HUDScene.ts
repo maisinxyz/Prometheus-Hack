@@ -3,6 +3,7 @@ import { gameEvents, GAME_EVENTS, DropResult } from '../systems/GameEvents';
 import { UI_THEME } from '../config/UITheme';
 import { perfectStreakSystem } from '../systems/PerfectStreakSystem';
 import { streakFXManager } from '../systems/StreakFXManager';
+import { GlossyButton } from '../entities/GlossyButton';
 
 /**
  * HUDScene — Score/combo/timer overlay with juice effects.
@@ -79,10 +80,24 @@ export class HUDScene extends Phaser.Scene {
       return container;
     };
 
+    // --- Top-Right Settings / Help ---
+    const topY = 120;
+    const width = 1920;
+    
+    // Help Button (?)
+    new GlossyButton(this, width - 60, topY, '?', () => {
+      // Pause TrayScene timer
+      const trayScene = this.scene.get('TrayScene') as any;
+      if (trayScene && trayScene.sys.isActive() && trayScene.pauseTimer) {
+        trayScene.pauseTimer();
+      }
+      this.scene.launch('HowToPlayOverlay');
+    });
+
     // --- Score display (top-right) ---
-    this.scoreGlow = this.add.graphics({ x: 1780, y: 75 }).setDepth(185);
-    createPill(1780, 75, 240, 60);
-    this.scoreText = this.add.text(1780, 75, 'SCORE: 0', {
+    this.scoreGlow = this.add.graphics({ x: 1780, y: 120 }).setDepth(185);
+    createPill(1780, 120, 240, 60);
+    this.scoreText = this.add.text(1780, 120, 'SCORE: 0', {
       fontFamily: '"Nunito", sans-serif',
       fontSize: '28px',
       color: '#ffffff',
@@ -97,9 +112,9 @@ export class HUDScene extends Phaser.Scene {
     streakFXManager.applyHUDStyle(this, this.scoreGlow, initialTier, this.scoreGlow);
 
     // --- Combo display (top-left) ---
-    this.comboPill = createPill(140, 75, 240, 60);
+    this.comboPill = createPill(140, 120, 240, 60);
     this.comboPill.setAlpha(0); // Hide initially
-    this.comboText = this.add.text(140, 75, '', {
+    this.comboText = this.add.text(140, 120, '', {
       fontFamily: '"Nunito", sans-serif',
       fontSize: '28px',
       color: '#ffffff',
@@ -109,8 +124,8 @@ export class HUDScene extends Phaser.Scene {
     this.comboText.setOrigin(0.5).setDepth(200);
 
     // --- Timer display (top-center) ---
-    createPill(960, 50, 200, 70);
-    this.timerText = this.add.text(960, 50, '', {
+    createPill(960, 120, 200, 70);
+    this.timerText = this.add.text(960, 120, '', {
       fontFamily: '"Nunito", sans-serif',
       fontSize: '36px',
       color: '#ffffff',
@@ -251,49 +266,69 @@ export class HUDScene extends Phaser.Scene {
   private createFireParticleTexture(): void {
     if (this.textures.exists('particle_fire_hud')) return;
 
-    const gfx = this.add.graphics();
-    gfx.fillStyle(0xff6600, 1);
-    gfx.fillCircle(4, 4, 4);
-    gfx.generateTexture('particle_fire_hud', 8, 8);
-    gfx.destroy();
+    // Create a soft radial gradient (blurred circle) for additive blending
+    const size = 32;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      const gradient = ctx.createRadialGradient(size/2, size/2, 0, size/2, size/2, size/2);
+      gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+      gradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.8)');
+      gradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.2)');
+      gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, size, size);
+    }
+    this.textures.addCanvas('particle_fire_hud', canvas);
   }
 
   /**
-   * Start the fire border effect — orange/red particles along all 4 edges.
-   * Per PRD Track C, step C.2.
+   * Start the fire border effect — realistic flames roaring from the bottom
    */
   private startFireBorder(): void {
     this.fireBorderActive = true;
 
-    // Define edge zones for the 4 borders
-    const edges = [
-      // Top edge
-      { x: 960, y: 5, width: 1920, height: 10, angle: { min: 80, max: 100 } },
-      // Bottom edge
-      { x: 960, y: 1075, width: 1920, height: 10, angle: { min: 260, max: 280 } },
-      // Left edge
-      { x: 5, y: 540, width: 10, height: 1080, angle: { min: 350, max: 370 } },
-      // Right edge
-      { x: 1915, y: 540, width: 10, height: 1080, angle: { min: 170, max: 190 } },
-    ];
+    // Create a realistic roaring fire at the very bottom of the screen
+    const emitter = this.add.particles(0, 0, 'particle_fire_hud', {
+      x: { min: 0, max: 1920 }, // Span entire width
+      y: { min: 1060, max: 1090 }, // At the bottom
+      angle: { min: 260, max: 280 }, // Straight UP (270 is up)
+      speed: { min: 100, max: 250 },
+      scale: { start: 2.5, end: 0.1 }, // Starts large, shrinks as it rises
+      lifespan: { min: 500, max: 1200 }, // How high the flames go
+      alpha: { start: 0.7, end: 0 },
+      tint: [
+        0xffff00, // Yellow core
+        0xffaa00, // Orange
+        0xff4400, // Red
+        0x550000  // Dark red tip
+      ],
+      frequency: 10, // Intense!
+      quantity: 5,
+      blendMode: Phaser.BlendModes.ADD,
+    });
+    emitter.setDepth(250);
 
-    for (const edge of edges) {
-      const emitter = this.add.particles(0, 0, 'particle_fire_hud', {
-        x: { min: edge.x - edge.width / 2, max: edge.x + edge.width / 2 },
-        y: { min: edge.y - edge.height / 2, max: edge.y + edge.height / 2 },
-        speed: { min: 20, max: 60 },
-        scale: { start: 0.8, end: 0 },
-        lifespan: { min: 300, max: 600 },
-        alpha: { start: 0.9, end: 0 },
-        tint: [0xff0000, 0xff3300, 0xff6600, 0xffaa00],
-        frequency: 20,
-        quantity: 2,
-        blendMode: Phaser.BlendModes.ADD,
-      });
-      emitter.setDepth(250);
+    // Add some random sparks flying out of the fire
+    const sparkEmitter = this.add.particles(0, 0, 'particle_fire_hud', {
+      x: { min: 0, max: 1920 },
+      y: { min: 1060, max: 1080 },
+      angle: { min: 250, max: 290 },
+      speed: { min: 200, max: 400 },
+      scale: { start: 0.4, end: 0 },
+      lifespan: { min: 600, max: 1500 },
+      alpha: { start: 1, end: 0 },
+      tint: 0xffffaa, // Bright yellow/white
+      frequency: 50,
+      quantity: 1,
+      blendMode: Phaser.BlendModes.ADD,
+      gravityY: 100 // Sparks arc and fall slightly
+    });
+    sparkEmitter.setDepth(251);
 
-      this.fireBorderEmitters.push(emitter);
-    }
+    this.fireBorderEmitters.push(emitter, sparkEmitter);
   }
 
   /** Stop the fire border effect */

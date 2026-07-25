@@ -10,6 +10,8 @@ import { GardenScene } from './scenes/GardenScene';
 import { CommunityGardenScene } from './scenes/CommunityGardenScene';
 
 import { TitleScene } from './scenes/TitleScene';
+import { HowToPlayOverlay } from './scenes/HowToPlayOverlay';
+import { InteractiveTutorialOverlay } from './scenes/InteractiveTutorialOverlay';
 
 /**
  * TrashDash: NYC Echo — Main entry point.
@@ -28,7 +30,9 @@ const config: Phaser.Types.Core.GameConfig = {
     CorrectionOverlayScene,
     SeparationMinigameScene,
     GardenScene,
-    CommunityGardenScene
+    CommunityGardenScene,
+    HowToPlayOverlay,
+    InteractiveTutorialOverlay
   ],
 };
 

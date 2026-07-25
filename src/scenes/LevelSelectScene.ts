@@ -7,6 +7,7 @@ import { MapLibreService } from '../services/MapLibreService';
 import { LevelNode, NodeState } from '../entities/LevelNode';
 import { PathOverlayService } from '../services/PathOverlayService';
 import { MapCameraController } from '../services/MapCameraController';
+import { GlossyButton } from '../entities/GlossyButton';
 
 /**
  * LevelSelectScene — Interactive 3D Map UI using MapLibre GL JS.
@@ -34,6 +35,12 @@ export class LevelSelectScene extends Phaser.Scene {
     // 1. Initialize and show the 3D Apple MapKit view behind the canvas
     await MapLibreService.createMap();
     MapLibreService.showMap();
+
+    // Help Button (?)
+    const width = this.scale.width;
+    new GlossyButton(this, width - 60, 120, '?', () => {
+      this.scene.launch('HowToPlayOverlay');
+    });
 
     // 2. Setup HUD Overlay (Transparent Phaser Canvas)
     // Title text removed per request
@@ -112,7 +119,7 @@ export class LevelSelectScene extends Phaser.Scene {
         
         const banner = document.createElement('div');
         banner.style.position = 'absolute';
-        banner.style.top = '140px';
+        banner.style.top = '180px';
         banner.style.left = '50%';
         banner.style.transform = 'translateX(-50%)';
         banner.style.background = 'linear-gradient(to bottom, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 100%), linear-gradient(90deg, #FBBF24, #F59E0B)';
@@ -180,7 +187,7 @@ export class LevelSelectScene extends Phaser.Scene {
     const uiContainer = document.createElement('div');
     uiContainer.id = 'level-select-ui';
     uiContainer.style.position = 'absolute';
-    uiContainer.style.top = '20px';
+    uiContainer.style.top = '80px';
     uiContainer.style.right = '20px';
     uiContainer.style.left = 'auto'; // Re-oriented to the right
     uiContainer.style.zIndex = '20';

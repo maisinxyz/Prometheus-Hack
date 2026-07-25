@@ -122,6 +122,7 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
     this.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
       this.setData('downX', pointer.x);
       this.setData('downY', pointer.y);
+      this.scene.events.emit('item_pressed', this);
     });
 
     this.on('pointerup', (pointer: Phaser.Input.Pointer) => {
