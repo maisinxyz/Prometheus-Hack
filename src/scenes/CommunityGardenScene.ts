@@ -20,48 +20,115 @@ export class CommunityGardenScene extends Phaser.Scene {
     const plasticLvl = this.gardenSystem.getPlasticLevel();
     const landfillLvl = this.gardenSystem.getLandfillLevel();
 
-    // 1. Base ground — dirt (Aerial view of the park, fills the entire screen)
-    const dirt = this.add.image(960, 540, 'park_dirt').setOrigin(0.5, 0.5);
-    dirt.setDisplaySize(1920, 1080);
+    // Background (pure dirt, NO trees or roads on the sides)
+    const bg = this.add.image(960, 540, 'pure_park_dirt');
+    bg.setDisplaySize(1920, 1080);
+
+    // Helper for perspective scaling. Horizon is roughly y=450
+    const getPerspectiveScale = (y: number) => Math.max(0, (y - 450) / (1080 - 450));
 
     // ===== COMPOST: Grass, Flowers, Bushes, Bugs =====
+    // Grass
+    // We use 'rolling_grass', which is a high-resolution, vibrant bright green wavy grass texture.
+    // We use a GeometryMask so it perfectly stops at the y=410 skyline and doesn't cover the city.
+    const maskGraphics = this.make.graphics();
+    maskGraphics.fillStyle(0xffffff);
+    maskGraphics.fillRect(0, 410, 1920, 1080 - 410);
+    const grassMask = maskGraphics.createGeometryMask();
+
+    // We shift the image UP to y=-58 so the sky is hidden, and the beautiful wavy midground
+    // starts exactly at y=410. Then we mask it so it perfectly covers the dirt!
+    const parkGrass = this.add.image(960, -58, 'rolling_grass').setOrigin(0.5, 0);
+    parkGrass.setDisplaySize(1920, 1920);
+    parkGrass.setMask(grassMask);
+    
+    // We leave alpha at 1.0 (fully opaque) so it is extremely vibrant and no dirt specks bleed through!
+    
     if (compostLvl >= 1) {
-      const grassAlpha = compostLvl >= 5 ? 1.0 : (compostLvl >= 4 ? 0.75 : (compostLvl >= 3 ? 0.5 : (compostLvl >= 2 ? 0.3 : 0.1)));
-      const grass = this.add.image(960, 540, 'park_grass').setOrigin(0.5, 0.5);
-      grass.setDisplaySize(1920, 1080);
-      grass.setAlpha(grassAlpha);
+      parkGrass.setVisible(true);
+      const maskGraphics = this.make.graphics();
+      maskGraphics.fillStyle(0xffffff, 1);
+      
+      let grassSeed = 999;
+      const nextGrassRnd = () => { grassSeed = (grassSeed * 9301 + 49297) % 233280; return grassSeed / 233280; };
+      const grassRndRange = (min: number, max: number) => min + nextGrassRnd() * (max - min);
+
+      // We draw enough patches at Level 5 to fully cover the ground organically
+      const targetPatches = compostLvl >= 5 ? 15000 : compostLvl * 600; 
+      
+      for (let i = 0; i < targetPatches; i++) {
+        // Use quadratic bias (r*r) to spawn MORE patches in the back (y=410) 
+        // to compensate for perspective!
+        const rY = nextGrassRnd();
+        // Horizon line moved up to 410 to cover the final sliver of dirt!
+        const y = 410 + (rY * rY) * (1080 - 410);
+        const x = grassRndRange(0, 1920);
+        
+        const scale = getPerspectiveScale(y);
+        const widthMult = compostLvl >= 5 ? 150 : 120;
+        const heightMult = compostLvl >= 5 ? 50 : 30;
+        
+        const width = 20 + scale * widthMult;
+        const height = 10 + scale * heightMult;
+        maskGraphics.fillEllipse(x, y, width, height);
+      }
+      parkGrass.setMask(maskGraphics.createGeometryMask());
+    } else {
+      parkGrass.setVisible(false);
     }
+
+    // Flowers (Start at Lvl 6)
     if (compostLvl >= 6) {
-      // Wildflowers — scattered photorealistic flower patches
-      const flowerPositions = [
-        { x: 200, y: 750 }, { x: 450, y: 850 }, { x: 700, y: 780 },
-        { x: 1100, y: 900 }, { x: 1400, y: 750 }, { x: 1650, y: 830 },
-        { x: 300, y: 920 }, { x: 1250, y: 820 }
-      ];
-      for (const pos of flowerPositions) {
-        const f = this.add.image(pos.x, pos.y, 'garden_flower').setOrigin(0.5, 1);
-        f.setScale(Phaser.Math.FloatBetween(0.08, 0.14));
+      let flowerSeed = 111;
+      const nextFlowerRnd = () => { flowerSeed = (flowerSeed * 9301 + 49297) % 233280; return flowerSeed / 233280; };
+      const flowerRndRange = (min: number, max: number) => min + nextFlowerRnd() * (max - min);
+
+      const clusters = (compostLvl - 5) * 8; 
+      const flowerEmojis = ['🌷', '🌻', '🌺', '🌼', '🌸'];
+      
+      for (let i = 0; i < clusters; i++) {
+        const rY = nextFlowerRnd();
+        const cy = 410 + (rY * rY) * (1080 - 410);
+        const cx = flowerRndRange(0, 1920);
+        
+        const scale = getPerspectiveScale(cy);
+        const fontSize = 12 + scale * 30; 
+        
+        const flowersInCluster = Math.floor(flowerRndRange(3, 6));
+        for (let j = 0; j < flowersInCluster; j++) {
+          const fx = cx + flowerRndRange(-20, 20) * scale;
+          const fy = cy + flowerRndRange(-10, 10) * scale;
+          const emoji = flowerEmojis[Math.floor(flowerRndRange(0, flowerEmojis.length))];
+          this.add.text(fx, fy, emoji, { fontSize: `${Math.floor(fontSize)}px` }).setOrigin(0.5, 1);
+        }
       }
     }
+
+    // Bushes (Start at Lvl 7)
     if (compostLvl >= 7) {
-      // Bushes — photorealistic
-      const bushPositions = [
-        { x: 150, y: 780 }, { x: 550, y: 850 }, { x: 1350, y: 780 },
-        { x: 1700, y: 870 }, { x: 900, y: 920 }
-      ];
-      for (const pos of bushPositions) {
-        const b = this.add.image(pos.x, pos.y, 'garden_bush').setOrigin(0.5, 1);
-        b.setScale(Phaser.Math.FloatBetween(0.12, 0.2));
+      let bushSeed = 222;
+      const nextBushRnd = () => { bushSeed = (bushSeed * 9301 + 49297) % 233280; return bushSeed / 233280; };
+      const bushRndRange = (min: number, max: number) => min + nextBushRnd() * (max - min);
+
+      const bushesCount = (compostLvl - 6) * 6; 
+      
+      for (let i = 0; i < bushesCount; i++) {
+        const rY = nextBushRnd();
+        const y = 410 + (rY * rY) * (1000 - 410);
+        const x = bushRndRange(0, 1920);
+        
+        const scale = getPerspectiveScale(y);
+        const fontSize = 20 + scale * 70;
+        this.add.text(x, y, '🪴', { fontSize: `${Math.floor(fontSize)}px` }).setOrigin(0.5, 1);
       }
     }
+
+    // Bugs (Start at Lvl 8+)
     if (compostLvl >= 8) {
-      this.createFlyingEmoji('🦗', 4); // Dragonflies
+      this.createFlyingEmoji('🦋', (compostLvl - 7) * 2);
     }
     if (compostLvl >= 9) {
-      this.createFlyingEmoji('🦋', 5); // Butterflies
-    }
-    if (compostLvl >= 10) {
-      this.createFlyingEmoji('🐝', 6); // Bees
+      this.createFlyingEmoji('🐝', (compostLvl - 8) * 2);
     }
 
     // ===== LANDFILL: Park Sign and Animals =====
@@ -72,110 +139,113 @@ export class CommunityGardenScene extends Phaser.Scene {
       }).setOrigin(0.5);
     }
     if (landfillLvl >= 2) {
-      // Rabbits
-      const r1 = this.add.image(1200, 730, 'garden_rabbit').setOrigin(0.5, 1);
-      r1.setScale(0.08);
-      const r2 = this.add.image(1260, 750, 'garden_rabbit').setOrigin(0.5, 1);
-      r2.setScale(0.06);
-      r2.setFlipX(true);
+      const rabbitsToDraw = (landfillLvl - 1) * 2;
+      for (let i = 0; i < rabbitsToDraw; i++) {
+        const y = Phaser.Math.Between(600, 1000);
+        const x = Phaser.Math.Between(0, 1920);
+        const scale = getPerspectiveScale(y);
+        this.add.text(x, y, '🐇', { fontSize: `${Math.floor(15 + scale*40)}px` }).setOrigin(0.5, 1);
+      }
     }
     if (landfillLvl >= 3) {
-      this.add.text(450, 750, '🐿️', { fontSize: '30px' }).setOrigin(0.5, 1);
-      this.add.text(400, 680, '🐿️', { fontSize: '30px' }).setOrigin(0.5, 1);
-    }
-    if (landfillLvl >= 4) {
-      this.add.text(1600, 900, '🐈', { fontSize: '50px' }).setOrigin(0.5, 1);
-    }
-    if (landfillLvl >= 5) {
-      this.add.text(600, 950, '🐕', { fontSize: '60px' }).setOrigin(0.5, 1);
+      const squirrelsToDraw = (landfillLvl - 2) * 3;
+      for (let i = 0; i < squirrelsToDraw; i++) {
+        const y = Phaser.Math.Between(580, 950);
+        const x = Phaser.Math.Between(0, 1920);
+        const scale = getPerspectiveScale(y);
+        this.add.text(x, y, '🐿️', { fontSize: `${Math.floor(12 + scale*35)}px` }).setOrigin(0.5, 1);
+      }
     }
 
     // ===== RECYCLING: Trees, Benches, Lamps, People =====
     if (recyclingLvl >= 1) {
-      const treeScale = recyclingLvl >= 5 ? 0.45 : (recyclingLvl >= 4 ? 0.35 : (recyclingLvl >= 3 ? 0.25 : 0.15));
+      let treeSeed = 333;
+      const nextTreeRnd = () => { treeSeed = (treeSeed * 9301 + 49297) % 233280; return treeSeed / 233280; };
+      const treeRndRange = (min: number, max: number) => min + nextTreeRnd() * (max - min);
 
-      const tree1 = this.add.image(300, 780, 'garden_tree').setOrigin(0.5, 1);
-      tree1.setScale(treeScale);
+      const treesToDraw = recyclingLvl * 2; 
+      for (let i = 0; i < treesToDraw; i++) {
+        const y = treeRndRange(550, 900); // keep trees somewhat far back
+        const x = treeRndRange(0, 1920);
+        const scale = getPerspectiveScale(y);
+        const fontSize = 40 + scale * 120;
+        this.add.text(x, y, '🌳', { fontSize: `${Math.floor(fontSize)}px` }).setOrigin(0.5, 1);
+      }
+    }
+    if (recyclingLvl >= 4) {
+      let benchSeed = 444;
+      const nextBenchRnd = () => { benchSeed = (benchSeed * 9301 + 49297) % 233280; return benchSeed / 233280; };
+      const benchRndRange = (min: number, max: number) => min + nextBenchRnd() * (max - min);
 
-      const tree2 = this.add.image(1600, 800, 'garden_tree').setOrigin(0.5, 1);
-      tree2.setScale(treeScale * 0.9);
-      tree2.setFlipX(true);
+      const benchesToDraw = Math.floor((recyclingLvl - 3) / 2) + 1;
+      for (let i = 0; i < benchesToDraw; i++) {
+        const y = benchRndRange(600, 1000);
+        const x = benchRndRange(0, 1920);
+        const scale = getPerspectiveScale(y);
+        this.add.text(x, y, '🪑', { fontSize: `${Math.floor(20 + scale*50)}px` }).setOrigin(0.5, 1);
+      }
     }
-    if (recyclingLvl >= 6) {
-      // Benches
-      const bench1 = this.add.image(400, 860, 'garden_bench').setOrigin(0.5, 1);
-      bench1.setScale(0.15);
-      const bench2 = this.add.image(1400, 880, 'garden_bench').setOrigin(0.5, 1);
-      bench2.setScale(0.13);
-    }
-    if (recyclingLvl >= 7) {
-      // Lamps
-      const lamp1 = this.add.image(250, 760, 'garden_lamp').setOrigin(0.5, 1);
-      lamp1.setScale(0.2);
-      const lamp2 = this.add.image(1500, 790, 'garden_lamp').setOrigin(0.5, 1);
-      lamp2.setScale(0.18);
+    if (recyclingLvl >= 5) {
+      let lampSeed = 555;
+      const nextLampRnd = () => { lampSeed = (lampSeed * 9301 + 49297) % 233280; return lampSeed / 233280; };
+      const lampRndRange = (min: number, max: number) => min + nextLampRnd() * (max - min);
+
+      const lampsToDraw = Math.floor((recyclingLvl - 4) / 2) + 1;
+      for (let i = 0; i < lampsToDraw; i++) {
+        const y = lampRndRange(580, 950);
+        const x = lampRndRange(0, 1920);
+        const scale = getPerspectiveScale(y);
+        this.add.text(x, y, '🏮', { fontSize: `${Math.floor(25 + scale*60)}px` }).setOrigin(0.5, 1);
+      }
     }
     if (recyclingLvl >= 8) {
-      this.add.text(420, 840, '🧑‍🤝‍🧑', { fontSize: '35px' }).setOrigin(0.5, 1);
-      this.add.text(1420, 860, '🎸👨‍🎤', { fontSize: '35px' }).setOrigin(0.5, 1);
-    }
-    if (recyclingLvl >= 9) {
-      this.add.text(700, 900, '🍱🪑', { fontSize: '60px' }).setOrigin(0.5, 1);
-    }
-    if (recyclingLvl >= 10) {
-      this.add.text(700, 870, '👨‍👩‍👧‍👦', { fontSize: '45px' }).setOrigin(0.5, 1);
+      const peopleToDraw = recyclingLvl - 7;
+      const peopleEmojis = ['🧑‍🤝‍🧑', '🎸👨‍🎤', '🍱🪑', '👨‍👩‍👧‍👦'];
+      for (let i = 0; i < peopleToDraw; i++) {
+        const y = Phaser.Math.Between(600, 1050);
+        const x = Phaser.Math.Between(0, 1920);
+        const scale = getPerspectiveScale(y);
+        this.add.text(x, y, peopleEmojis[Phaser.Math.Between(0, peopleEmojis.length - 1)], { fontSize: `${Math.floor(20 + scale*50)}px` }).setOrigin(0.5, 1);
+      }
     }
 
     // ===== PLASTIC: Pond, Ducks, Turtles, Fountain =====
     if (plasticLvl >= 1) {
-      const pond = this.add.image(960, 870, 'garden_pond').setOrigin(0.5, 0.5);
-      pond.setScale(0.5);
+      const pondY = 870;
+      const scale = getPerspectiveScale(pondY);
+      const pondWidth = (300 + (plasticLvl * 20)) * scale;
+      const pondHeight = (100 + (plasticLvl * 10)) * scale;
+      
+      const pond = this.add.graphics();
+      pond.fillStyle(0x0ea5e9, 0.8);
+      pond.fillEllipse(960, pondY, pondWidth, pondHeight);
+      
       if (plasticLvl >= 9) {
-        pond.setTint(0x88ffff);
-      }
-
-      if (plasticLvl >= 2) {
-        this.add.text(880, 860, '🐟', { fontSize: '30px' }).setOrigin(0.5);
-        this.add.text(1040, 850, '🐟', { fontSize: '22px' }).setOrigin(0.5);
-      }
-      if (plasticLvl >= 3) {
-        this.add.text(780, 830, '🌾', { fontSize: '50px' }).setOrigin(0.5, 1);
-        this.add.text(1150, 900, '🌾', { fontSize: '50px' }).setOrigin(0.5, 1);
-      }
-      if (plasticLvl >= 4) {
-        // Ducks — photorealistic
-        const duck1 = this.add.image(900, 870, 'garden_duck').setOrigin(0.5, 1);
-        duck1.setScale(0.06);
-        const duck2 = this.add.image(1020, 890, 'garden_duck').setOrigin(0.5, 1);
-        duck2.setScale(0.05);
-        duck2.setFlipX(true);
-      }
-      if (plasticLvl >= 5) {
-        this.add.text(850, 840, '🍃', { fontSize: '30px' }).setOrigin(0.5);
-        this.add.text(1060, 895, '🍃', { fontSize: '30px' }).setOrigin(0.5);
-      }
-      if (plasticLvl >= 6) {
-        this.add.text(850, 825, '🐸', { fontSize: '25px' }).setOrigin(0.5);
-      }
-      if (plasticLvl >= 7) {
-        this.createFlyingEmoji('🕊️', 3);
-      }
-      if (plasticLvl >= 8) {
-        // Turtle — photorealistic
-        const turtle = this.add.image(1100, 920, 'garden_turtle').setOrigin(0.5, 1);
-        turtle.setScale(0.06);
-      }
-      if (plasticLvl >= 9) {
-        // Sparkles around pond
-        for (let i = 0; i < 10; i++) {
-          const sp = this.add.text(Phaser.Math.Between(750, 1170), Phaser.Math.Between(800, 940), '✨', { fontSize: '16px' });
+        // Sparkles
+        for (let i = 0; i < 15; i++) {
+          const sp = this.add.text(Phaser.Math.Between(960 - pondWidth/2, 960 + pondWidth/2), Phaser.Math.Between(pondY - pondHeight/2, pondY + pondHeight/2), '✨', { fontSize: `${Math.floor(10 + scale*15)}px` });
           this.tweens.add({ targets: sp, alpha: 0, yoyo: true, repeat: -1, duration: 800 + Math.random() * 1000, delay: Math.random() * 1000 });
         }
       }
+
+      const ducksToDraw = Math.floor(plasticLvl / 3);
+      for (let i = 0; i < ducksToDraw; i++) {
+        const x = 960 + Phaser.Math.Between(-pondWidth/2, pondWidth/2);
+        const y = pondY + Phaser.Math.Between(-pondHeight/2, pondHeight/2);
+        this.add.text(x, y, '🦆', { fontSize: `${Math.floor(15 + getPerspectiveScale(y)*30)}px` }).setOrigin(0.5, 1);
+      }
+
+      if (plasticLvl >= 5) {
+        const turtlesToDraw = Math.floor((plasticLvl - 4) / 2);
+        for (let i = 0; i < turtlesToDraw; i++) {
+          const x = 960 + Phaser.Math.Between(-pondWidth/2 - 50, pondWidth/2 + 50);
+          const y = pondY + Phaser.Math.Between(10, 80);
+          this.add.text(x, y, '🐢', { fontSize: `${Math.floor(12 + getPerspectiveScale(y)*25)}px` }).setOrigin(0.5, 1);
+        }
+      }
+
       if (plasticLvl >= 10) {
-        // Fountain — photorealistic
-        const fountain = this.add.image(960, 850, 'garden_fountain').setOrigin(0.5, 1);
-        fountain.setScale(0.3);
+        this.add.text(960, pondY, '⛲', { fontSize: `${Math.floor(30 + scale*70)}px` }).setOrigin(0.5, 1);
       }
     }
 

@@ -52,7 +52,29 @@ export class BootScene extends Phaser.Scene {
     this.load.image('nyc_map_bg', 'assets/sprites/ui/custom_map.jpg');
     this.load.image('bg_construction_site', 'assets/sprites/items/construction_bg.png');
     this.load.image('park_dirt', 'assets/images/park_dirt.png');
+    this.load.image('pure_park_dirt', 'assets/images/pure_park_dirt.png');
+    this.load.image('real_grass', 'assets/images/real_grass.png');
+    this.load.image('perspective_grass', 'assets/images/perspective_grass.png');
+    this.load.image('aerial_grass', 'assets/images/aerial_grass.png');
     this.load.image('park_grass', 'assets/images/park_grass.png');
+    this.load.image('drone_grass', 'assets/images/drone_grass.png');
+    this.load.image('sweeping_grass', 'assets/images/sweeping_grass.png');
+    this.load.image('rolling_grass', 'assets/images/rolling_grass.png');
+    this.load.image('macro_wavy_grass', 'assets/images/macro_wavy_grass.png');
+    this.load.image('garden_grass', 'assets/images/garden_grass.png');
+    this.load.image('perfect_wavy_grass', 'assets/images/perfect_wavy_grass.png');
+    this.load.image('sharp_flat_grass', 'assets/images/sharp_flat_grass.png');
+    this.load.image('far_view_grass', 'assets/images/far_view_grass.png');
+    this.load.image('natural_lawn', 'assets/images/natural_lawn.png');
+    this.load.image('user_reference', 'assets/images/user_reference.jpg');
+    this.load.image('perfect_lawn', 'assets/images/perfect_lawn.png');
+    this.load.image('perfect_crop', 'assets/images/perfect_crop.png');
+    
+    // Proper textures
+    this.load.image('bg_dirt', 'assets/garden/bg_dirt.png');
+    this.load.image('bg_grass', 'assets/garden/bg_grass.png');
+    this.load.image('flower_patch', 'assets/garden/flower_patch.png');
+    this.load.image('bush', 'assets/garden/bush.png');
 
     // Garden assets (photorealistic AI-generated, transparent PNGs)
     this.load.image('garden_dirt', 'assets/garden/garden_dirt.png');
