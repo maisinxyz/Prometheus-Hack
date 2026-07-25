@@ -417,9 +417,7 @@ export class LevelSelectScene extends Phaser.Scene {
     
     map.on('moveend', () => {
       clearTimeout(moveTimeout);
-      moveTimeout = setTimeout(() => {
-        setHudOpacity('1');
-      }, 500);
+      setHudOpacity('1');
     });
 
     const smogOverlay = document.createElement('div');
