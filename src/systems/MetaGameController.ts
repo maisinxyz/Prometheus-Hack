@@ -1,6 +1,7 @@
 import { gameEvents, GAME_EVENTS } from './GameEvents';
 import { ChiSystem } from './ChiSystem';
 import { VenueDecayState } from './VenueDecayState';
+import { perfectStreakSystem } from './PerfectStreakSystem';
 
 /**
  * MetaGameController — Wires round-ended events to meta-game systems.
@@ -32,6 +33,9 @@ class MetaGameController {
     
     // D.4: Update decay state
     this.venueDecayState.registerRound(payload.venueId, payload.accuracyPct);
+
+    // D.5: Update global streak
+    perfectStreakSystem.registerRoundResult(payload.accuracyPct);
   }
 }
 

@@ -29,17 +29,7 @@ export class LevelSelectScene extends Phaser.Scene {
     MapLibreService.showMap();
 
     // 2. Setup HUD Overlay (Transparent Phaser Canvas)
-    const title = this.add.text(960, 80, 'Select a Level', {
-      fontFamily: '"Nunito", sans-serif',
-      fontSize: '48px',
-      color: '#ffffff',
-      fontStyle: 'bold',
-      stroke: '#000000',
-      strokeThickness: 6
-    });
-    title.setOrigin(0.5);
-    title.setScrollFactor(0);
-    title.setShadow(0, 4, 'rgba(0,0,0,0.5)', 8);
+    // Title text removed per request
 
     // 3. Process progression synchronously
     let unlockedCount = 0;

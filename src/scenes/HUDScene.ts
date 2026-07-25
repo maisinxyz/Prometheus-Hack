@@ -1,6 +1,8 @@
 import Phaser from 'phaser';
 import { gameEvents, GAME_EVENTS, DropResult } from '../systems/GameEvents';
 import { UI_THEME } from '../config/UITheme';
+import { perfectStreakSystem } from '../systems/PerfectStreakSystem';
+import { streakFXManager } from '../systems/StreakFXManager';
 
 /**
  * HUDScene — Score/combo/timer overlay with juice effects.
@@ -24,6 +26,8 @@ export class HUDScene extends Phaser.Scene {
   // Track C: Fire border at 5x combo (C.2)
   private fireBorderEmitters: Phaser.GameObjects.Particles.ParticleEmitter[] = [];
   private fireBorderActive: boolean = false;
+
+  private scoreGlow!: Phaser.GameObjects.Graphics;
 
   private weatherName: string = '';
   private weatherDesc: string = '';
@@ -76,6 +80,7 @@ export class HUDScene extends Phaser.Scene {
     };
 
     // --- Score display (top-right) ---
+    this.scoreGlow = this.add.graphics({ x: 1780, y: 75 }).setDepth(185);
     createPill(1780, 75, 240, 60);
     this.scoreText = this.add.text(1780, 75, 'SCORE: 0', {
       fontFamily: '"Nunito", sans-serif',
@@ -85,6 +90,11 @@ export class HUDScene extends Phaser.Scene {
       shadow: { offsetX: 0, offsetY: 2, color: 'rgba(0,0,0,0.5)', blur: 2, fill: true }
     });
     this.scoreText.setOrigin(0.5).setDepth(200);
+
+    // Initial streak style
+    const initialStreak = perfectStreakSystem.getCurrentStreak();
+    const initialTier = streakFXManager.getTier(initialStreak);
+    streakFXManager.applyHUDStyle(this, this.scoreGlow, initialTier, this.scoreGlow);
 
     // --- Combo display (top-left) ---
     this.comboPill = createPill(140, 75, 240, 60);
@@ -163,6 +173,14 @@ export class HUDScene extends Phaser.Scene {
         } else {
           this.showFeedback(`${payload.result.pointsAwarded}`, '#EF4444');
         }
+      }
+    );
+
+    gameEvents.on(
+      GAME_EVENTS.STREAK_CHANGED,
+      (payload: { current: number, tierChanged: boolean }) => {
+        const tier = streakFXManager.getTier(payload.current);
+        streakFXManager.applyHUDStyle(this, this.scoreGlow, tier, this.scoreGlow);
       }
     );
 
@@ -314,5 +332,6 @@ export class HUDScene extends Phaser.Scene {
     gameEvents.off(GAME_EVENTS.ITEM_DROPPED);
     gameEvents.off(GAME_EVENTS.COMBO_CHANGED);
     gameEvents.off(GAME_EVENTS.ROUND_ENDED);
+    gameEvents.off(GAME_EVENTS.STREAK_CHANGED);
   }
 }

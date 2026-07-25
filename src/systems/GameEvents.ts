@@ -45,4 +45,5 @@ export const GAME_EVENTS = {
   ITEM_DROPPED: 'item-dropped',
   COMBO_CHANGED: 'combo-changed',
   ROUND_ENDED: 'round-ended',
+  STREAK_CHANGED: 'streak-changed',
 } as const;
