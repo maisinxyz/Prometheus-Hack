@@ -655,7 +655,7 @@ export class LevelSelectScene extends Phaser.Scene {
                     <div style="display: flex; gap: 20px; margin-bottom: 30px;">
                       <!-- BEFORE -->
                       <div style="flex: 1;">
-                        <div style="color: #ef4444; font-size: 16px; font-weight: bold; margin-bottom: 10px; text-transform: uppercase;">Before (Historical)</div>
+                        <div style="color: #ef4444; font-size: 16px; font-weight: bold; margin-bottom: 10px; text-transform: uppercase;">${(codexEntry as any).customBeforeLabel || 'Before (Historical)'}</div>
                         <div style="width: 100%; height: 250px; background: #000; border-radius: 12px; margin-bottom: 15px; overflow: hidden; border: 2px solid #334155;">
                           <img src="${codexEntry.imageUrl}" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8; filter: sepia(0.4) contrast(1.1);" onerror="this.style.display='none';" />
                         </div>
@@ -666,7 +666,7 @@ export class LevelSelectScene extends Phaser.Scene {
                       
                       <!-- AFTER -->
                       <div style="flex: 1;">
-                        <div style="color: #10b981; font-size: 16px; font-weight: bold; margin-bottom: 10px; text-transform: uppercase;">After (Eco-Restored)</div>
+                        <div style="color: #10b981; font-size: 16px; font-weight: bold; margin-bottom: 10px; text-transform: uppercase;">${(codexEntry as any).customAfterLabel || 'After (Eco-Restored)'}</div>
                         <div style="width: 100%; height: 250px; background: #000; border-radius: 12px; margin-bottom: 15px; overflow: hidden; border: 2px solid #334155;">
                           <img src="${codexEntry.afterImageUrl}" style="width: 100%; height: 100%; object-fit: cover; filter: saturate(1.2) contrast(1.1);" onerror="this.style.display='none';" />
                         </div>

@@ -5,7 +5,8 @@
     "description": "During the rapid expansion of the New York skyline in the 1920s, construction waste was haphazardly dumped or burned on-site. The lack of environmental regulation meant heavy metals and toxic dust frequently blanketed surrounding neighborhoods.",
     "imageUrl": "/assets/codex/codex_construction_1784881071264.png",
     "afterDescription": "(AI Visualization) This is what we are hoping for: modern eco-friendly construction techniques that utilize recycled materials, green scaffolding, and on-site solar power, completely eliminating toxic dust and waste.",
-    "afterImageUrl": "/assets/codex/after_construction_1784881340779.png"
+    "afterImageUrl": "/assets/codex/after_construction_1784881340779.png",
+    "customAfterLabel": "Future (Eco-Restored)"
   },
   {
     "venueId": "ferry_docks",
@@ -13,55 +14,60 @@
     "description": "The golden age of steam travel brought intense pollution to New York's harbor, as seen in this actual historical photo of the Gowanus Canal. Factories directly dumped raw industrial waste into the water, while coal-powered ferries choked the air.",
     "imageUrl": "/assets/codex/codex_docks_1784881047916.png",
     "afterDescription": "While harbor water quality has improved significantly since the steam era, there is still ample room for improvement to protect marine life from microplastics and fuel leaks.",
-    "afterImageUrl": "/assets/codex/after_docks_1784881281306.png"
+    "afterImageUrl": "/assets/codex/after_docks_1784881281306.png",
+    "customAfterLabel": "Current (Eco-Restored)"
   },
   {
     "venueId": "tech_startup",
-    "title": "E-Waste Epidemic (Early 2000s)",
-    "description": "The rapid rise of disposable technology created a new crisis: e-waste. Before strict recycling mandates, millions of old computers were dumped into landfills, leaching lead and lithium into the groundwater.",
-    "imageUrl": "/assets/codex/tech_dirty_1784882801730.png",
-    "afterDescription": "As seen in this actual modern photo, tech startups now operate out of bright, eco-conscious offices with robust e-waste recycling programs and carbon-neutral energy grids.",
-    "afterImageUrl": "/assets/codex/tech_clean_1784882028318.png"
+    "title": "The Silicon Alley Energy Drain (2000s)",
+    "description": "During the early tech boom, startups relied on massive, highly inefficient on-site server closets. These poorly ventilated rooms consumed enormous amounts of electricity and required heavy, constant air conditioning, putting severe strain on the city's power grid.",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/2/26/Datove_centrum_TCP.jpg",
+    "afterDescription": "Today, modern tech startups leverage highly optimized cloud computing running on shared data centers powered by renewable energy, drastically reducing their physical footprint and local energy consumption.",
+    "afterImageUrl": "/assets/codex/tech_clean_1784882028318.png",
+    "customAfterLabel": "Current (Eco-Restored)"
   },
   {
     "venueId": "subway_station",
-    "title": "The Graffiti and Grime Era (1970s)",
-    "description": "In the 1970s, the NYC subway system hit rock bottom. Rampant graffiti and deferred maintenance turned the stations into massive underground trash receptacles, as seen in this historical photo.",
-    "imageUrl": "/assets/codex/subway_station_dirty.svg",
-    "afterDescription": "As seen in this actual modern photo, the subway system is now a shining example of clean, efficient mass transit, with bright lighting and spotless subway cars.",
-    "afterImageUrl": "/assets/codex/subway_station_clean.svg"
+    "title": "Climate Vulnerability & Pollution (2000s)",
+    "description": "Before major modernization and resiliency efforts, the subway faced significant environmental and infrastructure challenges. Decades of accumulated track debris contributed to frequent track fires that produced toxic smoke and service disruptions. In addition, the aging system proved vulnerable to extreme weather, with Hurricane Sandy in 2012 causing severe flooding that shut down parts of the network for several days.",
+    "imageUrl": "/assets/codex/subway_before_ai.jpg",
+    "afterDescription": "Today, modernized transit hubs operate with high energy efficiency and advanced flood-proof storm barriers. However, there is still significant room for progress to fully waterproof the entire 400-mile tunnel network and entirely eliminate single-use plastics from underground vendors.",
+    "afterImageUrl": "/assets/codex/subway_after_ai.jpg",
+    "customAfterLabel": "Current (Eco-Restored)"
   },
   {
     "venueId": "gym",
     "title": "The Plastic Boom (1980s)",
     "description": "The fitness craze popularized single-use plastics. This marked a turning point where non-biodegradable plastics began permanently polluting the city's environment, waterways, and oceans, as seen here.",
-    "imageUrl": "/assets/codex/gym_dirty.svg",
-    "afterDescription": "As seen in this actual modern photo, state-of-the-art gyms now feature reusable water stations and equipment made entirely from recycled oceanic plastics.",
-    "afterImageUrl": "/assets/codex/gym_clean.svg"
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/86/Step_Aerobics_Class_at_a_Gym.JPG",
+    "afterDescription": "In an ideal eco-restored future, state-of-the-art gyms will finally eliminate single-use plastics entirely. They will feature exclusively reusable water stations and workout equipment manufactured completely from recycled oceanic plastics.",
+    "afterImageUrl": "/assets/codex/gym_after_ai.jpg",
+    "customAfterLabel": "Future (Eco-Restored)"
   },
   {
     "venueId": "public_library",
     "title": "Acid Paper Decay (1950s)",
-    "description": "Throughout the early 20th century, books were printed on cheap, acidic paper. As millions of these books decayed, the chemical breakdown destroyed the archives and contributed to poor indoor air quality.",
-    "imageUrl": "/assets/codex/public_library_dirty.svg",
-    "afterDescription": "As seen in this actual modern photo, the New York Public Library Rose Main Reading Room is a pristine sanctuary of preserved knowledge and healthy, filtered air.",
-    "afterImageUrl": "/assets/codex/library_clean_1784882035649.png"
+    "description": "Historically, the immense demand for physical books and printed materials came at a severe environmental cost. Mass deforestation to produce paper resulted in the clearing of ancient woodlands, disrupting ecosystems and contributing to significant carbon emissions.",
+    "imageUrl": "/assets/codex/library_before_ai.jpg",
+    "afterDescription": "Today, libraries have heavily mitigated this impact by transitioning to digital archives, e-books, and recycled paper. However, there is still significant room for improvement, as the massive server farms powering these digital databases require vast amounts of electricity and produce their own carbon footprint.",
+    "afterImageUrl": "/assets/codex/library_after_ai2.jpg",
+    "customAfterLabel": "Current (Eco-Restored)"
   },
   {
     "venueId": "art_studio",
     "title": "Toxic Pigments (1930s)",
     "description": "Artists often worked with highly toxic heavy metals like lead white and cadmium red. When improperly disposed of, these toxins poisoned the local environment and water supply, akin to generic hazardous waste sites.",
-    "imageUrl": "/assets/codex/art_studio_dirty.svg",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/3/36/The_Artist%27s_Studio_by_Johannes_Gumpp.jpg",
     "afterDescription": "As seen in this actual photo, modern art studios now prioritize non-toxic, eco-friendly paints and meticulous hazardous waste disposal systems.",
-    "afterImageUrl": "/assets/codex/art_studio_clean.svg"
+    "afterImageUrl": "https://upload.wikimedia.org/wikipedia/commons/9/98/ArtistStudio.png"
   },
   {
     "venueId": "financial_district_office",
     "title": "Wall Street Waste (1980s)",
     "description": "The excess of the 1980s financial boom led to unparalleled commercial waste. Millions of disposable styrofoam coffee cups and takeout containers flooded the streets daily, leading to extreme street-level litter.",
-    "imageUrl": "/assets/codex/financial_district_office_dirty.svg",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/01/NYSE-floor.jpg",
     "afterDescription": "As seen in this actual photo, Wall Street and the Financial District are now kept immaculately clean through aggressive recycling mandates and zero-waste office policies.",
-    "afterImageUrl": "/assets/codex/financial_district_office_clean.svg"
+    "afterImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Wall_Street_%2855314253740%29.jpg/3840px-Wall_Street_%2855314253740%29.jpg"
   },
   {
     "venueId": "central_park",
@@ -79,30 +85,30 @@
     "imageUrl": "/assets/codex/codex_times_square_1784881040822.png",
     "isHypotheticalFuture": true,
     "afterDescription": "As seen in this actual modern photo, Times Square is a breathtaking, pedestrian-friendly plaza, kept remarkably clean and vibrant through massive urban renewal projects.",
-    "afterImageUrl": "/assets/codex/after_times_square_1784881271147.png"
+    "afterImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/47/New_york_times_square-terabass.jpg/3840px-New_york_times_square-terabass.jpg"
   },
   {
     "venueId": "nyc_hospital",
     "title": "Medical Waste Crisis (1988)",
     "description": "In the summer of 1988, improperly disposed medical waste washed ashore on beaches. This terrifying environmental failure forced immediate closures and led to strict modern medical waste laws.",
-    "imageUrl": "/assets/codex/nyc_hospital_dirty.svg",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/88/Hospital-de-Bellvitge.jpg",
     "afterDescription": "As seen in this actual modern photo, top-tier NYC hospitals now boast zero-emission architecture and flawless, sterilized biomedical waste processing.",
-    "afterImageUrl": "/assets/codex/nyc_hospital_clean.svg"
+    "afterImageUrl": "https://upload.wikimedia.org/wikipedia/commons/8/8f/The_Mount_Sinai_Hospital.png"
   },
   {
     "venueId": "hot_dog_stand",
     "title": "The Street Food Plight (1990s)",
     "description": "The explosion of street food vendors led to a crisis of unmanaged public waste. Overflowing street corner trash cans caused by foil wrappers and plastic utensils became breeding grounds for vermin.",
-    "imageUrl": "/assets/codex/hot_dog_stand_dirty.svg",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/0/09/Hot_dog_stand.jpg",
     "afterDescription": "As seen in this actual photo, iconic New York street food carts now exclusively use compostable packaging, maintaining vibrant, clean city corners.",
-    "afterImageUrl": "/assets/codex/hot_dog_stand_clean.svg"
+    "afterImageUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/NYCHotDog2024.jpg/3840px-NYCHotDog2024.jpg"
   },
   {
     "venueId": "mackenzie_cafe",
     "title": "The Single-Use Epidemic (2010s)",
     "description": "The modern coffee culture explosion brought the convenience of single-use, poly-lined coffee cups and plastic lids. Before compostable alternatives existed, these cups formed a significant percentage of landfill waste.",
-    "imageUrl": "/assets/codex/mackenzie_cafe_dirty.svg",
+    "imageUrl": "https://upload.wikimedia.org/wikipedia/commons/e/ea/Coffee_Shop_%288339247167%29.jpg",
     "afterDescription": "As seen in this actual modern photo, bustling city cafes now serve entirely in reusable ceramics or 100% biodegradable cups, eliminating coffee waste.",
-    "afterImageUrl": "/assets/codex/mackenzie_cafe_clean.svg"
+    "afterImageUrl": "https://upload.wikimedia.org/wikipedia/commons/f/fd/Caf%C3%A9_de_Flore.jpg"
   }
 ]
