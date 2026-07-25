@@ -43,6 +43,13 @@ export class GardenSystem {
     }
   }
 
+  public setProgress(binId: string, amount: number): void {
+    if (this.progress[binId] !== undefined) {
+      this.progress[binId] = amount;
+      this.saveProgress();
+    }
+  }
+
   public getRawCount(binId: string): number {
     return this.progress[binId] || 0;
   }

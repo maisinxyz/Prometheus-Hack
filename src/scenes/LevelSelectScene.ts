@@ -671,6 +671,83 @@ export class LevelSelectScene extends Phaser.Scene {
       codexOverlay.style.display = 'flex';
     });
 
+    // --- Developer Mode HUD ---
+    if (localStorage.getItem('trashdash_dev_mode') === 'true') {
+      const devPanel = document.createElement('div');
+      devPanel.id = 'dev-panel';
+      devPanel.style.position = 'absolute';
+      devPanel.style.top = '20px';
+      devPanel.style.right = '20px';
+      devPanel.style.background = 'rgba(220, 38, 38, 0.9)';
+      devPanel.style.padding = '15px';
+      devPanel.style.borderRadius = '8px';
+      devPanel.style.zIndex = '999';
+      devPanel.style.color = 'white';
+      devPanel.style.fontFamily = '"Nunito", sans-serif';
+      devPanel.style.boxShadow = '0 4px 6px rgba(0,0,0,0.3)';
+      devPanel.innerHTML = `
+        <div style="font-weight: bold; margin-bottom: 10px; font-size: 16px;">DEV MODE</div>
+        <div style="font-size: 12px; margin-bottom: 2px;">Total CHI: <span id="dev-chi-val">${Math.floor(totalChi)}</span> / ${maxChi}</div>
+        <input type="range" id="dev-chi-slider" min="0" max="${maxChi}" value="${Math.floor(totalChi)}" style="width: 100%; margin-bottom: 10px;" />
+        <div style="font-size: 12px; margin-bottom: 5px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 4px;">Garden Levels</div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+          <span>Compost</span>
+          <div><button id="dev-compost-down" style="color:black;">-</button> <button id="dev-compost-up" style="color:black;">+</button></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+          <span>Recycling</span>
+          <div><button id="dev-recycling-down" style="color:black;">-</button> <button id="dev-recycling-up" style="color:black;">+</button></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+          <span>Plastic</span>
+          <div><button id="dev-plastic-down" style="color:black;">-</button> <button id="dev-plastic-up" style="color:black;">+</button></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+          <span>Landfill</span>
+          <div><button id="dev-landfill-down" style="color:black;">-</button> <button id="dev-landfill-up" style="color:black;">+</button></div>
+        </div>
+      `;
+      document.body.appendChild(devPanel);
+
+      const slider = document.getElementById('dev-chi-slider') as HTMLInputElement;
+      const valLabel = document.getElementById('dev-chi-val');
+      
+      slider?.addEventListener('input', (e) => {
+        if (valLabel) valLabel.textContent = (e.target as HTMLInputElement).value;
+      });
+
+      slider?.addEventListener('change', (e) => {
+        let remainingChi = parseInt((e.target as HTMLInputElement).value, 10);
+        venuesData.forEach(v => {
+          const venueChi = Math.max(0, Math.min(100, remainingChi));
+          localStorage.setItem('trashdash_chi_' + v.id, venueChi.toString());
+          remainingChi -= venueChi;
+        });
+        this.scene.restart();
+      });
+
+      const setupDevBtn = (id: string, bin: string, isUp: boolean, increment: number) => {
+        document.getElementById(id)?.addEventListener('click', () => {
+          let current = this.gardenSystem.getRawCount(bin);
+          const maxLevel = bin === 'landfill' ? 5 : 10;
+          const currentLevel = Math.floor(current / increment);
+          let newLevel = currentLevel + (isUp ? 1 : -1);
+          newLevel = Math.max(0, Math.min(maxLevel, newLevel));
+          this.gardenSystem.setProgress(bin, newLevel * increment);
+          this.scene.restart();
+        });
+      };
+
+      setupDevBtn('dev-compost-down', 'compost', false, 30);
+      setupDevBtn('dev-compost-up', 'compost', true, 30);
+      setupDevBtn('dev-recycling-down', 'recycling', false, 30);
+      setupDevBtn('dev-recycling-up', 'recycling', true, 30);
+      setupDevBtn('dev-plastic-down', 'plastic', false, 30);
+      setupDevBtn('dev-plastic-up', 'plastic', true, 30);
+      setupDevBtn('dev-landfill-down', 'landfill', false, 50);
+      setupDevBtn('dev-landfill-up', 'landfill', true, 50);
+    }
+
     // 5. Cleanup MapKit UI when leaving this scene
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       document.getElementById('level-select-ui')?.remove();
@@ -681,6 +758,7 @@ export class LevelSelectScene extends Phaser.Scene {
       document.getElementById('current-chi-hud')?.remove();
       document.getElementById('recenter-btn')?.remove();
       document.getElementById('codex-overlay')?.remove();
+      document.getElementById('dev-panel')?.remove();
       levelNodes.forEach(n => n.remove());
       PathOverlayService.removeFromMap();
       MapLibreService.toggleFutureVision(false, 0, 0); // Reset map style

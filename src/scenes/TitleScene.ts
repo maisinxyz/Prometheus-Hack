@@ -112,6 +112,7 @@ export class TitleScene extends Phaser.Scene {
             localStorage.setItem('trashdash_chi_' + id, '100');
           });
           localStorage.setItem('trashdash_tutorial_complete', 'true');
+          localStorage.setItem('trashdash_dev_mode', 'true');
           
           this.scene.start('LevelSelectScene');
         }
