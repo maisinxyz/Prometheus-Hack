@@ -21,41 +21,37 @@
     "latitude": 40.8115,
     "longitude": -73.9465,
     "binPositions": [
-      { "x": 400, "y": 900 },
-      { "x": 650, "y": 900 },
-      { "x": 900, "y": 900 },
-      { "x": 1150, "y": 900 }
+      {
+        "x": 400,
+        "y": 900
+      },
+      {
+        "x": 650,
+        "y": 900
+      },
+      {
+        "x": 900,
+        "y": 900
+      },
+      {
+        "x": 1150,
+        "y": 900
+      }
     ],
     "spawnZones": {
-      "GroundZone": { "x": 100, "y": 700, "width": 1400, "height": 200 },
-      "AirZone": { "x": 100, "y": 200, "width": 1720, "height": 400 }
+      "GroundZone": {
+        "x": 100,
+        "y": 700,
+        "width": 1400,
+        "height": 200
+      },
+      "AirZone": {
+        "x": 100,
+        "y": 200,
+        "width": 1720,
+        "height": 400
+      }
     }
-  },
-  {
-    "id": "broadway_theater",
-    "displayName": "Broadway Theater",
-    "unlockChiThreshold": 15,
-    "itemPoolIds": [
-      "playbill",
-      "popcorn_bag",
-      "ticket_stub",
-      "glow_stick",
-      "candy_wrapper",
-      "foam_cup",
-      "confetti",
-      "broken_stage_light",
-      "opera_glasses_broken",
-      "popcorn_kernels",
-      "popcorn_in_box",
-      "champagne_in_plastic"
-    ],
-    "backgroundKeys": {
-      "clean": "venue_broadway_theater_bg_clean",
-      "grimy": "venue_broadway_theater_bg_grimy",
-      "ruined": "venue_broadway_theater_bg_ruined"
-    },
-    "latitude": 40.759,
-    "longitude": -73.9845
   },
   {
     "id": "ferry_docks",
@@ -157,43 +153,6 @@
     },
     "latitude": 40.7527,
     "longitude": -73.9772
-  },
-  {
-    "id": "empire_state_building",
-    "displayName": "Empire State Building",
-    "unlockChiThreshold": 60,
-    "itemPoolIds": [
-      "paper_plate",
-      "plastic_fork",
-      "coffee_cup",
-      "coffee_cup_lid",
-      "napkin_clean",
-      "napkin_greasy",
-      "plastic_water_bottle",
-      "aluminum_can",
-      "paper_straw_wrapper",
-      "plastic_straw",
-      "observation_deck_ticket",
-      "crushed_souvenir_cup",
-      "broken_snow_globe",
-      "crumpled_city_guide",
-      "lobby_coffee_stirrer",
-      "elevator_button_cap",
-      "art_deco_tile_chip",
-      "empty_hand_sanitizer",
-      "used_tissue",
-      "penny_from_deck",
-      "gift_shop_bag",
-      "tourist_lunch_tray",
-      "binoculars_in_box"
-    ],
-    "backgroundKeys": {
-      "clean": "venue_chelsea_office_bg_clean",
-      "grimy": "venue_chelsea_office_bg_grimy",
-      "ruined": "venue_chelsea_office_bg_ruined"
-    },
-    "latitude": 40.7484,
-    "longitude": -73.9857
   },
   {
     "id": "gym",
@@ -558,14 +517,40 @@
     "latitude": 40.7565,
     "longitude": -73.987,
     "binPositions": [
-      { "x": 720, "y": 600, "scale": 0.6 },
-      { "x": 880, "y": 600, "scale": 0.6 },
-      { "x": 1040, "y": 600, "scale": 0.6 },
-      { "x": 1200, "y": 600, "scale": 0.6 }
+      {
+        "x": 720,
+        "y": 600,
+        "scale": 0.6
+      },
+      {
+        "x": 880,
+        "y": 600,
+        "scale": 0.6
+      },
+      {
+        "x": 1040,
+        "y": 600,
+        "scale": 0.6
+      },
+      {
+        "x": 1200,
+        "y": 600,
+        "scale": 0.6
+      }
     ],
     "spawnZones": {
-      "TableZone": { "x": 200, "y": 300, "width": 1500, "height": 300 },
-      "GroundZone": { "x": 100, "y": 700, "width": 1720, "height": 200 }
+      "TableZone": {
+        "x": 200,
+        "y": 300,
+        "width": 1500,
+        "height": 300
+      },
+      "GroundZone": {
+        "x": 100,
+        "y": 700,
+        "width": 1720,
+        "height": 200
+      }
     }
   }
 ]

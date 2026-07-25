@@ -183,9 +183,12 @@ export class LevelSelectScene extends Phaser.Scene {
     uiContainer.id = 'level-select-ui';
     uiContainer.style.position = 'absolute';
     uiContainer.style.top = '20px';
-    uiContainer.style.left = '20px';
+    uiContainer.style.right = '20px';
+    uiContainer.style.left = 'auto'; // Re-oriented to the right
     uiContainer.style.zIndex = '20';
     uiContainer.style.pointerEvents = 'auto';
+    uiContainer.style.transition = 'opacity 0.3s ease';
+    
     const compostLvl = this.gardenSystem.getCompostLevel();
     const isLocked = compostLvl < 5;
     const compostProg = (this.gardenSystem.getRawCount('compost') % 30) / 30 * 100;
@@ -209,10 +212,10 @@ export class LevelSelectScene extends Phaser.Scene {
     `;
 
     uiContainer.innerHTML = `
-      <div style="background: linear-gradient(135deg, rgba(30,41,59,0.9), rgba(15,23,42,0.95)); backdrop-filter: blur(8px); padding: 20px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); box-shadow: inset 0 2px 4px rgba(255,255,255,0.05), 0 10px 25px rgba(0,0,0,0.4); width: 320px; box-sizing: border-box; position: relative;">
+      <div id="stats-wrapper" style="background: linear-gradient(135deg, rgba(30,41,59,0.9), rgba(15,23,42,0.95)); backdrop-filter: blur(8px); padding: 20px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); box-shadow: inset 0 2px 4px rgba(255,255,255,0.05), 0 10px 25px rgba(0,0,0,0.4); width: 320px; box-sizing: border-box; position: relative; transition: all 0.3s ease;">
         
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-          <div style="color: #f1f5f9; font-weight: 800; font-size: 18px; letter-spacing: 0.5px;">COMMUNITY GARDEN</div>
+        <div id="stats-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; transition: margin 0.3s ease;">
+          <div id="stats-title" style="color: #f1f5f9; font-weight: 800; font-size: 18px; letter-spacing: 0.5px; transition: opacity 0.2s ease;">COMMUNITY GARDEN</div>
           <div id="stats-toggle-btn" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 4px 8px; font-size: 12px; border-radius: 5px; cursor: pointer; font-family: 'Nunito', sans-serif;">Hide</div>
         </div>
 
@@ -255,6 +258,7 @@ export class LevelSelectScene extends Phaser.Scene {
     currentChiHud.style.borderRadius = '20px';
     currentChiHud.style.border = '2px solid #3b82f6';
     currentChiHud.style.zIndex = '20';
+    currentChiHud.style.transition = 'opacity 0.3s ease';
     
     // Handle math safely
     const safeThreshold = nextUnlockThreshold > 0 ? nextUnlockThreshold : 100;
@@ -285,7 +289,7 @@ export class LevelSelectScene extends Phaser.Scene {
     recenterBtn.style.cursor = 'pointer';
     recenterBtn.style.boxShadow = 'inset 0 4px 0 rgba(255,255,255,0.2), 0 4px 6px rgba(0,0,0,0.3)';
     recenterBtn.style.zIndex = '20';
-    recenterBtn.style.transition = 'transform 0.1s ease';
+    recenterBtn.style.transition = 'transform 0.1s ease, opacity 0.3s ease';
     recenterBtn.addEventListener('mousedown', () => recenterBtn.style.transform = 'scale(0.95)');
     recenterBtn.addEventListener('mouseup', () => recenterBtn.style.transform = 'scale(1)');
     recenterBtn.addEventListener('mouseleave', () => recenterBtn.style.transform = 'scale(1)');
@@ -309,20 +313,38 @@ export class LevelSelectScene extends Phaser.Scene {
     
     
     // Logic to toggle stats visibility
-    let statsVisible = true;
     document.getElementById('stats-toggle-btn')?.addEventListener('click', () => {
       const content = document.getElementById('stats-content-area');
       const btn = document.getElementById('stats-toggle-btn');
-      if (content && btn) {
+      const wrapper = document.getElementById('stats-wrapper');
+      const header = document.getElementById('stats-header');
+      const title = document.getElementById('stats-title');
+      
+      if (content && btn && wrapper && header && title) {
         if (content.style.opacity !== '0') {
           content.style.maxHeight = '0px';
           content.style.opacity = '0';
           content.style.pointerEvents = 'none';
-          btn.innerText = 'Show';
+          
+          wrapper.style.padding = '8px 12px';
+          wrapper.style.width = 'auto';
+          header.style.marginBottom = '0px';
+          title.style.opacity = '0';
+          title.style.width = '0px';
+          title.style.overflow = 'hidden';
+          
+          btn.innerText = 'Show Stats';
         } else {
           content.style.maxHeight = '800px';
           content.style.opacity = '1';
           content.style.pointerEvents = 'auto';
+          
+          wrapper.style.padding = '20px';
+          wrapper.style.width = '320px';
+          header.style.marginBottom = '16px';
+          title.style.opacity = '1';
+          title.style.width = 'auto';
+          
           btn.innerText = 'Hide';
         }
       }
@@ -335,19 +357,23 @@ export class LevelSelectScene extends Phaser.Scene {
     const weatherEventContainer = document.createElement('div');
     weatherEventContainer.id = 'map-weather-event';
     weatherEventContainer.style.position = 'absolute';
-    weatherEventContainer.style.bottom = '20px';
-    weatherEventContainer.style.right = '20px';
-    weatherEventContainer.style.width = '450px';
-    weatherEventContainer.style.background = 'rgba(0,0,0,0.7)';
-    weatherEventContainer.style.border = `2px solid ${weatherColor}`;
-    weatherEventContainer.style.padding = '15px';
+    weatherEventContainer.style.top = '20px';
+    weatherEventContainer.style.left = '20px';
+    weatherEventContainer.style.width = '320px';
+    weatherEventContainer.style.background = 'linear-gradient(135deg, rgba(30,41,59,0.9), rgba(15,23,42,0.95))';
+    weatherEventContainer.style.backdropFilter = 'blur(8px)';
+    weatherEventContainer.style.borderRadius = '16px';
+    weatherEventContainer.style.border = `1px solid ${weatherColor}`;
+    weatherEventContainer.style.boxShadow = `inset 0 2px 4px rgba(255,255,255,0.05), 0 10px 25px rgba(0,0,0,0.4), 0 0 15px ${weatherColor}40`;
+    weatherEventContainer.style.padding = '20px';
     weatherEventContainer.style.zIndex = '20';
     weatherEventContainer.style.pointerEvents = 'auto'; // allow clicking close button
+    weatherEventContainer.style.transition = 'opacity 0.3s ease';
     weatherEventContainer.innerHTML = `
-      <div id="close-weather-btn" style="position: absolute; top: 10px; right: 15px; color: #fff; cursor: pointer; font-size: 20px; font-family: 'Nunito', sans-serif; font-weight: bold;">&times;</div>
-      <div style="font-family: Arial, sans-serif; font-size: 28px; color: ${weatherColor}; font-weight: bold; margin-bottom: 5px;">${weatherName}</div>
-      <div style="font-family: Arial, sans-serif; font-size: 18px; color: #aaaaaa; margin-bottom: 5px;">${weatherDesc}</div>
-      <div style="font-family: Arial, sans-serif; font-size: 18px; color: #ffffff; font-style: italic;">Effect: ${weatherEffect}</div>
+      <div id="close-weather-btn" style="position: absolute; top: 15px; right: 20px; color: #94a3b8; cursor: pointer; font-size: 22px; font-family: 'Nunito', sans-serif; font-weight: bold; line-height: 1; transition: color 0.2s;">&times;</div>
+      <div style="font-family: 'Nunito', sans-serif; font-size: 18px; color: ${weatherColor}; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 8px; text-transform: uppercase;">${weatherName}</div>
+      <div style="font-family: 'Nunito', sans-serif; font-size: 14px; color: #cbd5e1; margin-bottom: 12px; line-height: 1.4;">${weatherDesc}</div>
+      <div style="font-family: 'Nunito', sans-serif; font-size: 13px; color: #f8fafc; font-weight: bold; background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 8px; border-left: 3px solid ${weatherColor};">Effect: ${weatherEffect}</div>
     `;
     document.body.appendChild(weatherEventContainer);
 
@@ -355,8 +381,8 @@ export class LevelSelectScene extends Phaser.Scene {
     const weatherTab = document.createElement('div');
     weatherTab.id = 'weather-tab';
     weatherTab.style.position = 'absolute';
-    weatherTab.style.bottom = '40px';
-    weatherTab.style.right = '0px';
+    weatherTab.style.top = '20px';
+    weatherTab.style.left = '0px';
     weatherTab.style.background = 'rgba(220, 38, 38, 0.9)';
     weatherTab.style.color = '#fff';
     weatherTab.style.padding = '8px 12px';
@@ -368,7 +394,8 @@ export class LevelSelectScene extends Phaser.Scene {
     weatherTab.style.fontFamily = "'Nunito', sans-serif";
     weatherTab.style.fontWeight = 'bold';
     weatherTab.style.fontSize = '14px';
-    weatherTab.innerText = '◀ Weather';
+    weatherTab.style.transition = 'opacity 0.3s ease';
+    weatherTab.innerText = 'Weather ▶';
     document.body.appendChild(weatherTab);
 
     // Make weather warning hideable
@@ -382,6 +409,28 @@ export class LevelSelectScene extends Phaser.Scene {
         weatherTab.style.display = 'none';
       });
     }, 0);
+
+    // Map movement translucency logic
+    let moveTimeout: any;
+    const setHudOpacity = (opacity: string) => {
+      uiContainer.style.opacity = opacity;
+      currentChiHud.style.opacity = opacity;
+      recenterBtn.style.opacity = opacity;
+      weatherEventContainer.style.opacity = opacity;
+      weatherTab.style.opacity = opacity;
+    };
+
+    map.on('movestart', () => {
+      clearTimeout(moveTimeout);
+      setHudOpacity('0.25');
+    });
+    
+    map.on('moveend', () => {
+      clearTimeout(moveTimeout);
+      moveTimeout = setTimeout(() => {
+        setHudOpacity('1');
+      }, 500);
+    });
 
     const smogOverlay = document.createElement('div');
     smogOverlay.id = 'smog-overlay';
@@ -676,8 +725,8 @@ export class LevelSelectScene extends Phaser.Scene {
       const devPanel = document.createElement('div');
       devPanel.id = 'dev-panel';
       devPanel.style.position = 'absolute';
-      devPanel.style.top = '20px';
-      devPanel.style.right = '20px';
+      devPanel.style.bottom = '120px';
+      devPanel.style.left = '20px';
       devPanel.style.background = 'rgba(220, 38, 38, 0.9)';
       devPanel.style.padding = '15px';
       devPanel.style.borderRadius = '8px';

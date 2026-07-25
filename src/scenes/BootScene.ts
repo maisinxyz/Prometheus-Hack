@@ -92,8 +92,8 @@ export class BootScene extends Phaser.Scene {
 
     // Load venue icons
     const venueIds = [
-      'mackenzie_cafe', 'financial_district_office', 'times_square', 'broadway_theater',
-      'hot_dog_stand', 'subway_station', 'chelsea_office', 'gym', 'central_park',
+      'mackenzie_cafe', 'financial_district_office', 'times_square', 
+      'hot_dog_stand', 'subway_station', 'gym', 'central_park',
       'public_library', 'art_studio', 'construction_site', 'tech_startup', 'ferry_docks',
       'nyc_hospital' // Wait, I didn't download one for nyc_hospital!
     ];
@@ -152,10 +152,8 @@ export class BootScene extends Phaser.Scene {
       'mackenzie_cafe': 0x8b4513,
       'financial_district_office': 0x708090,
       'times_square': 0x4b0082,
-      'broadway_theater': 0xd946ef,
       'hot_dog_stand': 0xff8c00,
       'subway_station': 0x57534e,
-      'chelsea_office': 0x4682b4,
       'gym': 0xf97316,
       'central_park': 0x228b22,
       'public_library': 0x8b4513,

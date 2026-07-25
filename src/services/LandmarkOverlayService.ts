@@ -39,17 +39,6 @@ const LANDMARKS: LandmarkConfig[] = [
     placeholderType: 'cylinder',
   },
   {
-    id: 'empire_state_building',
-    name: 'Empire State Building',
-    lng: -73.9857,
-    lat: 40.7484,
-    heightMeters: 443,
-    rotationY: 0,
-    modelPath: null,
-    color: '#C0C0C0',       // Silver
-    placeholderType: 'tower',
-  },
-  {
     id: 'one_times_square',
     name: 'One Times Square',
     lng: -73.9855,

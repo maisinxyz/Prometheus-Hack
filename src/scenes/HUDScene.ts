@@ -131,7 +131,7 @@ export class HUDScene extends Phaser.Scene {
     resetBtnBg.on('pointerdown', () => {
       // Set all venues to 100 CHI (max) to remove smog
       if (typeof localStorage !== 'undefined') {
-        const venues = ['mackenzie_cafe', 'financial_district_office', 'nyc_hospital', 'times_square', 'broadway_theater', 'hot_dog_stand', 'subway_station', 'empire_state_building', 'gym', 'central_park', 'public_library', 'art_studio', 'construction_site', 'tech_startup', 'ferry_docks'];
+        const venues = ['mackenzie_cafe', 'financial_district_office', 'nyc_hospital', 'times_square', 'hot_dog_stand', 'subway_station', 'gym', 'central_park', 'public_library', 'art_studio', 'construction_site', 'tech_startup', 'ferry_docks'];
         for (const v of venues) {
           localStorage.setItem('trashdash_chi_' + v, '100');
         }

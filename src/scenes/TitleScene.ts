@@ -103,8 +103,8 @@ export class TitleScene extends Phaser.Scene {
         onComplete: () => {
           // Unlock all venues by setting high CHI for them
           const venueIds = [
-            'construction_site', 'broadway_theater', 'ferry_docks', 'tech_startup',
-            'subway_station', 'empire_state_building', 'gym', 'public_library',
+            'construction_site', 'ferry_docks', 'tech_startup',
+            'subway_station', 'gym', 'public_library',
             'art_studio', 'financial_district_office', 'central_park', 'times_square',
             'nyc_hospital', 'hot_dog_stand', 'mackenzie_cafe'
           ];

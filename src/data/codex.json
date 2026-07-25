@@ -8,14 +8,6 @@
     "afterImageUrl": "/assets/codex/after_construction_1784881340779.png"
   },
   {
-    "venueId": "broadway_theater",
-    "title": "The Smoggy White Way (1940s)",
-    "description": "Before clean air acts, Broadway theaters burned coal for heat. The resulting thick, suffocating smog often coated the glamorous theater district in a layer of black soot.",
-    "imageUrl": "/assets/codex/codex_broadway_1784881055491.png",
-    "afterDescription": "The theater district has improved significantly since the coal era, utilizing LED lighting, but there is still substantial room for improvement to eliminate single-use plastic cups and playbill litter.",
-    "afterImageUrl": "/assets/codex/after_broadway_1784881289018.png"
-  },
-  {
     "venueId": "ferry_docks",
     "title": "Industrial Harbor Decay (1890s)",
     "description": "The golden age of steam travel brought intense pollution to New York's harbor, as seen in this actual historical photo of the Gowanus Canal. Factories directly dumped raw industrial waste into the water, while coal-powered ferries choked the air.",
@@ -38,14 +30,6 @@
     "imageUrl": "/assets/codex/subway_station_dirty.svg",
     "afterDescription": "As seen in this actual modern photo, the subway system is now a shining example of clean, efficient mass transit, with bright lighting and spotless subway cars.",
     "afterImageUrl": "/assets/codex/subway_station_clean.svg"
-  },
-  {
-    "venueId": "empire_state_building",
-    "title": "The Paper Mountain (1960s)",
-    "description": "Before the digital age, mega-office buildings generated mountains of paper waste daily. With no recycling infrastructure, this volume of waste was incinerated locally, raining ash down on Midtown Manhattan and causing severe smog.",
-    "imageUrl": "/assets/codex/empire_state_building_dirty.svg",
-    "afterDescription": "As seen in this actual modern aerial photo, the Empire State Building now pierces through crystal clear, smog-free skies, leading the city's green energy retrofitting initiative.",
-    "afterImageUrl": "/assets/codex/empire_state_building_clean.svg"
   },
   {
     "venueId": "gym",
