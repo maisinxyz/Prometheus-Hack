@@ -662,6 +662,8 @@ export class LevelSelectScene extends Phaser.Scene {
       currentChiHud.style.opacity = opacity;
       recenterBtn.style.opacity = opacity;
       helpBtn.style.opacity = opacity;
+      objectiveBtn.style.opacity = opacity;
+      playerContainer.style.opacity = opacity;
       weatherEventContainer.style.opacity = opacity;
       weatherTab.style.opacity = opacity;
     };
