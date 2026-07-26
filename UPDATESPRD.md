@@ -281,6 +281,80 @@ DEFINITION OF DONE: Both docs accurately reflect the post-overhaul state — no 
 **TASK 7.4 — Final commit and tag**
 ACTION: npm run build / test / lint all pass with zero errors. Commit: "Step 7: full regression, new test coverage, QA pass, docs update". Tag this commit as premium-overhaul-v1-complete.
 
+
+
+
+System Directives for AI Agent (Claude)
+Role: You are a Lead Technical Artist and Environment Programmer.
+Task: Read this document and construct the scene layouts, environment variables, lighting configurations, and material shaders for four specific levels in a 3D trash-sorting game.
+Engine/Language: Implement these specifications using the project's current tech stack. Create the necessary scene files, configuration objects, or component scripts to reflect these parameters.
+Goal: Achieve a "Stylized PBR" (Premium Casual) art style. The environment must look high-end and cohesive, blending simplified cartoon geometry with realistic physics-based lighting.
+Global Art Style Parameters (Stylized PBR)
+Apply these rules to all generated materials and render settings:
+Geometry: Beveled edges on all meshes to catch specular highlights. No harsh 90-degree corners.
+Textures (Albedo): Flat, vibrant, un-textured color palettes. Do not use noisy photo-scans (no realistic concrete grit or wood grain).
+Materials (PBR): Rely entirely on Roughness and Metallic maps for detail. A brick wall should have flat red color, but the realistic lighting will bounce off the smooth bricks and get absorbed by the rough mortar.
+Post-Processing:
+Enable Ambient Occlusion (SSAO) to ground the trash cans to the floor.
+Enable subtle Depth of Field (DoF). The foreground play area (Trash Cans, Z: 0 to 5) must be in sharp focus. The background elements (Z: 10+) must be slightly blurred.
+Enable mild Bloom for light sources.
+Level 1: Central Park
+Atmosphere: Lush, peaceful, dappled sunlight.
+Integration Technique: The trash bins sit on a defined cobblestone pathway that acts as the "Diorama base," separating the UI space from the background.
+Foreground Anchor (Play Area):
+Floor Material: Stylized cobblestone. Roughness: 0.8 (matte). Color: Slate Grey (#708090).
+Props: A low-poly park bench on the left, a stylized classic NYC black cast-iron streetlamp on the right.
+Background Elements:
+Layer 1: Thick, rounded, fluffy green bushes (No individual leaves).
+Layer 2: Silhouetted stylized NYC skyline (like the Plaza Hotel) rendered in muted atmospheric perspective (tinted light blue).
+Lighting Config:
+Directional Light: Warm Yellow (#FFF4D2), Angle: 45 degrees.
+Shadows: Soft. Apply a "Gobo" (light mask) to the directional light to simulate light filtering through leaves.
+Level 2: Mount Sinai Hospital
+Atmosphere: Clean, sterile, premium, and bright. Highly reflective.
+Integration Technique: The scene relies on high-gloss floor reflections to visually connect the 3D trash bins to the environment.
+Foreground Anchor (Play Area):
+Floor Material: Polished Linoleum/Terrazzo. Roughness: 0.1 (very glossy), Metallic: 0.0. Color: Hospital Blue/White (#E0F7FA).
+Props: A sleek, white hand-sanitizer station, a wet floor sign (bright yellow for contrast).
+Background Elements:
+Layer 1: Frosted glass partitions.
+Layer 2: A stylized, clean reception desk with soft blue LED under-glow.
+Lighting Config:
+Ambient Light: High intensity, cool white (#F0F8FF).
+Point Lights: Placed directly above the play area to create sharp, premium specular highlights on the plastic of the trash cans. No dark shadows.
+Level 3: West Village Cafe
+Atmosphere: Cozy, warm, tactile.
+Integration Technique: Using warm, localized lighting to make the play area feel like a miniature diorama inside a warm room.
+Foreground Anchor (Play Area):
+Floor Material: Classic NYC Hexagonal Tile. Roughness: 0.5. Color: Black and White pattern.
+Props: A stylized wooden stool, a potted Monstera plant with thick, waxy leaves.
+Background Elements:
+Layer 1: Exposed red brick wall (Color: #8B4513, high normal map depth, flat albedo).
+Layer 2: A chalk-board menu and a shiny chrome espresso machine.
+Lighting Config:
+Main Light: Warm Tungsten Point Light (#FFDAB9) positioned as a pendant lamp hanging directly over the trash cans.
+Post-Processing: Higher Bloom intensity on the background espresso machine highlights. Vignette effect (darkened corners) to draw the eye to the center bins.
+Level 4: New York Public Library (Main Branch)
+Atmosphere: Grand, studious, architectural, and slightly moody.
+Integration Technique: Dramatic lighting using "God Rays" (volumetric lighting) to spotlight the interactive gameplay elements.
+Foreground Anchor (Play Area):
+Floor Material: Polished Marble. Roughness: 0.15, Color: Cream/Beige (#F5F5DC).
+Props: A stack of thick, stylized hard-cover books, a classic green banker's lamp.
+Background Elements:
+Layer 1: Massive, towering wooden bookshelves filled with color-blocked books.
+Layer 2: Grand arched windows.
+Lighting Config:
+Directional Light: Positioned to come through the background windows.
+Volumetric Fog: Enabled. Create visible light shafts ("God Rays") angled perfectly to illuminate the trash cans in the foreground.
+Ambient: Dim, warm wood tones (#8B7355).
+Execution Command
+Execute the scaffolding for these four environments. Generate the configuration files, material definitions, and scene structures required to implement this design document in the current project architecture.
+
+
+
+
+
+
 To do (AI should ignore this):
 1. Improve placements and orintations of trash bins. also maybe personalize bins for each level.
 2. Ensure trash placements are good. 
@@ -288,4 +362,6 @@ To do (AI should ignore this):
 4. ensure all garbage items work for each level. 
 5. Too much clutter on levels screen, make it look more clear.
 6. Add sounds for throwing away stuff and interactable items.
+7. make ti so trash goes infront of the bins rather than behind.
 7. ended off at part 5, continue by starting with part 6.
+

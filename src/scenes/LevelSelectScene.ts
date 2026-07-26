@@ -365,6 +365,7 @@ export class LevelSelectScene extends Phaser.Scene {
     helpBtn.addEventListener('mousedown', () => helpBtn.style.transform = 'scale(0.95)');
     helpBtn.addEventListener('mouseup', () => helpBtn.style.transform = 'scale(1)');
     helpBtn.addEventListener('mouseleave', () => helpBtn.style.transform = 'scale(1)');
+    helpBtn.id = 'map-help-btn';
     helpBtn.style.display = 'flex';
     helpBtn.style.alignItems = 'center';
     helpBtn.style.justifyContent = 'center';
@@ -1051,6 +1052,7 @@ export class LevelSelectScene extends Phaser.Scene {
       document.getElementById('recenter-btn')?.remove();
       document.getElementById('help-btn')?.remove();
       document.getElementById('objective-btn')?.remove();
+      document.getElementById('map-help-btn')?.remove();
       document.getElementById('volume-container')?.remove();
       document.getElementById('music-player-container')?.remove();
       document.getElementById('codex-overlay')?.remove();

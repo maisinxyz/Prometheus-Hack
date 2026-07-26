@@ -79,8 +79,14 @@ export class TrayScene extends Phaser.Scene {
     this.bins = [];
   }
 
+  // All venue IDs that use the ThreeJS 3D background (texture-based + procedural)
+  private static readonly THREE_D_VENUE_IDS = [
+    'construction_site', 'ferry_docks', 'tech_startup', 'subway_station', 'gym',
+    'central_park', 'nyc_hospital', 'mackenzie_cafe', 'public_library',
+  ];
+
   create(): void {
-    if (this.venueId === 'construction_site' || this.venueId === 'ferry_docks' || this.venueId === 'tech_startup' || this.venueId === 'subway_station' || this.venueId === 'gym') {
+    if (TrayScene.THREE_D_VENUE_IDS.includes(this.venueId)) {
       ThreeJSService.showVenue(this.venueId);
       MapLibreService.hideMap();
     } else {
@@ -240,15 +246,22 @@ export class TrayScene extends Phaser.Scene {
 
   /** Create the venue background */
   private createBackground(): void {
-    if (this.venueId === 'construction_site' || this.venueId === 'ferry_docks' || this.venueId === 'tech_startup' || this.venueId === 'subway_station' || this.venueId === 'gym') {
+    if (TrayScene.THREE_D_VENUE_IDS.includes(this.venueId)) {
       // Background handled by ThreeJSService behind the canvas
       
       // Add a title text
-      const title = this.venueId === 'construction_site' ? 'Construction Site' : 
-                    this.venueId === 'ferry_docks' ? 'Ferry at the Docks' : 
-                    this.venueId === 'tech_startup' ? 'Tech Startup' :
-                    this.venueId === 'subway_station' ? 'Subway Station' :
-                    this.venueId === 'gym' ? 'Fitness Center' : 'Venue';
+      const displayNames: Record<string, string> = {
+        construction_site: 'Construction Site',
+        ferry_docks: 'Ferry at the Docks',
+        tech_startup: 'Tech Startup',
+        subway_station: 'Subway Station',
+        gym: 'Fitness Center',
+        central_park: 'Central Park',
+        nyc_hospital: 'NYC Hospital',
+        mackenzie_cafe: 'Mackenzie Cafe',
+        public_library: 'Public Library',
+      };
+      const title = displayNames[this.venueId] ?? 'Venue';
       this.add.text(30, 20, title, {
         fontFamily: '"Nunito", sans-serif', fontSize: '28px', color: '#ffffff', fontStyle: 'bold',
         shadow: { offsetX: 1, offsetY: 2, color: '#000000', blur: 3, fill: true }
@@ -287,19 +300,9 @@ export class TrayScene extends Phaser.Scene {
     const width = this.cameras.main.width;
     const height = this.cameras.main.height;
 
-    const isCafe = this.venueId === 'mackenzie_cafe';
-    
-    // Bins sit directly in the scene now, no table counter
     let binY = height - 160;
     let binScale = 1;
     let spacing = 240;
-
-    if (isCafe) {
-      // For cafe, place bins in the back of the image (background)
-      binY = 600;
-      binScale = 0.6;
-      spacing = 160; // closer together because they are scaled down
-    }
 
     const binDefs = binsData as BinDef[];
     const binCount = binDefs.length;
@@ -326,16 +329,10 @@ export class TrayScene extends Phaser.Scene {
       
       const bin = new Bin(this, x, y, binDef);
       bin.setDepth(50);
+      bin.setScale(scale);
       
-      const is3DVenue = this.venueId === 'construction_site' || this.venueId === 'ferry_docks' || this.venueId === 'tech_startup' || this.venueId === 'subway_station' || this.venueId === 'gym';
-      if (scale !== 1 || isCafe || is3DVenue) {
-        bin.setScale(scale);
-      }
-      
-      if (isCafe || is3DVenue) {
-        bin.backSprite.setDepth(1); // Set lower depth to keep them in the back
-        bin.frontSprite.setDepth(3);
-      }
+      bin.backSprite.setDepth(50);
+      bin.frontSprite.setDepth(60);
       this.bins.push(bin);
     }
   }

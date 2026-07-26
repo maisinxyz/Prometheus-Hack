@@ -87,10 +87,12 @@ export class SeparationMinigameScene extends Phaser.Scene {
       const counterY = height - 150;
       const counterHeight = 300;
       binY = counterY - counterHeight/2 + 60;
+      binScale = 0.72;
+      spacing = 300;
     } else {
-      binY = 400;
-      binScale = 0.5;
-      spacing = 250;
+      binY = height - 190;
+      binScale = 0.72;
+      spacing = 300;
     }
 
     const startX = (width / 2) - (spacing * (binCount - 1)) / 2;
@@ -99,10 +101,8 @@ export class SeparationMinigameScene extends Phaser.Scene {
       const binDef = binDefs[i]!;
       const x = startX + i * spacing;
       const bin = new Bin(this, x, binY, binDef);
-      if (isCafe) {
-        bin.setScale(binScale);
-        bin.setDepth(1);
-      }
+      bin.setScale(binScale);
+      bin.setDepth(10);
       this.bins.push(bin);
     }
 

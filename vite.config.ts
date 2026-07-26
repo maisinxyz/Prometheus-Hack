@@ -13,6 +13,14 @@ export default defineConfig({
   build: {
     target: 'es2020',
     outDir: 'dist',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          three: ['three'],
+          phaser: ['phaser'],
+        },
+      },
+    },
   },
   test: {
     globals: true,

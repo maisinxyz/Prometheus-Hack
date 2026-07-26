@@ -59,8 +59,8 @@ export class HUDScene extends Phaser.Scene {
     // Helper to draw a glossy pill behind text
     const createPill = (x: number, y: number, width: number, height: number, colors: string[] = [...UI_THEME.primaryGradient]) => {
       const container = this.add.container(x, y);
-      const colorTop = Phaser.Display.Color.HexStringToColor(colors[0]).color;
-      const colorBottom = Phaser.Display.Color.HexStringToColor(colors[1]).color;
+      const colorTop = Phaser.Display.Color.HexStringToColor(colors[0] || '#ffffff').color;
+      const colorBottom = Phaser.Display.Color.HexStringToColor(colors[1] || '#ffffff').color;
       
       const shadow = this.add.graphics();
       shadow.fillStyle(0x000000, 0.4);
@@ -167,7 +167,8 @@ export class HUDScene extends Phaser.Scene {
           duration: 300,
           ease: 'Sine.easeOut',
           onUpdate: (tween) => {
-            this.scoreText.setText(`SCORE: ${Math.round(tween.getValue())}`);
+            const val = tween.getValue();
+            this.scoreText.setText(`SCORE: ${Math.round(val || 0)}`);
           }
         });
         

@@ -267,6 +267,12 @@
       "grimy": "venue_public_library_bg_grimy",
       "ruined": "venue_public_library_bg_ruined"
     },
+    "binPositions": [
+      { "x": 480, "y": 860, "scale": 0.75 },
+      { "x": 660, "y": 860, "scale": 0.75 },
+      { "x": 1260, "y": 860, "scale": 0.75 },
+      { "x": 1440, "y": 860, "scale": 0.75 }
+    ],
     "latitude": 40.7532,
     "longitude": -73.9822
   },
@@ -380,6 +386,12 @@
       "grimy": "venue_central_park_bg_grimy",
       "ruined": "venue_central_park_bg_ruined"
     },
+    "binPositions": [
+      { "x": 320, "y": 880, "scale": 0.72 },
+      { "x": 480, "y": 880, "scale": 0.72 },
+      { "x": 1440, "y": 880, "scale": 0.72 },
+      { "x": 1600, "y": 880, "scale": 0.72 }
+    ],
     "latitude": 40.7738,
     "longitude": -73.9708
   },
@@ -459,6 +471,12 @@
       "grimy": "venue_nyc_hospital_bg_grimy",
       "ruined": "venue_nyc_hospital_bg_ruined"
     },
+    "binPositions": [
+      { "x": 460, "y": 860, "scale": 0.72 },
+      { "x": 640, "y": 860, "scale": 0.72 },
+      { "x": 1280, "y": 860, "scale": 0.72 },
+      { "x": 1460, "y": 860, "scale": 0.72 }
+    ],
     "latitude": 40.789,
     "longitude": -73.953
   },
@@ -563,33 +581,17 @@
     "latitude": 40.7565,
     "longitude": -73.987,
     "binPositions": [
-      {
-        "x": 720,
-        "y": 600,
-        "scale": 0.6
-      },
-      {
-        "x": 880,
-        "y": 600,
-        "scale": 0.6
-      },
-      {
-        "x": 1040,
-        "y": 600,
-        "scale": 0.6
-      },
-      {
-        "x": 1200,
-        "y": 600,
-        "scale": 0.6
-      }
+      { "x": 340, "y": 870, "scale": 0.72 },
+      { "x": 500, "y": 870, "scale": 0.72 },
+      { "x": 1420, "y": 870, "scale": 0.72 },
+      { "x": 1580, "y": 870, "scale": 0.72 }
     ],
     "spawnZones": {
       "TableZone": {
-        "x": 200,
-        "y": 300,
-        "width": 1500,
-        "height": 300
+        "x": 350,
+        "y": 520,
+        "width": 1220,
+        "height": 220
       },
       "GroundZone": {
         "x": 100,

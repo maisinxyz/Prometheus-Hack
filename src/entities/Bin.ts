@@ -3,17 +3,15 @@ import { BinDef } from '../data/schemas/binSchema';
 import { UI_THEME } from '../config/UITheme';
 
 /**
- * Bin — Drop-target zone with visual sprite.
+ * Bin — Drop-target zone with visual sprite, floor contact shadow,
+ * and dynamic environmental lighting projection.
  * Per PRD Track B, step B.2.
- *
- * Uses a Phaser.GameObjects.Zone for the invisible hitbox
- * with a child Sprite for the visual bin icon.
- * Exposes getBounds() for overlap checks in TrayScene.
  */
 export class Bin extends Phaser.GameObjects.Zone {
   public readonly binDef: BinDef;
   public readonly backSprite: Phaser.GameObjects.Sprite;
   public readonly frontSprite: Phaser.GameObjects.Sprite;
+  public readonly shadowGraphics: Phaser.GameObjects.Graphics;
   public readonly glowGraphics: Phaser.GameObjects.Graphics;
   public readonly glossGraphics: Phaser.GameObjects.Graphics;
 
@@ -28,24 +26,74 @@ export class Bin extends Phaser.GameObjects.Zone {
     // Add the zone to the scene
     scene.add.existing(this);
 
-    // Create the glow ring behind the bin
+    // ── 1. Ground Contact Drop Shadow (Anchors bin to floor) ──
+    this.shadowGraphics = scene.add.graphics({ x, y });
+    this.shadowGraphics.fillStyle(0x000000, 0.45);
+    this.shadowGraphics.fillEllipse(0, 75, 150, 45); // Dark ambient occlusion shadow under base
+    this.shadowGraphics.fillStyle(0x000000, 0.25);
+    this.shadowGraphics.fillEllipse(0, 80, 180, 55); // Soft outer shadow radius
+    this.shadowGraphics.setDepth(3);
+
+    // ── 2. Environmental Lighting & Distinguishable Category Glow ──
     this.glowGraphics = scene.add.graphics({ x, y });
     const colorInt = Phaser.Display.Color.HexStringToColor(binDef.color).color;
-    this.glowGraphics.fillStyle(colorInt, 0.15);
-    this.glowGraphics.fillCircle(0, 0, 120);
-    this.glowGraphics.fillStyle(colorInt, 0.25);
-    this.glowGraphics.fillCircle(0, 0, 100);
+    
+    // Category color halo around top opening for instant readability
+    this.glowGraphics.fillStyle(colorInt, 0.22);
+    this.glowGraphics.fillCircle(0, -60, 110);
+    this.glowGraphics.fillStyle(colorInt, 0.35);
+    this.glowGraphics.fillCircle(0, -60, 85);
+
+    const venueId = (scene as any).venueId;
+
+    // Projected Light Rays & Warm Ambient Cast
+    if (venueId === 'mackenzie_cafe') {
+      // Warm tungsten pendant light projection
+      this.glowGraphics.fillStyle(0xFFDAB9, 0.18);
+      this.glowGraphics.fillTriangle(-70, -120, 70, -120, 110, 90);
+    } else if (venueId === 'nyc_hospital') {
+      // Clinical overhead light cast
+      this.glowGraphics.fillStyle(0x38BDF8, 0.15);
+      this.glowGraphics.fillEllipse(0, 0, 140, 180);
+    } else if (venueId === 'public_library') {
+      // Warm library banker's light cast
+      this.glowGraphics.fillStyle(0x22C55E, 0.15);
+      this.glowGraphics.fillCircle(0, -50, 95);
+    } else if (venueId === 'central_park') {
+      // Soft afternoon sunlight cast
+      this.glowGraphics.fillStyle(0xFDE047, 0.15);
+      this.glowGraphics.fillTriangle(-90, -140, 50, -140, 90, 90);
+    }
+
     this.glowGraphics.setDepth(4);
 
-    // Create the back rim + hole sprite
+    // ── 3. Back Rim + Hole Sprite ──
     this.backSprite = scene.add.sprite(x, y, `bin_${binDef.id}_back`);
     this.backSprite.setDepth(5);
 
-    // Create the front body + front rim sprite
+    // ── 4. Front Body Sprite with Per-Venue Thematic Tints ──
     this.frontSprite = scene.add.sprite(x, y, `bin_${binDef.id}_front`);
     this.frontSprite.setDepth(15);
-    
-    // Create the diagonal gloss highlight over the bin
+
+    if (venueId === 'mackenzie_cafe') {
+      // Warm oak & brass cafe motif tint
+      this.frontSprite.setTint(0xffebd2);
+      this.backSprite.setTint(0xffebd2);
+    } else if (venueId === 'nyc_hospital') {
+      // Sterile clinical stainless steel tint
+      this.frontSprite.setTint(0xe2e8f0);
+      this.backSprite.setTint(0xe2e8f0);
+    } else if (venueId === 'public_library') {
+      // Polished mahogany & brass library motif tint
+      this.frontSprite.setTint(0xfff3e0);
+      this.backSprite.setTint(0xfff3e0);
+    } else if (venueId === 'central_park') {
+      // Park cast-iron dark green motif tint
+      this.frontSprite.setTint(0xf1f5f9);
+      this.backSprite.setTint(0xf1f5f9);
+    }
+
+    // ── 5. Specular Lighting & Directional Gloss Highlight ──
     this.glossGraphics = scene.add.graphics({ x, y });
     this.glossGraphics.fillStyle(0xffffff, UI_THEME.glossHighlightAlpha);
     this.glossGraphics.beginPath();
@@ -57,13 +105,11 @@ export class Bin extends Phaser.GameObjects.Zone {
     this.glossGraphics.fillPath();
     this.glossGraphics.setDepth(16);
 
-    // Set zone depth so debug rects (if any) render correctly
     this.setDepth(5);
   }
 
   /**
    * Returns the bounding rectangle of this bin's zone for overlap detection.
-   * Overridden to properly account for runtime scaling.
    */
   getBounds<O extends Phaser.Geom.Rectangle>(output?: O): O {
     const rect = output || new Phaser.Geom.Rectangle();
@@ -83,7 +129,7 @@ export class Bin extends Phaser.GameObjects.Zone {
    */
   playDropAnimation(): void {
     this.scene.tweens.add({
-      targets: [this.backSprite, this.frontSprite, this.glowGraphics, this.glossGraphics],
+      targets: [this.backSprite, this.frontSprite, this.shadowGraphics, this.glowGraphics, this.glossGraphics],
       scaleX: this.backSprite.scaleX * 1.05,
       scaleY: this.backSprite.scaleY * 0.95,
       duration: 80,
@@ -93,13 +139,14 @@ export class Bin extends Phaser.GameObjects.Zone {
   }
 
   /**
-   * Override setScale to apply to children sprites as well
+   * Override setScale to apply to children sprites and shadow graphics as well
    */
   setScale(x: number, y?: number): this {
     super.setScale(x, y);
     const scaleY = y ?? x;
     this.backSprite.setScale(x, scaleY);
     this.frontSprite.setScale(x, scaleY);
+    this.shadowGraphics.setScale(x, scaleY);
     this.glowGraphics.setScale(x, scaleY);
     this.glossGraphics.setScale(x, scaleY);
     return this;
@@ -107,6 +154,7 @@ export class Bin extends Phaser.GameObjects.Zone {
 
   /** Clean up child objects */
   destroy(fromScene?: boolean): void {
+    this.shadowGraphics.destroy();
     this.backSprite.destroy();
     this.frontSprite.destroy();
     this.glowGraphics.destroy();
