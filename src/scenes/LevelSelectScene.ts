@@ -22,12 +22,39 @@ export class LevelSelectScene extends Phaser.Scene {
   }
 
   async create(): Promise<void> {
-    const existingMusic = this.sound.get('map_music');
+    const playlist = [
+      { key: 'map_music', title: 'Spring In My Step', artist: 'Silent Partner' },
+      { key: 'summer_smile', title: 'Summer Smile', artist: 'Silent Partner' },
+      { key: 'blue_skies', title: 'Blue Skies', artist: 'Silent Partner' },
+      { key: 'candyland', title: 'Candyland', artist: 'Tobu' },
+      { key: 'hope', title: 'Hope', artist: 'Tobu' },
+      { key: 'ukelele', title: 'Ukelele', artist: 'Bensound' },
+      { key: 'carefree', title: 'Carefree', artist: 'Kevin MacLeod' }
+    ];
+    // Attach playlist to scene so we can access it from the UI later
+    (this as any).playlist = playlist;
+
+    let trackIndex = parseInt(localStorage.getItem('currentTrackIndex') || '0', 10);
+    if (isNaN(trackIndex) || trackIndex < 0 || trackIndex >= playlist.length) {
+      trackIndex = 0;
+    }
+    (this as any).currentTrackIndex = trackIndex;
+
+    const currentTrackKey = playlist[trackIndex].key;
+    const existingMusic = this.sound.get(currentTrackKey);
+    const initVolume = parseFloat(localStorage.getItem('musicVolume') ?? '0.5');
+
+    // Stop any other currently playing tracks if we came from another scene
+    playlist.forEach(track => {
+      if (track.key !== currentTrackKey) {
+        this.sound.stopByKey(track.key);
+      }
+    });
+
     if (!existingMusic) {
-      const initVolume = parseFloat(localStorage.getItem('musicVolume') ?? '0.5');
-      this.sound.play('map_music', { loop: true, volume: initVolume });
+      this.sound.play(currentTrackKey, { loop: true, volume: initVolume });
     } else if (!existingMusic.isPlaying) {
-      existingMusic.play();
+      existingMusic.play({ loop: true, volume: initVolume });
     }
 
     this.chiSystem = new ChiSystem();
@@ -347,28 +374,90 @@ export class LevelSelectScene extends Phaser.Scene {
     });
     document.body.appendChild(helpBtn);
       
-    // Add Volume Slider for Map Music
-    const volumeContainer = document.createElement('div');
-    volumeContainer.id = 'volume-container';
-    volumeContainer.style.position = 'absolute';
-    volumeContainer.style.bottom = '110px';
-    volumeContainer.style.left = '20px';
-    volumeContainer.style.background = 'rgba(15, 23, 42, 0.8)';
-    volumeContainer.style.padding = '10px';
-    volumeContainer.style.borderRadius = '8px';
-    volumeContainer.style.display = 'flex';
-    volumeContainer.style.alignItems = 'center';
-    volumeContainer.style.gap = '10px';
-    volumeContainer.style.backdropFilter = 'blur(4px)';
-    volumeContainer.style.border = '1px solid rgba(255, 255, 255, 0.1)';
-    volumeContainer.style.color = '#f1f5f9';
-    volumeContainer.style.fontFamily = 'monospace';
-    volumeContainer.style.zIndex = '20';
+    // Add Music Player UI
+    const playerContainer = document.createElement('div');
+    playerContainer.id = 'music-player-container';
+    playerContainer.style.position = 'absolute';
+    playerContainer.style.bottom = '110px';
+    playerContainer.style.left = '20px';
+    playerContainer.style.background = 'rgba(15, 23, 42, 0.85)';
+    playerContainer.style.padding = '12px';
+    playerContainer.style.borderRadius = '12px';
+    playerContainer.style.display = 'flex';
+    playerContainer.style.flexDirection = 'column';
+    playerContainer.style.gap = '8px';
+    playerContainer.style.backdropFilter = 'blur(6px)';
+    playerContainer.style.border = '1px solid rgba(255, 255, 255, 0.15)';
+    playerContainer.style.boxShadow = '0 4px 12px rgba(0,0,0,0.4)';
+    playerContainer.style.color = '#f1f5f9';
+    playerContainer.style.fontFamily = "'Nunito', sans-serif";
+    playerContainer.style.zIndex = '20';
+    playerContainer.style.width = '200px';
 
-    const volumeLabel = document.createElement('span');
-    volumeLabel.innerText = 'Music Vol:';
-    volumeLabel.style.fontSize = '12px';
+    // Track Info Row
+    const trackInfoRow = document.createElement('div');
+    trackInfoRow.style.display = 'flex';
+    trackInfoRow.style.justifyContent = 'space-between';
+    trackInfoRow.style.alignItems = 'center';
+
+    const prevBtn = document.createElement('button');
+    prevBtn.innerHTML = '&#9664;&#9664;'; // ⏮
+    prevBtn.style.background = 'none';
+    prevBtn.style.border = 'none';
+    prevBtn.style.color = '#94a3b8';
+    prevBtn.style.cursor = 'pointer';
+    prevBtn.style.fontSize = '14px';
+
+    const trackDetails = document.createElement('div');
+    trackDetails.style.display = 'flex';
+    trackDetails.style.flexDirection = 'column';
+    trackDetails.style.alignItems = 'center';
+    trackDetails.style.textAlign = 'center';
+    trackDetails.style.flex = '1';
+    trackDetails.style.overflow = 'hidden';
+
+    const trackTitle = document.createElement('div');
+    trackTitle.style.fontWeight = 'bold';
+    trackTitle.style.fontSize = '12px';
+    trackTitle.style.whiteSpace = 'nowrap';
+    trackTitle.style.overflow = 'hidden';
+    trackTitle.style.textOverflow = 'ellipsis';
+    trackTitle.style.width = '120px';
     
+    const trackArtist = document.createElement('div');
+    trackArtist.style.fontSize = '10px';
+    trackArtist.style.color = '#94a3b8';
+    trackArtist.style.whiteSpace = 'nowrap';
+    trackArtist.style.overflow = 'hidden';
+    trackArtist.style.textOverflow = 'ellipsis';
+    trackArtist.style.width = '120px';
+
+    trackDetails.appendChild(trackTitle);
+    trackDetails.appendChild(trackArtist);
+
+    const nextBtn = document.createElement('button');
+    nextBtn.innerHTML = '&#9654;&#9654;'; // ⏭
+    nextBtn.style.background = 'none';
+    nextBtn.style.border = 'none';
+    nextBtn.style.color = '#94a3b8';
+    nextBtn.style.cursor = 'pointer';
+    nextBtn.style.fontSize = '14px';
+
+    trackInfoRow.appendChild(prevBtn);
+    trackInfoRow.appendChild(trackDetails);
+    trackInfoRow.appendChild(nextBtn);
+
+    // Volume Row
+    const volumeRow = document.createElement('div');
+    volumeRow.style.display = 'flex';
+    volumeRow.style.alignItems = 'center';
+    volumeRow.style.gap = '8px';
+    volumeRow.style.justifyContent = 'center';
+
+    const volIcon = document.createElement('span');
+    volIcon.innerHTML = '&#128266;'; // 🔊
+    volIcon.style.fontSize = '12px';
+
     const volumeSlider = document.createElement('input');
     volumeSlider.type = 'range';
     volumeSlider.min = '0';
@@ -376,26 +465,58 @@ export class LevelSelectScene extends Phaser.Scene {
     volumeSlider.step = '0.01';
     const savedVolume = localStorage.getItem('musicVolume') ?? '0.5';
     volumeSlider.value = savedVolume;
-    volumeSlider.style.width = '80px';
+    volumeSlider.style.width = '120px';
     
-    // Apply saved volume to music on creation
-    const currentMusic = this.sound.get('map_music');
-    if (currentMusic) {
-      (currentMusic as Phaser.Sound.WebAudioSound).setVolume(parseFloat(savedVolume));
-    }
+    volumeRow.appendChild(volIcon);
+    volumeRow.appendChild(volumeSlider);
+
+    playerContainer.appendChild(trackInfoRow);
+    playerContainer.appendChild(volumeRow);
+    document.body.appendChild(playerContainer);
+
+    // Playback Logic
+    const activePlaylist = (this as any).playlist;
+    
+    const updatePlayerUI = () => {
+      const idx = (this as any).currentTrackIndex;
+      trackTitle.innerText = activePlaylist[idx].title;
+      trackArtist.innerText = activePlaylist[idx].artist;
+    };
+    
+    updatePlayerUI(); // Init
+
+    const changeTrack = (dir: number) => {
+      // Stop current
+      const oldIdx = (this as any).currentTrackIndex;
+      this.sound.stopByKey(activePlaylist[oldIdx].key);
+      
+      // Update index
+      let newIdx = oldIdx + dir;
+      if (newIdx < 0) newIdx = activePlaylist.length - 1;
+      if (newIdx >= activePlaylist.length) newIdx = 0;
+      (this as any).currentTrackIndex = newIdx;
+      localStorage.setItem('currentTrackIndex', newIdx.toString());
+      
+      // Play new
+      const vol = parseFloat(volumeSlider.value);
+      this.sound.play(activePlaylist[newIdx].key, { loop: true, volume: vol });
+      
+      updatePlayerUI();
+    };
+
+    prevBtn.addEventListener('click', () => changeTrack(-1));
+    nextBtn.addEventListener('click', () => changeTrack(1));
 
     volumeSlider.addEventListener('input', (e) => {
       const vol = parseFloat((e.target as HTMLInputElement).value);
       localStorage.setItem('musicVolume', vol.toString());
-      const music = this.sound.get('map_music');
+      
+      const currentTrackKey = activePlaylist[(this as any).currentTrackIndex].key;
+      const music = this.sound.get(currentTrackKey);
       if (music) {
         (music as Phaser.Sound.WebAudioSound).setVolume(vol);
       }
     });
-
-    volumeContainer.appendChild(volumeLabel);
-    volumeContainer.appendChild(volumeSlider);
-    document.body.appendChild(volumeContainer);
 
     
     // Logic to toggle stats visibility

@@ -25,8 +25,14 @@ export class BootScene extends Phaser.Scene {
       this.failedLoads.add(fileObj.key);
     });
 
-    // Load audio
+    // Load audio tracks
     this.load.audio('map_music', 'assets/audio/map_music.webm');
+    this.load.audio('summer_smile', 'assets/audio/summer_smile.webm');
+    this.load.audio('blue_skies', 'assets/audio/blue_skies.webm');
+    this.load.audio('candyland', 'assets/audio/candyland.webm');
+    this.load.audio('hope', 'assets/audio/hope.webm');
+    this.load.audio('ukelele', 'assets/audio/ukelele.webm');
+    this.load.audio('carefree', 'assets/audio/carefree.webm');
 
     // 1. Load Items
     for (const item of itemsData) {
