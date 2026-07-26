@@ -142,6 +142,24 @@ export function generateEmojiItemSprite(
   scene.textures.addCanvas(key, canvas);
 }
 
+// Helper to create a noise pattern for grungy/realistic textures
+function getNoisePattern(ctx: CanvasRenderingContext2D): CanvasPattern {
+  const canvas = document.createElement('canvas');
+  canvas.width = 128;
+  canvas.height = 128;
+  const nCtx = canvas.getContext('2d')!;
+  const idata = nCtx.createImageData(128, 128);
+  for(let i=0; i<idata.data.length; i+=4) {
+      const v = Math.random() * 255;
+      idata.data[i] = v;
+      idata.data[i+1] = v;
+      idata.data[i+2] = v;
+      idata.data[i+3] = 40; // Subtle dirt opacity
+  }
+  nCtx.putImageData(idata, 0, 0);
+  return ctx.createPattern(canvas, 'repeat')!;
+}
+
 export function generateBinPlaceholder(
   scene: Phaser.Scene,
   key: string,
@@ -240,6 +258,26 @@ export function generateBinPlaceholder(
       ctxF.quadraticCurveTo(cx - 80, by, cx - 80, by - 10);
       ctxF.closePath();
       ctxF.fill();
+
+      // Add realistic grunge/dirt noise
+      ctxF.globalCompositeOperation = 'multiply';
+      ctxF.fillStyle = getNoisePattern(ctxF);
+      ctxF.fill(); // Fill same path with noise
+      ctxF.globalCompositeOperation = 'source-over';
+
+      // Add industrial corrugated ribs (dumpster style)
+      ctxF.save();
+      ctxF.clip(); // Clip ribs to the body shape
+      ctxF.globalCompositeOperation = 'overlay';
+      for(let ry = cy + 40; ry < by - 10; ry += 25) {
+          // Dark shadow of the rib
+          ctxF.fillStyle = 'rgba(0,0,0,0.4)';
+          ctxF.fillRect(cx - 100, ry, 200, 8);
+          // Light highlight of the rib
+          ctxF.fillStyle = 'rgba(255,255,255,0.2)';
+          ctxF.fillRect(cx - 100, ry + 8, 200, 3);
+      }
+      ctxF.restore();
 
       // Front rim (rendered using clipping and destination-out to preserve the hole)
       ctxF.save();

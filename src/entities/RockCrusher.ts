@@ -14,7 +14,7 @@ export class RockCrusher extends Phaser.GameObjects.Sprite {
   constructor(scene: Phaser.Scene, x: number, y: number) {
     // Generate a procedural texture if the image isn't available
     if (!scene.textures.exists('machine_rock_crusher')) {
-      const gfx = scene.make.graphics({ x: 0, y: 0, add: false });
+      const gfx = scene.make.graphics({ x: 0, y: 0 });
       
       // Main Chassis (Yellow)
       gfx.fillStyle(0xfacc15, 1); // Bright industrial yellow
@@ -141,8 +141,7 @@ export class RockCrusher extends Phaser.GameObjects.Sprite {
     if (this.isCrushing) return;
     this.isCrushing = true;
 
-    // Play grinding sound
-    soundFXSynthesizer.playCrusherGrind(this.scene);
+    soundFXSynthesizer.playCrusherGrind();
 
     // Visual feedback: shake the machine
     this.scene.tweens.add({

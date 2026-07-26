@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { TrashItem } from '../entities/TrashItem';
+import { ThreeJSService } from '../services/ThreeJSService';
 import { Bin } from '../entities/Bin';
 import { RockCrusher } from '../entities/RockCrusher';
 import { ScoringSystem } from '../systems/ScoringSystem';
@@ -19,6 +20,7 @@ import { DifficultySystem } from '../systems/DifficultySystem';
 import { DifficultyTierDef } from '../data/schemas/difficultyTierSchema';
 import { GardenSystem } from '../systems/GardenSystem';
 import { TutorialController } from '../systems/TutorialController';
+import { MapLibreService } from '../services/MapLibreService';
 
 /**
  * TrayScene — Core disposal loop.
@@ -78,6 +80,14 @@ export class TrayScene extends Phaser.Scene {
   }
 
   create(): void {
+    if (this.venueId === 'construction_site') {
+      ThreeJSService.showConstructionSite();
+      MapLibreService.hideMap();
+    } else {
+      ThreeJSService.hide();
+      MapLibreService.hideMap();
+    }
+
     this.scoringSystem = new ScoringSystem();
     this.comboSystem = new ComboSystem();
     this.particleFX = new ParticleFXManager(this);
@@ -124,13 +134,16 @@ export class TrayScene extends Phaser.Scene {
     gameEvents.on(GAME_EVENTS.ITEM_CLICKED, this.handleItemClicked, this);
     this.events.once('shutdown', () => {
       gameEvents.off(GAME_EVENTS.ITEM_CLICKED, this.handleItemClicked, this);
+      if (this.venueId === 'construction_site') {
+        MapLibreService.hideMap();
+      }
     });
 
     // Start the round timer (B.8) unless in tutorial
     this.tutorialController = new TutorialController(this);
     
     // Check if this is the first venue and tutorial hasn't been completed
-    if (this.venueId === venuesData[0].id && !localStorage.getItem('trashdash_tutorial_complete')) {
+    if (this.venueId === venuesData[0]?.id && !localStorage.getItem('trashdash_tutorial_complete')) {
       this.tutorialActive = true;
       
       // Override to 4 items for tutorial round
@@ -144,16 +157,20 @@ export class TrayScene extends Phaser.Scene {
       
       // Select the first item and its matching bin
       const targetItem = this.items[0];
-      const targetBin = this.bins.find(b => b.binDef.id === targetItem.itemDef.correctBinId) || this.bins[0];
-      
-      // Disable dragging for all other items
-      this.items.forEach(item => {
-        if (item !== targetItem) {
-          item.disableInteractive();
+      if (targetItem) {
+        const targetBin = this.bins.find(b => b.binDef.id === targetItem.itemDef.correctBinId) || this.bins[0];
+        
+        // Disable dragging for all other items
+        this.items.forEach(item => {
+          if (item !== targetItem) {
+            item.disableInteractive();
+          }
+        });
+        
+        if (targetBin) {
+          this.tutorialController.startTutorial(targetItem, targetBin);
         }
-      });
-      
-      this.tutorialController.startTutorial(targetItem, targetBin);
+      }
     } else {
       this.startTimer();
     }
@@ -217,34 +234,26 @@ export class TrayScene extends Phaser.Scene {
       this.scene.stop('HUDScene');
       this.scene.start('LevelSelectScene');
     });
+
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, this.cleanup, this);
   }
 
-  /** Create the venue background using ParallaxLayer */
+  /** Create the venue background */
   private createBackground(): void {
     if (this.venueId === 'construction_site') {
-      // Try the dedicated construction bg, fall back to venue bg
-      let bgKey = 'bg_construction_site';
-      if (!this.textures.exists(bgKey)) {
-        bgKey = 'venue_construction_site_bg_clean';
-      }
-      if (!this.textures.exists(bgKey)) {
-        bgKey = 'nyc_map_bg'; // ultimate fallback
-      }
-      const bg = this.add.image(0, 0, bgKey).setOrigin(0, 0);
-      bg.setDisplaySize(this.cameras.main.width, this.cameras.main.height);
-      bg.setDepth(0);
+      // Background handled by ThreeJSService behind the canvas
       
-      const venueLabel = this.add.text(30, 20, 'Construction Site', {
-        fontFamily: '"Nunito", sans-serif', fontSize: '28px', color: '#ffffff', fontStyle: 'bold'
-      }).setAlpha(0.6).setDepth(50);
+      // Add a title text
+      this.add.text(30, 20, 'Construction Site', {
+        fontFamily: '"Nunito", sans-serif', fontSize: '28px', color: '#ffffff', fontStyle: 'bold',
+        shadow: { offsetX: 1, offsetY: 2, color: '#000000', blur: 3, fill: true }
+      }).setAlpha(0.8).setDepth(50);
       return;
     }
 
     const venueData = venuesData.find((v) => v.id === this.venueId);
     
     // We will use the same image for fg/mid/bg just to test the ParallaxLayer logic
-    // since we only have single texture keys defined in venues.json per state.
-    // In a real art integration (Track F.1), you'd have 3 separate keys.
     const state = this.venueDecayState.getState(this.venueId);
     let bgKey = 'nyc_map_bg'; // Fallback if no venues data matches
 
@@ -255,7 +264,7 @@ export class TrayScene extends Phaser.Scene {
     }
 
     new ParallaxLayer(this, bgKey, bgKey, bgKey);
-
+    
     // Venue name in the corner
     const venueName = venueData?.displayName ?? this.venueId;
     const venueLabel = this.add.text(30, 20, venueName, {
@@ -263,7 +272,8 @@ export class TrayScene extends Phaser.Scene {
       fontSize: '28px',
       color: '#ffffff',
       fontStyle: 'bold',
-    }).setAlpha(0.6);
+      shadow: { offsetX: 1, offsetY: 2, color: '#000000', blur: 3, fill: true }
+    }).setAlpha(0.8);
     venueLabel.setDepth(50);
   }
 
@@ -312,11 +322,11 @@ export class TrayScene extends Phaser.Scene {
       const bin = new Bin(this, x, y, binDef);
       bin.setDepth(50);
       
-      if (scale !== 1 || isCafe) {
+      if (scale !== 1 || isCafe || this.venueId === 'construction_site') {
         bin.setScale(scale);
       }
       
-      if (isCafe) {
+      if (isCafe || this.venueId === 'construction_site') {
         bin.backSprite.setDepth(1); // Set lower depth to keep them in the back
         bin.frontSprite.setDepth(3);
       }
@@ -729,6 +739,12 @@ export class TrayScene extends Phaser.Scene {
   /** Timer pausing for overlays */
   private pauseTimeMs: number = 0;
   
+  /** Stop everything if scene shuts down early */
+  private cleanup(): void {
+    if (this.timerEvent) this.timerEvent.remove();
+    ThreeJSService.hide();
+  }
+
   public pauseTimer(): void {
     if (this.timerEvent && !this.timerEvent.paused) {
       this.timerEvent.paused = true;
@@ -767,7 +783,7 @@ export class TrayScene extends Phaser.Scene {
     this.roundEnded = true;
 
     // Set tutorial complete flag if we ran it
-    if (this.venueId === venuesData[0].id) {
+    if (this.venueId === venuesData[0]?.id) {
       localStorage.setItem('trashdash_tutorial_complete', 'true');
     }
 
@@ -860,5 +876,42 @@ export class TrayScene extends Phaser.Scene {
   shutdown(): void {
     this.audioManager.destroy();
     this.scene.stop('HUDScene');
+  }
+
+  update(_time: number, _delta: number): void {
+    // If we are in the construction site with the 360 background, anchor the 2D bins to the 3D camera
+    if (this.venueId === 'construction_site' && this.bins.length > 0) {
+      const threeService = ThreeJSService as any;
+      if (threeService.isActive && threeService.cameraTheta !== undefined) {
+        const initialTheta = Math.PI / 4;
+        const initialPhi = Math.PI / 2;
+        
+        const dTheta = threeService.cameraTheta - initialTheta;
+        const dPhi = threeService.cameraPhi - initialPhi;
+        
+        // Approximate FOV projection for the 2D plane (75 degree FOV)
+        const xOffset = dTheta * (1920 / (75 * Math.PI / 180));
+        const yOffset = -dPhi * (1080 / (75 * Math.PI / 180));
+        
+        const venueData = venuesData.find(v => v.id === this.venueId);
+        
+        for (let i = 0; i < this.bins.length; i++) {
+          const bin = this.bins[i];
+          if (bin && venueData && venueData.binPositions) {
+            const binPos = venueData.binPositions[i];
+            if (binPos) {
+              const baseX = binPos.x;
+              const baseY = binPos.y;
+              
+              // Apply the offset based on camera rotation so they stick to the background
+              const newX = baseX + xOffset;
+              const newY = baseY + yOffset;
+              
+              bin.setPosition(newX, newY);
+            }
+          }
+        }
+      }
+    }
   }
 }

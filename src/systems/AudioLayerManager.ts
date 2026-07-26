@@ -1,5 +1,6 @@
 import { Howl, Howler } from 'howler';
 import { soundFXSynthesizer } from './SoundFXSynthesizer';
+import { gameEvents, GAME_EVENTS, DropResult } from './GameEvents';
 
 /**
  * AudioLayerManager — Layered-stem adaptive soundtrack using Howler.js.

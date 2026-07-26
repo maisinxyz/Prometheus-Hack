@@ -10,17 +10,17 @@ export class GlossyButton extends Phaser.GameObjects.Container {
     scene: Phaser.Scene, 
     x: number, 
     y: number, 
-    width: number, 
-    height: number, 
     text: string, 
     onClick: () => void,
+    width: number = 120, 
+    height: number = 50, 
     colors: string[] = [...UI_THEME.primaryGradient]
   ) {
     super(scene, x, y);
     
     // Parse colors to numbers
-    const colorTop = Phaser.Display.Color.HexStringToColor(colors[0]).color;
-    const colorBottom = Phaser.Display.Color.HexStringToColor(colors[1]).color;
+    const colorTop = Phaser.Display.Color.HexStringToColor(colors[0] || '#ffffff').color;
+    const colorBottom = Phaser.Display.Color.HexStringToColor(colors[1] || '#aaaaaa').color;
     
     // Create drop shadow
     const shadow = scene.add.graphics();

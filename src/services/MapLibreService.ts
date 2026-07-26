@@ -1,4 +1,5 @@
 import { LandmarkOverlayService } from './LandmarkOverlayService';
+import venuesData from '../data/venues.json';
 
 declare global {
   interface Window {
@@ -80,13 +81,8 @@ class MapLibreServiceSingleton {
       touchZoomRotate: true,
       scrollZoom: true,
       doubleClickZoom: true,
-      keyboard: true,
-      
-      // Restrict panning (gives enough room for Chelsea/West Village)
-      maxBounds: [
-        [-74.0600, 40.6800], // Southwest coordinate
-        [-73.9000, 40.8400]  // Northeast coordinate
-      ]
+      keyboard: true
+      // maxBounds removed here so we can fly anywhere for minigames
     });
 
     // Add a Scale Control to the top-right corner
@@ -494,6 +490,52 @@ class MapLibreServiceSingleton {
   /** Get the map instance (for advanced usage) */
   getMap(): any {
     return this.map;
+  }
+
+  /**
+   * Fly to a specific venue and zoom in to street level.
+   */
+  flyToVenue(venueId: string): void {
+    if (!this.map) return;
+    const venue = venuesData.find((v: any) => v.id === venueId);
+    if (!venue) return;
+    
+    // Remove bounds so we can fly anywhere
+    this.map.setMaxBounds(null);
+    
+    const targetLat = venue.sceneLatitude !== undefined ? venue.sceneLatitude : venue.latitude;
+    const targetLng = venue.sceneLongitude !== undefined ? venue.sceneLongitude : venue.longitude;
+
+    this.map.flyTo({
+      center: [targetLng, targetLat],
+      zoom: 18.5,
+      pitch: 75,
+      bearing: Math.random() * 360,
+      duration: 2000 // smooth transition
+    });
+  }
+
+  /**
+   * Reset the map to the global level select view.
+   */
+  flyToGlobal(): void {
+    if (!this.map) return;
+    
+    this.map.flyTo({
+      center: [this.CENTER_LNG, this.CENTER_LAT],
+      zoom: 15.5,
+      pitch: 60,
+      bearing: -17.6,
+      duration: 2000
+    });
+
+    // Re-apply bounds for the level select map
+    this.map.once('moveend', () => {
+      this.map.setMaxBounds([
+        [-74.0600, 40.6800], // Southwest coordinate
+        [-73.9000, 40.8400]  // Northeast coordinate
+      ]);
+    });
   }
 
   /**

@@ -22,7 +22,7 @@ export class LevelSelectScene extends Phaser.Scene {
   }
 
   async create(): Promise<void> {
-    const existingMusic = this.sound.sounds.find(s => s.key === 'map_music');
+    const existingMusic = this.sound.get('map_music');
     if (!existingMusic) {
       this.sound.play('map_music', { loop: true, volume: 0.5 });
     } else if (!existingMusic.isPlaying) {
@@ -35,6 +35,7 @@ export class LevelSelectScene extends Phaser.Scene {
     // 1. Initialize and show the 3D Apple MapKit view behind the canvas
     await MapLibreService.createMap();
     MapLibreService.showMap();
+    MapLibreService.flyToGlobal();
 
     // Help Button (?)
     const width = this.scale.width;
@@ -348,7 +349,7 @@ export class LevelSelectScene extends Phaser.Scene {
     
     volumeSlider.addEventListener('input', (e) => {
       const vol = parseFloat((e.target as HTMLInputElement).value);
-      const music = this.sound.sounds.find(s => s.key === 'map_music');
+      const music = this.sound.get('map_music');
       if (music) {
         (music as Phaser.Sound.WebAudioSound).setVolume(vol);
       }
@@ -858,7 +859,6 @@ export class LevelSelectScene extends Phaser.Scene {
       levelNodes.forEach(n => n.remove());
       PathOverlayService.removeFromMap();
       MapLibreService.toggleFutureVision(false, 0, 0); // Reset map style
-      MapLibreService.hideMap();
     });
   }
 }
