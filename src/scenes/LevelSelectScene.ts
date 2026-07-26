@@ -375,6 +375,38 @@ export class LevelSelectScene extends Phaser.Scene {
     });
     document.body.appendChild(helpBtn);
       
+    const objectiveBtn = document.createElement('button');
+    objectiveBtn.id = 'objective-btn';
+    objectiveBtn.style.position = 'absolute';
+    objectiveBtn.style.bottom = '40px';
+    objectiveBtn.style.left = '160px'; // 90px (help btn left) + 60px (help btn width) + 10px spacing
+    objectiveBtn.style.width = '60px';
+    objectiveBtn.style.height = '60px';
+    objectiveBtn.style.borderRadius = '30px';
+    objectiveBtn.style.background = 'linear-gradient(to bottom, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 100%), linear-gradient(90deg, #047857, #10b981)';
+    objectiveBtn.style.color = '#fff';
+    objectiveBtn.style.border = 'none';
+    objectiveBtn.style.fontSize = '12px';
+    objectiveBtn.style.fontWeight = 'bold';
+    objectiveBtn.style.fontFamily = "'Nunito', sans-serif";
+    objectiveBtn.style.cursor = 'pointer';
+    objectiveBtn.style.boxShadow = 'inset 0 4px 0 rgba(255,255,255,0.2), 0 4px 6px rgba(0,0,0,0.3)';
+    objectiveBtn.style.zIndex = '20';
+    objectiveBtn.style.transition = 'transform 0.1s ease, opacity 0.3s ease';
+    objectiveBtn.addEventListener('mousedown', () => objectiveBtn.style.transform = 'scale(0.95)');
+    objectiveBtn.addEventListener('mouseup', () => objectiveBtn.style.transform = 'scale(1)');
+    objectiveBtn.addEventListener('mouseleave', () => objectiveBtn.style.transform = 'scale(1)');
+    objectiveBtn.style.display = 'flex';
+    objectiveBtn.style.alignItems = 'center';
+    objectiveBtn.style.justifyContent = 'center';
+    objectiveBtn.style.textAlign = 'center';
+    objectiveBtn.style.lineHeight = '1.2';
+    objectiveBtn.innerHTML = 'WHY IT<br>MATTERS';
+    objectiveBtn.title = 'Environmental Impact Objective';
+    objectiveBtn.addEventListener('click', () => {
+      this.scene.launch('ObjectiveOverlay');
+    });
+    document.body.appendChild(objectiveBtn);
     // Add Music Player UI
     const playerContainer = document.createElement('div');
     playerContainer.id = 'music-player-container';
@@ -1017,7 +1049,10 @@ export class LevelSelectScene extends Phaser.Scene {
       document.getElementById('weather-tab')?.remove();
       document.getElementById('current-chi-hud')?.remove();
       document.getElementById('recenter-btn')?.remove();
+      document.getElementById('help-btn')?.remove();
+      document.getElementById('objective-btn')?.remove();
       document.getElementById('volume-container')?.remove();
+      document.getElementById('music-player-container')?.remove();
       document.getElementById('codex-overlay')?.remove();
       document.getElementById('dev-panel')?.remove();
       levelNodes.forEach(n => n.remove());
