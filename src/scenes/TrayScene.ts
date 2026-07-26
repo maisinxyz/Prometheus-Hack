@@ -462,7 +462,7 @@ export class TrayScene extends Phaser.Scene {
   private setupDropDetection(): void {
     // Listen for pointerdown on items to trigger tutorials cleanly before a drag starts
     this.events.on('item_pressed', (item: any) => {
-      if (item.itemDef.id === 'broken_brick_piece') {
+      if (item.itemDef.id === 'wood_scrap') {
         if (!localStorage.getItem('trashdash_interactive_tutorial_complete')) {
           localStorage.setItem('trashdash_interactive_tutorial_complete', 'true');
           

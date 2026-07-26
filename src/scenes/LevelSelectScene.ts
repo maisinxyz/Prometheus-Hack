@@ -37,11 +37,7 @@ export class LevelSelectScene extends Phaser.Scene {
     MapLibreService.showMap();
     MapLibreService.flyToGlobal();
 
-    // Help Button (?)
-    const width = this.scale.width;
-    new GlossyButton(this, width - 60, 120, '?', () => {
-      this.scene.launch('HowToPlayOverlay');
-    });
+
 
     // 2. Setup HUD Overlay (Transparent Phaser Canvas)
     // Title text removed per request
@@ -188,9 +184,9 @@ export class LevelSelectScene extends Phaser.Scene {
     const uiContainer = document.createElement('div');
     uiContainer.id = 'level-select-ui';
     uiContainer.style.position = 'absolute';
-    uiContainer.style.top = '80px';
-    uiContainer.style.right = '20px';
-    uiContainer.style.left = 'auto'; // Re-oriented to the right
+    uiContainer.style.top = '20px';
+    uiContainer.style.left = '20px';
+    uiContainer.style.right = 'auto'; 
     uiContainer.style.zIndex = '20';
     uiContainer.style.pointerEvents = 'auto';
     uiContainer.style.transition = 'opacity 0.3s ease';
@@ -203,30 +199,30 @@ export class LevelSelectScene extends Phaser.Scene {
     const landfillProg = (this.gardenSystem.getRawCount('landfill') % 50) / 50 * 100;
 
     const renderBar = (name: string, lvl: number, prog: number, locked: boolean, color: string) => `
-      <div style="margin-bottom: 12px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: #f8fafc; font-weight: 700; margin-bottom: 6px;">
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <div style="width: 10px; height: 10px; border-radius: 50%; background: ${color}; box-shadow: 0 0 6px ${color};"></div>
+      <div style="margin-bottom: 8px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #f8fafc; font-weight: 700; margin-bottom: 4px;">
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <div style="width: 8px; height: 8px; border-radius: 50%; background: ${color}; box-shadow: 0 0 4px ${color};"></div>
             <span>${name}</span>
           </div>
           <span style="color: #cbd5e1;">${locked ? '🔒 Needs Lvl 5' : `Lvl ${lvl}`}</span>
         </div>
-        <div style="width: 100%; height: 8px; background: rgba(0,0,0,0.4); border-radius: 4px; overflow: hidden; box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);">
-          <div style="width: ${prog}%; height: 100%; background: ${locked ? '#475569' : color}; border-radius: 4px;"></div>
+        <div style="width: 100%; height: 4px; background: rgba(0,0,0,0.4); border-radius: 2px; overflow: hidden;">
+          <div style="width: ${prog}%; height: 100%; background: ${locked ? '#475569' : color}; border-radius: 2px;"></div>
         </div>
       </div>
     `;
 
     uiContainer.innerHTML = `
-      <div id="stats-wrapper" style="background: linear-gradient(135deg, rgba(30,41,59,0.9), rgba(15,23,42,0.95)); backdrop-filter: blur(8px); padding: 20px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); box-shadow: inset 0 2px 4px rgba(255,255,255,0.05), 0 10px 25px rgba(0,0,0,0.4); width: 320px; box-sizing: border-box; position: relative; transition: all 0.3s ease;">
+      <div id="stats-wrapper" style="background: rgba(15,23,42,0.85); backdrop-filter: blur(8px); padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); width: 220px; box-sizing: border-box; position: relative; transition: all 0.3s ease;">
         
-        <div id="stats-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; transition: margin 0.3s ease;">
-          <div id="stats-title" style="color: #f1f5f9; font-weight: 800; font-size: 18px; letter-spacing: 0.5px; transition: opacity 0.2s ease;">COMMUNITY GARDEN</div>
-          <div id="stats-toggle-btn" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 4px 8px; font-size: 12px; border-radius: 5px; cursor: pointer; font-family: 'Nunito', sans-serif;">Hide</div>
+        <div id="stats-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; transition: margin 0.3s ease;">
+          <div id="stats-title" style="color: #f1f5f9; font-weight: 800; font-size: 13px; letter-spacing: 0.5px; transition: opacity 0.2s ease;">COMMUNITY GARDEN</div>
+          <div id="stats-toggle-btn" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 2px 6px; font-size: 10px; border-radius: 4px; cursor: pointer; font-family: 'Nunito', sans-serif;">Hide</div>
         </div>
 
         <div id="stats-content-area" style="transition: max-height 0.3s ease, opacity 0.3s ease; max-height: 800px; opacity: 1; overflow: hidden;">
-          <div style="color: #facc15; font-family: 'Nunito', sans-serif; font-size: 24px; font-weight: bold; text-shadow: 0 2px 4px rgba(0,0,0,0.8); margin-bottom: 16px;">
+          <div style="color: #facc15; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.8); margin-bottom: 10px;">
             Total CHI: ${Math.floor(totalChi)} / ${maxChi}
           </div>
           
@@ -235,15 +231,17 @@ export class LevelSelectScene extends Phaser.Scene {
           ${renderBar('Plastic', this.gardenSystem.getPlasticLevel(), plasticProg, isLocked, '#FBBF24')}
           ${renderBar('Landfill', this.gardenSystem.getLandfillLevel(), landfillProg, isLocked, '#9ca3af')}
 
-          <div style="display: flex; gap: 8px; width: 100%; box-sizing: border-box; margin-top: 16px;">
-            <button id="future-btn" style="flex: 1; background: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 100%), linear-gradient(90deg, #3b82f6, #2563eb); color: #ffffff; border: 1px solid rgba(255,255,255,0.1); padding: 12px 4px; font-size: 13px; border-radius: 10px; cursor: pointer; font-weight: bold; box-shadow: inset 0 2px 0 rgba(255,255,255,0.15), 0 4px 12px rgba(37,99,235,0.3); text-shadow: 0 1px 2px rgba(0,0,0,0.3); transition: transform 0.1s ease;">
-              Future Vision
-            </button>
-            <button id="garden-btn" style="flex: 1; background: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 100%), linear-gradient(90deg, #0F9D74, #34D399); color: #ffffff; border: 1px solid rgba(255,255,255,0.1); padding: 12px 4px; font-size: 13px; border-radius: 10px; cursor: pointer; font-weight: bold; box-shadow: inset 0 2px 0 rgba(255,255,255,0.15), 0 4px 12px rgba(15,157,116,0.3); text-shadow: 0 1px 2px rgba(0,0,0,0.3); transition: transform 0.1s ease;">
-              Community Park
-            </button>
-            <button id="codex-btn" style="flex: 1; background: linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 100%), linear-gradient(90deg, #9333ea, #a855f7); color: #ffffff; border: 1px solid rgba(255,255,255,0.1); padding: 12px 4px; font-size: 13px; border-radius: 10px; cursor: pointer; font-weight: bold; box-shadow: inset 0 2px 0 rgba(255,255,255,0.15), 0 4px 12px rgba(168,85,247,0.3); text-shadow: 0 1px 2px rgba(0,0,0,0.3); transition: transform 0.1s ease;">
-              Historical Snapshots
+          <div style="display: flex; gap: 4px; width: 100%; box-sizing: border-box; margin-top: 10px; flex-direction: column;">
+            <div style="display: flex; gap: 4px; width: 100%;">
+              <button id="future-btn" style="flex: 1; background: rgba(37,99,235,0.8); color: #ffffff; border: 1px solid rgba(255,255,255,0.1); padding: 6px 2px; font-size: 10px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: transform 0.1s ease;">
+                Vision
+              </button>
+              <button id="garden-btn" style="flex: 1; background: rgba(15,157,116,0.8); color: #ffffff; border: 1px solid rgba(255,255,255,0.1); padding: 6px 2px; font-size: 10px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: transform 0.1s ease;">
+                Park
+              </button>
+            </div>
+            <button id="codex-btn" style="width: 100%; background: rgba(147,51,234,0.8); color: #ffffff; border: 1px solid rgba(255,255,255,0.1); padding: 6px 2px; font-size: 10px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: transform 0.1s ease;">
+              Snapshots
             </button>
           </div>
         </div>
@@ -316,6 +314,37 @@ export class LevelSelectScene extends Phaser.Scene {
       MapCameraController.lockOnNode(currentLng, currentLat);
     });
     document.body.appendChild(recenterBtn);
+
+    const helpBtn = document.createElement('button');
+    helpBtn.id = 'help-btn';
+    helpBtn.style.position = 'absolute';
+    helpBtn.style.bottom = '40px';
+    helpBtn.style.left = '90px'; // 20px (recenter left) + 60px (recenter width) + 10px spacing
+    helpBtn.style.width = '60px';
+    helpBtn.style.height = '60px';
+    helpBtn.style.borderRadius = '30px';
+    helpBtn.style.background = 'linear-gradient(to bottom, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 100%), linear-gradient(90deg, #0F9D74, #34D399)';
+    helpBtn.style.color = '#fff';
+    helpBtn.style.border = 'none';
+    helpBtn.style.fontSize = '14px';
+    helpBtn.style.fontWeight = 'bold';
+    helpBtn.style.fontFamily = "'Nunito', sans-serif";
+    helpBtn.style.cursor = 'pointer';
+    helpBtn.style.boxShadow = 'inset 0 4px 0 rgba(255,255,255,0.2), 0 4px 6px rgba(0,0,0,0.3)';
+    helpBtn.style.zIndex = '20';
+    helpBtn.style.transition = 'transform 0.1s ease, opacity 0.3s ease';
+    helpBtn.addEventListener('mousedown', () => helpBtn.style.transform = 'scale(0.95)');
+    helpBtn.addEventListener('mouseup', () => helpBtn.style.transform = 'scale(1)');
+    helpBtn.addEventListener('mouseleave', () => helpBtn.style.transform = 'scale(1)');
+    helpBtn.style.display = 'flex';
+    helpBtn.style.alignItems = 'center';
+    helpBtn.style.justifyContent = 'center';
+    helpBtn.innerText = 'HELP';
+    helpBtn.title = 'How To Play';
+    helpBtn.addEventListener('click', () => {
+      this.scene.launch('HowToPlayOverlay');
+    });
+    document.body.appendChild(helpBtn);
       
     // Add Volume Slider for Map Music
     const volumeContainer = document.createElement('div');
@@ -387,9 +416,9 @@ export class LevelSelectScene extends Phaser.Scene {
           content.style.opacity = '1';
           content.style.pointerEvents = 'auto';
           
-          wrapper.style.padding = '20px';
-          wrapper.style.width = '320px';
-          header.style.marginBottom = '16px';
+          wrapper.style.padding = '12px';
+          wrapper.style.width = '220px';
+          header.style.marginBottom = '10px';
           title.style.opacity = '1';
           title.style.width = 'auto';
           
@@ -406,23 +435,25 @@ export class LevelSelectScene extends Phaser.Scene {
     const weatherEventContainer = document.createElement('div');
     weatherEventContainer.id = 'map-weather-event';
     weatherEventContainer.style.position = 'absolute';
-    weatherEventContainer.style.top = '20px';
-    weatherEventContainer.style.left = '20px';
-    weatherEventContainer.style.width = '320px';
+    weatherEventContainer.style.top = 'auto';
+    weatherEventContainer.style.bottom = '20px';
+    weatherEventContainer.style.left = 'auto';
+    weatherEventContainer.style.right = '20px';
+    weatherEventContainer.style.width = '240px';
     weatherEventContainer.style.background = 'linear-gradient(135deg, rgba(30,41,59,0.9), rgba(15,23,42,0.95))';
     weatherEventContainer.style.backdropFilter = 'blur(8px)';
-    weatherEventContainer.style.borderRadius = '16px';
+    weatherEventContainer.style.borderRadius = '12px';
     weatherEventContainer.style.border = `1px solid ${weatherColor}`;
-    weatherEventContainer.style.boxShadow = `inset 0 2px 4px rgba(255,255,255,0.05), 0 10px 25px rgba(0,0,0,0.4), 0 0 15px ${weatherColor}40`;
-    weatherEventContainer.style.padding = '20px';
+    weatherEventContainer.style.boxShadow = `inset 0 2px 4px rgba(255,255,255,0.05), 0 8px 16px rgba(0,0,0,0.4), 0 0 10px ${weatherColor}40`;
+    weatherEventContainer.style.padding = '12px';
     weatherEventContainer.style.zIndex = '20';
     weatherEventContainer.style.pointerEvents = 'auto'; // allow clicking close button
     weatherEventContainer.style.transition = 'opacity 0.3s ease';
     weatherEventContainer.innerHTML = `
-      <div id="close-weather-btn" style="position: absolute; top: 15px; right: 20px; color: #94a3b8; cursor: pointer; font-size: 22px; font-family: 'Nunito', sans-serif; font-weight: bold; line-height: 1; transition: color 0.2s;">&times;</div>
-      <div style="font-family: 'Nunito', sans-serif; font-size: 18px; color: ${weatherColor}; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 8px; text-transform: uppercase;">${weatherName}</div>
-      <div style="font-family: 'Nunito', sans-serif; font-size: 14px; color: #cbd5e1; margin-bottom: 12px; line-height: 1.4;">${weatherDesc}</div>
-      <div style="font-family: 'Nunito', sans-serif; font-size: 13px; color: #f8fafc; font-weight: bold; background: rgba(0,0,0,0.3); padding: 8px 12px; border-radius: 8px; border-left: 3px solid ${weatherColor};">Effect: ${weatherEffect}</div>
+      <div id="close-weather-btn" style="position: absolute; top: 8px; right: 12px; color: #94a3b8; cursor: pointer; font-size: 18px; font-family: 'Nunito', sans-serif; font-weight: bold; line-height: 1; transition: color 0.2s;">&times;</div>
+      <div style="font-family: 'Nunito', sans-serif; font-size: 14px; color: ${weatherColor}; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 4px; text-transform: uppercase; padding-right: 16px;">${weatherName}</div>
+      <div style="font-family: 'Nunito', sans-serif; font-size: 12px; color: #cbd5e1; margin-bottom: 8px; line-height: 1.2;">${weatherDesc}</div>
+      <div style="font-family: 'Nunito', sans-serif; font-size: 11px; color: #f8fafc; font-weight: bold; background: rgba(0,0,0,0.3); padding: 6px 8px; border-radius: 6px; border-left: 2px solid ${weatherColor};">Effect: ${weatherEffect}</div>
     `;
     document.body.appendChild(weatherEventContainer);
 
@@ -430,11 +461,13 @@ export class LevelSelectScene extends Phaser.Scene {
     const weatherTab = document.createElement('div');
     weatherTab.id = 'weather-tab';
     weatherTab.style.position = 'absolute';
-    weatherTab.style.top = '20px';
-    weatherTab.style.left = '0px';
+    weatherTab.style.top = 'auto';
+    weatherTab.style.bottom = '20px';
+    weatherTab.style.left = 'auto';
+    weatherTab.style.right = '0px';
     weatherTab.style.background = 'rgba(220, 38, 38, 0.9)';
     weatherTab.style.color = '#fff';
-    weatherTab.style.padding = '8px 12px';
+    weatherTab.style.padding = '6px 10px';
     weatherTab.style.borderTopLeftRadius = '8px';
     weatherTab.style.borderBottomLeftRadius = '8px';
     weatherTab.style.cursor = 'pointer';
@@ -442,9 +475,9 @@ export class LevelSelectScene extends Phaser.Scene {
     weatherTab.style.zIndex = '20';
     weatherTab.style.fontFamily = "'Nunito', sans-serif";
     weatherTab.style.fontWeight = 'bold';
-    weatherTab.style.fontSize = '14px';
+    weatherTab.style.fontSize = '12px';
     weatherTab.style.transition = 'opacity 0.3s ease';
-    weatherTab.innerText = 'Weather ▶';
+    weatherTab.innerText = '◀ Weather';
     document.body.appendChild(weatherTab);
 
     // Make weather warning hideable
@@ -465,6 +498,7 @@ export class LevelSelectScene extends Phaser.Scene {
       uiContainer.style.opacity = opacity;
       currentChiHud.style.opacity = opacity;
       recenterBtn.style.opacity = opacity;
+      helpBtn.style.opacity = opacity;
       weatherEventContainer.style.opacity = opacity;
       weatherTab.style.opacity = opacity;
     };
