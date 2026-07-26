@@ -9,8 +9,8 @@ export class InteractiveTutorialOverlay extends Phaser.Scene {
     const width = this.scale.width;
     const height = this.scale.height;
 
-    // Dark transparent overlay
-    const bg = this.add.rectangle(0, 0, width, height, 0x000000, 0.75).setOrigin(0, 0);
+    // Dark transparent overlay (oversized to bypass safe area/letterboxing)
+    const bg = this.add.rectangle(-width, -height, width * 3, height * 3, 0x000000, 0.75).setOrigin(0, 0);
     bg.setInteractive();
 
     const panelW = 700;
@@ -109,11 +109,13 @@ export class InteractiveTutorialOverlay extends Phaser.Scene {
     });
 
     hitZone.on('pointerdown', () => {
-      // Resume the TrayScene
+      // Resume the TrayScene (properly checks for existence since isActive() is false when paused)
       const trayScene = this.scene.get('TrayScene') as any;
-      if (trayScene && trayScene.sys.isActive()) {
+      if (trayScene) {
+        if (trayScene.sys.isPaused()) {
+          this.scene.resume('TrayScene');
+        }
         if (trayScene.resumeTimer) trayScene.resumeTimer();
-        this.scene.resume('TrayScene');
       }
       this.scene.stop();
     });

@@ -84,15 +84,7 @@ export class HUDScene extends Phaser.Scene {
     const topY = 120;
     const width = 1920;
     
-    // Help Button (?)
-    new GlossyButton(this, width - 60, topY, '?', () => {
-      // Pause TrayScene timer
-      const trayScene = this.scene.get('TrayScene') as any;
-      if (trayScene && trayScene.sys.isActive() && trayScene.pauseTimer) {
-        trayScene.pauseTimer();
-      }
-      this.scene.launch('HowToPlayOverlay');
-    });
+    // Help button removed to avoid overlapping with SCORE
 
     // --- Score display (top-right) ---
     this.scoreGlow = this.add.graphics({ x: 1780, y: 120 }).setDepth(185);

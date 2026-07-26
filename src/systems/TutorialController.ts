@@ -19,7 +19,8 @@ export class TutorialController {
     const height = this.scene.scale.height;
 
     // 1. Dim the background
-    this.overlay = this.scene.add.rectangle(0, 0, width, height, 0x000000, 0.7);
+    // Oversize the overlay to guarantee it covers any letterboxing margins from Phaser.Scale.FIT
+    this.overlay = this.scene.add.rectangle(-width, -height, width * 3, height * 3, 0x000000, 0.7);
     this.overlay.setOrigin(0, 0);
     this.overlay.setDepth(100); // Behind the item, in front of everything else
 
@@ -30,7 +31,8 @@ export class TutorialController {
     // Spotlight ring (reusing lock-on reticle style)
     this.reticle = this.scene.add.graphics();
     this.reticle.lineStyle(4, 0x00ff00, 1);
-    this.reticle.strokeCircle(0, 0, targetItem.width * 0.6);
+    const radius = Math.min((targetItem.displayWidth || targetItem.width) * 0.5, 60);
+    this.reticle.strokeCircle(0, 0, radius);
     this.reticle.setPosition(targetItem.x, targetItem.y);
     this.reticle.setDepth(101);
 
