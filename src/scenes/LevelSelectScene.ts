@@ -128,8 +128,9 @@ export class LevelSelectScene extends Phaser.Scene {
           index: i,
           state,
           onClick: (id: string) => {
-            this.sound.stopAll();
-            this.scene.start('TrayScene', { venueId: id });
+            if (isUnlocked) {
+              this.scene.start('TrayScene', { venueId: id });
+            }
           }
         });
         levelNodes.push(node);
@@ -558,7 +559,6 @@ export class LevelSelectScene extends Phaser.Scene {
     });
 
     document.getElementById('garden-btn')?.addEventListener('click', () => {
-      this.sound.stopAll();
       this.scene.start('CommunityGardenScene');
     });
 
