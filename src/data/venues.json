@@ -145,6 +145,12 @@
       "grimy": "venue_tech_startup_bg_grimy",
       "ruined": "venue_tech_startup_bg_ruined"
     },
+    "binPositions": [
+      { "x": 600, "y": 900, "scale": 0.5 },
+      { "x": 750, "y": 900, "scale": 0.5 },
+      { "x": 900, "y": 900, "scale": 0.5 },
+      { "x": 1050, "y": 900, "scale": 0.5 }
+    ],
     "latitude": 40.7405,
     "longitude": -73.9903
   },

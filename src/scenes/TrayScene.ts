@@ -80,7 +80,7 @@ export class TrayScene extends Phaser.Scene {
   }
 
   create(): void {
-    if (this.venueId === 'construction_site' || this.venueId === 'ferry_docks') {
+    if (this.venueId === 'construction_site' || this.venueId === 'ferry_docks' || this.venueId === 'tech_startup') {
       ThreeJSService.showVenue(this.venueId);
       MapLibreService.hideMap();
     } else {
@@ -240,11 +240,13 @@ export class TrayScene extends Phaser.Scene {
 
   /** Create the venue background */
   private createBackground(): void {
-    if (this.venueId === 'construction_site' || this.venueId === 'ferry_docks') {
+    if (this.venueId === 'construction_site' || this.venueId === 'ferry_docks' || this.venueId === 'tech_startup') {
       // Background handled by ThreeJSService behind the canvas
       
       // Add a title text
-      const title = this.venueId === 'construction_site' ? 'Construction Site' : 'Ferry at the Docks';
+      const title = this.venueId === 'construction_site' ? 'Construction Site' : 
+                    this.venueId === 'ferry_docks' ? 'Ferry at the Docks' : 
+                    'Tech Startup';
       this.add.text(30, 20, title, {
         fontFamily: '"Nunito", sans-serif', fontSize: '28px', color: '#ffffff', fontStyle: 'bold',
         shadow: { offsetX: 1, offsetY: 2, color: '#000000', blur: 3, fill: true }

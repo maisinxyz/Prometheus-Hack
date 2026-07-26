@@ -127,6 +127,9 @@ class ThreeJSServiceSingleton {
     } else if (venueId === 'ferry_docks') {
       texturePath = '/assets/ferry_docks_360_upscaled.png'; // Use upscaled original image
       isCylinder = true;
+    } else if (venueId === 'tech_startup') {
+      texturePath = '/assets/tech_startup_360_upscaled.png';
+      isCylinder = true;
     } else {
       return; // Not supported
     }
@@ -186,7 +189,7 @@ class ThreeJSServiceSingleton {
   }
 
   showVenue(venueId: string) {
-    if (venueId !== 'construction_site' && venueId !== 'ferry_docks') return;
+    if (venueId !== 'construction_site' && venueId !== 'ferry_docks' && venueId !== 'tech_startup') return;
 
     if (!this.isInitialized) this.init();
     
