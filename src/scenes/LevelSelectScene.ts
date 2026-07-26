@@ -24,7 +24,8 @@ export class LevelSelectScene extends Phaser.Scene {
   async create(): Promise<void> {
     const existingMusic = this.sound.get('map_music');
     if (!existingMusic) {
-      this.sound.play('map_music', { loop: true, volume: 0.5 });
+      const initVolume = parseFloat(localStorage.getItem('musicVolume') ?? '0.5');
+      this.sound.play('map_music', { loop: true, volume: initVolume });
     } else if (!existingMusic.isPlaying) {
       existingMusic.play();
     }
@@ -373,11 +374,19 @@ export class LevelSelectScene extends Phaser.Scene {
     volumeSlider.min = '0';
     volumeSlider.max = '1';
     volumeSlider.step = '0.01';
-    volumeSlider.value = '0.5';
+    const savedVolume = localStorage.getItem('musicVolume') ?? '0.5';
+    volumeSlider.value = savedVolume;
     volumeSlider.style.width = '80px';
     
+    // Apply saved volume to music on creation
+    const currentMusic = this.sound.get('map_music');
+    if (currentMusic) {
+      (currentMusic as Phaser.Sound.WebAudioSound).setVolume(parseFloat(savedVolume));
+    }
+
     volumeSlider.addEventListener('input', (e) => {
       const vol = parseFloat((e.target as HTMLInputElement).value);
+      localStorage.setItem('musicVolume', vol.toString());
       const music = this.sound.get('map_music');
       if (music) {
         (music as Phaser.Sound.WebAudioSound).setVolume(vol);
