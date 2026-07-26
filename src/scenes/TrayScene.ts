@@ -80,7 +80,7 @@ export class TrayScene extends Phaser.Scene {
   }
 
   create(): void {
-    if (this.venueId === 'construction_site' || this.venueId === 'ferry_docks' || this.venueId === 'tech_startup' || this.venueId === 'subway_station') {
+    if (this.venueId === 'construction_site' || this.venueId === 'ferry_docks' || this.venueId === 'tech_startup' || this.venueId === 'subway_station' || this.venueId === 'gym') {
       ThreeJSService.showVenue(this.venueId);
       MapLibreService.hideMap();
     } else {
@@ -240,14 +240,15 @@ export class TrayScene extends Phaser.Scene {
 
   /** Create the venue background */
   private createBackground(): void {
-    if (this.venueId === 'construction_site' || this.venueId === 'ferry_docks' || this.venueId === 'tech_startup' || this.venueId === 'subway_station') {
+    if (this.venueId === 'construction_site' || this.venueId === 'ferry_docks' || this.venueId === 'tech_startup' || this.venueId === 'subway_station' || this.venueId === 'gym') {
       // Background handled by ThreeJSService behind the canvas
       
       // Add a title text
       const title = this.venueId === 'construction_site' ? 'Construction Site' : 
                     this.venueId === 'ferry_docks' ? 'Ferry at the Docks' : 
                     this.venueId === 'tech_startup' ? 'Tech Startup' :
-                    'Subway Station';
+                    this.venueId === 'subway_station' ? 'Subway Station' :
+                    this.venueId === 'gym' ? 'Fitness Center' : 'Venue';
       this.add.text(30, 20, title, {
         fontFamily: '"Nunito", sans-serif', fontSize: '28px', color: '#ffffff', fontStyle: 'bold',
         shadow: { offsetX: 1, offsetY: 2, color: '#000000', blur: 3, fill: true }
@@ -326,7 +327,7 @@ export class TrayScene extends Phaser.Scene {
       const bin = new Bin(this, x, y, binDef);
       bin.setDepth(50);
       
-      const is3DVenue = this.venueId === 'construction_site' || this.venueId === 'ferry_docks' || this.venueId === 'tech_startup' || this.venueId === 'subway_station';
+      const is3DVenue = this.venueId === 'construction_site' || this.venueId === 'ferry_docks' || this.venueId === 'tech_startup' || this.venueId === 'subway_station' || this.venueId === 'gym';
       if (scale !== 1 || isCafe || is3DVenue) {
         bin.setScale(scale);
       }
@@ -885,7 +886,7 @@ export class TrayScene extends Phaser.Scene {
 
   update(_time: number, _delta: number): void {
     // If we are in a 3D venue with the 360 background, anchor the 2D bins to the 3D camera
-    if ((this.venueId === 'construction_site' || this.venueId === 'ferry_docks' || this.venueId === 'tech_startup' || this.venueId === 'subway_station') && this.bins.length > 0) {
+    if ((this.venueId === 'construction_site' || this.venueId === 'ferry_docks' || this.venueId === 'tech_startup' || this.venueId === 'subway_station' || this.venueId === 'gym') && this.bins.length > 0) {
       const threeService = ThreeJSService as any;
       if (threeService.isActive && threeService.cameraTheta !== undefined) {
         const initialTheta = Math.PI / 4;
