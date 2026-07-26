@@ -8,6 +8,8 @@ class ThreeJSServiceSingleton {
   private isInitialized = false;
   private isActive = false;
   private animationFrameId: number | null = null;
+  private mesh: THREE.Mesh | null = null;
+  private currentVenueId: string | null = null;
   
   // Camera Orbit Variables
   private isDragging = false;
@@ -97,6 +99,12 @@ class ThreeJSServiceSingleton {
   }
 
   private updateCameraPosition() {
+    if (this.currentVenueId === 'ferry_docks') {
+        // Clamp panning so they never see the edges of the 2.0 radian cylinder screen
+        const initialTheta = Math.PI / 4;
+        this.cameraTheta = Math.max(initialTheta - 0.22, Math.min(initialTheta + 0.22, this.cameraTheta));
+    }
+
     this.camera.position.x = this.target.x + this.cameraRadius * Math.sin(this.cameraPhi) * Math.sin(this.cameraTheta);
     this.camera.position.y = this.target.y + this.cameraRadius * Math.cos(this.cameraPhi);
     this.camera.position.z = this.target.z + this.cameraRadius * Math.sin(this.cameraPhi) * Math.cos(this.cameraTheta);
@@ -104,23 +112,61 @@ class ThreeJSServiceSingleton {
   }
 
   private buildPhotorealisticEnvironment() {
-    // We create a giant sphere and map the 360 panorama onto its inside surface
-    const geometry = new THREE.SphereGeometry(500, 60, 40);
+    // Initial mesh container; actual geometry and material are built in loadTextureForVenue
+    this.mesh = new THREE.Mesh();
+    this.scene.add(this.mesh);
+  }
+
+  private loadTextureForVenue(venueId: string) {
+    if (!this.mesh) return;
     
-    // Invert the geometry on the x-axis so that all of the faces point inward
-    geometry.scale(-1, 1, 1);
+    let texturePath = '';
+    let isCylinder = false;
+    if (venueId === 'construction_site') {
+      texturePath = '/assets/abandoned_construction_360.jpg';
+    } else if (venueId === 'ferry_docks') {
+      texturePath = '/assets/ferry_docks_360_upscaled.png'; // Use upscaled original image
+      isCylinder = true;
+    } else {
+      return; // Not supported
+    }
 
     const textureLoader = new THREE.TextureLoader();
-    textureLoader.load('/assets/abandoned_construction_360.jpg', (texture) => {
+    textureLoader.load(texturePath, (texture) => {
       texture.colorSpace = THREE.SRGBColorSpace;
       
-      const material = new THREE.MeshBasicMaterial({ map: texture });
-      const mesh = new THREE.Mesh(geometry, material);
-      
-      // Rotate to point at a nice starting angle
-      mesh.rotation.y = -Math.PI / 2;
-      
-      this.scene.add(mesh);
+      // Cleanup old geometry/material
+      if (this.mesh && this.mesh.geometry) this.mesh.geometry.dispose();
+      if (this.mesh && this.mesh.material instanceof THREE.Material) this.mesh.material.dispose();
+
+      // Maximize crispness
+      texture.generateMipmaps = false;
+      texture.minFilter = THREE.LinearFilter;
+      texture.magFilter = THREE.LinearFilter;
+      if (this.renderer) texture.anisotropy = this.renderer.capabilities.getMaxAnisotropy();
+
+      let geometry;
+      if (isCylinder) {
+        // Map 1:1 without repeating. Creates a 114 degree curved screen.
+        texture.wrapS = THREE.ClampToEdgeWrapping;
+        texture.repeat.set(1, 1);
+        texture.offset.x = 0; 
+        
+        // Account for scale(-1, 1, 1) [flips sign] and rotation(-1.57) [shifts angle].
+        // To place the final center at the camera's -2.356 view angle:
+        // -(thetaStart + 1.0) - 1.57 = -2.356  =>  thetaStart = -0.214
+        geometry = new THREE.CylinderGeometry(500, 500, 1000, 60, 1, true, -0.214, 2.0);
+        geometry.scale(-1, 1, 1);
+      } else {
+        geometry = new THREE.SphereGeometry(500, 60, 40);
+        geometry.scale(-1, 1, 1);
+      }
+
+      if (this.mesh) {
+        this.mesh.geometry = geometry;
+        this.mesh.material = new THREE.MeshBasicMaterial({ map: texture, color: 0xffffff });
+        this.mesh.rotation.y = -Math.PI / 2;
+      }
     });
   }
 
@@ -139,11 +185,18 @@ class ThreeJSServiceSingleton {
     this.renderer.render(this.scene, this.camera);
   }
 
-  showConstructionSite() {
+  showVenue(venueId: string) {
+    if (venueId !== 'construction_site' && venueId !== 'ferry_docks') return;
+
     if (!this.isInitialized) this.init();
     
     this.canvasContainer.style.display = 'block';
     this.isActive = true;
+    
+    if (this.currentVenueId !== venueId) {
+      this.currentVenueId = venueId;
+      this.loadTextureForVenue(venueId);
+    }
     
     // Reset camera position to default nice view when entering
     this.cameraTheta = Math.PI / 4;

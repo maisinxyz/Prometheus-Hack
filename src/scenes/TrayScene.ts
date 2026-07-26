@@ -80,8 +80,8 @@ export class TrayScene extends Phaser.Scene {
   }
 
   create(): void {
-    if (this.venueId === 'construction_site') {
-      ThreeJSService.showConstructionSite();
+    if (this.venueId === 'construction_site' || this.venueId === 'ferry_docks') {
+      ThreeJSService.showVenue(this.venueId);
       MapLibreService.hideMap();
     } else {
       ThreeJSService.hide();
@@ -240,11 +240,12 @@ export class TrayScene extends Phaser.Scene {
 
   /** Create the venue background */
   private createBackground(): void {
-    if (this.venueId === 'construction_site') {
+    if (this.venueId === 'construction_site' || this.venueId === 'ferry_docks') {
       // Background handled by ThreeJSService behind the canvas
       
       // Add a title text
-      this.add.text(30, 20, 'Construction Site', {
+      const title = this.venueId === 'construction_site' ? 'Construction Site' : 'Ferry at the Docks';
+      this.add.text(30, 20, title, {
         fontFamily: '"Nunito", sans-serif', fontSize: '28px', color: '#ffffff', fontStyle: 'bold',
         shadow: { offsetX: 1, offsetY: 2, color: '#000000', blur: 3, fill: true }
       }).setAlpha(0.8).setDepth(50);
@@ -322,11 +323,12 @@ export class TrayScene extends Phaser.Scene {
       const bin = new Bin(this, x, y, binDef);
       bin.setDepth(50);
       
-      if (scale !== 1 || isCafe || this.venueId === 'construction_site') {
+      const is3DVenue = this.venueId === 'construction_site' || this.venueId === 'ferry_docks';
+      if (scale !== 1 || isCafe || is3DVenue) {
         bin.setScale(scale);
       }
       
-      if (isCafe || this.venueId === 'construction_site') {
+      if (isCafe || is3DVenue) {
         bin.backSprite.setDepth(1); // Set lower depth to keep them in the back
         bin.frontSprite.setDepth(3);
       }
@@ -879,8 +881,8 @@ export class TrayScene extends Phaser.Scene {
   }
 
   update(_time: number, _delta: number): void {
-    // If we are in the construction site with the 360 background, anchor the 2D bins to the 3D camera
-    if (this.venueId === 'construction_site' && this.bins.length > 0) {
+    // If we are in a 3D venue with the 360 background, anchor the 2D bins to the 3D camera
+    if ((this.venueId === 'construction_site' || this.venueId === 'ferry_docks') && this.bins.length > 0) {
       const threeService = ThreeJSService as any;
       if (threeService.isActive && threeService.cameraTheta !== undefined) {
         const initialTheta = Math.PI / 4;

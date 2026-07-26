@@ -91,7 +91,29 @@
       "ruined": "venue_ferry_docks_bg_ruined"
     },
     "latitude": 40.7011,
-    "longitude": -74.0132
+    "longitude": -74.0132,
+    "binPositions": [
+      {
+        "x": 600,
+        "y": 890,
+        "scale": 0.55
+      },
+      {
+        "x": 750,
+        "y": 890,
+        "scale": 0.55
+      },
+      {
+        "x": 900,
+        "y": 890,
+        "scale": 0.55
+      },
+      {
+        "x": 1050,
+        "y": 890,
+        "scale": 0.55
+      }
+    ]
   },
   {
     "id": "tech_startup",
