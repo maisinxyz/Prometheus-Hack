@@ -132,6 +132,7 @@ class ThreeJSServiceSingleton {
       isCylinder = true;
     } else if (venueId === 'subway_station') {
       texturePath = '/assets/subway_station_360_upscaled.png';
+      isCylinder = true;
     } else if (venueId === 'gym') {
       texturePath = '/assets/gym_wide.jpg';
       isCylinder = true;
