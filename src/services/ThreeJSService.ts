@@ -99,7 +99,7 @@ class ThreeJSServiceSingleton {
   }
 
   private updateCameraPosition() {
-    if (this.currentVenueId === 'ferry_docks') {
+    if (this.currentVenueId === 'ferry_docks' || this.currentVenueId === 'tech_startup' || this.currentVenueId === 'subway_station') {
         // Clamp panning so they never see the edges of the 2.0 radian cylinder screen
         const initialTheta = Math.PI / 4;
         this.cameraTheta = Math.max(initialTheta - 0.22, Math.min(initialTheta + 0.22, this.cameraTheta));
@@ -129,6 +129,9 @@ class ThreeJSServiceSingleton {
       isCylinder = true;
     } else if (venueId === 'tech_startup') {
       texturePath = '/assets/tech_startup_360_upscaled.png';
+      isCylinder = true;
+    } else if (venueId === 'subway_station') {
+      texturePath = '/assets/subway_station_360_upscaled.png';
       isCylinder = true;
     } else {
       return; // Not supported
@@ -189,7 +192,7 @@ class ThreeJSServiceSingleton {
   }
 
   showVenue(venueId: string) {
-    if (venueId !== 'construction_site' && venueId !== 'ferry_docks' && venueId !== 'tech_startup') return;
+    if (venueId !== 'construction_site' && venueId !== 'ferry_docks' && venueId !== 'tech_startup' && venueId !== 'subway_station') return;
 
     if (!this.isInitialized) this.init();
     

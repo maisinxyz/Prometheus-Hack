@@ -185,6 +185,12 @@
       "grimy": "venue_subway_station_bg_grimy",
       "ruined": "venue_subway_station_bg_ruined"
     },
+    "binPositions": [
+      { "x": 600, "y": 900, "scale": 0.5 },
+      { "x": 750, "y": 900, "scale": 0.5 },
+      { "x": 900, "y": 900, "scale": 0.5 },
+      { "x": 1050, "y": 900, "scale": 0.5 }
+    ],
     "latitude": 40.7527,
     "longitude": -73.9772
   },
