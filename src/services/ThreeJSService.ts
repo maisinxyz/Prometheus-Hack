@@ -306,7 +306,12 @@ class ThreeJSServiceSingleton {
       if (this.mesh) {
         this.mesh.geometry = geometry;
         this.mesh.material = new THREE.MeshBasicMaterial({ map: texture, color: 0xffffff });
-        this.mesh.rotation.y = -Math.PI / 2;
+        if (venueId === 'subway_station') {
+          // Add to rotation.y to rotate mesh left, simulating a camera pan to the right
+          this.mesh.rotation.y = -Math.PI / 2 + 1.0;
+        } else {
+          this.mesh.rotation.y = -Math.PI / 2;
+        }
         this.mesh.visible = true; // Show it now that it is loaded
       }
     });

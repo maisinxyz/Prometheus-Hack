@@ -186,10 +186,10 @@
       "ruined": "venue_subway_station_bg_ruined"
     },
     "binPositions": [
-      { "x": 600, "y": 900, "scale": 0.5 },
-      { "x": 750, "y": 900, "scale": 0.5 },
-      { "x": 900, "y": 900, "scale": 0.5 },
-      { "x": 1050, "y": 900, "scale": 0.5 }
+      { "x": 480, "y": 880, "scale": 0.75 },
+      { "x": 630, "y": 880, "scale": 0.75 },
+      { "x": 1275, "y": 755, "scale": 0.75 },
+      { "x": 1425, "y": 755, "scale": 0.75 }
     ],
     "latitude": 40.7527,
     "longitude": -73.9772
