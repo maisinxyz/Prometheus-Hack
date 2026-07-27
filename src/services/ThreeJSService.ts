@@ -255,6 +255,10 @@ class ThreeJSServiceSingleton {
     }
 
     const textureLoader = new THREE.TextureLoader();
+      
+    // Hide the mesh immediately to prevent flashing the previous background while loading
+    if (this.mesh) this.mesh.visible = false;
+      
     textureLoader.load(texturePath, (texture) => {
       texture.colorSpace = THREE.SRGBColorSpace;
       
@@ -296,6 +300,7 @@ class ThreeJSServiceSingleton {
         this.mesh.geometry = geometry;
         this.mesh.material = new THREE.MeshBasicMaterial({ map: texture, color: 0xffffff });
         this.mesh.rotation.y = -Math.PI / 2;
+        this.mesh.visible = true; // Show it now that it is loaded
       }
     });
   }
@@ -1084,7 +1089,6 @@ class ThreeJSServiceSingleton {
       } else {
         // Clean up any procedural scene and load texture
         this.cleanupProceduralScene();
-        if (this.mesh) this.mesh.visible = true;
         this.loadTextureForVenue(venueId);
       }
     }
