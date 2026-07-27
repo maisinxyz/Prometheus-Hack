@@ -55,14 +55,14 @@ const TEXTURE_VENUE_IDS = [
   'financial_district_office',
   'times_square',
   'hot_dog_stand',
+  'public_library',
+  'central_park',
+  'nyc_hospital',
 ];
 
 /** Procedural (Stylized PBR) venue IDs */
 const PROCEDURAL_VENUE_IDS = [
-  'central_park',
-  'nyc_hospital',
   'mackenzie_cafe',
-  'public_library',
 ];
 
 class ThreeJSServiceSingleton {
@@ -250,6 +250,12 @@ class ThreeJSServiceSingleton {
       texturePath = '/assets/times_square_360.png';
     } else if (venueId === 'hot_dog_stand') {
       texturePath = '/assets/hot_dog_stand_360.png';
+    } else if (venueId === 'public_library') {
+      texturePath = '/assets/public_library_360.png';
+    } else if (venueId === 'central_park') {
+      texturePath = '/assets/central_park_360.png';
+    } else if (venueId === 'nyc_hospital') {
+      texturePath = '/assets/nyc_hospital_360.png';
     } else {
       return; // Not supported
     }

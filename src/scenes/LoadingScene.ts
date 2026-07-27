@@ -56,18 +56,10 @@ export class LoadingScene extends Phaser.Scene {
     const newsBg = this.add.rectangle(newsX, newsY, newsBoxWidth, newsBoxHeight, 0x000000, 0.7);
     newsBg.setStrokeStyle(2, 0x10b981);
 
-    this.add.text(newsX, newsY - 40, "TRASHDASH NEWSLETTER", {
-      fontFamily: '"Nunito", sans-serif',
-      fontSize: '24px',
-      color: '#10b981',
-      fontStyle: 'bold',
-      letterSpacing: '2px'
-    }).setOrigin(0.5);
-
     const tips: string[] = newsData;
     const randomTip = Phaser.Math.RND.pick(tips);
 
-    this.add.text(newsX, newsY + 20, randomTip, {
+    this.add.text(newsX, newsY, randomTip, {
       fontFamily: '"Nunito", sans-serif',
       fontSize: '20px',
       color: '#ffffff',
