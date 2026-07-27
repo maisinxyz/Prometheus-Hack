@@ -47,6 +47,7 @@ const VignetteShader = {
 /** Texture-based (360°) venue IDs */
 const TEXTURE_VENUE_IDS = [
   'construction_site',
+  'art_studio',
   'ferry_docks',
   'tech_startup',
   'subway_station',
@@ -226,8 +227,12 @@ class ThreeJSServiceSingleton {
     
     let texturePath = '';
     let isCylinder = false;
+    let isFullCylinder = false;
+    
     if (venueId === 'construction_site') {
       texturePath = '/assets/abandoned_construction_360.jpg';
+    } else if (venueId === 'art_studio') {
+      texturePath = '/assets/art_studio_360.png';
     } else if (venueId === 'ferry_docks') {
       texturePath = '/assets/ferry_docks_360_upscaled.png'; // Use upscaled original image
       isCylinder = true;
@@ -270,7 +275,14 @@ class ThreeJSServiceSingleton {
         // -(thetaStart + 1.0) - 1.57 = -2.356  =>  thetaStart = -0.214
         geometry = new THREE.CylinderGeometry(500, 500, 1000, 60, 1, true, -0.214, 2.0);
         geometry.scale(-1, 1, 1);
+      } else if (isFullCylinder) {
+        texture.wrapS = THREE.MirroredRepeatWrapping;
+        texture.repeat.set(3, 1);
+        texture.offset.x = 0;
+        geometry = new THREE.CylinderGeometry(500, 500, 1000, 60, 1, true, 0, Math.PI * 2);
+        geometry.scale(-1, 1, 1);
       } else {
+        // Full 360 sphere
         geometry = new THREE.SphereGeometry(500, 60, 40);
         geometry.scale(-1, 1, 1);
       }
