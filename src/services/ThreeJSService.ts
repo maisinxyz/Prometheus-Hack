@@ -52,6 +52,9 @@ const TEXTURE_VENUE_IDS = [
   'tech_startup',
   'subway_station',
   'gym',
+  'financial_district_office',
+  'times_square',
+  'hot_dog_stand',
 ];
 
 /** Procedural (Stylized PBR) venue IDs */
@@ -186,7 +189,7 @@ class ThreeJSServiceSingleton {
   }
 
   private updateCameraPosition() {
-    if (this.currentVenueId === 'ferry_docks' || this.currentVenueId === 'tech_startup' || this.currentVenueId === 'subway_station' || this.currentVenueId === 'gym') {
+    if (false) {
         // Clamp panning so they never see the edges of the 2.0 radian cylinder screen
         const initialTheta = Math.PI / 4;
         this.cameraTheta = Math.max(initialTheta - 0.22, Math.min(initialTheta + 0.22, this.cameraTheta));
@@ -234,17 +237,19 @@ class ThreeJSServiceSingleton {
     } else if (venueId === 'art_studio') {
       texturePath = '/assets/art_studio_360.png';
     } else if (venueId === 'ferry_docks') {
-      texturePath = '/assets/ferry_docks_360_upscaled.png'; // Use upscaled original image
-      isCylinder = true;
+      texturePath = '/assets/ferry_docks_360_upscaled.png'; // Overwritten by user with true 360 image
     } else if (venueId === 'tech_startup') {
-      texturePath = '/assets/tech_startup_360_upscaled.png';
-      isCylinder = true;
+      texturePath = '/assets/tech_startup_360_upscaled.png'; // Overwritten by user with true 360 image
     } else if (venueId === 'subway_station') {
-      texturePath = '/assets/subway_station_360_upscaled.png';
-      isCylinder = true;
+      texturePath = '/assets/subway_station_360_upscaled.png'; // Overwritten by user with true 360 image
     } else if (venueId === 'gym') {
-      texturePath = '/assets/gym_wide.jpg';
-      isCylinder = true;
+      texturePath = '/assets/gym_360.png'; // Overwritten by user with true 360 image
+    } else if (venueId === 'financial_district_office') {
+      texturePath = '/assets/financial_district_office_360.png';
+    } else if (venueId === 'times_square') {
+      texturePath = '/assets/times_square_360.png';
+    } else if (venueId === 'hot_dog_stand') {
+      texturePath = '/assets/hot_dog_stand_360.png';
     } else {
       return; // Not supported
     }

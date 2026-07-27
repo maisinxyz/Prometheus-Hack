@@ -81,7 +81,7 @@ export class TrayScene extends Phaser.Scene {
 
   // All venue IDs that use the ThreeJS 3D background (texture-based + procedural)
   private static readonly THREE_D_VENUE_IDS = [
-    'construction_site', 'ferry_docks', 'tech_startup', 'subway_station', 'gym', 'art_studio',
+    'construction_site', 'ferry_docks', 'tech_startup', 'subway_station', 'gym', 'art_studio', 'financial_district_office', 'times_square', 'hot_dog_stand',
     'central_park', 'nyc_hospital', 'mackenzie_cafe', 'public_library',
   ];
 
@@ -260,6 +260,9 @@ export class TrayScene extends Phaser.Scene {
         nyc_hospital: 'NYC Hospital',
         mackenzie_cafe: 'Mackenzie Cafe',
         public_library: 'Public Library',
+        financial_district_office: 'Financial District Office',
+        times_square: 'Times Square',
+        hot_dog_stand: 'Hot Dog Stand',
       };
       const title = displayNames[this.venueId] ?? 'Venue';
       this.add.text(30, 20, title, {
@@ -883,7 +886,7 @@ export class TrayScene extends Phaser.Scene {
 
   update(_time: number, _delta: number): void {
     // If we are in a 3D venue with the 360 background, anchor the 2D bins to the 3D camera
-    if ((this.venueId === 'construction_site' || this.venueId === 'ferry_docks' || this.venueId === 'tech_startup' || this.venueId === 'subway_station' || this.venueId === 'gym' || this.venueId === 'art_studio') && this.bins.length > 0) {
+    if ((this.venueId === 'construction_site' || this.venueId === 'ferry_docks' || this.venueId === 'tech_startup' || this.venueId === 'subway_station' || this.venueId === 'gym' || this.venueId === 'art_studio' || this.venueId === 'financial_district_office' || this.venueId === 'times_square' || this.venueId === 'hot_dog_stand') && this.bins.length > 0) {
       const threeService = ThreeJSService as any;
       if (threeService.isActive && threeService.cameraTheta !== undefined) {
         const initialTheta = Math.PI / 4;
