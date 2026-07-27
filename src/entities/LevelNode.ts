@@ -202,6 +202,25 @@ export class LevelNode {
 
     badge.appendChild(icon);
     badgeWrapper.appendChild(badge);
+    
+    // Name label underneath the badge (attached to wrapper to scale on hover)
+    const nameLabel = document.createElement('div');
+    nameLabel.textContent = this.config.displayName;
+    nameLabel.style.position = 'absolute';
+    nameLabel.style.top = '75px';
+    nameLabel.style.left = '35px'; // 35px is the center of the 70px badge
+    nameLabel.style.transform = 'translateX(-50%)';
+    nameLabel.style.whiteSpace = 'nowrap';
+    nameLabel.style.color = isLocked ? '#aaaaaa' : '#ffffff';
+    nameLabel.style.fontFamily = '"Nunito", sans-serif';
+    nameLabel.style.fontSize = '16px';
+    nameLabel.style.fontWeight = '900';
+    nameLabel.style.textShadow = '0px 2px 4px rgba(0,0,0,0.8), 0px 0px 3px rgba(0,0,0,1)';
+    nameLabel.style.pointerEvents = 'none';
+    nameLabel.style.textAlign = 'center';
+    nameLabel.style.zIndex = '5';
+    badgeWrapper.appendChild(nameLabel);
+    
     this.el.appendChild(badgeWrapper);
 
     // Current Marker bobbing arrow
