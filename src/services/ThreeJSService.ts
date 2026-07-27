@@ -58,12 +58,11 @@ const TEXTURE_VENUE_IDS = [
   'public_library',
   'central_park',
   'nyc_hospital',
+  'mackenzie_cafe',
 ];
 
 /** Procedural (Stylized PBR) venue IDs */
-const PROCEDURAL_VENUE_IDS = [
-  'mackenzie_cafe',
-];
+const PROCEDURAL_VENUE_IDS = [];
 
 class ThreeJSServiceSingleton {
   private scene!: THREE.Scene;
@@ -256,6 +255,8 @@ class ThreeJSServiceSingleton {
       texturePath = '/assets/central_park_360.png';
     } else if (venueId === 'nyc_hospital') {
       texturePath = '/assets/nyc_hospital_360.png';
+    } else if (venueId === 'mackenzie_cafe') {
+      texturePath = '/assets/mackenzie_cafe_360.png';
     } else {
       return; // Not supported
     }

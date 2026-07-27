@@ -77,8 +77,8 @@ export class LoadingScene extends Phaser.Scene {
     
     const fillBar = this.add.rectangle(barX, barY, 0, barHeight, 0x10b981).setOrigin(0);
 
-    // Smooth loading transition
-    const duration = Phaser.Math.Between(1200, 1800);
+    // Fake loading delay (fixed at 5.0 seconds) to allow time to read news headlines and keep consistency across all levels
+    const duration = 5000;
     
     this.tweens.add({
       targets: fillBar,
