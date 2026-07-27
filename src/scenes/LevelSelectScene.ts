@@ -41,7 +41,6 @@ export class LevelSelectScene extends Phaser.Scene {
     (this as any).currentTrackIndex = trackIndex;
 
     const currentTrackKey = playlist[trackIndex].key;
-    const existingMusic = this.sound.get(currentTrackKey);
     const initVolume = parseFloat(localStorage.getItem('musicVolume') ?? '0.5');
 
     // Stop any other currently playing tracks if we came from another scene
@@ -51,11 +50,22 @@ export class LevelSelectScene extends Phaser.Scene {
       }
     });
 
-    let music = this.sound.get(currentTrackKey);
+    let music = this.sound.get(currentTrackKey) as Phaser.Sound.WebAudioSound;
     if (!music) {
-      music = this.sound.add(currentTrackKey, { loop: true, volume: initVolume });
+      music = this.sound.add(currentTrackKey) as Phaser.Sound.WebAudioSound;
     }
     
+    // Clean up old listeners just in case
+    music.removeAllListeners('complete');
+    music.on('complete', () => {
+      const rep = localStorage.getItem('musicRepeat') === 'true';
+      if (!rep) {
+        (this as any).changeTrackRef?.(1);
+      } else {
+        music.play({ volume: parseFloat(localStorage.getItem('musicVolume') ?? '0.5') });
+      }
+    });
+
     if (music.isPaused) {
       music.resume();
     } else if (!music.isPlaying) {
@@ -69,21 +79,22 @@ export class LevelSelectScene extends Phaser.Scene {
 
     // Save seek position periodically so music resumes from the same spot
     this.time.addEvent({
-      delay: 1000,
+      delay: 500,
       loop: true,
       callback: () => {
-        if (music && music.isPlaying) {
-          const seek = (music as Phaser.Sound.WebAudioSound).seek;
+        // Redefine music in case it changed via changeTrack
+        const curKey = playlist[(this as any).currentTrackIndex].key;
+        const curMusic = this.sound.get(curKey) as Phaser.Sound.WebAudioSound;
+        if (curMusic && curMusic.isPlaying) {
+          const seek = curMusic.seek;
           localStorage.setItem('musicSeek', seek.toString());
+          (this as any).updateSeekUIRef?.(seek, curMusic.duration);
         }
       }
     });
 
-    // Explicitly enforce volume on the WebAudioSound instance just in case
-    (music as Phaser.Sound.WebAudioSound).setVolume(initVolume);
-    
-    // Always enforce the saved volume, especially when returning to the scene
-    (music as Phaser.Sound.WebAudioSound).setVolume(initVolume);
+    // Explicitly enforce volume
+    music.setVolume(initVolume);
 
     this.chiSystem = new ChiSystem();
     this.gardenSystem = new GardenSystem();
@@ -535,6 +546,62 @@ export class LevelSelectScene extends Phaser.Scene {
     trackInfoRow.appendChild(trackDetails);
     trackInfoRow.appendChild(nextBtn);
 
+    const repeatBtn = document.createElement('button');
+    repeatBtn.innerHTML = `
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="17 1 21 5 17 9"></polyline>
+        <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+        <polyline points="7 23 3 19 7 15"></polyline>
+        <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+      </svg>
+    `;
+    repeatBtn.style.background = 'none';
+    repeatBtn.style.border = 'none';
+    const isRepeating = localStorage.getItem('musicRepeat') === 'true';
+    repeatBtn.style.color = isRepeating ? '#10b981' : '#94a3b8';
+    repeatBtn.style.filter = isRepeating ? 'drop-shadow(0 0 4px #10b981)' : 'none';
+    repeatBtn.style.cursor = 'pointer';
+    repeatBtn.style.display = 'flex';
+    repeatBtn.style.alignItems = 'center';
+    repeatBtn.style.justifyContent = 'center';
+    repeatBtn.style.marginLeft = '8px';
+
+    // Seek Row
+    const seekRow = document.createElement('div');
+    seekRow.style.display = 'flex';
+    seekRow.style.alignItems = 'center';
+    seekRow.style.gap = '8px';
+    seekRow.style.justifyContent = 'center';
+    seekRow.style.marginTop = '4px';
+    seekRow.style.marginBottom = '4px';
+
+    const timeDisplayLeft = document.createElement('div');
+    timeDisplayLeft.style.fontSize = '10px';
+    timeDisplayLeft.style.color = '#94a3b8';
+    timeDisplayLeft.style.minWidth = '30px';
+    timeDisplayLeft.style.textAlign = 'right';
+    timeDisplayLeft.innerText = '0:00';
+    timeDisplayLeft.style.fontVariantNumeric = 'tabular-nums';
+    
+    const timeDisplayRight = document.createElement('div');
+    timeDisplayRight.style.fontSize = '10px';
+    timeDisplayRight.style.color = '#94a3b8';
+    timeDisplayRight.style.minWidth = '30px';
+    timeDisplayRight.style.textAlign = 'left';
+    timeDisplayRight.innerText = '-0:00';
+    timeDisplayRight.style.fontVariantNumeric = 'tabular-nums';
+
+    const seekSlider = document.createElement('input');
+    seekSlider.type = 'range';
+    seekSlider.min = '0';
+    seekSlider.max = '100';
+    seekSlider.value = '0';
+    seekSlider.style.flex = '1';
+    
+    seekRow.appendChild(timeDisplayLeft);
+    seekRow.appendChild(seekSlider);
+    seekRow.appendChild(timeDisplayRight);
+
     // Volume Row
     const volumeRow = document.createElement('div');
     volumeRow.style.display = 'flex';
@@ -557,8 +624,10 @@ export class LevelSelectScene extends Phaser.Scene {
     
     volumeRow.appendChild(volIcon);
     volumeRow.appendChild(volumeSlider);
+    volumeRow.appendChild(repeatBtn);
 
     playerContainer.appendChild(trackInfoRow);
+    playerContainer.appendChild(seekRow);
     playerContainer.appendChild(volumeRow);
     document.body.appendChild(playerContainer);
 
@@ -573,7 +642,23 @@ export class LevelSelectScene extends Phaser.Scene {
     
     updatePlayerUI(); // Init
 
-    const changeTrack = (dir: number) => {
+    let isDraggingSeek = false;
+    (this as any).updateSeekUIRef = (seek: number, duration: number) => {
+      if (isDraggingSeek || isNaN(duration)) return;
+      seekSlider.max = duration.toString();
+      seekSlider.value = seek.toString();
+      
+      const formatTime = (s: number) => {
+        const mins = Math.floor(s / 60);
+        const secs = Math.floor(s % 60);
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+      };
+      const timeLeft = duration - seek;
+      timeDisplayLeft.innerText = `${formatTime(seek)}`;
+      timeDisplayRight.innerText = `-${formatTime(timeLeft)}`;
+    };
+
+    const changeTrack = (dir) => {
       // Stop current
       const oldIdx = (this as any).currentTrackIndex;
       this.sound.stopByKey(activePlaylist[oldIdx].key);
@@ -587,22 +672,60 @@ export class LevelSelectScene extends Phaser.Scene {
       
       // Play new
       const vol = parseFloat(volumeSlider.value);
-      this.sound.play(activePlaylist[newIdx].key, { loop: true, volume: vol });
+      const curKey = activePlaylist[newIdx].key;
+      let newMusic = this.sound.get(curKey);
+      if (!newMusic) newMusic = this.sound.add(curKey);
+      
+      newMusic.removeAllListeners('complete');
+      newMusic.on('complete', () => {
+        const rep = localStorage.getItem('musicRepeat') === 'true';
+        if (!rep) changeTrack(1);
+        else newMusic.play({ volume: parseFloat(volumeSlider.value) });
+      });
+      newMusic.play({ volume: vol });
       
       updatePlayerUI();
     };
+    (this as any).changeTrackRef = changeTrack;
+
+    repeatBtn.addEventListener('click', () => {
+      const currentRep = localStorage.getItem('musicRepeat') === 'true';
+      const newRep = !currentRep;
+      localStorage.setItem('musicRepeat', newRep.toString());
+      repeatBtn.style.color = newRep ? '#10b981' : '#94a3b8';
+      repeatBtn.style.filter = newRep ? 'drop-shadow(0 0 4px #10b981)' : 'none';
+    });
+
+    seekSlider.addEventListener('mousedown', () => isDraggingSeek = true);
+    seekSlider.addEventListener('touchstart', () => isDraggingSeek = true);
+    
+    const applySeek = () => {
+      isDraggingSeek = false;
+      const curKey = activePlaylist[(this as any).currentTrackIndex].key;
+      const music = this.sound.get(curKey);
+      if (music && music.isPlaying) {
+        const vol = parseFloat(volumeSlider.value);
+        const seekVal = parseFloat(seekSlider.value);
+        music.play({ seek: seekVal, volume: vol });
+        localStorage.setItem('musicSeek', seekVal.toString());
+      }
+    };
+    
+    seekSlider.addEventListener('mouseup', applySeek);
+    seekSlider.addEventListener('touchend', applySeek);
+    seekSlider.addEventListener('change', applySeek);
 
     prevBtn.addEventListener('click', () => changeTrack(-1));
     nextBtn.addEventListener('click', () => changeTrack(1));
 
     volumeSlider.addEventListener('input', (e) => {
-      const vol = parseFloat((e.target as HTMLInputElement).value);
+      const vol = parseFloat(e.target.value);
       localStorage.setItem('musicVolume', vol.toString());
       
-      const currentTrackKey = activePlaylist[(this as any).currentTrackIndex].key;
-      const music = this.sound.get(currentTrackKey);
+      const curKey = activePlaylist[(this as any).currentTrackIndex].key;
+      const music = this.sound.get(curKey);
       if (music) {
-        (music as Phaser.Sound.WebAudioSound).setVolume(vol);
+        music.setVolume(vol);
       }
     });
 
