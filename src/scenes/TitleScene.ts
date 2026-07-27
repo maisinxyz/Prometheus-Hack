@@ -68,9 +68,11 @@ export class TitleScene extends Phaser.Scene {
           // Preserve audio settings
           const savedVol = localStorage.getItem('musicVolume');
           const savedTrack = localStorage.getItem('currentTrackIndex');
+          const savedSeek = localStorage.getItem('musicSeek');
           localStorage.clear(); // Simulate a fresh start for first time viewer
           if (savedVol) localStorage.setItem('musicVolume', savedVol);
           if (savedTrack) localStorage.setItem('currentTrackIndex', savedTrack);
+          if (savedSeek) localStorage.setItem('musicSeek', savedSeek);
           
           this.scene.start('LevelSelectScene');
         }

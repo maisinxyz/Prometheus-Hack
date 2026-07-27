@@ -51,32 +51,8 @@ export class AudioLayerManager {
       return;
     }
 
-    const stemPaths: Record<string, string> = {
-      drums: '/assets/audio/stems/PLACEHOLDER_drums.mp3',
-      bass: '/assets/audio/stems/PLACEHOLDER_bass.mp3',
-      synth_pads: '/assets/audio/stems/PLACEHOLDER_synth_pads.mp3',
-      lead: '/assets/audio/stems/PLACEHOLDER_lead.mp3',
-    };
-
-    for (const [name, path] of Object.entries(stemPaths)) {
-      try {
-        const howl = new Howl({
-          src: [path],
-          loop: true,
-          volume: name === 'drums' ? 1.0 : 0.0,
-          onloaderror: (_id: number, err: unknown) => {
-            console.log(`AudioLayerManager: Could not load ${name} stem (${err}) — audio placeholder needed`);
-            this.stems[name as keyof typeof this.stems] = null;
-          },
-        });
-        this.stems[name as keyof typeof this.stems] = howl;
-      } catch {
-        console.log(`AudioLayerManager: Error creating Howl for ${name}`);
-      }
-    }
-
-    // Start all stems simultaneously (those that loaded successfully)
-    this.playAll();
+    // Stems removed per user request to disable ambient sounds at locations
+    this.initialized = true;
 
     // Subscribe to events
     gameEvents.on(GAME_EVENTS.COMBO_CHANGED, (payload: { combo: number }) => {

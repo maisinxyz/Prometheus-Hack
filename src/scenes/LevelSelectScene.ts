@@ -67,6 +67,18 @@ export class LevelSelectScene extends Phaser.Scene {
       }
     }
 
+    // Save seek position periodically so music resumes from the same spot
+    this.time.addEvent({
+      delay: 1000,
+      loop: true,
+      callback: () => {
+        if (music && music.isPlaying) {
+          const seek = (music as Phaser.Sound.WebAudioSound).seek;
+          localStorage.setItem('musicSeek', seek.toString());
+        }
+      }
+    });
+
     // Explicitly enforce volume on the WebAudioSound instance just in case
     (music as Phaser.Sound.WebAudioSound).setVolume(initVolume);
     

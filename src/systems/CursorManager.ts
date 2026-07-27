@@ -23,7 +23,7 @@ export class CursorManager {
       const x = e.clientX;
       const y = e.clientY;
       
-      // Face bird in direction of movement (eagle emoji faces left natively)
+      // Face bird in direction of movement
       const flip = x < lastX ? 'scaleX(1)' : 'scaleX(-1)';
       lastX = x;
 
