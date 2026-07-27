@@ -1146,6 +1146,17 @@ class ThreeJSServiceSingleton {
     const ndcX = (x / 1920) * 2 - 1;
     const ndcY = -(y / 1080) * 2 + 1;
 
+    // Use Raycaster for procedural venues to find exact 3D intersection
+    if (this.isProceduralVenue && this.scene) {
+      const raycaster = new THREE.Raycaster();
+      raycaster.setFromCamera(new THREE.Vector2(ndcX, ndcY), this.camera);
+      // We only care about intersecting actual meshes, not helpers or invisible things
+      const intersects = raycaster.intersectObjects(this.scene.children, true);
+      if (intersects.length > 0) {
+        return intersects[0].point;
+      }
+    }
+
     const vector = new THREE.Vector3(ndcX, ndcY, 0.5);
     vector.unproject(this.camera);
 

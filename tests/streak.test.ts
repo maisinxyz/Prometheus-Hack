@@ -87,5 +87,23 @@ describe('PerfectStreakSystem', () => {
     // 4 -> 5 (Tier 3)
     const res5 = perfectStreakSystem.registerRoundResult(100);
     expect(res5.tierChanged).toBe(true);
+
+    // 5 -> 9 (Still Tier 3)
+    const res6 = perfectStreakSystem.registerRoundResult(100);
+    expect(res6.tierChanged).toBe(false);
+    const res7 = perfectStreakSystem.registerRoundResult(100);
+    expect(res7.tierChanged).toBe(false);
+    const res8 = perfectStreakSystem.registerRoundResult(100);
+    expect(res8.tierChanged).toBe(false);
+    const res9 = perfectStreakSystem.registerRoundResult(100);
+    expect(res9.tierChanged).toBe(false);
+
+    // 9 -> 10 (Tier 4)
+    const res10 = perfectStreakSystem.registerRoundResult(100);
+    expect(res10.tierChanged).toBe(true);
+
+    // 10 -> 11 (Still Tier 4)
+    const res11 = perfectStreakSystem.registerRoundResult(100);
+    expect(res11.tierChanged).toBe(false);
   });
 });

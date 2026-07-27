@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { ChiSystem } from '../systems/ChiSystem';
 import { GardenSystem } from '../systems/GardenSystem';
+import { UI_THEME } from '../config/UITheme';
 import venuesData from '../data/venues.json';
 import codexData from '../data/codex.json';
 import { MapLibreService } from '../services/MapLibreService';
@@ -789,12 +790,12 @@ export class LevelSelectScene extends Phaser.Scene {
     weatherEventContainer.style.left = 'auto';
     weatherEventContainer.style.right = '20px';
     weatherEventContainer.style.width = '240px';
-    weatherEventContainer.style.background = 'linear-gradient(135deg, rgba(30,41,59,0.9), rgba(15,23,42,0.95))';
-    weatherEventContainer.style.backdropFilter = 'blur(8px)';
-    weatherEventContainer.style.borderRadius = '12px';
-    weatherEventContainer.style.border = `1px solid ${weatherColor}`;
-    weatherEventContainer.style.boxShadow = `inset 0 2px 4px rgba(255,255,255,0.05), 0 8px 16px rgba(0,0,0,0.4), 0 0 10px ${weatherColor}40`;
-    weatherEventContainer.style.padding = '12px';
+    weatherEventContainer.style.background = `linear-gradient(135deg, ${UI_THEME.primaryGradient[0]}33, ${UI_THEME.primaryGradient[1]}66)`; // semi-transparent theme colors
+    weatherEventContainer.style.backdropFilter = 'blur(12px)';
+    weatherEventContainer.style.borderRadius = `${UI_THEME.cornerRadius}px`;
+    weatherEventContainer.style.border = `2px solid ${weatherColor}`;
+    weatherEventContainer.style.boxShadow = `inset 0 4px 6px rgba(255,255,255,0.2), 0 10px 20px rgba(0,0,0,0.5), 0 0 15px ${weatherColor}80`;
+    weatherEventContainer.style.padding = '16px';
     weatherEventContainer.style.zIndex = '20';
     weatherEventContainer.style.pointerEvents = 'auto'; // allow clicking close button
     weatherEventContainer.style.transition = 'opacity 0.3s ease';

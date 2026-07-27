@@ -21,6 +21,11 @@ import { DifficultyTierDef } from '../data/schemas/difficultyTierSchema';
 import { GardenSystem } from '../systems/GardenSystem';
 import { TutorialController } from '../systems/TutorialController';
 import { MapLibreService } from '../services/MapLibreService';
+import { UI_THEME } from '../config/UITheme';
+import { GlossyButton } from '../entities/GlossyButton';
+import { perfectStreakSystem } from '../systems/PerfectStreakSystem';
+import { computeChiGain } from '../systems/ChiSystem';
+import { streakFXManager } from '../systems/StreakFXManager';
 
 /**
  * TrayScene — Core disposal loop.
@@ -577,6 +582,7 @@ export class TrayScene extends Phaser.Scene {
 
   /**
    * Cluster B: Handle composite item clicks.
+   * Dormant stub per PRD.
    */
   private handleItemClicked(data: { item: TrashItem }): void {
     if (this.roundEnded) return;
@@ -585,59 +591,9 @@ export class TrayScene extends Phaser.Scene {
     // Only respond to clicks if the item is a composite
     if (!item.itemDef.isComposite) return;
 
-    // Pause this scene
-    this.scene.pause('TrayScene');
-    this.scene.pause('HUDScene');
-
-    // Launch the separation minigame scene
-    this.scene.launch('SeparationMinigameScene', {
-      item,
-      venueId: this.venueId,
-      onScore: (points: number, isCorrect: boolean) => {
-        const pts = points * this.scoreMultiplier;
-        this.roundScore += pts;
-        gameEvents.emit(GAME_EVENTS.ITEM_DROPPED, {
-          result: { correct: isCorrect, pointsAwarded: pts, velocityMultiplier: 1 }
-        });
-      },
-      onComplete: (success: boolean) => {
-        // Callback when minigame finishes
-        this.scene.resume('TrayScene');
-        this.scene.resume('HUDScene');
-        
-        // Remove the composite item from tray visually
-        const index = this.items.indexOf(item);
-        if (index !== -1) {
-          this.items.splice(index, 1);
-        }
-        item.destroy();
-
-        // Apply scoring based on minigame result
-        if (success) {
-          // Award massive bonus for properly separating items!
-          const pts = 500 * this.scoreMultiplier;
-          this.roundScore += pts;
-          this.correctDrops++;
-          this.comboSystem.registerCorrect();
-          this.cameras.main.shake(100, 0.005);
-          gameEvents.emit(GAME_EVENTS.ITEM_DROPPED, {
-            result: { correct: true, pointsAwarded: pts, velocityMultiplier: 1 }
-          });
-        } else {
-          // Normal penalty for failing the minigame
-          const penaltyResult = this.scoringSystem.resolveDrop('none', 'none', 0, 0, this.currentTier.errorPenaltyMultiplier, false);
-          const pts = penaltyResult.pointsAwarded * this.scoreMultiplier;
-          this.roundScore += pts;
-          this.comboSystem.registerIncorrect();
-          this.cameras.main.shake(80, 0.002);
-          gameEvents.emit(GAME_EVENTS.ITEM_DROPPED, {
-            result: { correct: false, pointsAwarded: pts, velocityMultiplier: 1 }
-          });
-        }
-        
-        gameEvents.emit(GAME_EVENTS.COMBO_CHANGED, { combo: this.comboSystem.getCombo() });
-      }
-    });
+    // Separation minigame removed per PRD Step 6.
+    // Stub remains for future Track G features.
+    item.attemptSeparate();
   }
 
   /** Handle a resolved drop ?" scoring, combo, events, cleanup */
@@ -850,50 +806,99 @@ export class TrayScene extends Phaser.Scene {
     const overlay = this.add.rectangle(960, 540, 1920, 1080, 0x000000, 0.7);
     overlay.setDepth(100);
 
-    // Score display
-    const scoreText = this.add.text(960, 350, `Score: ${this.roundScore}`, {
+    // Premium Panel Background
+    const panelWidth = 600;
+    const panelHeight = 450;
+    const panelX = 960;
+    const panelY = 540;
+
+    const shadow = this.add.graphics();
+    shadow.fillStyle(0x000000, 0.5);
+    shadow.fillRoundedRect(panelX - panelWidth / 2 + 10, panelY - panelHeight / 2 + 10, panelWidth, panelHeight, UI_THEME.cornerRadius);
+    shadow.setDepth(101);
+
+    const bgGraphics = this.add.graphics();
+    const bgTop = Phaser.Display.Color.HexStringToColor('#1f2937').color;
+    const bgBottom = Phaser.Display.Color.HexStringToColor('#111827').color;
+    bgGraphics.fillGradientStyle(bgTop, bgTop, bgBottom, bgBottom, 1);
+    bgGraphics.fillRoundedRect(panelX - panelWidth / 2, panelY - panelHeight / 2, panelWidth, panelHeight, UI_THEME.cornerRadius);
+    bgGraphics.lineStyle(4, Phaser.Display.Color.HexStringToColor(UI_THEME.goldAccent[0]).color, 0.8);
+    bgGraphics.strokeRoundedRect(panelX - panelWidth / 2, panelY - panelHeight / 2, panelWidth, panelHeight, UI_THEME.cornerRadius);
+    bgGraphics.setDepth(102);
+
+    // Title
+    this.add.text(panelX, panelY - 170, 'ROUND COMPLETE', {
       fontFamily: '"Nunito", sans-serif',
-      fontSize: '72px',
+      fontSize: '36px',
       color: '#ffffff',
       fontStyle: 'bold',
+      shadow: { offsetX: 0, offsetY: 2, color: 'rgba(0,0,0,0.8)', blur: 4, fill: true }
+    }).setOrigin(0.5).setDepth(103);
+
+    // CHI Gained Bar
+    const chiGained = computeChiGain(accuracyPct);
+    this.add.text(panelX, panelY - 80, `CHI GAINED: +${chiGained}`, {
+      fontFamily: '"Nunito", sans-serif',
+      fontSize: '24px',
+      color: UI_THEME.primaryGradient[1],
+      fontStyle: 'bold'
+    }).setOrigin(0.5).setDepth(103);
+
+    const barWidth = 400;
+    const barHeight = 24;
+    const barY = panelY - 40;
+    
+    // Bar Background
+    const barBg = this.add.graphics().setDepth(103);
+    barBg.fillStyle(0x374151, 1);
+    barBg.fillRoundedRect(panelX - barWidth / 2, barY - barHeight / 2, barWidth, barHeight, barHeight / 2);
+
+    // Animated Bar Fill
+    const fillGraphics = this.add.graphics().setDepth(104);
+    this.tweens.addCounter({
+      from: 0,
+      to: chiGained,
+      duration: 1000,
+      ease: 'Cubic.easeOut',
+      onUpdate: (tween) => {
+        const val = tween.getValue();
+        const fillPct = Math.min(1, val / 15); // Assume 15 is max possible gain
+        fillGraphics.clear();
+        if (fillPct > 0) {
+          fillGraphics.fillStyle(Phaser.Display.Color.HexStringToColor(UI_THEME.primaryGradient[0]).color, 1);
+          fillGraphics.fillRoundedRect(panelX - barWidth / 2, barY - barHeight / 2, barWidth * fillPct, barHeight, barHeight / 2);
+        }
+      }
     });
-    scoreText.setOrigin(0.5).setDepth(101);
 
     // Accuracy
     const accColor = accuracyPct >= 50 ? '#22C55E' : '#EF4444';
-    const accText = this.add.text(960, 450, `Accuracy: ${accuracyPct}%`, {
+    this.add.text(panelX, panelY + 30, `ACCURACY: ${accuracyPct}%`, {
       fontFamily: '"Nunito", sans-serif',
-      fontSize: '48px',
+      fontSize: '28px',
       color: accColor,
-    });
-    accText.setOrigin(0.5).setDepth(101);
+      fontStyle: 'bold'
+    }).setOrigin(0.5).setDepth(103);
 
-    // Stats
-    const statsText = this.add.text(
-      960,
-      530,
-      `${this.correctDrops}/${this.totalDrops} correct`,
-      {
-        fontFamily: '"Nunito", sans-serif',
-        fontSize: '32px',
-        color: '#aaaaaa',
-      }
-    );
-    statsText.setOrigin(0.5).setDepth(101);
-
-    // Instructions
-    const instrText = this.add.text(960, 650, 'Click to play again  |  ESC for level select', {
+    // Streak System
+    const currentStreak = perfectStreakSystem.getCurrentStreak();
+    const streakTier = streakFXManager.getTier(currentStreak);
+    
+    const streakText = this.add.text(panelX, panelY + 90, `PERFECT STREAK: ${currentStreak}`, {
       fontFamily: '"Nunito", sans-serif',
       fontSize: '24px',
-      color: '#888888',
-    });
-    instrText.setOrigin(0.5).setDepth(101);
+      color: '#ffffff',
+      fontStyle: 'bold'
+    }).setOrigin(0.5).setDepth(103);
 
-    // Click to replay
-    this.input.once('pointerdown', () => {
+    // Apply Streak FX
+    streakFXManager.playSummaryScreenFX(this, panelX + 160, panelY + 90, streakTier);
+
+    // Continue Button
+    new GlossyButton(this, panelX, panelY + 160, 'CONTINUE', () => {
       this.scene.stop('HUDScene');
-      this.scene.restart({ venueId: this.venueId });
-    });
+      this.scene.start('LevelSelectScene');
+    }, 200, 60, UI_THEME.goldAccent).setDepth(105);
   }
 
   /** Clean up when leaving scene */
