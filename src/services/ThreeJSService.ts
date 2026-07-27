@@ -59,6 +59,7 @@ const TEXTURE_VENUE_IDS = [
   'central_park',
   'nyc_hospital',
   'mackenzie_cafe',
+  'community_park',
 ];
 
 /** Procedural (Stylized PBR) venue IDs */
@@ -257,6 +258,8 @@ class ThreeJSServiceSingleton {
       texturePath = '/assets/nyc_hospital_360.png';
     } else if (venueId === 'mackenzie_cafe') {
       texturePath = '/assets/mackenzie_cafe_360.png';
+    } else if (venueId === 'community_park') {
+      texturePath = '/assets/community_park_360.png';
     } else {
       return; // Not supported
     }

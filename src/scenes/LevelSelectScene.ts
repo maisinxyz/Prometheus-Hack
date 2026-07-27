@@ -779,7 +779,7 @@ export class LevelSelectScene extends Phaser.Scene {
           music.pause();
         }
       }
-      this.scene.start('LoadingScene', { target: 'CommunityGardenScene' });
+      this.scene.start('LoadingScene', { target: 'TrayScene', targetData: { venueId: 'community_park' } });
     });
 
     const weatherEventContainer = document.createElement('div');

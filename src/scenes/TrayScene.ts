@@ -87,7 +87,7 @@ export class TrayScene extends Phaser.Scene {
   // All venue IDs that use the ThreeJS 3D background (texture-based + procedural)
   private static readonly THREE_D_VENUE_IDS = [
     'construction_site', 'ferry_docks', 'tech_startup', 'subway_station', 'gym', 'art_studio', 'financial_district_office', 'times_square', 'hot_dog_stand',
-    'central_park', 'nyc_hospital', 'mackenzie_cafe', 'public_library',
+    'central_park', 'nyc_hospital', 'mackenzie_cafe', 'public_library', 'community_park'
   ];
 
   create(): void {
@@ -231,6 +231,7 @@ export class TrayScene extends Phaser.Scene {
         subway_station: 'Subway Station',
         gym: 'Fitness Center',
         central_park: 'Central Park',
+        community_park: 'Community Park',
         nyc_hospital: 'NYC Hospital',
         mackenzie_cafe: 'Mackenzie Cafe',
         public_library: 'Public Library',
