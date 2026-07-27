@@ -309,12 +309,15 @@ class ThreeJSServiceSingleton {
       if (this.mesh) {
         this.mesh.geometry = geometry;
         this.mesh.material = new THREE.MeshBasicMaterial({ map: texture, color: 0xffffff });
+        this.mesh.rotation.x = 0;
         if (venueId === 'subway_station') {
           // Add to rotation.y to rotate mesh left, simulating a camera pan to the right
           this.mesh.rotation.y = -Math.PI / 2 + 1.0;
         } else if (venueId === 'central_park') {
           // Subtract to rotate mesh right, simulating a camera pan to the left
           this.mesh.rotation.y = -Math.PI * 1.5 + (7 * Math.PI / 36);
+        } else if (venueId === 'hot_dog_stand') {
+          this.mesh.rotation.y = -Math.PI * 1.5;
         } else {
           this.mesh.rotation.y = -Math.PI / 2;
         }

@@ -531,6 +531,12 @@
       "grimy": "venue_hot_dog_bg_grimy",
       "ruined": "venue_hot_dog_bg_ruined"
     },
+    "binPositions": [
+      { "x": 1015, "y": 750, "scale": 0.58 },
+      { "x": 1145, "y": 770, "scale": 0.58 },
+      { "x": 1275, "y": 790, "scale": 0.58 },
+      { "x": 1405, "y": 810, "scale": 0.58 }
+    ],
     "latitude": 40.7308,
     "longitude": -73.9973
   },
