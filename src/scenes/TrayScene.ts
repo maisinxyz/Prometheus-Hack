@@ -462,7 +462,7 @@ export class TrayScene extends Phaser.Scene {
   private setupDropDetection(): void {
     // Listen for pointerdown on items to trigger tutorials cleanly before a drag starts
     this.events.on('item_pressed', (item: any) => {
-      if (item.itemDef.id === 'wood_scrap') {
+      if (item.itemDef.spriteKey === 'brick' || item.itemDef.spriteKey === 'rock') {
         if (!localStorage.getItem('trashdash_interactive_tutorial_complete')) {
           localStorage.setItem('trashdash_interactive_tutorial_complete', 'true');
           
@@ -507,7 +507,10 @@ export class TrayScene extends Phaser.Scene {
                 targets: newItem,
                 y: spawnY,
                 duration: 500,
-                ease: 'Bounce.easeOut'
+                ease: 'Quad.easeOut',
+                onUpdate: () => {
+                  newItem.syncAttachments();
+                }
               });
               
               // Replace in array
@@ -520,7 +523,7 @@ export class TrayScene extends Phaser.Scene {
             });
             return; // Drag handled by crusher
           } else {
-            // Crusher rejects this item, it will snap back
+            // Crusher rejects this item, screen shakes and item will fall to the ground
             this.cameras.main.shake(100, 0.005);
           }
         }
@@ -541,20 +544,70 @@ export class TrayScene extends Phaser.Scene {
           // Resolve the drop
           this.handleDrop(item, targetBin);
         } else {
-          // Snap back to original position
-          this.tweens.add({
-            targets: item,
-            x: item.startX,
-            y: item.startY,
-            duration: 300,
-            ease: 'Power2',
-            onUpdate: () => {
-              item.syncAttachments();
-            }
-          });
+          // Trash gravity: item falls to the ground
+          const targetGroundY = this.getGroundY(item);
+          const heightDiff = targetGroundY - item.y;
+
+          if (heightDiff > 0) {
+            const fallTween = this.tweens.add({
+              targets: item,
+              y: targetGroundY,
+              duration: Math.max(450, heightDiff * 1.5),
+              ease: 'Quad.easeIn',
+              onUpdate: () => {
+                item.syncAttachments();
+
+                // Continuous check: if item is brick/rock and intersects crusher input zone while falling into it
+                if (this.crusher && (item.itemDef.spriteKey === 'brick' || item.itemDef.spriteKey === 'rock') && !item.processed) {
+                  if (this.crusher.intersectsInput(item.x, item.y)) {
+                    fallTween.stop();
+                    item.processed = true;
+                    this.crusher.crushItem(item, (newItemDef, spawnX, spawnY) => {
+                      const newItem = new TrashItem(this, spawnX, spawnY, newItemDef, this.currentTier.visualCuesActive);
+                      newItem.y -= 50;
+                      this.tweens.add({
+                        targets: newItem,
+                        y: spawnY,
+                        duration: 500,
+                        ease: 'Quad.easeOut',
+                        onUpdate: () => {
+                          newItem.syncAttachments();
+                        }
+                      });
+
+                      const idx = this.items.indexOf(item);
+                      if (idx !== -1) {
+                        this.items[idx] = newItem;
+                      } else {
+                        this.items.push(newItem);
+                      }
+                    });
+                  }
+                }
+              },
+              onComplete: () => {
+                item.startX = item.x;
+                item.startY = item.y;
+              }
+            });
+          } else {
+            // Already at or below ground level
+            item.startX = item.x;
+            item.startY = item.y;
+          }
         }
       }
     );
+  }
+
+  /** Calculate the ground Y position for an item to land on */
+  private getGroundY(item: TrashItem): number {
+    const venueData = venuesData.find(v => v.id === this.venueId);
+    if (venueData && venueData.spawnZones && venueData.spawnZones.GroundZone) {
+      const gz = venueData.spawnZones.GroundZone;
+      return gz.y + gz.height - (item.displayHeight / 2);
+    }
+    return 860;
   }
 
   /**
@@ -885,39 +938,6 @@ export class TrayScene extends Phaser.Scene {
   }
 
   update(_time: number, _delta: number): void {
-    // If we are in a 3D venue with the 360 background, anchor the 2D bins to the 3D camera
-    if ((this.venueId === 'construction_site' || this.venueId === 'ferry_docks' || this.venueId === 'tech_startup' || this.venueId === 'subway_station' || this.venueId === 'gym' || this.venueId === 'art_studio' || this.venueId === 'financial_district_office' || this.venueId === 'times_square' || this.venueId === 'hot_dog_stand') && this.bins.length > 0) {
-      const threeService = ThreeJSService as any;
-      if (threeService.isActive && threeService.cameraTheta !== undefined) {
-        const initialTheta = Math.PI / 4;
-        const initialPhi = Math.PI / 2;
-        
-        const dTheta = threeService.cameraTheta - initialTheta;
-        const dPhi = threeService.cameraPhi - initialPhi;
-        
-        // Approximate FOV projection for the 2D plane (75 degree FOV)
-        const xOffset = dTheta * (1920 / (75 * Math.PI / 180));
-        const yOffset = -dPhi * (1080 / (75 * Math.PI / 180));
-        
-        const venueData = venuesData.find(v => v.id === this.venueId);
-        
-        for (let i = 0; i < this.bins.length; i++) {
-          const bin = this.bins[i];
-          if (bin && venueData && venueData.binPositions) {
-            const binPos = venueData.binPositions[i];
-            if (binPos) {
-              const baseX = binPos.x;
-              const baseY = binPos.y;
-              
-              // Apply the offset based on camera rotation so they stick to the background
-              const newX = baseX + xOffset;
-              const newY = baseY + yOffset;
-              
-              bin.setPosition(newX, newY);
-            }
-          }
-        }
-      }
-    }
+    // 2D elements (bins, rock crusher, trash) remain fixed on screen during 3D background pan
   }
 }
