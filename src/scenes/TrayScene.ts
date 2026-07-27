@@ -21,6 +21,11 @@ import { DifficultyTierDef } from '../data/schemas/difficultyTierSchema';
 import { GardenSystem } from '../systems/GardenSystem';
 import { TutorialController } from '../systems/TutorialController';
 import { MapLibreService } from '../services/MapLibreService';
+import { UI_THEME } from '../config/UITheme';
+import { GlossyButton } from '../entities/GlossyButton';
+import { perfectStreakSystem } from '../systems/PerfectStreakSystem';
+import { computeChiGain } from '../systems/ChiSystem';
+import { streakFXManager } from '../systems/StreakFXManager';
 
 /**
  * TrayScene — Core disposal loop.
@@ -127,7 +132,7 @@ export class TrayScene extends Phaser.Scene {
     if (this.venueId === 'construction_site') {
       // Place it on the bottom right, aligned vertically with the bins
       this.crusher = new RockCrusher(this, 1650, 850);
-      this.crusher.setDepth(50);
+      this.crusher.setDepth(20);
     }
 
     // Spawn random items from the venue's item pool
@@ -145,41 +150,10 @@ export class TrayScene extends Phaser.Scene {
       }
     });
 
-    // Start the round timer (B.8) unless in tutorial
-    this.tutorialController = new TutorialController(this);
-    
-    // Check if this is the first venue and tutorial hasn't been completed
-    if (this.venueId === venuesData[0]?.id && !localStorage.getItem('trashdash_tutorial_complete')) {
-      this.tutorialActive = true;
-      
-      // Override to 4 items for tutorial round
-      this.itemsPerTray = 4;
-      
-      // Despawn excess items if we spawned too many
-      while (this.items.length > this.itemsPerTray) {
-        const item = this.items.pop();
-        if (item) item.destroy();
-      }
-      
-      // Select the first item and its matching bin
-      const targetItem = this.items[0];
-      if (targetItem) {
-        const targetBin = this.bins.find(b => b.binDef.id === targetItem.itemDef.correctBinId) || this.bins[0];
-        
-        // Disable dragging for all other items
-        this.items.forEach(item => {
-          if (item !== targetItem) {
-            item.disableInteractive();
-          }
-        });
-        
-        if (targetBin) {
-          this.tutorialController.startTutorial(targetItem, targetBin);
-        }
-      }
-    } else {
-      this.startTimer();
-    }
+    // Ensure tutorial completion flags are set so gameplay is never blocked
+    localStorage.setItem('trashdash_tutorial_complete', 'true');
+    localStorage.setItem('trashdash_interactive_tutorial_complete', 'true');
+    this.startTimer();
 
     const totalChi = this.chiSystem.getTotalChi(venuesData.map(v => v.id));
     const maxChi = venuesData.length * 100;
@@ -331,11 +305,7 @@ export class TrayScene extends Phaser.Scene {
       }
       
       const bin = new Bin(this, x, y, binDef);
-      bin.setDepth(50);
       bin.setScale(scale);
-      
-      bin.backSprite.setDepth(50);
-      bin.frontSprite.setDepth(60);
       this.bins.push(bin);
     }
   }
@@ -385,10 +355,10 @@ export class TrayScene extends Phaser.Scene {
           x = Phaser.Math.Between(zone.x, zone.x + zone.width);
           y = Phaser.Math.Between(zone.y, zone.y + zone.height);
         } else {
-          // Enforce padding to not spawn off-screen edges
-          const padding = 100;
+          // Scatter items on the floor area
+          const padding = 150;
           x = Phaser.Math.Between(padding, 1920 - padding);
-          y = Phaser.Math.Between(padding, 1080 - 300); // Leave room at bottom for bins
+          y = Phaser.Math.Between(730, 880);
         }
 
         // Estimate item bounds (assuming approx 100x100 size for safety)
@@ -414,7 +384,9 @@ export class TrayScene extends Phaser.Scene {
         if (!overlapping) {
           safeSpawnFound = true;
           const item = new TrashItem(this, x, y, itemDef, this.currentTier.visualCuesActive);
-          item.setDepth(20); // Enforce middle depth
+          item.baseX = x;
+          item.baseY = y;
+          item.setDepth(100); // Always in front of crusher (20) and bins (35)
           
           if (validZones.length > 0) {
             // Natural surface spawn: small hop or already resting
@@ -432,7 +404,7 @@ export class TrayScene extends Phaser.Scene {
               targets: item,
               y: y,
               duration: Phaser.Math.Between(400, 700),
-              ease: 'Bounce.easeOut'
+              ease: 'Quad.easeOut'
             });
           }
 
@@ -460,21 +432,6 @@ export class TrayScene extends Phaser.Scene {
    * Per PRD Track B, step B.5.
    */
   private setupDropDetection(): void {
-    // Listen for pointerdown on items to trigger tutorials cleanly before a drag starts
-    this.events.on('item_pressed', (item: any) => {
-      if (item.itemDef.spriteKey === 'brick' || item.itemDef.spriteKey === 'rock') {
-        if (!localStorage.getItem('trashdash_interactive_tutorial_complete')) {
-          localStorage.setItem('trashdash_interactive_tutorial_complete', 'true');
-          
-          // Forcefully release the global pointer so 'dragstart' never fires!
-          this.input.activePointer.isDown = false;
-          
-          this.pauseTimer();
-          this.scene.pause('TrayScene');
-          this.scene.launch('InteractiveTutorialOverlay');
-        }
-      }
-    });
 
     this.input.on(
       'dragstart',
@@ -501,7 +458,9 @@ export class TrayScene extends Phaser.Scene {
             // It's a rock, crush it!
             this.crusher.crushItem(item, (newItemDef, spawnX, spawnY) => {
               const newItem = new TrashItem(this, spawnX, spawnY, newItemDef, this.currentTier.visualCuesActive);
-              // Float it out like a newly spawned item
+              newItem.baseX = spawnX;
+              newItem.baseY = spawnY;
+              newItem.setDepth(100);
               newItem.y -= 50;
               this.tweens.add({
                 targets: newItem,
@@ -549,6 +508,7 @@ export class TrayScene extends Phaser.Scene {
           const heightDiff = targetGroundY - item.y;
 
           if (heightDiff > 0) {
+            item.setData('isFalling', true);
             const fallTween = this.tweens.add({
               targets: item,
               y: targetGroundY,
@@ -562,8 +522,12 @@ export class TrayScene extends Phaser.Scene {
                   if (this.crusher.intersectsInput(item.x, item.y)) {
                     fallTween.stop();
                     item.processed = true;
+                    item.setData('isFalling', false);
                     this.crusher.crushItem(item, (newItemDef, spawnX, spawnY) => {
-                      const newItem = new TrashItem(this, spawnX, spawnY, newItemDef, this.currentTier.visualCuesActive);
+                      const newItem = new TrashItem(this, item.x, item.y, newItemDef, this.currentTier.visualCuesActive);
+                      newItem.baseX = item.x;
+                      newItem.baseY = item.y;
+                      newItem.setDepth(100);
                       newItem.y -= 50;
                       this.tweens.add({
                         targets: newItem,
@@ -586,14 +550,20 @@ export class TrayScene extends Phaser.Scene {
                 }
               },
               onComplete: () => {
+                item.setData('isFalling', false);
                 item.startX = item.x;
                 item.startY = item.y;
+                item.baseX = item.x;
+                item.baseY = item.y;
               }
             });
           } else {
             // Already at or below ground level
+            item.setData('isFalling', false);
             item.startX = item.x;
             item.startY = item.y;
+            item.baseX = item.x;
+            item.baseY = item.y;
           }
         }
       }
@@ -612,6 +582,7 @@ export class TrayScene extends Phaser.Scene {
 
   /**
    * Cluster B: Handle composite item clicks.
+   * Dormant stub per PRD.
    */
   private handleItemClicked(data: { item: TrashItem }): void {
     if (this.roundEnded) return;
@@ -620,59 +591,9 @@ export class TrayScene extends Phaser.Scene {
     // Only respond to clicks if the item is a composite
     if (!item.itemDef.isComposite) return;
 
-    // Pause this scene
-    this.scene.pause('TrayScene');
-    this.scene.pause('HUDScene');
-
-    // Launch the separation minigame scene
-    this.scene.launch('SeparationMinigameScene', {
-      item,
-      venueId: this.venueId,
-      onScore: (points: number, isCorrect: boolean) => {
-        const pts = points * this.scoreMultiplier;
-        this.roundScore += pts;
-        gameEvents.emit(GAME_EVENTS.ITEM_DROPPED, {
-          result: { correct: isCorrect, pointsAwarded: pts, velocityMultiplier: 1 }
-        });
-      },
-      onComplete: (success: boolean) => {
-        // Callback when minigame finishes
-        this.scene.resume('TrayScene');
-        this.scene.resume('HUDScene');
-        
-        // Remove the composite item from tray visually
-        const index = this.items.indexOf(item);
-        if (index !== -1) {
-          this.items.splice(index, 1);
-        }
-        item.destroy();
-
-        // Apply scoring based on minigame result
-        if (success) {
-          // Award massive bonus for properly separating items!
-          const pts = 500 * this.scoreMultiplier;
-          this.roundScore += pts;
-          this.correctDrops++;
-          this.comboSystem.registerCorrect();
-          this.cameras.main.shake(100, 0.005);
-          gameEvents.emit(GAME_EVENTS.ITEM_DROPPED, {
-            result: { correct: true, pointsAwarded: pts, velocityMultiplier: 1 }
-          });
-        } else {
-          // Normal penalty for failing the minigame
-          const penaltyResult = this.scoringSystem.resolveDrop('none', 'none', 0, 0, this.currentTier.errorPenaltyMultiplier, false);
-          const pts = penaltyResult.pointsAwarded * this.scoreMultiplier;
-          this.roundScore += pts;
-          this.comboSystem.registerIncorrect();
-          this.cameras.main.shake(80, 0.002);
-          gameEvents.emit(GAME_EVENTS.ITEM_DROPPED, {
-            result: { correct: false, pointsAwarded: pts, velocityMultiplier: 1 }
-          });
-        }
-        
-        gameEvents.emit(GAME_EVENTS.COMBO_CHANGED, { combo: this.comboSystem.getCombo() });
-      }
-    });
+    // Separation minigame removed per PRD Step 6.
+    // Stub remains for future Track G features.
+    item.attemptSeparate();
   }
 
   /** Handle a resolved drop ?" scoring, combo, events, cleanup */
@@ -885,50 +806,99 @@ export class TrayScene extends Phaser.Scene {
     const overlay = this.add.rectangle(960, 540, 1920, 1080, 0x000000, 0.7);
     overlay.setDepth(100);
 
-    // Score display
-    const scoreText = this.add.text(960, 350, `Score: ${this.roundScore}`, {
+    // Premium Panel Background
+    const panelWidth = 600;
+    const panelHeight = 450;
+    const panelX = 960;
+    const panelY = 540;
+
+    const shadow = this.add.graphics();
+    shadow.fillStyle(0x000000, 0.5);
+    shadow.fillRoundedRect(panelX - panelWidth / 2 + 10, panelY - panelHeight / 2 + 10, panelWidth, panelHeight, UI_THEME.cornerRadius);
+    shadow.setDepth(101);
+
+    const bgGraphics = this.add.graphics();
+    const bgTop = Phaser.Display.Color.HexStringToColor('#1f2937').color;
+    const bgBottom = Phaser.Display.Color.HexStringToColor('#111827').color;
+    bgGraphics.fillGradientStyle(bgTop, bgTop, bgBottom, bgBottom, 1);
+    bgGraphics.fillRoundedRect(panelX - panelWidth / 2, panelY - panelHeight / 2, panelWidth, panelHeight, UI_THEME.cornerRadius);
+    bgGraphics.lineStyle(4, Phaser.Display.Color.HexStringToColor(UI_THEME.goldAccent[0]).color, 0.8);
+    bgGraphics.strokeRoundedRect(panelX - panelWidth / 2, panelY - panelHeight / 2, panelWidth, panelHeight, UI_THEME.cornerRadius);
+    bgGraphics.setDepth(102);
+
+    // Title
+    this.add.text(panelX, panelY - 170, 'ROUND COMPLETE', {
       fontFamily: '"Nunito", sans-serif',
-      fontSize: '72px',
+      fontSize: '36px',
       color: '#ffffff',
       fontStyle: 'bold',
+      shadow: { offsetX: 0, offsetY: 2, color: 'rgba(0,0,0,0.8)', blur: 4, fill: true }
+    }).setOrigin(0.5).setDepth(103);
+
+    // CHI Gained Bar
+    const chiGained = computeChiGain(accuracyPct);
+    this.add.text(panelX, panelY - 80, `CHI GAINED: +${chiGained}`, {
+      fontFamily: '"Nunito", sans-serif',
+      fontSize: '24px',
+      color: UI_THEME.primaryGradient[1],
+      fontStyle: 'bold'
+    }).setOrigin(0.5).setDepth(103);
+
+    const barWidth = 400;
+    const barHeight = 24;
+    const barY = panelY - 40;
+    
+    // Bar Background
+    const barBg = this.add.graphics().setDepth(103);
+    barBg.fillStyle(0x374151, 1);
+    barBg.fillRoundedRect(panelX - barWidth / 2, barY - barHeight / 2, barWidth, barHeight, barHeight / 2);
+
+    // Animated Bar Fill
+    const fillGraphics = this.add.graphics().setDepth(104);
+    this.tweens.addCounter({
+      from: 0,
+      to: chiGained,
+      duration: 1000,
+      ease: 'Cubic.easeOut',
+      onUpdate: (tween) => {
+        const val = tween.getValue();
+        const fillPct = Math.min(1, val / 15); // Assume 15 is max possible gain
+        fillGraphics.clear();
+        if (fillPct > 0) {
+          fillGraphics.fillStyle(Phaser.Display.Color.HexStringToColor(UI_THEME.primaryGradient[0]).color, 1);
+          fillGraphics.fillRoundedRect(panelX - barWidth / 2, barY - barHeight / 2, barWidth * fillPct, barHeight, barHeight / 2);
+        }
+      }
     });
-    scoreText.setOrigin(0.5).setDepth(101);
 
     // Accuracy
     const accColor = accuracyPct >= 50 ? '#22C55E' : '#EF4444';
-    const accText = this.add.text(960, 450, `Accuracy: ${accuracyPct}%`, {
+    this.add.text(panelX, panelY + 30, `ACCURACY: ${accuracyPct}%`, {
       fontFamily: '"Nunito", sans-serif',
-      fontSize: '48px',
+      fontSize: '28px',
       color: accColor,
-    });
-    accText.setOrigin(0.5).setDepth(101);
+      fontStyle: 'bold'
+    }).setOrigin(0.5).setDepth(103);
 
-    // Stats
-    const statsText = this.add.text(
-      960,
-      530,
-      `${this.correctDrops}/${this.totalDrops} correct`,
-      {
-        fontFamily: '"Nunito", sans-serif',
-        fontSize: '32px',
-        color: '#aaaaaa',
-      }
-    );
-    statsText.setOrigin(0.5).setDepth(101);
-
-    // Instructions
-    const instrText = this.add.text(960, 650, 'Click to play again  |  ESC for level select', {
+    // Streak System
+    const currentStreak = perfectStreakSystem.getCurrentStreak();
+    const streakTier = streakFXManager.getTier(currentStreak);
+    
+    const streakText = this.add.text(panelX, panelY + 90, `PERFECT STREAK: ${currentStreak}`, {
       fontFamily: '"Nunito", sans-serif',
       fontSize: '24px',
-      color: '#888888',
-    });
-    instrText.setOrigin(0.5).setDepth(101);
+      color: '#ffffff',
+      fontStyle: 'bold'
+    }).setOrigin(0.5).setDepth(103);
 
-    // Click to replay
-    this.input.once('pointerdown', () => {
+    // Apply Streak FX
+    streakFXManager.playSummaryScreenFX(this, panelX + 160, panelY + 90, streakTier);
+
+    // Continue Button
+    new GlossyButton(this, panelX, panelY + 160, 'CONTINUE', () => {
       this.scene.stop('HUDScene');
-      this.scene.restart({ venueId: this.venueId });
-    });
+      this.scene.start('LevelSelectScene');
+    }, 200, 60, UI_THEME.goldAccent).setDepth(105);
   }
 
   /** Clean up when leaving scene */
@@ -938,6 +908,64 @@ export class TrayScene extends Phaser.Scene {
   }
 
   update(_time: number, _delta: number): void {
-    // 2D elements (bins, rock crusher, trash) remain fixed on screen during 3D background pan
+    if (TrayScene.THREE_D_VENUE_IDS.includes(this.venueId)) {
+      const threeService = ThreeJSService as any;
+
+      if (threeService.isActive && threeService.camera) {
+        // Update bins
+        for (const bin of this.bins) {
+          if (!(bin as any).worldPosition && bin.baseX !== undefined) {
+            (bin as any).worldPosition = threeService.unprojectPhaserToWorld(bin.baseX, bin.baseY, 50);
+          }
+          if ((bin as any).worldPosition) {
+            const pos = threeService.projectWorldToPhaser((bin as any).worldPosition);
+            bin.setPosition(pos.x, pos.y);
+            bin.setVisible(pos.visible);
+          }
+        }
+
+        // Update rock crusher
+        if (this.crusher && (this.crusher as any).baseX !== undefined) {
+          const c = this.crusher as any;
+          if (!c.worldPosition) {
+            c.worldPosition = threeService.unprojectPhaserToWorld(c.baseX, c.baseY, 50);
+          }
+          const pos = threeService.projectWorldToPhaser(c.worldPosition);
+          c.setPosition(pos.x, pos.y);
+          c.setVisible(pos.visible);
+        }
+
+        // Update trash items
+        for (const item of this.items) {
+          if (!item || !item.active) continue;
+
+          if (!item.getData('isBeingDragged')) {
+            // If the item just finished moving/falling, update its baseline world position
+            if (item.x !== item.baseX || item.y !== item.baseY || !(item as any).worldPosition) {
+              item.baseX = item.x;
+              item.baseY = item.y;
+              (item as any).worldPosition = threeService.unprojectPhaserToWorld(item.baseX, item.baseY, 50);
+            }
+            
+            if ((item as any).worldPosition) {
+              const pos = threeService.projectWorldToPhaser((item as any).worldPosition);
+              // Only override the position if it's not currently animating in a tween
+              if (!this.tweens.isTweening(item)) {
+                item.setPosition(pos.x, pos.y);
+                item.setVisible(pos.visible);
+                // Also update its baseline so it doesn't immediately reset worldPosition next frame
+                item.baseX = pos.x;
+                item.baseY = pos.y;
+                item.syncAttachments(); // Required for TrashItem since text and shadows must move with it
+              }
+            }
+          } else {
+            // While dragging, clear its world position so it recalculates when dropped
+            (item as any).worldPosition = null;
+            item.setVisible(true); // Always visible when dragging
+          }
+        }
+      }
+    }
   }
 }

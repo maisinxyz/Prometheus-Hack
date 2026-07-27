@@ -38,6 +38,9 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
   /** Cluster B stub — see PRD Track G, step G.2 */
   public readonly componentIds: string[];
 
+  public baseX: number;
+  public baseY: number;
+
   private labelText: Phaser.GameObjects.Text;
   private visualCuesActive: boolean;
   private dropShadow: Phaser.GameObjects.Sprite;
@@ -54,6 +57,8 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
     this.itemDef = itemDef;
     this.startX = x;
     this.startY = y;
+    this.baseX = x;
+    this.baseY = y;
     this.componentIds = itemDef.componentIds;
     this.visualCuesActive = visualCuesActive;
 
@@ -62,24 +67,26 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
     this.setInteractive({ draggable: true, useHandCursor: true });
 
     // Scale proportionally so the largest dimension is 80
-    if (this.width > this.height) {
+    if (this.width === 0 || this.height === 0) {
+      this.setScale(1);
+    } else if (this.width > this.height) {
       this.displayWidth = 80;
       this.scaleY = this.scaleX;
     } else {
       this.displayHeight = 80;
       this.scaleX = this.scaleY;
     }
-    const targetScale = this.scaleX;
+    const targetScale = this.scaleX === Infinity || isNaN(this.scaleX) ? 1 : this.scaleX;
 
-    // Set depth so items render above background
-    this.setDepth(10);
+    // Set depth so items render above crusher (depth 20) and bins (depth 35)
+    this.setDepth(100);
 
     // --- F.4: Procedural Drop Shadow ---
     this.dropShadow = scene.add.sprite(x + 6, y + 8, itemDef.spriteKey);
     this.dropShadow.setScale(targetScale * 0.95);
     this.dropShadow.setTint(0x000000);
     this.dropShadow.setAlpha(0.35);
-    this.dropShadow.setDepth(9); // Behind the main sprite
+    this.dropShadow.setDepth(99); // Behind the main sprite
 
     // Add text label under the item
     this.labelText = scene.add.text(x, y + 50, itemDef.displayName, {
@@ -91,7 +98,7 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
       strokeThickness: 3
     });
     this.labelText.setOrigin(0.5);
-    this.labelText.setDepth(12);
+    this.labelText.setDepth(102);
 
     // --- Pop-in Animation ---
     this.setScale(0);
@@ -165,13 +172,11 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
           this.dragStartTimeMs = Date.now();
           this.startX = this.x;
           this.startY = this.y;
-          this.setDepth(20); // Bring to front while dragging
+          this.setData('isBeingDragged', true);
+          this.setDepth(200); // Bring to top layer while dragging
 
           // Emit lock-on event
           gameEvents.emit(GAME_EVENTS.ITEM_LOCKED_ON, { item: this });
-
-          // Create pulsing cyan reticle if not already active from visualCuesActive
-          // (Removed reticle per user request)
         }
       }
     );
@@ -180,7 +185,8 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
       'dragend',
       (_pointer: Phaser.Input.Pointer, gameObject: Phaser.GameObjects.GameObject) => {
         if (gameObject === this) {
-          this.setDepth(10); // Restore normal depth
+          this.setData('isBeingDragged', false);
+          this.setDepth(100); // Restore normal depth
           
           // Only destroy reticle if visual cues are NOT active
           if (!this.visualCuesActive) {
@@ -239,6 +245,21 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
     }
     if (this.labelText) {
       this.labelText.setDepth(value + 2);
+    }
+    return this;
+  }
+
+  /** Override setVisible to sync child elements */
+  public override setVisible(value: boolean): this {
+    super.setVisible(value);
+    if (this.dropShadow) {
+      this.dropShadow.setVisible(value);
+    }
+    if (this.labelText) {
+      this.labelText.setVisible(value);
+    }
+    if (this.reticle) {
+      this.reticle.setVisible(value);
     }
     return this;
   }

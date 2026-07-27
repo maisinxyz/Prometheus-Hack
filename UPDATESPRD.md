@@ -359,9 +359,7 @@ To do (AI should ignore this):
 1. Improve placements and orintations of trash bins. also maybe personalize bins for each level.
 2. Ensure trash placements are good. 
 3. add sprites for trash.
-4. ensure all garbage items work for each level. 
-5. Too much clutter on levels screen, make it look more clear.
-6. Add sounds for throwing away stuff and interactable items.
-7. make ti so trash goes infront of the bins rather than behind.
+4. ensure all garbage items work for each level.
+5. Add more interactable featuures for each level.
 7. ended off at part 5, continue by starting with part 6.
 

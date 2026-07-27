@@ -30,9 +30,22 @@ npm run build
 | Language         | TypeScript (strict mode)                      |
 | Build tool       | Vite                                          |
 | Audio            | Howler.js (layered-stem adaptive soundtrack)   |
+| Map/Level Select | MapLibre GL JS (restyled for 3D level-select) |
+| 3D Projection    | Three.js (Procedural raycasting & placement)  |
 | State management | Plain TypeScript singleton (`GameState`)       |
 | Testing          | Vitest                                        |
 | Linting          | ESLint + Prettier                             |
+
+## Key Systems
+
+### Progression & CHI
+The progression system uses a custom currency called "CHI" to unlock new venues. Venues unlock linearly when specific CHI thresholds are reached across the game. CHI gain is dynamic and calculated based on round accuracy, rewarding perfect sorting.
+
+### 3D Level Select
+The level select screen features an interactive 3D map using **MapLibre GL JS**, heavily customized to look like a "toy city". As players unlock new venues, the camera automatically pans and zooms to the next location. It uses **Three.js** to procedurally map Phaser sprites onto the 3D map space, preventing object "sliding" when rotating or tilting the map view.
+
+### Perfect Streak System
+Players earn perfect streak bonuses for completing rounds with 100% accuracy. The streak is tracked across sessions and broken into "tiers" (0, 1-2, 3-4, 5-9, 10+) which trigger progressive visual and audio flair.
 
 ## Project Structure
 

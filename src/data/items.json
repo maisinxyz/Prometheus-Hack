@@ -116,7 +116,7 @@
     "id": "soda_fanta_empty",
     "displayName": "Empty Fanta Can",
     "spriteKey": "item_fanta_can",
-    "correctBinId": "none",
+    "correctBinId": "recycling",
     "isComposite": true,
     "componentIds": [],
     "venueIds": [
@@ -127,7 +127,7 @@
     "id": "soda_pepsi_empty",
     "displayName": "Empty Pepsi Can",
     "spriteKey": "item_pepsi_can",
-    "correctBinId": "none",
+    "correctBinId": "recycling",
     "isComposite": true,
     "componentIds": [],
     "venueIds": [

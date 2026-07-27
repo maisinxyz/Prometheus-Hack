@@ -2,6 +2,8 @@ import Phaser from 'phaser';
 import { GardenSystem } from '../systems/GardenSystem';
 import { ChiSystem } from '../systems/ChiSystem';
 import venuesData from '../data/venues.json';
+import { UI_THEME } from '../config/UITheme';
+import { GlossyButton } from '../entities/GlossyButton';
 
 export class CommunityGardenScene extends Phaser.Scene {
   private gardenSystem!: GardenSystem;
@@ -262,9 +264,12 @@ export class CommunityGardenScene extends Phaser.Scene {
 
     // ===== LEVEL SUMMARY UI =====
     const summaryUi = this.add.container(40, 120);
-    const bgRect = this.add.rectangle(0, 0, 320, 200, 0x000000, 0.8).setOrigin(0);
-    bgRect.setStrokeStyle(2, 0x444444);
-    summaryUi.add(bgRect);
+    const bgGraphics = this.add.graphics();
+    bgGraphics.fillStyle(0x000000, 0.8);
+    bgGraphics.fillRoundedRect(0, 0, 320, 200, UI_THEME.cornerRadius);
+    bgGraphics.lineStyle(2, 0x444444);
+    bgGraphics.strokeRoundedRect(0, 0, 320, 200, UI_THEME.cornerRadius);
+    summaryUi.add(bgGraphics);
 
     summaryUi.add(this.add.text(10, 10, 'Garden Levels', { fontSize: '24px', color: '#fff', fontStyle: 'bold' }));
     summaryUi.add(this.add.text(10, 50, `🍎 Compost: Lvl ${compostLvl}`, { fontSize: '20px', color: '#22c55e' }));
@@ -273,11 +278,9 @@ export class CommunityGardenScene extends Phaser.Scene {
     summaryUi.add(this.add.text(10, 140, `🗑️ Landfill: ${compostLvl < 5 ? '🔒' : 'Lvl ' + landfillLvl}`, { fontSize: '20px', color: compostLvl < 5 ? '#555' : '#a8a29e' }));
 
     // ===== BACK BUTTON =====
-    this.add.text(40, 40, '⬅ Back to Map', { fontSize: '32px', color: '#ffffff', backgroundColor: '#333', padding: { x: 20, y: 10 } })
-      .setInteractive({ useHandCursor: true })
-      .on('pointerdown', () => {
-        this.scene.start('LevelSelectScene');
-      });
+    new GlossyButton(this, 140, 70, '⬅ Back to Map', () => {
+      this.scene.start('LevelSelectScene');
+    }, 250, 60);
       
     // ESC to return to Map
     this.input.keyboard?.on('keydown-ESC', () => {

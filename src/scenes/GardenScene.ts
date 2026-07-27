@@ -1,4 +1,6 @@
 import Phaser from 'phaser';
+import { UI_THEME } from '../config/UITheme';
+import { GlossyButton } from '../entities/GlossyButton';
 
 export class GardenScene extends Phaser.Scene {
   constructor() {
@@ -30,10 +32,10 @@ export class GardenScene extends Phaser.Scene {
     const plotGraphics = this.add.graphics();
     // Dark brown soil color
     plotGraphics.fillStyle(0x5c4033, 1);
-    plotGraphics.fillRoundedRect(width / 2 - plotWidth / 2, height / 2 - plotHeight / 2 + 50, plotWidth, plotHeight, 32);
+    plotGraphics.fillRoundedRect(width / 2 - plotWidth / 2, height / 2 - plotHeight / 2 + 50, plotWidth, plotHeight, UI_THEME.cornerRadius);
     // Stroke for plot border
     plotGraphics.lineStyle(8, 0x3e2723, 1);
-    plotGraphics.strokeRoundedRect(width / 2 - plotWidth / 2, height / 2 - plotHeight / 2 + 50, plotWidth, plotHeight, 32);
+    plotGraphics.strokeRoundedRect(width / 2 - plotWidth / 2, height / 2 - plotHeight / 2 + 50, plotWidth, plotHeight, UI_THEME.cornerRadius);
 
     // Placeholder text in the plot
     const emptyText = this.add.text(width / 2, height / 2 + 50, 'Empty Plot\nNothing planted here yet...', {
@@ -46,29 +48,8 @@ export class GardenScene extends Phaser.Scene {
     emptyText.setOrigin(0.5);
 
     // Back to Map Button
-    const backBtnWidth = 200;
-    const backBtnHeight = 60;
-    const btnBg = this.add.rectangle(width / 2, height - 100, backBtnWidth, backBtnHeight, 0xffffff, 1);
-    btnBg.setInteractive({ useHandCursor: true });
-    btnBg.setStrokeStyle(4, 0x000000);
-    
-    const btnText = this.add.text(width / 2, height - 100, 'Back to Map', {
-      fontFamily: '"Nunito", sans-serif',
-      fontSize: '24px',
-      color: '#000000',
-      fontStyle: 'bold'
-    });
-    btnText.setOrigin(0.5);
-
-    // Button interactions
-    btnBg.on('pointerover', () => {
-      btnBg.fillColor = 0xe5e7eb;
-    });
-    btnBg.on('pointerout', () => {
-      btnBg.fillColor = 0xffffff;
-    });
-    btnBg.on('pointerup', () => {
+    new GlossyButton(this, width / 2, height - 100, 'Back to Map', () => {
       this.scene.start('LevelSelectScene');
-    });
+    }, 250, 60);
   }
 }

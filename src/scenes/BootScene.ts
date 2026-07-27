@@ -49,7 +49,6 @@ export class BootScene extends Phaser.Scene {
     this.load.image('fries', 'assets/sprites/items/fries.png');
 
     // 2. Load Bins and Machines
-    this.load.image('machine_rock_crusher', 'assets/sprites/items/rock_crusher.png');
 
     for (const bin of binsData) {
       const key = `bin_${bin.id}`;

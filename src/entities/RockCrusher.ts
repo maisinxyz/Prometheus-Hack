@@ -8,12 +8,14 @@ export class RockCrusher extends Phaser.GameObjects.Sprite {
   // Define input and output zones relative to the crusher's center
   public inputZone: Phaser.Geom.Rectangle;
   public outputOffset: { x: number; y: number };
+  public baseX: number;
+  public baseY: number;
   
   private isCrushing: boolean = false;
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     // Generate a procedural texture if the image isn't available
-    if (!scene.textures.exists('machine_rock_crusher')) {
+    if (!scene.textures.exists('machine_rock_crusher') || scene.textures.get('machine_rock_crusher').key === '__MISSING') {
       const gfx = scene.make.graphics({ x: 0, y: 0 });
       
       // Main Chassis (Yellow)
@@ -85,11 +87,13 @@ export class RockCrusher extends Phaser.GameObjects.Sprite {
     }
 
     super(scene, x, y, 'machine_rock_crusher');
+    this.baseX = x;
+    this.baseY = y;
     scene.add.existing(this);
     
     // Scale it to fit well on screen 
     this.setScale(1.1); // Made larger per user request
-    this.setDepth(50);
+    this.setDepth(20);
     
     // Calculate the input zone (top funnel area)
     const width = this.displayWidth;
@@ -110,8 +114,29 @@ export class RockCrusher extends Phaser.GameObjects.Sprite {
     };
   }
 
+  public setPosition(x: number, y?: number): this {
+    super.setPosition(x, y);
+    this.updateZone();
+    return this;
+  }
+
+  public getBounds<O extends Phaser.Geom.Rectangle>(output?: O): O {
+    const rect = output || new Phaser.Geom.Rectangle();
+    const w = this.displayWidth || 250;
+    const h = this.displayHeight || 260;
+    rect.setTo(
+      this.x - w / 2,
+      this.y - h / 2,
+      w,
+      h
+    );
+    return rect as O;
+  }
+
   /** Update the input zone if the crusher moves */
   public updateZone(): void {
+    if (!this.inputZone) return; // Prevent crash when setPosition is called by super()
+
     const width = this.displayWidth;
     const height = this.displayHeight;
     
