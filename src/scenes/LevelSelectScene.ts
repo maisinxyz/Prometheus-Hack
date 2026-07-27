@@ -51,11 +51,27 @@ export class LevelSelectScene extends Phaser.Scene {
       }
     });
 
-    if (!existingMusic) {
-      this.sound.play(currentTrackKey, { loop: true, volume: initVolume });
-    } else if (!existingMusic.isPlaying) {
-      existingMusic.play({ loop: true, volume: initVolume });
+    let music = this.sound.get(currentTrackKey);
+    if (!music) {
+      music = this.sound.add(currentTrackKey, { loop: true, volume: initVolume });
     }
+    
+    if (music.isPaused) {
+      music.resume();
+    } else if (!music.isPlaying) {
+      const savedSeek = localStorage.getItem('musicSeek');
+      if (savedSeek) {
+        music.play({ seek: parseFloat(savedSeek), volume: initVolume });
+      } else {
+        music.play({ volume: initVolume });
+      }
+    }
+
+    // Explicitly enforce volume on the WebAudioSound instance just in case
+    (music as Phaser.Sound.WebAudioSound).setVolume(initVolume);
+    
+    // Always enforce the saved volume, especially when returning to the scene
+    (music as Phaser.Sound.WebAudioSound).setVolume(initVolume);
 
     this.chiSystem = new ChiSystem();
     this.gardenSystem = new GardenSystem();
@@ -129,7 +145,16 @@ export class LevelSelectScene extends Phaser.Scene {
           state,
           onClick: (id: string) => {
             if (isUnlocked) {
-              this.scene.start('TrayScene', { venueId: id });
+              const pList = (this as any).playlist;
+              const tIdx = (this as any).currentTrackIndex;
+              if (pList && pList[tIdx]) {
+                const music = this.sound.get(pList[tIdx].key) as Phaser.Sound.WebAudioSound;
+                if (music && music.isPlaying) {
+                  localStorage.setItem('musicSeek', music.seek.toString());
+                  music.pause();
+                }
+              }
+              this.scene.start('LoadingScene', { target: 'TrayScene', targetData: { venueId: id } });
             }
           }
         });
@@ -219,6 +244,23 @@ export class LevelSelectScene extends Phaser.Scene {
     uiContainer.style.zIndex = '20';
     uiContainer.style.pointerEvents = 'auto';
     uiContainer.style.transition = 'opacity 0.3s ease';
+
+    const styleEl = document.createElement('style');
+    styleEl.id = 'level-select-styles';
+    styleEl.innerHTML = `
+      #future-btn, #garden-btn, #codex-btn,
+      #recenter-btn, #help-btn, #objective-btn {
+        transition: transform 0.2s ease, filter 0.2s ease, opacity 0.3s ease !important;
+      }
+      #future-btn:hover, #garden-btn:hover, #codex-btn:hover,
+      #recenter-btn:hover, #help-btn:hover, #objective-btn:hover {
+        transform: scale(1.15) !important;
+        filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 5px rgba(255, 255, 255, 0.8)) !important;
+        z-index: 100 !important;
+      }
+    `;
+    document.head.appendChild(styleEl);
+    
     
     const compostLvl = this.gardenSystem.getCompostLevel();
     const isLocked = compostLvl < 5;
@@ -592,7 +634,16 @@ export class LevelSelectScene extends Phaser.Scene {
     });
 
     document.getElementById('garden-btn')?.addEventListener('click', () => {
-      this.scene.start('CommunityGardenScene');
+      const pList = (this as any).playlist;
+      const tIdx = (this as any).currentTrackIndex;
+      if (pList && pList[tIdx]) {
+        const music = this.sound.get(pList[tIdx].key) as Phaser.Sound.WebAudioSound;
+        if (music && music.isPlaying) {
+          localStorage.setItem('musicSeek', music.seek.toString());
+          music.pause();
+        }
+      }
+      this.scene.start('LoadingScene', { target: 'CommunityGardenScene' });
     });
 
     const weatherEventContainer = document.createElement('div');
@@ -1043,8 +1094,15 @@ export class LevelSelectScene extends Phaser.Scene {
       setupDevBtn('dev-landfill-up', 'landfill', true, 50);
     }
 
+    // ESC to return to Title Scene (Main Menu)
+    this.input.keyboard?.on('keydown-ESC', () => {
+      MapLibreService.hideMap();
+      this.scene.start('TitleScene');
+    });
+
     // 5. Cleanup MapKit UI when leaving this scene
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      document.getElementById('level-select-styles')?.remove();
       document.getElementById('level-select-ui')?.remove();
       document.getElementById('smog-overlay')?.remove();
       document.getElementById('future-desc-box')?.remove();

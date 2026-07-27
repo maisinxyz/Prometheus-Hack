@@ -40,19 +40,6 @@ export class LevelNode {
     this.marker = new ml.Marker({ element: this.el, anchor: 'bottom' })
       .setLngLat([config.longitude, config.latitude])
       .addTo(map);
-
-    // Event listener
-    this.el.addEventListener('pointerdown', (e) => {
-      e.stopPropagation();
-      if (this.config.state !== NodeState.LOCKED) {
-        // Add a satisfying little pop animation on click
-        this.el.style.transform = 'translate(-50%, -100%) scale(0.9)';
-        setTimeout(() => {
-          this.el.style.transform = 'translate(-50%, -100%) scale(1)';
-          this.config.onClick(this.config.venueId);
-        }, 100);
-      }
-    });
   }
 
   public updateState(newState: NodeState) {
@@ -125,6 +112,42 @@ export class LevelNode {
       });
     }
 
+    const badgeWrapper = document.createElement('div');
+    badgeWrapper.style.transition = 'transform 0.2s ease, filter 0.2s ease';
+    badgeWrapper.style.transformOrigin = 'center';
+    
+    badgeWrapper.addEventListener('pointerenter', () => {
+      if (!isLocked) {
+        badgeWrapper.style.transform = 'scale(1.15)';
+        badgeWrapper.style.filter = 'drop-shadow(0 0 15px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 5px rgba(255, 255, 255, 0.8))';
+        this.el.style.zIndex = '100'; // Bring to front when hovering
+      }
+    });
+
+    badgeWrapper.addEventListener('pointerleave', () => {
+      if (!isLocked) {
+        badgeWrapper.style.transform = 'scale(1)';
+        badgeWrapper.style.filter = 'none';
+        this.el.style.zIndex = '10';
+      }
+    });
+
+    badgeWrapper.addEventListener('pointerdown', (e) => {
+      e.stopPropagation();
+      if (!isLocked) {
+        badgeWrapper.style.transform = 'scale(0.9)';
+        setTimeout(() => {
+          badgeWrapper.style.transform = 'scale(1.15)';
+          this.config.onClick(this.config.venueId);
+        }, 100);
+      } else {
+        // Locked level feedback
+        badgeWrapper.classList.remove('rattle-flash');
+        void badgeWrapper.offsetWidth; // trigger reflow
+        badgeWrapper.classList.add('rattle-flash');
+      }
+    });
+
     // Number label
     const num = document.createElement('div');
     num.style.position = 'absolute';
@@ -178,7 +201,8 @@ export class LevelNode {
     }
 
     badge.appendChild(icon);
-    this.el.appendChild(badge);
+    badgeWrapper.appendChild(badge);
+    this.el.appendChild(badgeWrapper);
 
     // Current Marker bobbing arrow
     if (isCurrent) {

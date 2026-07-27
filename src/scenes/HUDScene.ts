@@ -35,6 +35,8 @@ export class HUDScene extends Phaser.Scene {
   private weatherEffect: string = '';
   private weatherColor: string = '#ffffff';
 
+  private heartbreakOverlay!: HTMLElement;
+
   constructor() {
     super({ key: 'HUDScene' });
   }
@@ -53,6 +55,21 @@ export class HUDScene extends Phaser.Scene {
   }
 
   create(): void {
+    // Heartbreak DOM Overlay
+    this.heartbreakOverlay = document.createElement('div');
+    this.heartbreakOverlay.style.position = 'fixed';
+    this.heartbreakOverlay.style.top = '0';
+    this.heartbreakOverlay.style.left = '0';
+    this.heartbreakOverlay.style.width = '100vw';
+    this.heartbreakOverlay.style.height = '100vh';
+    this.heartbreakOverlay.style.pointerEvents = 'none';
+    this.heartbreakOverlay.style.zIndex = '999';
+    document.body.appendChild(this.heartbreakOverlay);
+
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      this.heartbreakOverlay?.remove();
+    });
+
     // Generate the fire particle texture if needed
     this.createFireParticleTexture();
 
@@ -137,25 +154,7 @@ export class HUDScene extends Phaser.Scene {
     this.feedbackText.setOrigin(0.5).setDepth(200).setAlpha(0);
 
     // --- Weather Event Box (Removed per request) ---
-    // --- Debug CHI Reset Button (bottom-right, inset for visibility) ---
-    const resetBtnBg = this.add.rectangle(1800, 1000, 240, 50, 0x00aa00, 0.85)
-      .setOrigin(0.5, 0.5)
-      .setInteractive({ useHandCursor: true })
-      .setDepth(200);
-    const resetBtnText = this.add.text(1800, 1000, '🔄 Reset CHI (No Smog)', {
-      fontFamily: '"Nunito", sans-serif', fontSize: '16px', color: '#ffffff', fontStyle: 'bold'
-    }).setOrigin(0.5, 0.5).setDepth(201);
-    resetBtnBg.on('pointerdown', () => {
-      // Set all venues to 100 CHI (max) to remove smog
-      if (typeof localStorage !== 'undefined') {
-        const venues = ['mackenzie_cafe', 'financial_district_office', 'nyc_hospital', 'times_square', 'hot_dog_stand', 'subway_station', 'gym', 'central_park', 'public_library', 'art_studio', 'construction_site', 'tech_startup', 'ferry_docks'];
-        for (const v of venues) {
-          localStorage.setItem('trashdash_chi_' + v, '100');
-        }
-        window.location.reload();
-      }
-    });
-
+    
     // --- Subscribe to game events ---
     gameEvents.on(
       GAME_EVENTS.ITEM_DROPPED,
@@ -247,11 +246,19 @@ export class HUDScene extends Phaser.Scene {
 
     this.timerText.setText(`${seconds}s`);
 
-    // Flash red when time is low
-    if (seconds <= 5 && seconds > 0) {
+    // Flash red and pulse when time is low
+    if (seconds <= 10 && seconds > 0) {
       this.timerText.setColor('#EF4444');
-    } else if (seconds > 5) {
-      this.timerText.setColor('#ffffff');
+      if (!this.heartbreakOverlay.classList.contains('heartbreak-active')) {
+        this.heartbreakOverlay.classList.add('heartbreak-active');
+      }
+    } else {
+      if (seconds > 10) {
+        this.timerText.setColor('#ffffff');
+      }
+      if (this.heartbreakOverlay.classList.contains('heartbreak-active')) {
+        this.heartbreakOverlay.classList.remove('heartbreak-active');
+      }
     }
   }
 

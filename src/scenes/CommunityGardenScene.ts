@@ -278,6 +278,14 @@ export class CommunityGardenScene extends Phaser.Scene {
       .on('pointerdown', () => {
         this.scene.start('LevelSelectScene');
       });
+      
+    // ESC to return to Map
+    this.input.keyboard?.on('keydown-ESC', () => {
+      this.scene.start('LevelSelectScene');
+    });
+
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+    });
   }
 
   private createFlyingEmoji(emoji: string, count: number) {

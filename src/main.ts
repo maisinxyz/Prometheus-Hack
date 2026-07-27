@@ -8,6 +8,8 @@ import { CorrectionOverlayScene } from './scenes/CorrectionOverlayScene';
 import { SeparationMinigameScene } from './scenes/SeparationMinigameScene';
 import { GardenScene } from './scenes/GardenScene';
 import { CommunityGardenScene } from './scenes/CommunityGardenScene';
+import { LoadingScene } from './scenes/LoadingScene';
+import { CursorManager } from './systems/CursorManager';
 
 import { TitleScene } from './scenes/TitleScene';
 import { HowToPlayOverlay } from './scenes/HowToPlayOverlay';
@@ -20,6 +22,11 @@ import { ObjectiveOverlay } from './scenes/ObjectiveOverlay';
  *
  * Per PRD Track 0, step 0.5.
  */
+
+// Initialize Global Custom Cursor
+const cursorManager = new CursorManager();
+cursorManager.init();
+
 const config: Phaser.Types.Core.GameConfig = {
   ...gameConfig,
   scene: [
@@ -32,6 +39,7 @@ const config: Phaser.Types.Core.GameConfig = {
     SeparationMinigameScene,
     GardenScene,
     CommunityGardenScene,
+    LoadingScene,
     HowToPlayOverlay,
     InteractiveTutorialOverlay,
     ObjectiveOverlay
