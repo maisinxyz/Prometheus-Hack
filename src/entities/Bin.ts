@@ -14,6 +14,8 @@ export class Bin extends Phaser.GameObjects.Zone {
   public readonly shadowGraphics: Phaser.GameObjects.Graphics;
   public readonly glowGraphics: Phaser.GameObjects.Graphics;
   public readonly glossGraphics: Phaser.GameObjects.Graphics;
+  public baseX: number;
+  public baseY: number;
 
   constructor(scene: Phaser.Scene, x: number, y: number, binDef: BinDef) {
     // Hitbox size for the bin opening (the 'hole')
@@ -22,6 +24,8 @@ export class Bin extends Phaser.GameObjects.Zone {
     super(scene, x, y - 60, zoneWidth, zoneHeight); // Shift zone up to align with the visual hole
 
     this.binDef = binDef;
+    this.baseX = x;
+    this.baseY = y;
 
     // Add the zone to the scene
     scene.add.existing(this);
@@ -32,7 +36,7 @@ export class Bin extends Phaser.GameObjects.Zone {
     this.shadowGraphics.fillEllipse(0, 75, 150, 45); // Dark ambient occlusion shadow under base
     this.shadowGraphics.fillStyle(0x000000, 0.25);
     this.shadowGraphics.fillEllipse(0, 80, 180, 55); // Soft outer shadow radius
-    this.shadowGraphics.setDepth(3);
+    this.shadowGraphics.setDepth(23);
 
     // ── 2. Environmental Lighting & Distinguishable Category Glow ──
     this.glowGraphics = scene.add.graphics({ x, y });
@@ -65,15 +69,15 @@ export class Bin extends Phaser.GameObjects.Zone {
       this.glowGraphics.fillTriangle(-90, -140, 50, -140, 90, 90);
     }
 
-    this.glowGraphics.setDepth(4);
+    this.glowGraphics.setDepth(24);
 
     // ── 3. Back Rim + Hole Sprite ──
     this.backSprite = scene.add.sprite(x, y, `bin_${binDef.id}_back`);
-    this.backSprite.setDepth(5);
+    this.backSprite.setDepth(25);
 
     // ── 4. Front Body Sprite with Per-Venue Thematic Tints ──
     this.frontSprite = scene.add.sprite(x, y, `bin_${binDef.id}_front`);
-    this.frontSprite.setDepth(15);
+    this.frontSprite.setDepth(35);
 
     if (venueId === 'mackenzie_cafe') {
       // Warm oak & brass cafe motif tint
@@ -103,9 +107,23 @@ export class Bin extends Phaser.GameObjects.Zone {
     this.glossGraphics.lineTo(-80, 80);
     this.glossGraphics.closePath();
     this.glossGraphics.fillPath();
-    this.glossGraphics.setDepth(16);
+    this.glossGraphics.setDepth(36);
 
-    this.setDepth(5);
+    this.setDepth(25);
+  }
+
+  /**
+   * Override setPosition to synchronize all bin components to the new (x, y) coordinates
+   */
+  setPosition(x: number, y?: number): this {
+    const targetY = y ?? x;
+    super.setPosition(x, targetY - 60);
+    if (this.shadowGraphics) this.shadowGraphics.setPosition(x, targetY);
+    if (this.glowGraphics) this.glowGraphics.setPosition(x, targetY);
+    if (this.backSprite) this.backSprite.setPosition(x, targetY);
+    if (this.frontSprite) this.frontSprite.setPosition(x, targetY);
+    if (this.glossGraphics) this.glossGraphics.setPosition(x, targetY);
+    return this;
   }
 
   /**
@@ -149,6 +167,19 @@ export class Bin extends Phaser.GameObjects.Zone {
     this.shadowGraphics.setScale(x, scaleY);
     this.glowGraphics.setScale(x, scaleY);
     this.glossGraphics.setScale(x, scaleY);
+    return this;
+  }
+
+  /**
+   * Override setVisible to apply to children sprites and shadow graphics as well
+   */
+  setVisible(value: boolean): this {
+    super.setVisible(value);
+    this.backSprite.setVisible(value);
+    this.frontSprite.setVisible(value);
+    this.shadowGraphics.setVisible(value);
+    this.glowGraphics.setVisible(value);
+    this.glossGraphics.setVisible(value);
     return this;
   }
 

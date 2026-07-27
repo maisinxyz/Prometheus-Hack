@@ -1123,22 +1123,38 @@ class ThreeJSServiceSingleton {
     }
   }
 
-  // Projects a 3D world coordinate to 2D screen coordinates
-  getScreenPosition(x: number, y: number, z: number): {x: number, y: number, visible: boolean} {
+  // Convert 3D world coordinate to Phaser 1920x1080 screen coordinates
+  projectWorldToPhaser(worldPoint: THREE.Vector3): {x: number, y: number, visible: boolean} {
     if (!this.camera || !this.isActive) return {x: 0, y: 0, visible: false};
     
-    const vector = new THREE.Vector3(x, y, z);
+    const vector = worldPoint.clone();
     vector.project(this.camera);
     
-    // Convert normalized device coordinates (NDC) to screen pixels
-    const screenX = (vector.x * 0.5 + 0.5) * window.innerWidth;
-    const screenY = -(vector.y * 0.5 - 0.5) * window.innerHeight;
-    
+    // Map NDC [-1, 1] to Phaser [0, 1920] and [0, 1080]
     return {
-      x: screenX,
-      y: screenY,
-      visible: vector.z < 1 // z < 1 means it is in front of the camera
+      x: (vector.x * 0.5 + 0.5) * 1920,
+      y: -(vector.y * 0.5 - 0.5) * 1080,
+      visible: vector.z < 1
     };
+  }
+
+  // Convert Phaser 1920x1080 screen coordinates to a 3D world coordinate (projected out by `distance`)
+  unprojectPhaserToWorld(x: number, y: number, distance: number = 50): THREE.Vector3 {
+    if (!this.camera || !this.isActive) return new THREE.Vector3(0, 0, 0);
+
+    // Map Phaser to NDC [-1, 1]
+    const ndcX = (x / 1920) * 2 - 1;
+    const ndcY = -(y / 1080) * 2 + 1;
+
+    const vector = new THREE.Vector3(ndcX, ndcY, 0.5);
+    vector.unproject(this.camera);
+
+    // Get direction from camera
+    vector.sub(this.camera.position).normalize();
+    
+    // Extend by distance
+    const target = this.camera.position.clone().add(vector.multiplyScalar(distance));
+    return target;
   }
 }
 

@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { MapLibreService } from '../services/MapLibreService';
+import { ThreeJSService } from '../services/ThreeJSService';
 import newsData from '../data/news.json';
 
 export class LoadingScene extends Phaser.Scene {
@@ -20,8 +21,9 @@ export class LoadingScene extends Phaser.Scene {
   }
 
   create() {
-    // Hide the map so it doesn't peek out around the edges on non-16:9 screens
+    // Hide the map and 3D background during loading
     MapLibreService.hideMap();
+    ThreeJSService.hide();
 
     // Fill letterboxed edges with the same image and a 40% black overlay to match the Phaser canvas
     document.body.style.backgroundImage = "linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/assets/nyc_loading_screen.png')";
@@ -34,9 +36,6 @@ export class LoadingScene extends Phaser.Scene {
     });
 
     const { width, height } = this.scale;
-
-    // We don't draw the image or black background inside Phaser because it causes a seam with the letterboxing.
-    // The canvas is transparent, so the CSS body background shows through seamlessly!
 
     // Simple loading text
     this.add.text(width / 2, height / 2 - 50, "TRAVELING...", {
@@ -86,10 +85,8 @@ export class LoadingScene extends Phaser.Scene {
     
     const fillBar = this.add.rectangle(barX, barY, 0, barHeight, 0x10b981).setOrigin(0);
 
-
-
-    // Fake loading delay (4.5 - 6.0 seconds) to allow time to read news headlines
-    const duration = Phaser.Math.Between(4500, 6000);
+    // Smooth loading transition
+    const duration = Phaser.Math.Between(1200, 1800);
     
     this.tweens.add({
       targets: fillBar,

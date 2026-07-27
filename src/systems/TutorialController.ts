@@ -22,11 +22,11 @@ export class TutorialController {
     // Oversize the overlay to guarantee it covers any letterboxing margins from Phaser.Scale.FIT
     this.overlay = this.scene.add.rectangle(-width, -height, width * 3, height * 3, 0x000000, 0.7);
     this.overlay.setOrigin(0, 0);
-    this.overlay.setDepth(100); // Behind the item, in front of everything else
+    this.overlay.setDepth(10); // Behind bins, items, and crusher, but in front of background
 
-    // Ensure the target item and bin render above the overlay
-    targetItem.setDepth(101);
-    targetBin.setDepth(101);
+    // Ensure the target item and bin render above everything
+    targetItem.setDepth(105);
+    targetBin.frontSprite.setDepth(35);
 
     // Spotlight ring (reusing lock-on reticle style)
     this.reticle = this.scene.add.graphics();
