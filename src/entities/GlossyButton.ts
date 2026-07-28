@@ -55,9 +55,40 @@ export class GlossyButton extends Phaser.GameObjects.Container {
     }).setOrigin(0.5);
     this.add(this.labelText);
     
-    // Hit area
     this.setSize(width, height);
+    
+    // Create a glow effect that is normally invisible
+    const glow = scene.add.graphics();
+    // Draw concentric strokes to simulate a soft blur glow
+    for (let i = 1; i <= 6; i++) {
+      const alpha = 0.5 / i;
+      const spread = i * 2;
+      glow.lineStyle(2, 0xffffff, alpha);
+      glow.strokeRoundedRect(
+        -width / 2 - spread, 
+        -height / 2 - spread, 
+        width + spread * 2, 
+        height + spread * 2, 
+        UI_THEME.cornerRadius + spread/2
+      );
+    }
+    glow.alpha = 0;
+    this.add(glow);
+
     this.setInteractive({ useHandCursor: true })
+      .on('pointerover', () => {
+        scene.tweens.add({
+          targets: this,
+          scale: 1.05,
+          duration: 150,
+          ease: 'Power2'
+        });
+        scene.tweens.add({
+          targets: glow,
+          alpha: 1,
+          duration: 150
+        });
+      })
       .on('pointerdown', () => {
         scene.tweens.add({
           targets: this,
@@ -80,6 +111,11 @@ export class GlossyButton extends Phaser.GameObjects.Container {
           scale: 1,
           duration: 150,
           ease: 'Back.easeOut'
+        });
+        scene.tweens.add({
+          targets: glow,
+          alpha: 0,
+          duration: 150
         });
       });
       

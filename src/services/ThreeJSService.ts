@@ -60,6 +60,11 @@ const TEXTURE_VENUE_IDS = [
   'nyc_hospital',
   'mackenzie_cafe',
   'community_park',
+  'community_park_level_1',
+  'community_park_level_2',
+  'community_park_level_3',
+  'community_park_level_4',
+  'community_park_level_5',
 ];
 
 /** Procedural (Stylized PBR) venue IDs */
@@ -260,6 +265,16 @@ class ThreeJSServiceSingleton {
       texturePath = '/assets/mackenzie_cafe_360.png';
     } else if (venueId === 'community_park') {
       texturePath = '/assets/community_park_360.png';
+    } else if (venueId === 'community_park_level_1') {
+      texturePath = '/assets/community_park_level_1_360.png';
+    } else if (venueId === 'community_park_level_2') {
+      texturePath = '/assets/community_park_level_2_360.png';
+    } else if (venueId === 'community_park_level_3') {
+      texturePath = '/assets/community_park_level_3_360.png';
+    } else if (venueId === 'community_park_level_4') {
+      texturePath = '/assets/community_park_level_4_360.png';
+    } else if (venueId === 'community_park_level_5') {
+      texturePath = '/assets/community_park_level_5_360.png';
     } else {
       return; // Not supported
     }
@@ -268,6 +283,8 @@ class ThreeJSServiceSingleton {
       
     // Hide the mesh immediately to prevent flashing the previous background while loading
     if (this.mesh) this.mesh.visible = false;
+      
+    console.log(`[DEBUG] ThreeJSService loading texture path: ${texturePath}`);
       
     textureLoader.load(texturePath, (texture) => {
       texture.colorSpace = THREE.SRGBColorSpace;
@@ -298,7 +315,9 @@ class ThreeJSServiceSingleton {
         texture.wrapS = THREE.MirroredRepeatWrapping;
         texture.repeat.set(3, 1);
         texture.offset.x = 0;
-        geometry = new THREE.CylinderGeometry(500, 500, 1000, 60, 1, true, 0, Math.PI * 2);
+        // Use a SphereGeometry so there are no black holes at the top/bottom, 
+        // but it still seamlessly wraps 3 times around the equator!
+        geometry = new THREE.SphereGeometry(500, 60, 40);
         geometry.scale(-1, 1, 1);
       } else {
         // Full 360 sphere
@@ -1092,7 +1111,12 @@ class ThreeJSServiceSingleton {
     const isTexture = TEXTURE_VENUE_IDS.includes(venueId);
     const isProcedural = PROCEDURAL_VENUE_IDS.includes(venueId);
     
-    if (!isTexture && !isProcedural) return;
+    console.log(`[DEBUG] ThreeJSService.showVenue called with: ${venueId}, isTexture: ${isTexture}`);
+    
+    if (!isTexture && !isProcedural) {
+      console.log(`[DEBUG] venueId not found in either list. Returning.`);
+      return;
+    }
 
     if (!this.isInitialized) this.init();
     
