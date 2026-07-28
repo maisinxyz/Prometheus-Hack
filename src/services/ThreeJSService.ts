@@ -1410,8 +1410,30 @@ class ThreeJSServiceSingleton {
       }
     `;
 
-    bins.forEach(b => {
-      // Use the newly generated photorealistic images
+    // Per-venue angular offsets (theta in radians from initial camera direction)
+    // Positive = right of center, negative = left
+    const venueAngles: Record<string, { startAngle: number, spacing: number, groundY: number }> = {
+      construction_site:          { startAngle: -0.25, spacing: 0.12, groundY: -18 },
+      ferry_docks:                { startAngle:  1.2,  spacing: 0.18, groundY: -16 },
+      tech_startup:               { startAngle: -0.25, spacing: 0.12, groundY: -18 },
+      subway_station:             { startAngle: -0.25, spacing: 0.12, groundY: -18 },
+      gym:                        { startAngle: -0.25, spacing: 0.12, groundY: -18 },
+      art_studio:                 { startAngle: -0.25, spacing: 0.12, groundY: -18 },
+      financial_district_office:  { startAngle: -0.25, spacing: 0.12, groundY: -18 },
+      times_square:               { startAngle: -0.25, spacing: 0.12, groundY: -18 },
+      hot_dog_stand:              { startAngle: -0.25, spacing: 0.12, groundY: -18 },
+      central_park:               { startAngle: -0.25, spacing: 0.12, groundY: -18 },
+      nyc_hospital:               { startAngle: -0.25, spacing: 0.12, groundY: -18 },
+      mackenzie_cafe:             { startAngle: -0.25, spacing: 0.12, groundY: -18 },
+      public_library:             { startAngle: -0.25, spacing: 0.12, groundY: -18 },
+      community_park:             { startAngle: -0.25, spacing: 0.12, groundY: -18 },
+    };
+
+    const venueId = this.currentVenueId || '';
+    const angles = venueAngles[venueId] || { startAngle: -0.25, spacing: 0.12, groundY: -18 };
+    const radius = 49; // Must match the spherical vertex shader radius
+
+    bins.forEach((b, index) => {
       const texPath = `assets/photo_${b.id}.png`;
       
       textureLoader.load(texPath, (texture) => {
@@ -1429,18 +1451,29 @@ class ThreeJSServiceSingleton {
         const mesh = new THREE.Mesh(geometry, material) as any;
         
         const aspect = texture.image.width / texture.image.height;
-        const scaleBase = 14; // Slightly smaller base scale for a realistic fit
-        mesh.scale.set(scaleBase * aspect, scaleBase, 1);
+        // Per-bin scale corrections to compensate for different image proportions
+        const sizeCorrection: Record<string, number> = {
+          recycling: 0.85,
+          compost: 1.0,
+          landfill: 1.0,
+          plastic: 0.85
+        };
+        const correction = sizeCorrection[b.id] ?? 1.0;
+        const uniformHeight = 10 * correction;
+        const uniformWidth = uniformHeight * aspect;
+        mesh.scale.set(uniformWidth, uniformHeight, 1);
         
-        // Project to radius 49 to match our spherical vertex shader
-        const worldPos = this.unprojectPhaserToWorld(b.phaserBin.baseX, b.phaserBin.baseY, 49);
-        mesh.position.copy(worldPos);
+        // Place directly using spherical coordinates — no Phaser mapping distortion!
+        const theta = angles.startAngle + index * angles.spacing;
+        mesh.position.x = Math.sin(theta) * radius;
+        mesh.position.z = Math.cos(theta) * radius;
+        mesh.position.y = angles.groundY;
         
-        // Lower them to sit perfectly on the ground
-        mesh.position.y += 6;
-        
-        // Make the mesh face the exact center of the room (0,0,0) where the camera is.
+        // Face the camera at center
         mesh.lookAt(new THREE.Vector3(0, 0, 0));
+        
+        // Store world position for Phaser hitbox sync
+        mesh.worldPosition = mesh.position.clone();
         
         this.scene!.add(mesh);
         this.binSprites.push(mesh);

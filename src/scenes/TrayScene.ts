@@ -931,10 +931,19 @@ export class TrayScene extends Phaser.Scene {
       if (threeService.isActive && threeService.camera) {
         
         // Update invisible Phaser bins to track the 3D world bins
-        for (const bin of this.bins) {
-          if (!(bin as any).worldPosition && bin.baseX !== undefined) {
+        for (let i = 0; i < this.bins.length; i++) {
+          const bin = this.bins[i];
+          // Use the world position from the 3D bin mesh if available
+          const meshWorldPos = threeService.binSprites && threeService.binSprites[i]
+            ? threeService.binSprites[i].worldPosition
+            : null;
+          
+          if (meshWorldPos) {
+            (bin as any).worldPosition = meshWorldPos;
+          } else if (!(bin as any).worldPosition && bin.baseX !== undefined) {
             (bin as any).worldPosition = threeService.unprojectPhaserToWorld(bin.baseX, bin.baseY, 50);
           }
+          
           if ((bin as any).worldPosition) {
             const pos = threeService.projectWorldToPhaser((bin as any).worldPosition);
             bin.setPosition(pos.x, pos.y);
