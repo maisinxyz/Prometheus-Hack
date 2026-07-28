@@ -29,7 +29,22 @@ export class CommunityGardenScene extends Phaser.Scene {
     const panoramaLevel = Math.min(compostLvl, maxPanoramaLevel);
     const venueId = panoramaLevel === 0 ? 'community_park' : `community_park_level_${panoramaLevel}`;
     console.log(`[DEBUG] compostLvl: ${compostLvl}, panoramaLevel: ${panoramaLevel}, venueId: ${venueId}`);
-    ThreeJSService.showVenue(venueId);
+    
+    // Compute the list of 2D Sprites to spawn based on upgrades!
+    const sprites: string[] = [];
+    
+    // Compost upgrades > 5 (user created 12 individual flowers for these!)
+    for (let i = 6; i <= compostLvl; i++) {
+      for (let j = 1; j <= 12; j++) {
+        sprites.push(`/assets/${j}compost_sprite_lvl${i}.png`);
+      }
+    }
+    
+    for (let i = 1; i <= recyclingLvl; i++) sprites.push(`/assets/recycling_sprite_lvl${i}.png`);
+    for (let i = 1; i <= plasticLvl; i++) sprites.push(`/assets/plastic_sprite_lvl${i}.png`);
+    for (let i = 1; i <= landfillLvl; i++) sprites.push(`/assets/landfill_sprite_lvl${i}.png`);
+
+    ThreeJSService.showVenue(venueId, { sprites });
     MapLibreService.hideMap();
 
     // Helper for perspective scaling. Horizon is roughly y=450

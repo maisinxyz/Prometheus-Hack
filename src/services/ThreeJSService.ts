@@ -79,6 +79,7 @@ class ThreeJSServiceSingleton {
   private isActive = false;
   private animationFrameId: number | null = null;
   private mesh: THREE.Mesh | null = null;
+  private sprites: THREE.Sprite[] = [];
   private currentVenueId: string | null = null;
   
   // Post-processing
@@ -1107,7 +1108,7 @@ class ThreeJSServiceSingleton {
     }
   }
 
-  showVenue(venueId: string) {
+  showVenue(venueId: string, options?: { sprites?: string[] }) {
     const isTexture = TEXTURE_VENUE_IDS.includes(venueId);
     const isProcedural = PROCEDURAL_VENUE_IDS.includes(venueId);
     
@@ -1138,6 +1139,12 @@ class ThreeJSServiceSingleton {
       }
     }
     
+    // Always load sprites if they were provided (or cleanup old ones)
+    this.cleanupSprites();
+    if (options?.sprites && options.sprites.length > 0) {
+      this.loadSprites(options.sprites);
+    }
+    
     if (isProcedural) {
       // Reset camera for procedural venues
       this.cameraTheta = 0;
@@ -1166,6 +1173,58 @@ class ThreeJSServiceSingleton {
       cancelAnimationFrame(this.animationFrameId);
       this.animationFrameId = null;
     }
+    
+    if (this.isProceduralVenue) {
+      this.cleanupProceduralScene();
+    }
+    this.cleanupSprites();
+  }
+
+  private cleanupSprites() {
+    for (const sprite of this.sprites) {
+      this.scene.remove(sprite);
+      if (sprite.material) {
+        if (sprite.material.map) sprite.material.map.dispose();
+        sprite.material.dispose();
+      }
+    }
+    this.sprites = [];
+  }
+
+  private loadSprites(spritePaths: string[]) {
+    const loader = new THREE.TextureLoader();
+    
+    spritePaths.forEach((path) => {
+      loader.load(path, (texture) => {
+        texture.colorSpace = THREE.SRGBColorSpace;
+        
+        // Spawn more duplicates for a denser field
+        const numDuplicates = 15;
+        for (let i = 0; i < numDuplicates; i++) {
+          const material = new THREE.SpriteMaterial({ map: texture, transparent: true, depthWrite: false });
+          const sprite = new THREE.Sprite(material);
+          
+          // Make them realistically tiny (base size 10)
+          const aspect = texture.image.width / texture.image.height;
+          const scaleMod = 0.6 + Math.random() * 0.8; // random between 0.6 and 1.4
+          sprite.scale.set(10 * aspect * scaleMod, 10 * scaleMod, 1);
+          
+          // Spread them from right under your feet (radius 20) all the way to the coastline (radius 450)
+          const angle = Math.random() * Math.PI * 2;
+          const radius = 20 + Math.random() * 430;
+          
+          sprite.position.x = Math.sin(angle) * radius;
+          // Constant Y creates a perfect flat ground plane 30 units below the camera!
+          sprite.position.y = -30; 
+          sprite.position.z = Math.cos(angle) * radius;
+          
+          this.scene.add(sprite);
+          this.sprites.push(sprite);
+        }
+      }, undefined, (error) => {
+        console.warn(`Failed to load sprite: ${path}`, error);
+      });
+    });
   }
 
   // Convert 3D world coordinate to Phaser 1920x1080 screen coordinates
