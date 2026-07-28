@@ -307,7 +307,23 @@ export class TrayScene extends Phaser.Scene {
       
       const bin = new Bin(this, x, y, binDef);
       bin.setScale(scale);
+      
+      // Make them visually hidden (but still clickable/droppable) if in a 3D venue
+      if (TrayScene.THREE_D_VENUE_IDS.includes(this.venueId)) {
+        bin.backSprite.setAlpha(0.01);
+        bin.frontSprite.setAlpha(0.01);
+        bin.shadowGraphics.setAlpha(0.01);
+        bin.glowGraphics.setAlpha(0.01);
+        if (bin.glossGraphics) bin.glossGraphics.setAlpha(0.01);
+      }
+      
       this.bins.push(bin);
+    }
+    
+    // Spawn the visual 3D equivalents in the Three.js world
+    if (TrayScene.THREE_D_VENUE_IDS.includes(this.venueId)) {
+      const mappedBins = this.bins.map(b => ({ id: b.binDef.id, phaserBin: b }));
+      (ThreeJSService as any).sync3DBins(mappedBins, this);
     }
   }
 
@@ -913,7 +929,8 @@ export class TrayScene extends Phaser.Scene {
       const threeService = ThreeJSService as any;
 
       if (threeService.isActive && threeService.camera) {
-        // Update bins
+        
+        // Update invisible Phaser bins to track the 3D world bins
         for (const bin of this.bins) {
           if (!(bin as any).worldPosition && bin.baseX !== undefined) {
             (bin as any).worldPosition = threeService.unprojectPhaserToWorld(bin.baseX, bin.baseY, 50);
@@ -925,7 +942,7 @@ export class TrayScene extends Phaser.Scene {
           }
         }
 
-        // Update rock crusher
+        // Update rock crusher (optional 3D integration omitted for brevity)
         if (this.crusher && (this.crusher as any).baseX !== undefined) {
           const c = this.crusher as any;
           if (!c.worldPosition) {
@@ -936,7 +953,7 @@ export class TrayScene extends Phaser.Scene {
           c.setVisible(pos.visible);
         }
 
-        // Update trash items
+        // Update trash items (they remain 2D UI elements so they don't clip through things)
         for (const item of this.items) {
           if (!item || !item.active) continue;
 

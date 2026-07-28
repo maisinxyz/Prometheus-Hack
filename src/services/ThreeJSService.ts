@@ -80,6 +80,8 @@ class ThreeJSServiceSingleton {
   private animationFrameId: number | null = null;
   private mesh: THREE.Mesh | null = null;
   private sprites: THREE.Sprite[] = [];
+  private binSprites: THREE.Sprite[] = [];
+  private isProceduralVenue = false;
   private occupiedSpots: {x: number, z: number, radius: number}[] = [];
   private currentVenueId: string | null = null;
   
@@ -100,9 +102,6 @@ class ThreeJSServiceSingleton {
   private cameraRadius = 0.1; // Orbit from the center of the sphere
   private target = new THREE.Vector3(0, 0, 0);
   
-  // Flag for whether current venue is procedural
-  private isProceduralVenue = false;
-
   init() {
     if (this.isInitialized) return;
     
@@ -125,7 +124,6 @@ class ThreeJSServiceSingleton {
 
     // Setup Renderer
     this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     // Important: Use basic sRGB output for a tonemapped JPG so colors look right
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -135,13 +133,16 @@ class ThreeJSServiceSingleton {
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.canvasContainer.appendChild(this.renderer.domElement);
 
-    // Setup Scene & Camera
+    // Setup Scene & Camera (aspect ratio will be corrected in resize)
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    this.camera = new THREE.PerspectiveCamera(75, 16/9, 0.1, 1000);
     this.updateCameraPosition();
 
     // Build the Photorealistic 360 Environment
     this.buildPhotorealisticEnvironment();
+    
+    // Initial size sync
+    setTimeout(() => this.onWindowResize(), 100);
 
     // Handle Resize
     window.addEventListener('resize', this.onWindowResize.bind(this));
@@ -1064,15 +1065,33 @@ class ThreeJSServiceSingleton {
     this.scene.background = null;
   }
 
-  private onWindowResize() {
-    if (!this.camera || !this.renderer) return;
-    this.camera.aspect = window.innerWidth / window.innerHeight;
+  // Re-sync renderer size to perfectly overlay the Phaser canvas
+  private onWindowResize(): void {
+    if (!this.camera || !this.renderer || !this.canvasContainer) return;
+    
+    const phaserCanvas = document.querySelector('#game-container canvas') as HTMLCanvasElement;
+    if (phaserCanvas) {
+      const rect = phaserCanvas.getBoundingClientRect();
+      
+      this.canvasContainer.style.left = `${rect.left}px`;
+      this.canvasContainer.style.top = `${rect.top}px`;
+      this.canvasContainer.style.width = `${rect.width}px`;
+      this.canvasContainer.style.height = `${rect.height}px`;
+      
+      this.renderer.setSize(rect.width, rect.height);
+      this.camera.aspect = rect.width / rect.height;
+    } else {
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+      this.camera.aspect = window.innerWidth / window.innerHeight;
+    }
     this.camera.updateProjectionMatrix();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
     
     // Resize post-processing composer
     if (this.composer) {
-      this.composer.setSize(window.innerWidth, window.innerHeight);
+      const phaserCanvas = document.querySelector('#game-container canvas') as HTMLCanvasElement;
+      const width = phaserCanvas ? phaserCanvas.width : window.innerWidth;
+      const height = phaserCanvas ? phaserCanvas.height : window.innerHeight;
+      this.composer.setSize(width, height);
     }
   }
 
@@ -1190,6 +1209,14 @@ class ThreeJSServiceSingleton {
       }
     }
     this.sprites = [];
+    for (const sprite of this.binSprites) {
+      this.scene.remove(sprite);
+      if (sprite.material) {
+        if (sprite.material.map) sprite.material.map.dispose();
+        sprite.material.dispose();
+      }
+    }
+    this.binSprites = [];
     this.occupiedSpots = [];
   }
 
@@ -1317,9 +1344,123 @@ class ThreeJSServiceSingleton {
     });
   }
 
+  // Converts Phaser texture to THREE.Texture
+  private getThreeTextureFromPhaser(phaserScene: Phaser.Scene, textureKey: string): THREE.Texture | null {
+    if (!phaserScene.textures.exists(textureKey)) return null;
+    const sourceImage = phaserScene.textures.get(textureKey).getSourceImage();
+    if (!sourceImage) return null;
+    
+    // Create canvas or standard texture
+    const texture = new THREE.Texture(sourceImage as HTMLImageElement | HTMLCanvasElement);
+    texture.needsUpdate = true;
+    return texture;
+  }
+
+  // Spawns 3D visual bins that perfectly obey camera lens distortion
+  sync3DBins(bins: Array<{id: string, phaserBin: any}>, phaserScene: Phaser.Scene) {
+    if (!this.scene) return;
+    
+    // Clear old bins
+    this.binSprites.forEach(s => this.scene?.remove(s));
+    this.binSprites = [];
+    
+    const textureLoader = new THREE.TextureLoader();
+    
+    // Custom shader to remove pure green (#00FF00) background and spherically curve the mesh
+    const vertexShader = `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        // Get true world position of this vertex
+        vec4 wPos = modelMatrix * vec4(position, 1.0);
+        
+        // Curve the flat plane into a perfect sphere around the camera (origin)
+        // This completely eliminates rectilinear stretching/warping when looking around!
+        vec3 dir = normalize(wPos.xyz);
+        wPos.xyz = dir * 49.0;
+        
+        gl_Position = projectionMatrix * viewMatrix * wPos;
+      }
+    `;
+    const fragmentShader = `
+      uniform sampler2D map;
+      varying vec2 vUv;
+      
+      void main() {
+        vec4 color = texture2D(map, vUv);
+        // Chroma key: if it's very green and lacks red/blue, make it transparent
+        // Using a distance threshold to #00FF00
+        float diffR = color.r;
+        float diffG = 1.0 - color.g;
+        float diffB = color.b;
+        float dist = sqrt(diffR*diffR + diffG*diffG + diffB*diffB);
+        
+        if (dist < 0.45) { // Threshold for green screen removal
+           discard;
+        }
+        
+        // Anti-aliasing soft edge for green spill
+        if (dist < 0.6) {
+           color.a *= (dist - 0.45) / 0.15;
+           // Remove green color spill
+           color.g = min(color.g, max(color.r, color.b) + 0.1);
+        }
+        
+        gl_FragColor = color;
+      }
+    `;
+
+    bins.forEach(b => {
+      // Use the newly generated photorealistic images
+      const texPath = `assets/photo_${b.id}.png`;
+      
+      textureLoader.load(texPath, (texture) => {
+        const material = new THREE.ShaderMaterial({
+          uniforms: { map: { value: texture } },
+          vertexShader,
+          fragmentShader,
+          transparent: true,
+          depthWrite: false,
+          side: THREE.DoubleSide
+        });
+        
+        // Subdivide the plane so it can bend smoothly in the vertex shader
+        const geometry = new THREE.PlaneGeometry(1, 1, 16, 16);
+        const mesh = new THREE.Mesh(geometry, material) as any;
+        
+        const aspect = texture.image.width / texture.image.height;
+        const scaleBase = 14; // Slightly smaller base scale for a realistic fit
+        mesh.scale.set(scaleBase * aspect, scaleBase, 1);
+        
+        // Project to radius 49 to match our spherical vertex shader
+        const worldPos = this.unprojectPhaserToWorld(b.phaserBin.baseX, b.phaserBin.baseY, 49);
+        mesh.position.copy(worldPos);
+        
+        // Lower them to sit perfectly on the ground
+        mesh.position.y += 6;
+        
+        // Make the mesh face the exact center of the room (0,0,0) where the camera is.
+        mesh.lookAt(new THREE.Vector3(0, 0, 0));
+        
+        this.scene!.add(mesh);
+        this.binSprites.push(mesh);
+      });
+    });
+  }
+
   // Convert 3D world coordinate to Phaser 1920x1080 screen coordinates
   projectWorldToPhaser(worldPoint: THREE.Vector3): {x: number, y: number, visible: boolean} {
     if (!this.camera || !this.isActive) return {x: 0, y: 0, visible: false};
+    
+    // Check if point is behind the camera
+    const camDir = new THREE.Vector3();
+    this.camera.getWorldDirection(camDir);
+    const toPoint = worldPoint.clone().sub(this.camera.position);
+    
+    // If the dot product is negative, it's behind the camera's front plane
+    if (camDir.dot(toPoint) <= 0) {
+      return { x: -9999, y: -9999, visible: false };
+    }
     
     const vector = worldPoint.clone();
     vector.project(this.camera);
@@ -1328,7 +1469,7 @@ class ThreeJSServiceSingleton {
     return {
       x: (vector.x * 0.5 + 0.5) * 1920,
       y: -(vector.y * 0.5 - 0.5) * 1080,
-      visible: vector.z < 1
+      visible: true
     };
   }
 
