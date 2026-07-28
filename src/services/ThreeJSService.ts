@@ -80,6 +80,7 @@ class ThreeJSServiceSingleton {
   private animationFrameId: number | null = null;
   private mesh: THREE.Mesh | null = null;
   private sprites: THREE.Sprite[] = [];
+  private occupiedSpots: {x: number, z: number, radius: number}[] = [];
   private currentVenueId: string | null = null;
   
   // Post-processing
@@ -1189,37 +1190,126 @@ class ThreeJSServiceSingleton {
       }
     }
     this.sprites = [];
+    this.occupiedSpots = [];
   }
 
   private loadSprites(spritePaths: string[]) {
     const loader = new THREE.TextureLoader();
     
+    // We reserve an angle for the "pond zone"
+    const pondZoneAngle = Math.PI * 0.25; 
+    
     spritePaths.forEach((path) => {
       loader.load(path, (texture) => {
         texture.colorSpace = THREE.SRGBColorSpace;
         
-        // Spawn more duplicates for a denser field
-        const numDuplicates = 15;
+        const filename = path.toLowerCase();
+        
+        // Extract level
+        const levelMatch = filename.match(/_lvl(\d+)\.png/);
+        const level = levelMatch ? parseInt(levelMatch[1], 10) : 1;
+        
+        let isCompost = filename.includes('compost');
+        let isRecycling = filename.includes('recycling');
+        let isPlastic = filename.includes('plastic');
+        let isLandfill = filename.includes('landfill');
+        let isPond = filename.includes('pond') || filename.includes('fish') || filename.includes('cattail');
+        
+        let numDuplicates = 1;
+        let baseSize = 80;
+        let requiresCollision = true;
+        let collisionRadius = 40;
+        let isPondZone = false;
+        
+        if (isPond) {
+          numDuplicates = filename.includes('fish') ? 3 : 1;
+          baseSize = filename.includes('fish') ? 15 : 90;
+          requiresCollision = false; // They go in the pond
+          isPondZone = true;
+        } else if (isCompost) {
+          requiresCollision = false; // By default small plants can overlap
+          numDuplicates = 15;
+          if (level <= 6) baseSize = 10;
+          else if (level === 7) baseSize = 20;
+          else if (level === 8) baseSize = 25; // Tree sprouts
+          else if (level === 9) { baseSize = 40; numDuplicates = 5; requiresCollision = true; collisionRadius = 25; }
+          else { baseSize = 80; numDuplicates = 2; requiresCollision = true; collisionRadius = 40; } // Large tree/greenhouse
+        } else if (isRecycling) {
+          numDuplicates = 2;
+          requiresCollision = true;
+          if (level <= 5) { baseSize = 40; collisionRadius = 25; }
+          else if (level <= 8) { baseSize = 60; collisionRadius = 35; }
+          else { baseSize = 90; collisionRadius = 50; }
+        } else if (isPlastic) {
+          numDuplicates = 2;
+          requiresCollision = true;
+          if (level <= 5) { baseSize = 45; collisionRadius = 25; }
+          else if (level <= 8) { baseSize = 65; collisionRadius = 35; }
+          else { baseSize = 90; collisionRadius = 50; }
+        } else if (isLandfill) {
+          numDuplicates = 2;
+          requiresCollision = true;
+          if (level <= 3) { baseSize = 40; collisionRadius = 25; }
+          else { baseSize = 70; collisionRadius = 40; }
+        }
+
         for (let i = 0; i < numDuplicates; i++) {
           const material = new THREE.SpriteMaterial({ map: texture, transparent: true, depthWrite: false });
           const sprite = new THREE.Sprite(material);
           
-          // Make them realistically tiny (base size 10)
           const aspect = texture.image.width / texture.image.height;
-          const scaleMod = 0.6 + Math.random() * 0.8; // random between 0.6 and 1.4
-          sprite.scale.set(10 * aspect * scaleMod, 10 * scaleMod, 1);
+          const scaleMod = isCompost ? (0.6 + Math.random() * 0.8) : (0.9 + Math.random() * 0.2);
+          sprite.scale.set(baseSize * aspect * scaleMod, baseSize * scaleMod, 1);
           
-          // Spread them from right under your feet (radius 20) all the way to the coastline (radius 450)
-          const angle = Math.random() * Math.PI * 2;
-          const radius = 20 + Math.random() * 430;
+          let placed = false;
+          let attempts = 0;
+          let angle = 0;
+          let radius = 0;
+          let x = 0;
+          let z = 0;
           
-          sprite.position.x = Math.sin(angle) * radius;
-          // Constant Y creates a perfect flat ground plane 30 units below the camera!
-          sprite.position.y = -30; 
-          sprite.position.z = Math.cos(angle) * radius;
+          while (!placed && attempts < 20) {
+            attempts++;
+            
+            if (isPondZone) {
+               // cluster around the pond zone
+               angle = pondZoneAngle + (Math.random() - 0.5) * 0.2;
+               radius = 120 + Math.random() * 50;
+            } else {
+               angle = Math.random() * Math.PI * 2;
+               radius = isCompost ? (20 + Math.random() * 430) : (80 + Math.random() * 200);
+            }
+            
+            x = Math.sin(angle) * radius;
+            z = Math.cos(angle) * radius;
+            
+            if (requiresCollision) {
+              let collided = false;
+              for (const spot of this.occupiedSpots) {
+                const dist = Math.sqrt(Math.pow(x - spot.x, 2) + Math.pow(z - spot.z, 2));
+                if (dist < (collisionRadius + spot.radius)) {
+                  collided = true;
+                  break;
+                }
+              }
+              if (!collided) placed = true;
+            } else {
+              placed = true;
+            }
+          }
           
-          this.scene.add(sprite);
-          this.sprites.push(sprite);
+          if (placed) {
+            sprite.position.x = x;
+            sprite.position.y = -30; // Constant Y creates flat ground plane
+            sprite.position.z = z;
+            
+            this.scene.add(sprite);
+            this.sprites.push(sprite);
+            
+            if (requiresCollision) {
+              this.occupiedSpots.push({x, z, radius: collisionRadius});
+            }
+          }
         }
       }, undefined, (error) => {
         console.warn(`Failed to load sprite: ${path}`, error);

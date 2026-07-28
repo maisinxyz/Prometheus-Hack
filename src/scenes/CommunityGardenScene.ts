@@ -33,16 +33,22 @@ export class CommunityGardenScene extends Phaser.Scene {
     // Compute the list of 2D Sprites to spawn based on upgrades!
     const sprites: string[] = [];
     
-    // Compost upgrades > 5 (user created 12 individual flowers for these!)
-    for (let i = 6; i <= compostLvl; i++) {
+    // Helper to generate all possible filename permutations (unnumbered + 1 through 12)
+    const pushSpriteVariations = (prefix: string, level: number) => {
+      sprites.push(`/assets/${prefix}_sprite_lvl${level}.png`);
       for (let j = 1; j <= 12; j++) {
-        sprites.push(`/assets/${j}compost_sprite_lvl${i}.png`);
+        sprites.push(`/assets/${j}${prefix}_sprite_lvl${level}.png`);
       }
-    }
+    };
     
-    for (let i = 1; i <= recyclingLvl; i++) sprites.push(`/assets/recycling_sprite_lvl${i}.png`);
-    for (let i = 1; i <= plasticLvl; i++) sprites.push(`/assets/plastic_sprite_lvl${i}.png`);
-    for (let i = 1; i <= landfillLvl; i++) sprites.push(`/assets/landfill_sprite_lvl${i}.png`);
+    // Compost upgrades > 5
+    for (let i = 6; i <= compostLvl; i++) pushSpriteVariations('compost', i);
+    // Recycling upgrades
+    for (let i = 1; i <= recyclingLvl; i++) pushSpriteVariations('recycling', i);
+    // Plastic upgrades
+    for (let i = 1; i <= plasticLvl; i++) pushSpriteVariations('plastic', i);
+    // Landfill upgrades
+    for (let i = 1; i <= landfillLvl; i++) pushSpriteVariations('landfill', i);
 
     ThreeJSService.showVenue(venueId, { sprites });
     MapLibreService.hideMap();
@@ -69,6 +75,102 @@ export class CommunityGardenScene extends Phaser.Scene {
     uiContainer.style.left = '20px';
     uiContainer.style.zIndex = '100';
     uiContainer.style.pointerEvents = 'none';
+    this.sys.game.canvas.style.display = 'block';
+
+    // ===== SUMMARY MODAL =====
+    let unseenUpgrades: string[] = [];
+    try {
+      unseenUpgrades = JSON.parse(localStorage.getItem(GardenSystem.UNSEEN_UPGRADES_KEY) || '[]');
+    } catch(e) {}
+    
+    if (unseenUpgrades.length > 0) {
+      const modalOverlay = document.createElement('div');
+      modalOverlay.style.position = 'fixed';
+      modalOverlay.style.top = '0';
+      modalOverlay.style.left = '0';
+      modalOverlay.style.width = '100vw';
+      modalOverlay.style.height = '100vh';
+      modalOverlay.style.backgroundColor = 'rgba(0,0,0,0.6)';
+      modalOverlay.style.backdropFilter = 'blur(4px)';
+      modalOverlay.style.display = 'flex';
+      modalOverlay.style.justifyContent = 'center';
+      modalOverlay.style.alignItems = 'center';
+      modalOverlay.style.pointerEvents = 'auto'; // allow clicks
+      
+      const modal = document.createElement('div');
+      modal.style.backgroundColor = 'rgba(20, 30, 40, 0.95)';
+      modal.style.border = '1px solid rgba(100, 200, 100, 0.5)';
+      modal.style.borderRadius = '16px';
+      modal.style.padding = '35px';
+      modal.style.color = '#fff';
+      modal.style.textAlign = 'center';
+      modal.style.minWidth = '300px';
+      modal.style.boxShadow = '0 15px 40px rgba(0,0,0,0.8), 0 0 30px rgba(74, 222, 128, 0.2)';
+      modal.style.fontFamily = 'Arial, sans-serif';
+      
+      const title = document.createElement('h2');
+      title.innerText = 'Welcome Back!';
+      title.style.margin = '0 0 15px 0';
+      title.style.color = '#4ade80';
+      title.style.fontSize = '32px';
+      
+      const subtitle = document.createElement('p');
+      subtitle.innerText = 'Here is what has grown since your last visit:';
+      subtitle.style.fontSize = '18px';
+      subtitle.style.marginBottom = '25px';
+      subtitle.style.color = '#aaa';
+      
+      const list = document.createElement('ul');
+      list.style.textAlign = 'left';
+      list.style.fontSize = '20px';
+      list.style.lineHeight = '1.8';
+      list.style.margin = '0 0 30px 0';
+      list.style.paddingLeft = '20px';
+      
+      // Remove duplicates just in case
+      const uniqueUpgrades = [...new Set(unseenUpgrades)];
+      uniqueUpgrades.forEach(u => {
+        const li = document.createElement('li');
+        li.innerText = u;
+        list.appendChild(li);
+      });
+      
+      const btn = document.createElement('button');
+      btn.innerText = 'Awesome!';
+      btn.style.padding = '14px 40px';
+      btn.style.fontSize = '20px';
+      btn.style.fontWeight = 'bold';
+      btn.style.backgroundColor = '#10b981';
+      btn.style.color = '#fff';
+      btn.style.border = 'none';
+      btn.style.borderRadius = '8px';
+      btn.style.cursor = 'pointer';
+      btn.style.transition = 'transform 0.2s, background 0.2s';
+      
+      btn.onmouseover = () => { btn.style.transform = 'scale(1.05)'; btn.style.backgroundColor = '#059669'; };
+      btn.onmouseout = () => { btn.style.transform = 'scale(1)'; btn.style.backgroundColor = '#10b981'; };
+      
+      btn.onclick = () => {
+        modalOverlay.style.transition = 'opacity 0.5s';
+        modalOverlay.style.opacity = '0';
+        setTimeout(() => modalOverlay.remove(), 500);
+        localStorage.removeItem(GardenSystem.UNSEEN_UPGRADES_KEY);
+      };
+      
+      // Also automatically dismiss after 5 seconds
+      setTimeout(() => {
+        if (document.body.contains(modalOverlay)) {
+           btn.onclick(new MouseEvent('click'));
+        }
+      }, 5000);
+      
+      modal.appendChild(title);
+      modal.appendChild(subtitle);
+      modal.appendChild(list);
+      modal.appendChild(btn);
+      modalOverlay.appendChild(modal);
+      uiContainer.appendChild(modalOverlay);
+    }
 
     // Back Button
     const backBtn = document.createElement('button');

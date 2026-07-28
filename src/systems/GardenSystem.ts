@@ -2,6 +2,8 @@ export class GardenSystem {
   private static readonly PROGRESS_KEY = 'trashdash_garden_progress_v2';
   private static readonly TREE_PHASE_KEY = 'trashdash_garden_tree_phase'; // Legacy
   private static readonly UNLOCKED_HABITATS_KEY = 'trashdash_garden_habitats'; // Legacy
+  private static readonly LAST_SEEN_KEY = 'trashdash_garden_last_seen_levels';
+  public static readonly UNSEEN_UPGRADES_KEY = 'trashdash_garden_unseen_upgrades';
 
   private progress: Record<string, number> = {
     compost: 0,
@@ -10,8 +12,22 @@ export class GardenSystem {
     landfill: 0
   };
 
+  private lastSeenLevels: Record<string, number> = {
+    compost: 0,
+    recycling: 0,
+    plastic: 0,
+    landfill: 0
+  };
+
   constructor() {
     this.loadProgress();
+    
+    // Listen for storage events (so edits in Chrome Dev Tools trigger in real-time)
+    window.addEventListener('storage', (e) => {
+      if (e.key === GardenSystem.PROGRESS_KEY) {
+        this.loadProgress();
+      }
+    });
   }
 
   private loadProgress(): void {
@@ -30,6 +46,122 @@ export class GardenSystem {
       }
       this.saveProgress();
     }
+    
+    const savedSeen = localStorage.getItem(GardenSystem.LAST_SEEN_KEY);
+    if (savedSeen) {
+      try {
+        this.lastSeenLevels = JSON.parse(savedSeen);
+      } catch (e) {}
+    } else {
+      // First time playing, initialize seen levels to current levels so we don't spam them
+      this.updateLastSeenLevels();
+    }
+    
+    this.checkLevelUps();
+  }
+
+  private updateLastSeenLevels(): void {
+    this.lastSeenLevels = {
+      compost: this.getCompostLevel(),
+      recycling: this.getRecyclingLevel(),
+      plastic: this.getPlasticLevel(),
+      landfill: this.getLandfillLevel()
+    };
+    localStorage.setItem(GardenSystem.LAST_SEEN_KEY, JSON.stringify(this.lastSeenLevels));
+  }
+
+  private checkLevelUps(): void {
+    const current = {
+      compost: this.getCompostLevel(),
+      recycling: this.getRecyclingLevel(),
+      plastic: this.getPlasticLevel(),
+      landfill: this.getLandfillLevel()
+    };
+
+    let upgraded = false;
+    
+    for (const [key, level] of Object.entries(current)) {
+      if (level > (this.lastSeenLevels[key] || 0)) {
+        upgraded = true;
+        const desc = this.getUpgradeDescription(key, level);
+        this.queueUnseenUpgrade(desc);
+        this.showGlobalToast(`🎉 ${desc} Check the park!`);
+      }
+    }
+
+    if (upgraded) {
+      this.updateLastSeenLevels();
+    }
+  }
+
+  private getUpgradeDescription(track: string, level: number): string {
+    if (track === 'compost') {
+      if (level <= 6) return 'Wildflowers blossomed!';
+      if (level === 7) return 'New bushes grew!';
+      if (level === 8) return 'Tree sprouts appeared!';
+      if (level === 9) return 'Large plants have grown!';
+      if (level === 10) return 'A giant greenhouse tree blossomed!';
+      return 'More plants grew!';
+    } else if (track === 'recycling') {
+      if (level <= 5) return 'New recycling bins were added!';
+      if (level <= 8) return 'Recycling centers expanded!';
+      return 'Massive recycling facilities were built!';
+    } else if (track === 'plastic') {
+      if (level <= 5) return 'Recycled plastic benches appeared!';
+      if (level <= 8) return 'Plastic upcycling structures were built!';
+      return 'A large plastic processing facility appeared!';
+    } else if (track === 'landfill') {
+      if (level <= 3) return 'Landfill reduction efforts started!';
+      return 'Major landfill clearing completed!';
+    }
+    return 'New upgrades appeared!';
+  }
+
+  private queueUnseenUpgrade(msg: string) {
+    let queue: string[] = [];
+    try {
+      queue = JSON.parse(localStorage.getItem(GardenSystem.UNSEEN_UPGRADES_KEY) || '[]');
+    } catch(e){}
+    queue.push(msg);
+    localStorage.setItem(GardenSystem.UNSEEN_UPGRADES_KEY, JSON.stringify(queue));
+  }
+
+  private showGlobalToast(message: string) {
+    const toast = document.createElement('div');
+    toast.innerText = message;
+    toast.style.position = 'fixed';
+    toast.style.top = '50%';
+    toast.style.left = '50%';
+    toast.style.transform = 'translate(-50%, -50%)';
+    toast.style.backgroundColor = 'rgba(20, 30, 40, 0.95)';
+    toast.style.color = '#fff';
+    toast.style.padding = '24px 32px';
+    toast.style.borderRadius = '16px';
+    toast.style.fontSize = '24px';
+    toast.style.textAlign = 'center';
+    toast.style.fontWeight = 'bold';
+    toast.style.boxShadow = '0 15px 35px rgba(0,0,0,0.6), 0 0 20px rgba(100, 200, 100, 0.5)';
+    toast.style.border = '2px solid rgba(100, 200, 100, 0.8)';
+    toast.style.zIndex = '99999';
+    toast.style.transition = 'opacity 0.5s ease-in-out, transform 0.5s ease-in-out';
+    
+    // Add pop-in effect
+    toast.style.transform = 'translate(-50%, calc(-50% + 30px)) scale(0.95)';
+    toast.style.opacity = '0';
+    
+    document.body.appendChild(toast);
+    
+    // Trigger animation
+    requestAnimationFrame(() => {
+      toast.style.transform = 'translate(-50%, -50%) scale(1)';
+      toast.style.opacity = '1';
+    });
+    
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translate(-50%, calc(-50% - 20px)) scale(0.95)';
+      setTimeout(() => toast.remove(), 500);
+    }, 5000);
   }
 
   private saveProgress(): void {
@@ -40,6 +172,7 @@ export class GardenSystem {
     if (this.progress[binId] !== undefined) {
       this.progress[binId] += amount;
       this.saveProgress();
+      this.checkLevelUps();
     }
   }
 
@@ -47,6 +180,7 @@ export class GardenSystem {
     if (this.progress[binId] !== undefined) {
       this.progress[binId] = amount;
       this.saveProgress();
+      this.checkLevelUps();
     }
   }
 
