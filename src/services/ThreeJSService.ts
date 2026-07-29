@@ -1394,12 +1394,6 @@ class ThreeJSServiceSingleton {
                  if (type === 'recycling' && level <= 5) {
                     baseRad = 80; // Trees (all levels) spread but capped
                     varyRad = 150;
-                 } else if (type === 'recycling' && level === 6) {
-                    baseRad = 60; // Benches form an inner ring
-                    varyRad = 40;
-                 } else if (type === 'recycling' && level === 9) {
-                    baseRad = 130; // Picnic tables form an outer ring
-                    varyRad = 40;
                  } else if (type === 'compost') {
                     if (level === 7 || level === 8) {
                        baseRad = 120; // Push bushes and dragonflies away from center
@@ -1435,9 +1429,8 @@ class ThreeJSServiceSingleton {
             sprite.position.y = yOffset + (baseSize / 2); // Shift up by half size since plane origin is center
             sprite.position.z = z;
             
-            // By leaving rotation at (0,0,0) they face strictly forward (+Z) towards the camera
-            // This prevents them from looking edge-on/distorted when placed on the far X-axis.
-            sprite.rotation.set(0, 0, 0);
+            // Make them face the center of the world (but stand perfectly straight up)
+            sprite.lookAt(new THREE.Vector3(0, sprite.position.y, 0));
             
             this.scene.add(sprite);
             this.sprites.push(sprite);
