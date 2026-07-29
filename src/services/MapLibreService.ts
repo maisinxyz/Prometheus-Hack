@@ -23,6 +23,7 @@ class MapLibreServiceSingleton {
   private map: any = null;
   private markers: any[] = [];
   private mapContainer: HTMLElement | null = null;
+  private savedCameraState: any = null;
 
   /** Center coordinates: Times Square, NYC */
   private readonly CENTER_LNG = -73.9855;
@@ -464,7 +465,13 @@ class MapLibreServiceSingleton {
       this.mapContainer.style.display = 'block';
       // MapLibre sometimes needs a resize trigger if container changed display states
       if (this.map) {
-        setTimeout(() => this.map!.resize(), 100);
+        setTimeout(() => {
+          this.map!.resize();
+          if (this.savedCameraState) {
+            this.map!.jumpTo(this.savedCameraState);
+            this.savedCameraState = null;
+          }
+        }, 100);
       }
     }
     const gameContainer = document.getElementById('game-container');
@@ -477,6 +484,15 @@ class MapLibreServiceSingleton {
   hideMap(): void {
     // Clean up the 3D landmark overlay before hiding
     LandmarkOverlayService.removeFromMap();
+
+    if (this.map) {
+      this.savedCameraState = {
+        center: this.map.getCenter(),
+        zoom: this.map.getZoom(),
+        pitch: this.map.getPitch(),
+        bearing: this.map.getBearing()
+      };
+    }
 
     if (this.mapContainer) {
       this.mapContainer.style.display = 'none';

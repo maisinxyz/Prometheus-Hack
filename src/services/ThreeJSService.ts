@@ -1166,13 +1166,15 @@ class ThreeJSServiceSingleton {
     }
     
     if (isProcedural) {
-      // Reset camera for procedural venues
-      this.cameraTheta = 0;
-      this.cameraPhi = Math.PI / 2;
       this.updateProceduralCamera();
     } else {
       // Reset camera position to default nice view when entering
-      this.cameraTheta = Math.PI / 4;
+      const venueId = this.currentVenueId || '';
+      let defaultTheta = Math.PI / 4;
+      if (venueId === 'tech_startup') {
+         defaultTheta = Math.PI / 2.2;
+      }
+      this.cameraTheta = defaultTheta;
       this.cameraPhi = Math.PI / 2;
       this.updateCameraPosition();
     }
@@ -1387,9 +1389,10 @@ class ThreeJSServiceSingleton {
       varying vec2 vUv;
       
       void main() {
+        if (vUv.y < 0.05) { discard; }
         vec4 color = texture2D(map, vUv);
-        // Chroma key: if it's very green and lacks red/blue, make it transparent
-        // Using a distance threshold to #00FF00
+        
+        // Chroma key distance
         float diffR = color.r;
         float diffG = 1.0 - color.g;
         float diffB = color.b;
@@ -1402,8 +1405,11 @@ class ThreeJSServiceSingleton {
         // Anti-aliasing soft edge for green spill
         if (dist < 0.6) {
            color.a *= (dist - 0.45) / 0.15;
-           // Remove green color spill
-           color.g = min(color.g, max(color.r, color.b) + 0.1);
+        }
+        
+        // Remove green color spill (halo) on bright edges
+        if (color.g > 0.55 && color.g > max(color.r, color.b) * 1.2) {
+           color.g = max(color.r, color.b) * 1.2;
         }
         
         gl_FragColor = color;
@@ -1412,11 +1418,11 @@ class ThreeJSServiceSingleton {
 
     // Per-venue angular offsets (theta in radians from initial camera direction)
     // Positive = right of center, negative = left
-    const venueAngles: Record<string, { startAngle: number, spacing: number, groundY: number }> = {
-      construction_site:          { startAngle: -0.25, spacing: 0.12, groundY: -18 },
-      ferry_docks:                { startAngle:  2.8,  spacing: 0.18, groundY: -16 },
-      tech_startup:               { startAngle: -0.25, spacing: 0.12, groundY: -18 },
-      subway_station:             { startAngle: -0.25, spacing: 0.12, groundY: -18 },
+    const venueAngles: Record<string, { startAngle: number, spacing: number, groundY: number, scale?: number, cameraTheta?: number }> = {
+      construction_site:          { startAngle: 3.75, spacing: 0.12, groundY: -3 },
+      ferry_docks:                { startAngle:  2.55,  spacing: 0.09, groundY: -4.5, scale: 0.85 },
+      tech_startup:               { startAngle: 4.2, spacing: 0.21, groundY: -20, scale: 2.1, cameraTheta: Math.PI / 2.2 },
+      subway_station:             { startAngle: 8.5, spacing: 0.18, groundY: -10, scale: 1.8 },
       gym:                        { startAngle: -0.25, spacing: 0.12, groundY: -18 },
       art_studio:                 { startAngle: -0.25, spacing: 0.12, groundY: -18 },
       financial_district_office:  { startAngle: -0.25, spacing: 0.12, groundY: -18 },
@@ -1459,18 +1465,31 @@ class ThreeJSServiceSingleton {
           plastic: 0.85
         };
         const correction = sizeCorrection[b.id] ?? 1.0;
-        const uniformHeight = 10 * correction;
+        const venueScale = angles.scale ?? 1.0;
+        const uniformHeight = 10 * correction * venueScale;
         const uniformWidth = uniformHeight * aspect;
         mesh.scale.set(uniformWidth, uniformHeight, 1);
         
-        // Place directly using spherical coordinates — no Phaser mapping distortion!
+        // Place directly using spherical coordinates - no Phaser mapping distortion!
         const theta = angles.startAngle + index * angles.spacing;
         mesh.position.x = Math.sin(theta) * radius;
         mesh.position.z = Math.cos(theta) * radius;
-        mesh.position.y = angles.groundY;
-        
-        // Face the camera at center
-        mesh.lookAt(new THREE.Vector3(0, 0, 0));
+        if (venueId === 'ferry_docks') {
+          let customYOffset = 0;
+          if (b.id === 'recycling') {
+            customYOffset = 0.6 * venueScale; // Lift the blue bin slightly
+          }
+          mesh.position.y = angles.groundY + (uniformHeight - (10.0 * venueScale)) / 2.0 + customYOffset;
+          // Face the camera's vertical axis so they stand perfectly straight up without leaning backwards
+          mesh.lookAt(new THREE.Vector3(0, mesh.position.y, 0));
+        } else if (venueId === 'tech_startup') {
+          mesh.position.y = angles.groundY;
+          mesh.lookAt(new THREE.Vector3(0, mesh.position.y, 0));
+        } else {
+          mesh.position.y = angles.groundY;
+          // Face the camera's vertical axis so they stand perfectly straight up
+          mesh.lookAt(new THREE.Vector3(0, mesh.position.y, 0));
+        }
         
         // Store world position for Phaser hitbox sync
         mesh.worldPosition = mesh.position.clone();

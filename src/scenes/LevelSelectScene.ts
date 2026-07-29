@@ -101,9 +101,12 @@ export class LevelSelectScene extends Phaser.Scene {
     this.gardenSystem = new GardenSystem();
 
     // 1. Initialize and show the 3D Apple MapKit view behind the canvas
+    const isNewMap = !MapLibreService.getMap();
     await MapLibreService.createMap();
     MapLibreService.showMap();
-    MapLibreService.flyToGlobal();
+    if (isNewMap) {
+      MapLibreService.flyToGlobal();
+    }
 
 
 
