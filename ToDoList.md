@@ -10,3 +10,20 @@ To do list:
 8. Fix the image for the Landing page and the levels screen. Make levels screen look better. 
     -> Possibly make itereations of the levels screen so that if a level is not passed, the environment looks more polluted.
 9. Fix the points sytem, sometimes it removes poitns and adds points even though the item is properly thrown away. // DONE
+
+
+
+Levels:
+1. Construction Site (construction_site)
+2. Ferry at the Docks (ferry_docks)
+3. Tech Startup (tech_startup)
+4. Subway Station (subway_station)
+5. Fitness Center (gym)
+6. Public Library (public_library)
+7. Art Studio (art_studio)
+8. Financial District Office (financial_district_office)
+9. Central Park (central_park)
+10. Times Square (times_square)
+11. NYC Hospital (nyc_hospital)
+12. Hot Dog Stand (hot_dog_stand)
+13. Mackenzie Cafe (mackenzie_cafe)

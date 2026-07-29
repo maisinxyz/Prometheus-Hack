@@ -19,10 +19,37 @@ export class CursorManager {
     let lastX = 0;
     
     window.addEventListener('mousemove', (e) => {
-      // Update bird position
       const x = e.clientX;
       const y = e.clientY;
       
+      const target = e.target as HTMLElement;
+      let hideBird = false;
+      const compCursor = window.getComputedStyle(target).cursor;
+
+      if (compCursor !== 'none' && compCursor !== 'auto' && compCursor !== '') {
+        hideBird = true;
+      }
+      const tag = target.tagName.toLowerCase();
+      if (['button', 'input', 'a', 'select', 'textarea'].includes(tag)) {
+        hideBird = true;
+      }
+      if (target.closest('.venue-annotation')) hideBird = true;
+      
+      if (tag !== 'canvas' && tag !== 'body' && !['game-container', 'mapkit-container'].includes(target.id)) {
+        if (target.textContent && target.textContent.trim().length > 0) {
+          hideBird = true;
+        }
+      }
+
+      if (hideBird) {
+        this.birdEl.style.display = 'none';
+        if (compCursor === 'none') {
+          target.style.cursor = 'default';
+        }
+      } else {
+        this.birdEl.style.display = 'block';
+      }
+
       // Face bird in direction of movement
       const flip = x < lastX ? 'scaleX(1)' : 'scaleX(-1)';
       lastX = x;
