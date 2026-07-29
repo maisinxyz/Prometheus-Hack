@@ -1414,7 +1414,7 @@ class ThreeJSServiceSingleton {
     // Positive = right of center, negative = left
     const venueAngles: Record<string, { startAngle: number, spacing: number, groundY: number }> = {
       construction_site:          { startAngle: -0.25, spacing: 0.12, groundY: -18 },
-      ferry_docks:                { startAngle:  1.2,  spacing: 0.18, groundY: -16 },
+      ferry_docks:                { startAngle:  2.8,  spacing: 0.18, groundY: -16 },
       tech_startup:               { startAngle: -0.25, spacing: 0.12, groundY: -18 },
       subway_station:             { startAngle: -0.25, spacing: 0.12, groundY: -18 },
       gym:                        { startAngle: -0.25, spacing: 0.12, groundY: -18 },
