@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="translate(0, 10)">
+            <!-- Outer Rim -->
+            <ellipse cx="256" cy="256" rx="200" ry="200" class="outline" fill="#F8F8FF" />
+            <path class="shadow" d="M 256 66 A 190 190 0 1 0 446 256 A 190 190 0 0 0 256 66 Z M 256 446 A 190 190 0 1 1 446 256 A 190 190 0 0 1 256 446 Z" />
+            
+            <!-- Ridged Edge -->
+            <circle cx="256" cy="256" r="170" fill="none" stroke="#E6E6FA" stroke-width="20" stroke-dasharray="10 5" />
+            
+            <!-- Inner Base -->
+            <ellipse cx="256" cy="256" rx="140" ry="140" class="outline" fill="#FFFFFF" />
+            
+            <!-- Grease/Food Stains -->
+            <ellipse cx="220" cy="230" rx="40" ry="30" fill="#FF8C00" opacity="0.3" transform="rotate(-15 220 230)" />
+            <ellipse cx="280" cy="280" rx="30" ry="20" fill="#8B4513" opacity="0.2" transform="rotate(25 280 280)" />
+            
+            <!-- Crumpled bend -->
+            <path class="outline" fill="none" stroke-width="4" d="M 56 256 Q 150 200 256 256" opacity="0.3" />
+            
+            <!-- Fold -->
+            <path fill="none" stroke="#D3D3D3" stroke-width="6" d="M 80 180 L 120 160" />
+            <path fill="none" stroke="#D3D3D3" stroke-width="6" d="M 400 350 L 440 330" />
+        </g>
+    </svg>

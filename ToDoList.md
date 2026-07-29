@@ -37,7 +37,7 @@ Levels:
   - [ ] rusty_fishing_hook
   - [ ] barnacle_shell
 
-- [ ] **Tech Startup (tech_startup)**
+- [X] **Tech Startup (tech_startup)**
   - [ ] broken_ethernet_cable
   - [ ] vr_headset_foam
   - [ ] keyboard_keycap
@@ -49,7 +49,7 @@ Levels:
   - [ ] broken_usb_drive
   - [ ] protein_bar_wrapper
 
-- [ ] **Subway Station (subway_station)**
+- [X] **Subway Station (subway_station)**
   - [ ] metro_card
   - [ ] newspaper
   - [ ] gum_wrapper
@@ -61,7 +61,7 @@ Levels:
   - [ ] crumpled_newspaper
   - [ ] discarded_face_mask
 
-- [ ] **Fitness Center (gym)**
+- [X] **Fitness Center (gym)**
   - [ ] protein_shake_bottle
   - [ ] sweat_towel
   - [ ] energy_bar_wrapper
@@ -73,7 +73,7 @@ Levels:
   - [ ] sweaty_towel_scrap
   - [ ] empty_preworkout_tub
 
-- [ ] **Public Library (public_library)**
+- [X] **Public Library (public_library)**
   - [ ] overdue_notice
   - [ ] laminated_bookmark
   - [ ] used_teabag
@@ -85,7 +85,7 @@ Levels:
   - [ ] torn_book_page
   - [ ] empty_ink_cartridge
 
-- [ ] **Art Studio (art_studio)**
+- [X] **Art Studio (art_studio)**
   - [ ] squeezed_paint_tube
   - [ ] dried_clay_chunk
   - [ ] sketchbook_scrap
@@ -97,7 +97,7 @@ Levels:
   - [ ] used_paint_palette
   - [ ] dried_clay_lump
 
-- [ ] **Financial District Office (financial_district_office)**
+- [X] **Financial District Office (financial_district_office)**
   - [ ] paper_plate
   - [ ] plastic_fork
   - [ ] coffee_cup
@@ -109,7 +109,7 @@ Levels:
   - [ ] paper_straw_wrapper
   - [ ] plastic_straw
 
-- [ ] **Central Park (central_park)**
+- [X] **Central Park (central_park)**
   - [ ] paper_plate
   - [ ] plastic_fork
   - [ ] food_scraps
@@ -121,7 +121,7 @@ Levels:
   - [ ] plastic_water_bottle
   - [ ] aluminum_soda_can
 
-- [ ] **Times Square (times_square)**
+- [X] **Times Square (times_square)**
   - [ ] paper_plate
   - [ ] plastic_fork
   - [ ] food_scraps
@@ -133,7 +133,7 @@ Levels:
   - [ ] plastic_water_bottle
   - [ ] aluminum_soda_can
 
-- [ ] **NYC Hospital (nyc_hospital)**
+- [X] **NYC Hospital (nyc_hospital)**
   - [ ] latex_gloves
   - [ ] iv_saline_bag
   - [ ] paper_prescription

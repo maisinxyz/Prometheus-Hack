@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="translate(0, 30)">
+            <!-- Glass Body (Amber/Brown glass) -->
+            <path class="outline" fill="#8B4513" d="M 180 150 L 340 150 L 360 220 L 360 400 A 20 20 0 0 1 340 420 L 180 420 A 20 20 0 0 1 160 400 L 160 220 Z" opacity="0.8" />
+            <path class="highlight" d="M 170 230 L 200 230 L 200 400 L 170 400 Z" opacity="0.5" />
+            
+            <!-- Old Paper Label -->
+            <path class="outline" fill="#F5F5DC" d="M 170 250 L 350 250 L 350 350 L 170 350 Z" />
+            <!-- Label peeling -->
+            <path class="outline" fill="#FFF8DC" d="M 350 250 L 310 250 L 350 290 Z" />
+            
+            <!-- Label Text and Skull icon for toxicity -->
+            <text x="260" y="280" font-family="serif" font-size="24" font-weight="bold" fill="#111" text-anchor="middle">TURPENTINE</text>
+            <circle cx="260" cy="310" r="15" fill="none" stroke="#111" stroke-width="4" />
+            <path fill="#111" d="M 255 330 L 265 330 L 260 325 Z" />
+            <path fill="none" stroke="#111" stroke-width="4" d="M 235 340 L 285 290 M 235 290 L 285 340" />
+            
+            <!-- Cap and Neck -->
+            <rect x="230" y="100" width="60" height="50" class="outline" fill="#111" />
+            <!-- Screw ridges -->
+            <rect x="225" y="110" width="70" height="10" fill="#333" />
+            <rect x="225" y="130" width="70" height="10" fill="#333" />
+            
+            <!-- Droplet of dried resin on side -->
+            <path fill="#DAA520" d="M 160 200 Q 150 220 160 240 Q 170 220 160 200 Z" />
+            
+            <path class="shadow" d="M 160 350 L 360 350 L 360 420 L 160 420 Z" opacity="0.4" />
+        </g>
+    </svg>

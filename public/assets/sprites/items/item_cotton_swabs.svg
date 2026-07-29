@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="translate(0, 10)">
+            <!-- Swab 1 -->
+            <g transform="rotate(15 250 200)">
+                <!-- Stick (Paper/Plastic) -->
+                <rect x="245" y="100" width="10" height="200" class="outline" fill="#F0F8FF" />
+                <rect x="250" y="100" width="3" height="200" fill="#87CEFA" opacity="0.5" />
+                <!-- Top Cotton -->
+                <ellipse cx="250" cy="90" rx="15" ry="25" class="outline" fill="#FFFFFF" />
+                <!-- Bottom Cotton (Dirty) -->
+                <ellipse cx="250" cy="310" rx="15" ry="25" class="outline" fill="#FFFFFF" />
+                <ellipse cx="250" cy="310" rx="10" ry="18" fill="#FFD700" opacity="0.6" /> <!-- Earwax/Iodine -->
+            </g>
+            
+            <!-- Swab 2 -->
+            <g transform="translate(30, 60) rotate(-25 250 200)">
+                <rect x="245" y="100" width="10" height="200" class="outline" fill="#F0F8FF" />
+                <rect x="250" y="100" width="3" height="200" fill="#87CEFA" opacity="0.5" />
+                <ellipse cx="250" cy="90" rx="15" ry="25" class="outline" fill="#FFFFFF" />
+                <ellipse cx="250" cy="90" rx="12" ry="20" fill="#8B0000" opacity="0.5" /> <!-- Blood -->
+                <ellipse cx="250" cy="310" rx="15" ry="25" class="outline" fill="#FFFFFF" />
+            </g>
+        </g>
+    </svg>

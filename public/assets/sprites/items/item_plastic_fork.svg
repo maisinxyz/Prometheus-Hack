@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(45 256 256)">
+            <!-- Handle -->
+            <path class="outline" fill="#FFFFFF" d="M 230 150 L 270 150 L 260 400 L 240 400 Z" />
+            <path class="highlight" d="M 240 160 L 260 160 L 255 390 L 245 390 Z" />
+            
+            <!-- Handle Snapped End -->
+            <path class="outline" fill="none" stroke-width="4" d="M 240 400 L 245 390 L 250 405 L 255 395 L 260 400" />
+            
+            <!-- Head / Prongs Base -->
+            <path class="outline" fill="#FFFFFF" d="M 220 150 L 280 150 L 270 180 L 230 180 Z" />
+            
+            <!-- Prongs -->
+            <path class="outline" fill="#FFFFFF" d="M 220 150 L 225 60 L 235 60 L 235 150 Z" />
+            <!-- Missing prong -->
+            <!-- <path class="outline" fill="#FFFFFF" d="M 240 150 L 245 60 L 255 60 L 255 150 Z" /> -->
+            <path class="outline" fill="#FFFFFF" d="M 245 150 L 245 130 L 255 130 L 255 150 Z" /> <!-- Snapped prong stub -->
+            <path class="outline" fill="#FFFFFF" d="M 265 150 L 265 60 L 275 60 L 280 150 Z" />
+            
+            <!-- Grease -->
+            <circle cx="230" cy="100" r="5" fill="#FF8C00" opacity="0.6" />
+            <circle cx="270" cy="120" r="4" fill="#FF8C00" opacity="0.6" />
+        </g>
+    </svg>

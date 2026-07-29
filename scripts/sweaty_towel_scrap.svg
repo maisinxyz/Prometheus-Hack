@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="translate(20, -20)">
+            <!-- Main Cloth Body -->
+            <path class="outline" fill="#E6E6FA" d="M 200 150 Q 280 80 350 180 Q 420 250 380 350 Q 300 450 200 400 Q 100 350 150 250 Z" />
+            
+            <!-- Sweat / Grime Patches -->
+            <path fill="#B0C4DE" opacity="0.6" d="M 220 180 Q 280 120 320 190 Q 350 250 280 280 Q 220 250 220 180 Z" />
+            <path fill="#B0C4DE" opacity="0.6" d="M 180 300 Q 240 380 280 350 Q 320 320 250 280 Z" />
+            
+            <!-- Fabric Texture & Tears -->
+            <path fill="none" stroke="#A9A9A9" stroke-width="6" stroke-dasharray="4 6" d="M 180 200 L 320 220 M 170 240 L 350 270 M 190 320 L 330 350 M 200 370 L 280 390" />
+            
+            <!-- Frayed edges -->
+            <path class="outline" fill="none" stroke-width="6" stroke-linejoin="miter" d="M 150 250 L 130 240 M 160 230 L 140 210 M 170 210 L 160 190 M 180 180 L 170 160 M 350 180 L 370 160 M 360 200 L 380 190" />
+        </g>
+    </svg>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="translate(0, 10)">
+            <!-- Bottle Body -->
+            <path class="outline" fill="#4682B4" d="M 180 150 L 340 150 L 320 420 Q 320 450 260 450 Q 200 450 200 420 Z" opacity="0.9" />
+            <path class="highlight" d="M 190 160 L 230 160 L 220 420 Q 220 440 260 440 L 210 440 Q 210 440 210 420 Z" />
+            
+            <!-- Shaker Ball (inside) -->
+            <circle cx="260" cy="350" r="25" fill="none" stroke="#C0C0C0" stroke-width="4" opacity="0.8" />
+            <path fill="none" stroke="#C0C0C0" stroke-width="3" d="M 235 350 Q 260 325 285 350 M 235 350 Q 260 375 285 350 M 260 325 L 260 375" opacity="0.8" />
+            
+            <!-- Measuring lines -->
+            <path fill="none" stroke="#FFFFFF" stroke-width="3" d="M 300 200 L 320 200 M 300 250 L 320 250 M 300 300 L 320 300 M 300 350 L 320 350 M 300 400 L 320 400" />
+            
+            <!-- Cap/Lid -->
+            <path class="outline" fill="#111111" d="M 160 120 L 360 120 L 340 150 L 180 150 Z" />
+            <path class="highlight" d="M 170 125 L 250 125 L 250 145 L 185 145 Z" />
+            
+            <!-- Flip Top -->
+            <path class="outline" fill="#FF4500" d="M 220 90 L 260 90 A 20 20 0 0 1 260 120 L 220 120 Z" />
+            <path class="outline" fill="#111" stroke-width="6" d="M 220 90 L 220 120" />
+        </g>
+    </svg>

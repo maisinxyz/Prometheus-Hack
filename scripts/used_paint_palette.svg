@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(15 256 256)">
+            <!-- Wooden Palette Shape -->
+            <path class="outline" fill="#DEB887" d="M 100 250 C 100 100, 300 50, 400 150 C 450 200, 450 350, 350 400 C 250 450, 100 400, 100 250 Z" />
+            <path class="highlight" d="M 110 250 C 110 120, 280 80, 380 160 C 420 200, 420 330, 330 380 Z" />
+            
+            <!-- Thumb Hole -->
+            <circle cx="330" cy="330" r="30" class="outline" fill="#2a2a2a" />
+            <path fill="#CD853F" d="M 310 310 A 30 30 0 0 0 350 350" />
+            
+            <!-- Paint Blobs -->
+            <path class="outline" fill="#DC143C" d="M 150 150 Q 180 130 190 160 Q 170 190 140 170 Z" /> <!-- Red -->
+            <path class="outline" fill="#FFD700" d="M 230 120 Q 270 110 270 140 Q 250 160 220 140 Z" /> <!-- Yellow -->
+            <path class="outline" fill="#1E90FF" d="M 320 130 Q 360 140 340 170 Q 310 180 300 150 Z" /> <!-- Blue -->
+            <path class="outline" fill="#32CD32" d="M 380 200 Q 420 220 400 250 Q 370 260 360 220 Z" /> <!-- Green -->
+            <path class="outline" fill="#FF8C00" d="M 120 220 Q 160 240 140 270 Q 110 260 110 240 Z" /> <!-- Orange -->
+            <path class="outline" fill="#8A2BE2" d="M 140 300 Q 180 320 160 350 Q 120 340 130 310 Z" /> <!-- Purple -->
+            <path class="outline" fill="#FFFFFF" d="M 220 350 Q 260 370 240 400 Q 210 390 200 370 Z" /> <!-- White -->
+            
+            <!-- Mixed muddy paint in center -->
+            <path class="outline" fill="#8B4513" d="M 200 200 Q 280 180 300 240 Q 280 300 220 280 Q 180 260 200 200 Z" opacity="0.8" />
+            <path fill="#556B2F" d="M 220 220 Q 260 200 280 240 Q 260 280 230 260 Z" opacity="0.7" />
+        </g>
+    </svg>

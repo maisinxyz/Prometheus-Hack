@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(10 256 256)">
+            <!-- Foil Wrapper Shape (Torn open) -->
+            <path class="outline" fill="#8B4513" d="M 80 200 L 380 150 Q 400 200 380 250 L 80 300 Q 60 250 80 200 Z" />
+            
+            <!-- Inner silver foil -->
+            <path fill="#C0C0C0" d="M 250 170 L 380 150 Q 400 200 380 250 L 250 270 Z" />
+            <path fill="#D3D3D3" d="M 270 180 L 370 165 Q 380 200 370 235 L 270 250 Z" />
+            
+            <!-- Brand Colors -->
+            <path fill="#FF4500" d="M 100 210 L 240 185 L 240 280 L 100 300 Z" />
+            <text x="120" y="270" font-family="sans-serif" font-size="32" font-weight="bold" fill="#FFFFFF" transform="rotate(-8 120 270)">MAX-PRO</text>
+            
+            <!-- Torn edges (zigzag) -->
+            <path class="outline" fill="none" stroke-width="6" stroke-linejoin="miter" d="M 380 150 L 370 170 L 390 190 L 360 210 L 380 230 L 380 250" />
+            <path class="outline" fill="none" stroke-width="6" stroke-linejoin="miter" d="M 80 200 L 70 220 L 90 240 L 60 260 L 80 280 L 80 300" />
+            
+            <!-- Chocolate Crumbs -->
+            <circle cx="350" cy="300" r="8" fill="#5C4033" />
+            <circle cx="390" cy="270" r="5" fill="#5C4033" />
+            <circle cx="420" cy="240" r="6" fill="#5C4033" />
+            <circle cx="320" cy="320" r="4" fill="#5C4033" />
+            
+            <!-- Crinkle Highlights -->
+            <path fill="none" stroke="#FFF" stroke-width="4" stroke-linecap="round" d="M 150 210 Q 170 250 160 280" opacity="0.4" />
+            <path fill="none" stroke="#FFF" stroke-width="4" stroke-linecap="round" d="M 200 200 Q 220 240 210 270" opacity="0.4" />
+        </g>
+    </svg>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="translate(0, 30)">
+            <!-- Torn Bun Piece 1 -->
+            <path class="outline" fill="#F5DEB3" d="M 150 200 Q 180 180 200 220 Q 250 250 220 300 Q 150 320 120 280 Q 100 220 150 200 Z" />
+            <path class="outline" fill="#DEB887" d="M 150 200 Q 180 180 200 220 Q 180 250 120 280 Q 100 220 150 200 Z" /> <!-- Crust -->
+            
+            <!-- Torn Bun Piece 2 (Smaller) -->
+            <path class="outline" fill="#F5DEB3" d="M 300 300 Q 350 280 380 320 Q 350 380 300 350 Q 280 320 300 300 Z" />
+            
+            <!-- Crumbs -->
+            <circle cx="280" cy="250" r="10" fill="#F5DEB3" class="outline" />
+            <circle cx="240" cy="350" r="8" fill="#F5DEB3" class="outline" />
+            <circle cx="380" cy="250" r="5" fill="#DEB887" class="outline" />
+            <circle cx="180" cy="380" r="6" fill="#F5DEB3" class="outline" />
+            <circle cx="120" cy="360" r="4" fill="#DEB887" class="outline" />
+        </g>
+    </svg>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(5 256 256)">
+            <!-- Main sticky note -->
+            <path class="outline" fill="#FFD700" d="M 120 120 L 380 100 L 400 360 L 150 400 Z" />
+            <path class="highlight" d="M 130 130 L 370 110 L 380 340 L 160 380 Z" />
+            
+            <!-- Shadow to show peeling corner -->
+            <path class="shadow" d="M 120 120 L 150 140 L 150 400 L 120 120 Z" />
+            
+            <!-- Peeling corner (bottom left) -->
+            <path class="outline" fill="#FFEC8B" d="M 150 400 Q 180 350 250 380 Q 200 420 150 400 Z" />
+            
+            <!-- Scribbles / Text -->
+            <text x="180" y="180" font-family="sans-serif" font-size="32" font-weight="bold" fill="#111" transform="rotate(-5 180 180)">TODO:</text>
+            <path fill="none" stroke="#111" stroke-width="4" stroke-linecap="round" d="M 180 220 L 320 210" />
+            <path fill="none" stroke="#111" stroke-width="4" stroke-linecap="round" d="M 180 260 L 300 255" />
+            <path fill="none" stroke="#111" stroke-width="4" stroke-linecap="round" d="M 180 300 L 330 295" />
+            <circle cx="160" cy="215" r="4" fill="#111" />
+            <circle cx="160" cy="255" r="4" fill="#111" />
+            <circle cx="160" cy="295" r="4" fill="#111" />
+        </g>
+    </svg>

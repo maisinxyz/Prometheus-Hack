@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(15 256 256)">
+            <!-- Main Elastic Strap -->
+            <path class="outline" fill="#1a1a1a" d="M 50 200 Q 250 100 450 200 L 450 260 Q 250 160 50 260 Z" />
+            <path fill="#2F4F4F" d="M 60 215 Q 250 115 440 215 L 440 245 Q 250 145 60 245 Z" />
+            
+            <!-- Fabric / Elastic texture lines -->
+            <path fill="none" stroke="#111111" stroke-width="4" stroke-dasharray="2 4" d="M 55 230 Q 250 130 445 230" />
+            <path fill="none" stroke="#111111" stroke-width="4" stroke-dasharray="2 4" d="M 50 245 Q 250 145 445 245" />
+            
+            <!-- Plastic Buckle 1 -->
+            <rect x="120" y="160" width="20" height="80" rx="5" class="outline" fill="#000000" transform="rotate(-20 130 200)" />
+            <path class="highlight" d="M 125 165 L 135 165 L 135 230 L 125 230 Z" transform="rotate(-20 130 200)" />
+            
+            <!-- Plastic Buckle 2 (Broken End) -->
+            <rect x="380" y="180" width="20" height="80" rx="5" class="outline" fill="#000000" transform="rotate(25 390 220)" />
+            
+            <!-- Velcro loop at the end -->
+            <path class="outline" fill="#808080" d="M 450 200 Q 480 250 450 260 L 430 240 L 440 210 Z" />
+        </g>
+    </svg>

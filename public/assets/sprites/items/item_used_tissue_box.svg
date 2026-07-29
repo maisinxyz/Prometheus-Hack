@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(-15 256 256)">
+            <!-- Box Front -->
+            <path class="outline" fill="#ADD8E6" d="M 120 200 L 320 180 L 320 320 L 120 350 Z" />
+            <!-- Box Top -->
+            <path class="outline" fill="#87CEEB" d="M 120 200 L 220 100 L 420 80 L 320 180 Z" />
+            <!-- Box Side -->
+            <path class="outline" fill="#4682B4" d="M 320 180 L 420 80 L 420 220 L 320 320 Z" />
+            
+            <!-- Floral Pattern on Box -->
+            <circle cx="180" cy="250" r="20" fill="#FFF" opacity="0.4" />
+            <circle cx="250" cy="280" r="30" fill="#FFF" opacity="0.4" />
+            <circle cx="150" cy="300" r="15" fill="#FFF" opacity="0.4" />
+            
+            <!-- Tissue Hole (Oval) -->
+            <ellipse cx="270" cy="140" rx="60" ry="20" fill="#111" transform="rotate(-10 270 140)" />
+            
+            <!-- Tissues sticking out / overflowing -->
+            <path class="outline" fill="#FFFFFF" d="M 230 140 Q 150 50 280 30 Q 380 50 320 140 Z" />
+            <path class="highlight" d="M 250 130 Q 200 80 280 60 Q 340 80 300 130 Z" />
+            <path fill="none" stroke="#D3D3D3" stroke-width="4" d="M 240 100 Q 270 80 300 100" />
+            
+            <!-- Crumpled tissues on the floor -->
+            <path class="outline" fill="#F8F8FF" d="M 50 350 Q 80 300 120 320 Q 150 350 100 400 Z" />
+            <path class="outline" fill="#F8F8FF" d="M 350 350 Q 400 300 450 350 Q 480 400 380 400 Z" />
+            
+            <!-- Box Crushed corner -->
+            <path fill="none" stroke="#111" stroke-width="6" d="M 120 350 L 140 310 L 150 340" />
+        </g>
+    </svg>

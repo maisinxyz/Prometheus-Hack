@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(10 256 256)">
+            <!-- Core Body (Yellowish white) -->
+            <path class="outline" fill="#FFFACD" d="M 230 150 Q 200 250 230 350 L 270 350 Q 300 250 270 150 Z" />
+            <path class="shadow" d="M 230 150 Q 220 250 240 350 L 270 350 Q 280 250 270 150 Z" />
+            
+            <!-- Seeds -->
+            <ellipse cx="245" cy="230" rx="4" ry="10" fill="#3E2723" transform="rotate(-15 245 230)" />
+            <ellipse cx="255" cy="270" rx="4" ry="10" fill="#3E2723" transform="rotate(15 255 270)" />
+            
+            <!-- Top remnant (Red Apple Skin) -->
+            <path class="outline" fill="#DC143C" d="M 180 150 Q 250 120 320 150 Q 300 180 250 180 Q 200 180 180 150 Z" />
+            <!-- Stem -->
+            <path class="outline" fill="#5C4033" d="M 250 140 Q 260 100 280 80 Q 270 90 250 110" stroke-width="8" />
+            
+            <!-- Bottom remnant (Red Apple Skin) -->
+            <path class="outline" fill="#DC143C" d="M 180 350 Q 250 380 320 350 Q 300 320 250 320 Q 200 320 180 350 Z" />
+            <path fill="#3E2723" d="M 245 360 L 255 360 L 250 370 Z" />
+            
+            <!-- Bite Marks in the core -->
+            <path fill="none" stroke="#D2B48C" stroke-width="4" stroke-dasharray="6 4" d="M 220 200 Q 240 220 220 250" />
+            <path fill="none" stroke="#D2B48C" stroke-width="4" stroke-dasharray="6 4" d="M 280 220 Q 260 250 280 280" />
+            
+            <circle cx="250" cy="300" r="5" fill="#8B4513" opacity="0.4" /> <!-- Bruise -->
+        </g>
+    </svg>

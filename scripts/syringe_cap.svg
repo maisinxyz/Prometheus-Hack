@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(-40 256 256)">
+            <!-- Orange Syringe Cap (Common for insulin) -->
+            <path class="outline" fill="#FF8C00" d="M 200 150 L 300 150 L 280 350 L 220 350 Z" />
+            <path class="highlight" d="M 210 160 L 290 160 L 275 340 L 225 340 Z" />
+            
+            <!-- Grip ridges -->
+            <path fill="none" stroke="#D2691E" stroke-width="4" d="M 215 200 L 285 200 M 218 230 L 282 230 M 221 260 L 279 260 M 224 290 L 276 290 M 227 320 L 273 320" />
+            
+            <!-- Bottom opening -->
+            <ellipse cx="250" cy="150" rx="50" ry="15" class="outline" fill="#CD5C5C" />
+            <ellipse cx="250" cy="150" rx="40" ry="10" fill="#111111" /> <!-- Hollow inside -->
+            
+            <!-- Top closed end -->
+            <ellipse cx="250" cy="350" rx="30" ry="8" class="outline" fill="#FF8C00" />
+            
+            <!-- Glare line -->
+            <path fill="none" stroke="#FFF" stroke-width="6" stroke-linecap="round" d="M 230 180 L 240 330" opacity="0.6" />
+        </g>
+    </svg>

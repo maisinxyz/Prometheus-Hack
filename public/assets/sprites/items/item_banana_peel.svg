@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="translate(0, 30)">
+            <!-- Top stem -->
+            <path class="outline" fill="#6B8E23" d="M 240 80 L 260 80 L 270 120 L 230 120 Z" />
+            <path fill="#556B2F" d="M 245 80 L 255 80 L 260 120 L 240 120 Z" />
+            
+            <!-- Peel section 1 (Left) -->
+            <path class="outline" fill="#FFD700" d="M 230 120 Q 150 150 100 250 Q 80 350 150 400 Q 200 350 180 250 Q 190 150 240 130 Z" />
+            <path fill="#FFFACD" d="M 180 250 Q 200 350 150 400 Q 180 350 170 250 Z" />
+            
+            <!-- Peel section 2 (Right) -->
+            <path class="outline" fill="#FFD700" d="M 270 120 Q 350 150 400 250 Q 420 350 350 400 Q 300 350 320 250 Q 310 150 260 130 Z" />
+            <path fill="#FFFACD" d="M 320 250 Q 300 350 350 400 Q 320 350 330 250 Z" />
+            
+            <!-- Peel section 3 (Center drooping down) -->
+            <path class="outline" fill="#FFD700" d="M 240 130 Q 250 250 250 350 Q 250 450 200 450 Q 180 400 200 350 Q 220 250 260 130 Z" />
+            
+            <!-- Brown spots (Overripe details) -->
+            <circle cx="150" cy="220" r="5" fill="#8B4513" />
+            <circle cx="140" cy="280" r="8" fill="#8B4513" />
+            <circle cx="350" cy="230" r="6" fill="#8B4513" />
+            <circle cx="360" cy="300" r="4" fill="#8B4513" />
+            <circle cx="230" cy="300" r="7" fill="#8B4513" />
+            <circle cx="210" cy="400" r="5" fill="#8B4513" />
+            <circle cx="280" cy="180" r="4" fill="#8B4513" />
+            <path fill="#8B4513" d="M 120 300 L 130 310 L 115 320 Z" />
+        </g>
+    </svg>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(-15 256 256)">
+            <!-- Bandage Roll Shape -->
+            <ellipse cx="256" cy="200" rx="80" ry="120" class="outline" fill="#F8F8FF" transform="rotate(20 256 200)" />
+            
+            <!-- Inner roll rings -->
+            <ellipse cx="256" cy="200" rx="60" ry="90" fill="none" stroke="#D3D3D3" stroke-width="4" transform="rotate(20 256 200)" />
+            <ellipse cx="256" cy="200" rx="40" ry="60" fill="none" stroke="#D3D3D3" stroke-width="4" transform="rotate(20 256 200)" />
+            <ellipse cx="256" cy="200" rx="20" ry="30" class="outline" fill="#D3D3D3" transform="rotate(20 256 200)" />
+            
+            <!-- Unrolled Strip -->
+            <path class="outline" fill="#F8F8FF" d="M 330 240 Q 400 300 350 400 L 250 380 Q 280 300 220 260 Z" />
+            
+            <!-- Gauze Texture (Mesh Grid) -->
+            <g opacity="0.3" stroke="#A9A9A9" stroke-width="2">
+                <path d="M 320 260 L 350 250 M 300 280 L 360 270 M 280 300 L 370 290 M 260 320 L 370 310 M 240 340 L 360 330 M 230 360 L 350 350" />
+                <path d="M 240 270 L 330 240 M 250 300 L 360 250 M 240 320 L 360 270 M 230 350 L 370 290 M 240 380 L 360 320" />
+            </g>
+            
+            <!-- Blood/Iodine stain on the unrolled part -->
+            <ellipse cx="300" cy="330" rx="25" ry="15" fill="#8B0000" opacity="0.6" transform="rotate(-30 300 330)" />
+            <ellipse cx="280" cy="310" rx="15" ry="10" fill="#8B0000" opacity="0.4" transform="rotate(20 280 310)" />
+            
+            <!-- Frayed end -->
+            <path fill="none" stroke="#D3D3D3" stroke-width="4" d="M 345 405 L 355 415 M 325 395 L 335 410 M 295 385 L 305 405" />
+        </g>
+    </svg>

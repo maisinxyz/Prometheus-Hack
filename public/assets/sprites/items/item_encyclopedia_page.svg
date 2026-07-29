@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(-5 256 256)">
+            <!-- Torn Page Base -->
+            <path class="outline" fill="#FDF5E6" d="M 120 100 L 380 90 L 390 400 L 150 420 Z" />
+            
+            <!-- Torn Left Edge (from binding) -->
+            <path class="outline" fill="#F5DEB3" d="M 120 100 L 130 150 L 115 200 L 135 250 L 110 300 L 140 350 L 150 420 Z" />
+            
+            <!-- Page Content (Two columns of tiny text) -->
+            <!-- Column 1 -->
+            <rect x="150" y="130" width="100" height="250" fill="#333" opacity="0.3" />
+            <rect x="150" y="130" width="100" height="5" fill="#111" />
+            <rect x="150" y="150" width="80" height="5" fill="#111" />
+            <rect x="150" y="170" width="100" height="5" fill="#111" />
+            <rect x="150" y="190" width="60" height="5" fill="#111" />
+            
+            <!-- Diagram / Image -->
+            <rect x="270" y="130" width="90" height="90" class="outline" fill="#D3D3D3" />
+            <circle cx="315" cy="175" r="30" fill="#4682B4" />
+            <path fill="none" stroke="#111" stroke-width="2" d="M 315 145 L 315 205 M 285 175 L 345 175" />
+            
+            <!-- Column 2 Text -->
+            <rect x="270" y="240" width="90" height="140" fill="#333" opacity="0.3" />
+            <rect x="270" y="240" width="90" height="5" fill="#111" />
+            <rect x="270" y="260" width="70" height="5" fill="#111" />
+            <rect x="270" y="280" width="90" height="5" fill="#111" />
+            
+            <!-- Page Number -->
+            <text x="350" y="400" font-family="serif" font-size="16" fill="#111">Vol 4, 1042</text>
+            
+            <!-- Folds -->
+            <path fill="none" stroke="#D2B48C" stroke-width="2" d="M 120 200 L 385 200" opacity="0.6" />
+        </g>
+    </svg>

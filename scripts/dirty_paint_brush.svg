@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(45 256 256) translate(0, 50)">
+            <!-- Wooden Handle -->
+            <path class="outline" fill="#CD853F" d="M 150 100 L 170 100 L 180 300 L 140 300 Z" />
+            <path class="highlight" d="M 155 100 L 165 100 L 165 300 L 145 300 Z" />
+            
+            <!-- Handle end -->
+            <path class="outline" fill="#CD853F" d="M 150 100 Q 160 80 170 100 Z" />
+            
+            <!-- Metal Ferrule -->
+            <rect x="140" y="300" width="40" height="40" class="outline" fill="#C0C0C0" />
+            <path fill="none" stroke="#111" stroke-width="2" d="M 140 310 L 180 310 M 140 330 L 180 330" opacity="0.5" />
+            <circle cx="160" cy="320" r="2" fill="#111" />
+            
+            <!-- Bristles (Stiff and crusty) -->
+            <path class="outline" fill="#DEB887" d="M 140 340 L 180 340 L 190 420 Q 160 450 130 420 Z" />
+            <!-- Bristle lines -->
+            <path fill="none" stroke="#8B4513" stroke-width="2" d="M 145 340 L 140 400 M 155 340 L 155 420 M 165 340 L 165 420 M 175 340 L 180 400" />
+            
+            <!-- Dried Blue Paint on Bristles -->
+            <path fill="#4682B4" d="M 135 380 Q 160 360 185 380 L 190 420 Q 160 450 130 420 Z" opacity="0.9" />
+            
+            <!-- Paint Splatters on Handle -->
+            <circle cx="160" cy="200" r="5" fill="#4682B4" />
+            <circle cx="150" cy="250" r="3" fill="#DC143C" />
+            <circle cx="170" cy="150" r="4" fill="#FFD700" />
+        </g>
+    </svg>

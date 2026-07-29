@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(35 256 256)">
+            <!-- Flat empty wrapper body -->
+            <path class="outline" fill="#F8F8FF" d="M 120 240 L 380 240 L 380 270 L 120 270 Z" />
+            <path class="shadow" d="M 120 255 L 380 255 L 380 270 L 120 270 Z" />
+            
+            <!-- Zig-zag ends -->
+            <path class="outline" fill="none" stroke-width="4" stroke-linejoin="miter" d="M 120 240 L 115 245 L 120 250 L 115 255 L 120 260 L 115 265 L 120 270" />
+            <path class="outline" fill="none" stroke-width="4" stroke-linejoin="miter" d="M 380 240 L 385 245 L 380 250 L 385 255 L 380 260 L 385 265 L 380 270" />
+            
+            <!-- Wavy crease (shows it's empty and crinkled) -->
+            <path fill="none" stroke="#A9A9A9" stroke-width="4" d="M 150 245 Q 180 260 200 245 T 250 245 T 300 245 T 350 245" />
+            
+            <!-- Torn in half effect (Overlapping middle) -->
+            <path class="outline" fill="#F8F8FF" d="M 230 230 L 250 280 L 280 280 L 270 230 Z" opacity="0.8" />
+        </g>
+    </svg>

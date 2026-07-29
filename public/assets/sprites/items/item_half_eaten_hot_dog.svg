@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(-20 256 256)">
+            <!-- Bun Base -->
+            <path class="outline" fill="#F5DEB3" d="M 120 200 Q 150 250 300 250 Q 320 250 340 220 Q 250 180 150 150 Q 110 150 120 200 Z" />
+            
+            <!-- Weiner -->
+            <path class="outline" fill="#CD5C5C" d="M 130 180 Q 250 180 320 200 Q 340 180 320 160 Q 250 140 130 140 A 20 20 0 0 0 130 180 Z" />
+            
+            <!-- Mustard Zigzag -->
+            <path fill="none" stroke="#FFD700" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" d="M 150 160 L 170 170 L 190 150 L 210 170 L 230 150 L 250 170 L 270 150 L 290 170" />
+            
+            <!-- Top Bun Flap -->
+            <path class="outline" fill="#DEB887" d="M 120 130 Q 150 100 300 130 Q 320 140 340 170 Q 250 130 150 130 Q 110 130 120 130 Z" opacity="0.9" />
+            
+            <!-- Huge Bite Mark on right side -->
+            <path class="outline" fill="#FFFFFF" d="M 300 120 Q 280 170 300 210 Q 260 230 300 270 Q 350 250 350 180 Z" opacity="0.0" />
+            <path fill="none" stroke="#1a1a1a" stroke-width="8" stroke-dasharray="10 5" d="M 300 120 Q 280 170 300 210 Q 260 230 300 270" />
+        </g>
+    </svg>

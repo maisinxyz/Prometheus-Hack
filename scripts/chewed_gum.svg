@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="translate(0, 50)">
+            <!-- Gooey shape base -->
+            <path class="outline" fill="#FF69B4" d="M 200 200 Q 250 150 300 180 Q 350 160 380 220 Q 420 300 350 350 Q 250 400 180 350 Q 120 320 150 250 Q 130 180 200 200 Z" />
+            <path class="highlight" d="M 210 210 Q 250 170 290 200 Q 320 190 350 230 Q 380 290 330 330 Z" />
+            
+            <!-- Stretched stringy bits -->
+            <path class="outline" fill="#FF69B4" d="M 180 350 Q 150 450 100 480 Q 140 420 190 340" />
+            
+            <!-- Teeth marks / Indents -->
+            <path class="shadow" d="M 250 220 Q 270 240 250 260 Q 230 240 250 220 Z" />
+            <path class="shadow" d="M 300 240 Q 320 260 300 280 Q 280 260 300 240 Z" />
+            <path class="shadow" d="M 220 280 Q 240 300 220 320 Q 200 300 220 280 Z" />
+            
+            <!-- Dirt Specs from Subway floor -->
+            <circle cx="280" cy="300" r="4" fill="#555" />
+            <circle cx="330" cy="250" r="3" fill="#555" />
+            <circle cx="200" cy="330" r="5" fill="#555" />
+            <circle cx="360" cy="310" r="3" fill="#555" />
+            <circle cx="160" cy="270" r="4" fill="#555" />
+        </g>
+    </svg>

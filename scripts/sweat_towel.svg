@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(-10 256 256)">
+            <!-- Crumpled Towel Body -->
+            <path class="outline" fill="#F8F8FF" d="M 150 150 Q 200 100 280 120 Q 380 140 400 250 Q 420 380 320 400 Q 220 420 120 350 Q 80 250 150 150 Z" />
+            <path fill="#E6E6FA" d="M 160 160 Q 200 120 270 135 Q 360 150 380 250 Q 400 360 310 380 Q 220 400 130 340 Q 100 250 160 160 Z" />
+            
+            <!-- Blue stripes (Gym towel design) -->
+            <path fill="none" stroke="#4169E1" stroke-width="12" stroke-linecap="round" d="M 160 200 Q 250 150 320 160" />
+            <path fill="none" stroke="#4169E1" stroke-width="12" stroke-linecap="round" d="M 140 280 Q 200 260 260 350" />
+            <path fill="none" stroke="#4169E1" stroke-width="12" stroke-linecap="round" d="M 360 220 Q 350 280 310 370" />
+            
+            <!-- Folds and Creases -->
+            <path fill="none" stroke="#D3D3D3" stroke-width="6" stroke-linecap="round" d="M 200 120 Q 220 200 150 250" />
+            <path fill="none" stroke="#D3D3D3" stroke-width="6" stroke-linecap="round" d="M 280 150 Q 300 250 220 300" />
+            <path fill="none" stroke="#D3D3D3" stroke-width="6" stroke-linecap="round" d="M 350 180 Q 300 250 320 350" />
+            <path fill="none" stroke="#D3D3D3" stroke-width="6" stroke-linecap="round" d="M 130 300 Q 200 350 220 400" />
+        </g>
+    </svg>

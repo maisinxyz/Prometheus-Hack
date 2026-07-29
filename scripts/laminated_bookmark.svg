@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(-15 256 256)">
+            <!-- Lamination Edge (Clear/Light Blue) -->
+            <rect x="200" y="80" width="80" height="300" rx="5" class="outline" fill="#E0FFFF" opacity="0.7" />
+            
+            <!-- Paper Bookmark Inside -->
+            <rect x="210" y="90" width="60" height="280" fill="#FFFACD" />
+            
+            <!-- Tassel Hole -->
+            <circle cx="240" cy="105" r="5" fill="#111" />
+            
+            <!-- Tassel String -->
+            <path class="outline" fill="none" stroke="#FF4500" stroke-width="4" d="M 240 100 Q 230 50 200 40 T 150 60" />
+            
+            <!-- Bookmark Art (Geometric design) -->
+            <polygon points="210,150 270,180 270,220 210,250" fill="#20B2AA" />
+            <polygon points="210,250 270,220 270,280 210,310" fill="#FFA500" />
+            <circle cx="240" cy="200" r="15" fill="#FFD700" />
+            
+            <!-- Lamination Glare -->
+            <path fill="#FFF" opacity="0.6" d="M 205 85 L 225 85 L 225 375 L 205 375 Z" />
+            <path fill="#FFF" opacity="0.4" d="M 260 85 L 275 85 L 275 375 L 260 375 Z" />
+        </g>
+    </svg>

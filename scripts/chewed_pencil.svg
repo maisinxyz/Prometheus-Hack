@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(-30 256 256)">
+            <!-- Pencil Body -->
+            <polygon class="outline" points="150,220 350,220 350,260 150,260" fill="#FFD700" />
+            <path class="highlight" d="M 150,225 L 350,225 L 350,235 L 150,235 Z" />
+            
+            <!-- Lead Point -->
+            <polygon class="outline" points="350,220 400,240 350,260" fill="#F5DEB3" />
+            <polygon points="380,232 400,240 380,248" fill="#111111" />
+            
+            <!-- Metal Ferrule -->
+            <rect x="110" y="220" width="40" height="40" class="outline" fill="#C0C0C0" />
+            <rect x="120" y="220" width="5" height="40" fill="#111" opacity="0.3" />
+            <rect x="135" y="220" width="5" height="40" fill="#111" opacity="0.3" />
+            
+            <!-- Eraser (Chewed down) -->
+            <path class="outline" fill="#FF69B4" d="M 110 220 L 90 225 Q 80 240 90 255 L 110 260 Z" />
+            
+            <!-- Chewed Wood End (Teeth Marks) -->
+            <path class="outline" fill="#F5DEB3" d="M 150 220 L 160 230 L 140 240 L 160 250 L 150 260 L 200 260 L 200 220 Z" />
+            <path fill="none" stroke="#D2B48C" stroke-width="2" d="M 160 230 L 180 230 M 150 240 L 170 240" />
+            
+            <!-- Bite Marks in the Yellow Paint -->
+            <ellipse cx="170" cy="225" rx="8" ry="4" fill="#F5DEB3" />
+            <ellipse cx="190" cy="225" rx="6" ry="3" fill="#F5DEB3" />
+            <ellipse cx="180" cy="255" rx="10" ry="4" fill="#F5DEB3" />
+            <ellipse cx="220" cy="255" rx="6" ry="3" fill="#F5DEB3" />
+        </g>
+    </svg>

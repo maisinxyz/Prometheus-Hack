@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(-25 256 256)">
+            <!-- Canvas Piece -->
+            <path class="outline" fill="#F0E68C" d="M 120 150 L 320 120 L 350 350 L 150 380 Z" />
+            
+            <!-- Canvas Texture (Grid pattern) -->
+            <path fill="none" stroke="#DDA0DD" stroke-width="2" stroke-dasharray="2 4" d="M 130 160 L 330 140 M 140 200 L 340 180 M 150 250 L 350 230 M 160 300 L 360 280 M 170 350 L 370 330" opacity="0.4" />
+            <path fill="none" stroke="#DDA0DD" stroke-width="2" stroke-dasharray="2 4" d="M 150 140 L 170 350 M 200 140 L 220 350 M 250 130 L 270 360 M 300 120 L 320 350" opacity="0.4" />
+            
+            <!-- Torn Canvas Edges (Loose threads) -->
+            <path class="outline" fill="none" stroke-width="6" d="M 120 150 L 130 130 L 150 160 L 180 120 L 220 150 L 260 110 L 290 140 L 320 120" />
+            <path fill="none" stroke="#F0E68C" stroke-width="4" d="M 320 120 L 340 110 M 350 350 L 370 360 M 150 380 L 130 400" />
+            
+            <!-- Colorful Paint Smears -->
+            <path fill="#FF4500" d="M 180 200 Q 220 180 250 220 Q 280 260 220 280 Q 150 300 180 200 Z" opacity="0.8" />
+            <path fill="#1E90FF" d="M 240 250 Q 280 200 320 260 Q 300 320 260 300 Q 220 280 240 250 Z" opacity="0.8" />
+            <path fill="#32CD32" d="M 150 300 Q 180 320 160 350 Q 140 330 150 300 Z" opacity="0.8" />
+            
+            <!-- Heavy palette knife strokes -->
+            <rect x="200" y="220" width="60" height="15" fill="#FFD700" transform="rotate(-15 200 220)" />
+            <rect x="250" y="270" width="50" height="12" fill="#FFF" transform="rotate(25 250 270)" />
+        </g>
+    </svg>

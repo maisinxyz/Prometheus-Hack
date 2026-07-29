@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g>
+            <!-- String -->
+            <path class="outline" fill="none" stroke="#F5DEB3" stroke-width="4" d="M 250 180 Q 200 100 150 120 T 100 80" />
+            
+            <!-- Teabag Tag -->
+            <rect x="80" y="60" width="30" height="40" class="outline" fill="#F0F8FF" transform="rotate(-20 95 80)" />
+            <rect x="85" y="65" width="20" height="15" fill="#32CD32" transform="rotate(-20 95 80)" /> <!-- Green Brand -->
+            
+            <!-- Used Teabag Body (Soggy, irregular shape) -->
+            <path class="outline" fill="#D2B48C" d="M 200 180 L 300 180 Q 320 250 330 350 Q 250 380 170 350 Q 180 250 200 180 Z" />
+            
+            <!-- Wet tea leaves inside -->
+            <path fill="#8B4513" d="M 210 200 L 290 200 Q 310 250 320 340 Q 250 360 180 340 Q 190 250 210 200 Z" opacity="0.8" />
+            
+            <!-- Tea stain pool -->
+            <ellipse cx="250" cy="380" rx="80" ry="30" fill="#8B4513" opacity="0.4" />
+            
+            <!-- Soggy paper texture / folds -->
+            <path fill="none" stroke="#111" stroke-width="2" d="M 250 180 L 250 340" opacity="0.3" />
+            <path fill="none" stroke="#111" stroke-width="2" d="M 220 250 Q 250 280 280 260" opacity="0.3" />
+        </g>
+    </svg>

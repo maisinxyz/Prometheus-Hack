@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(35 256 256) translate(0, 150)">
+            <!-- Ash / Cherry end -->
+            <path class="outline" fill="#696969" d="M 130 140 Q 110 150 130 160 L 160 160 L 160 140 Z" />
+            <circle cx="120" cy="150" r="8" fill="#A9A9A9" />
+            <circle cx="125" cy="145" r="5" fill="#DC143C" opacity="0.8" /> <!-- Cherry -->
+            
+            <!-- Main Paper Body -->
+            <path class="outline" fill="#FFFFFF" d="M 160 140 L 300 140 L 300 160 L 160 160 Z" />
+            <path class="shadow" d="M 160 150 L 300 150 L 300 160 L 160 160 Z" />
+            
+            <!-- Orange Filter -->
+            <path class="outline" fill="#FF8C00" d="M 300 140 L 380 140 L 380 160 L 300 160 Z" />
+            
+            <!-- Filter Texture -->
+            <path fill="none" stroke="#D2691E" stroke-width="2" stroke-dasharray="2 2" d="M 320 140 L 320 160 M 340 140 L 340 160 M 360 140 L 360 160" />
+            <path class="shadow" d="M 300 150 L 380 150 L 380 160 L 300 160 Z" />
+            
+            <!-- Burn Mark on Paper -->
+            <path fill="#8B4513" d="M 160 140 Q 180 150 160 160 L 165 160 Q 185 150 165 140 Z" />
+            
+            <!-- Bent/Crushed Filter End -->
+            <path class="outline" fill="#FF8C00" d="M 380 140 Q 400 130 390 150 Q 400 170 380 160 Z" />
+        </g>
+    </svg>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="translate(0, 30)">
+            <!-- Blob of sauce/grease -->
+            <path class="outline" fill="#8B4513" d="M 150 250 Q 200 150 300 200 Q 380 220 350 300 Q 300 380 200 350 Q 100 320 150 250 Z" opacity="0.8" />
+            
+            <!-- Half eaten hotdog chunk -->
+            <path class="outline" fill="#CD5C5C" d="M 180 220 L 260 240 L 250 280 L 170 260 Z" />
+            <path class="highlight" d="M 190 230 L 250 245 L 245 260 L 185 245 Z" />
+            <path fill="none" stroke="#111" stroke-width="4" stroke-dasharray="6 4" d="M 255 245 Q 240 260 245 275" /> <!-- Bite mark -->
+            
+            <!-- Macaroni noodle -->
+            <path class="outline" fill="#FFD700" d="M 280 200 Q 320 200 320 240 Q 320 260 300 260 Q 290 220 270 220 Z" />
+            
+            <!-- Lettuce piece -->
+            <path class="outline" fill="#32CD32" d="M 120 280 Q 160 250 180 300 Q 200 350 150 340 Q 100 320 120 280 Z" />
+            
+            <!-- Fries -->
+            <polygon class="outline" points="300,300 360,280 370,290 310,310" fill="#FFC107" />
+            <polygon class="outline" points="280,320 340,340 330,350 270,330" fill="#FFC107" />
+            <polygon class="outline" points="310,260 350,220 360,230 320,270" fill="#FFC107" />
+        </g>
+    </svg>

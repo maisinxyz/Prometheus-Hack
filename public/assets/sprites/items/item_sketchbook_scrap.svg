@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(5 256 256)">
+            <!-- Torn paper piece -->
+            <path class="outline" fill="#FDF5E6" d="M 120 100 L 350 120 L 400 380 L 150 400 Z" />
+            
+            <!-- Spiral binding holes on left edge -->
+            <circle cx="125" cy="120" r="8" fill="#111" />
+            <circle cx="130" cy="170" r="8" fill="#111" />
+            <circle cx="135" cy="220" r="8" fill="#111" />
+            <circle cx="140" cy="270" r="8" fill="#111" />
+            <circle cx="145" cy="320" r="8" fill="#111" />
+            <circle cx="150" cy="370" r="8" fill="#111" />
+            
+            <!-- Ripped edges (Top, Bottom, Right) -->
+            <path class="outline" fill="none" stroke-width="6" stroke-linejoin="round" d="M 120 100 L 140 120 L 200 90 L 250 130 L 300 100 L 350 120" />
+            <path class="outline" fill="none" stroke-width="6" stroke-linejoin="round" d="M 350 120 L 340 180 L 370 240 L 360 300 L 400 380" />
+            <path class="outline" fill="none" stroke-width="6" stroke-linejoin="round" d="M 400 380 L 350 360 L 300 410 L 200 380 L 150 400" />
+            
+            <!-- Graphite Sketches (Eye & Scribbles) -->
+            <path fill="none" stroke="#2F4F4F" stroke-width="4" stroke-linecap="round" d="M 200 200 Q 250 170 300 200 Q 250 230 200 200 Z" />
+            <circle cx="250" cy="200" r="15" fill="#2F4F4F" />
+            <!-- Crosshatching -->
+            <path fill="none" stroke="#696969" stroke-width="2" d="M 180 280 L 280 250 M 190 300 L 290 270 M 200 320 L 300 290 M 220 250 L 280 320 M 200 270 L 260 340" />
+            
+            <!-- Smudges -->
+            <circle cx="280" cy="320" r="30" fill="#696969" opacity="0.2" />
+        </g>
+    </svg>

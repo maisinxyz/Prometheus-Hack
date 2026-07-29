@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g>
+            <!-- Ball Base -->
+            <path class="outline" fill="#F5F5DC" d="M 150 200 Q 180 120 280 150 Q 380 120 400 220 Q 420 320 350 380 Q 250 420 180 380 Q 120 350 150 200 Z" />
+            
+            <!-- Layers and folds inside the ball -->
+            <path class="outline" fill="#FAFAD2" d="M 180 180 Q 250 220 280 150" />
+            <path class="outline" fill="#FAFAD2" d="M 380 250 Q 300 300 350 380" />
+            <path class="outline" fill="#FAFAD2" d="M 150 280 Q 200 350 250 320 Q 300 250 220 220" />
+            
+            <!-- Dark crevices (shadows) -->
+            <path fill="#D3D3D3" d="M 220 220 Q 250 250 250 320 Q 220 280 220 220 Z" />
+            <path fill="#D3D3D3" d="M 280 150 Q 300 200 350 200 Q 320 180 280 150 Z" />
+            
+            <!-- Text scribbles (curved with the folds) -->
+            <path fill="none" stroke="#333" stroke-width="4" stroke-dasharray="5 3" d="M 160 220 Q 190 210 200 250" />
+            <path fill="none" stroke="#333" stroke-width="4" stroke-dasharray="6 4" d="M 280 320 Q 310 340 330 300" />
+            <path fill="none" stroke="#333" stroke-width="5" stroke-dasharray="8 4" d="M 320 170 Q 350 180 370 230" />
+            
+            <!-- Title snippet -->
+            <text x="210" y="280" font-family="serif" font-size="24" font-weight="bold" fill="#111" transform="rotate(-15 210 280)">NEWS</text>
+        </g>
+    </svg>

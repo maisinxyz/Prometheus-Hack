@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(25 256 256)">
+            <!-- Cartridge Plastic Body -->
+            <path class="outline" fill="#111111" d="M 150 200 L 300 200 L 300 350 L 150 350 Z" />
+            <path class="highlight" d="M 160 210 L 290 210 L 290 230 L 160 230 Z" />
+            
+            <!-- Ink Viewport (Clear plastic, smudged ink) -->
+            <rect x="180" y="240" width="80" height="80" class="outline" fill="#D3D3D3" />
+            <!-- Ink droplets inside -->
+            <circle cx="200" cy="300" r="10" fill="#000" />
+            <circle cx="230" cy="310" r="15" fill="#000" />
+            <circle cx="250" cy="280" r="8" fill="#000" />
+            <path fill="#000" d="M 180 300 L 260 300 L 260 320 L 180 320 Z" />
+            
+            <!-- Gold Contact Chip -->
+            <rect x="300" y="250" width="15" height="50" fill="#FFD700" class="outline" />
+            <path fill="none" stroke="#B8860B" stroke-width="2" d="M 300 260 L 315 260 M 300 275 L 315 275 M 300 290 L 315 290" />
+            
+            <!-- Label (Cyan/Magenta/Yellow stripes) -->
+            <rect x="150" y="200" width="150" height="20" fill="#FFF" />
+            <rect x="160" y="205" width="40" height="10" fill="#00FFFF" />
+            <rect x="200" y="205" width="40" height="10" fill="#FF00FF" />
+            <rect x="240" y="205" width="40" height="10" fill="#FFFF00" />
+            
+            <!-- Ink leak -->
+            <path fill="#000" d="M 315 280 Q 340 280 330 300 Q 320 320 315 290 Z" />
+        </g>
+    </svg>

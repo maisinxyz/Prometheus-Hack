@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(-20 256 256)">
+            <!-- Bent Silver Connector -->
+            <path class="outline" fill="#C0C0C0" d="M 230 100 L 290 120 L 270 200 L 210 180 Z" />
+            <path class="highlight" d="M 240 110 L 280 125 L 265 190 L 225 175 Z" />
+            <!-- USB Holes -->
+            <rect x="235" y="130" width="15" height="15" fill="#111111" transform="rotate(18 242 137)" />
+            <rect x="260" y="138" width="15" height="15" fill="#111111" transform="rotate(18 267 145)" />
+            
+            <!-- Black Plastic Body (Angled differently to show it's broken) -->
+            <path class="outline" fill="#111111" d="M 200 180 L 300 200 L 280 350 L 180 330 Z" />
+            <path fill="#2F4F4F" d="M 210 190 L 290 205 L 275 340 L 195 320 Z" />
+            
+            <!-- Brand Logo -->
+            <path class="outline" fill="none" stroke="#D3D3D3" stroke-width="4" d="M 230 250 L 260 255 M 245 230 L 245 270" />
+            
+            <!-- Cracked seam -->
+            <path fill="none" stroke="#CD5C5C" stroke-width="4" d="M 205 185 L 230 210 L 250 195" />
+            <circle cx="210" cy="180" r="4" fill="#111" />
+        </g>
+    </svg>

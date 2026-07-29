@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(-10 256 256)">
+            <!-- Glass Body -->
+            <path class="outline" fill="#2E8B57" d="M 210 150 L 290 150 L 320 220 L 320 420 Q 320 450 250 450 Q 180 450 180 420 L 180 220 Z" opacity="0.8" />
+            <path class="highlight" d="M 220 160 L 250 160 L 260 220 L 260 420 L 220 420 L 220 220 Z" opacity="0.6" />
+            
+            <!-- Label -->
+            <path class="outline" fill="#FFFFFF" d="M 180 270 L 320 270 L 320 350 L 180 350 Z" />
+            <path fill="#DC143C" d="M 180 280 L 320 280 L 320 340 L 180 340 Z" />
+            <!-- Star logo -->
+            <polygon points="250,290 260,310 280,310 265,325 270,345 250,335 230,345 235,325 220,310 240,310" fill="#FFF" />
+            
+            <!-- Cap (Silver/Grey) -->
+            <rect x="205" y="130" width="90" height="20" rx="5" class="outline" fill="#C0C0C0" />
+            <!-- Cap ridges -->
+            <path fill="none" stroke="#111" stroke-width="2" d="M 215 130 L 215 150 M 235 130 L 235 150 M 255 130 L 255 150 M 275 130 L 275 150" />
+            
+            <!-- Liquid inside -->
+            <path fill="#006400" d="M 185 360 L 315 360 L 315 420 Q 315 440 250 440 Q 185 440 185 420 Z" opacity="0.7" />
+            
+            <path class="shadow" d="M 180 220 L 220 220 L 220 420 Q 220 440 180 420 Z" opacity="0.5" />
+        </g>
+    </svg>
