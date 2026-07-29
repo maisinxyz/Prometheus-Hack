@@ -428,6 +428,8 @@
       "grimy": "venue_nyc_hospital_bg_grimy",
       "ruined": "venue_nyc_hospital_bg_ruined"
     },
+    "latitude": 40.7394,
+    "longitude": -73.9768,
     "binPositions": [
       {
         "x": 460,
@@ -474,6 +476,8 @@
       "grimy": "venue_hot_dog_bg_grimy",
       "ruined": "venue_hot_dog_bg_ruined"
     },
+    "latitude": 40.7061,
+    "longitude": -74.0092,
     "binPositions": [
       {
         "x": 1015,
