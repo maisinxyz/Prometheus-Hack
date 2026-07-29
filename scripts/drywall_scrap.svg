@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(-5 256 256)">
+            <!-- Irregular polygon -->
+            <path class="outline" fill="#F8F8FF" d="M 150 150 L 350 120 L 420 250 L 380 400 L 180 380 L 100 280 Z" />
+            <path class="shadow" d="M 150 150 L 250 135 L 250 390 L 180 380 L 100 280 Z" />
+            
+            <!-- Plaster core exposed -->
+            <path class="outline" fill="#FFFFFF" d="M 180 180 L 320 160 L 360 250 L 320 340 L 200 320 L 140 250 Z" />
+            
+            <!-- Ripped paper surface (tan/grey) -->
+            <path fill="#D3D3D3" d="M 200 200 L 300 180 L 330 250 L 250 300 Z" />
+            <path class="outline" fill="none" stroke-dasharray="10 10" d="M 200 200 L 300 180 L 330 250 L 250 300 Z" />
+            
+            <!-- Crumbles / Dust -->
+            <circle cx="120" cy="350" r="8" fill="#F8F8FF" />
+            <circle cx="100" cy="380" r="5" fill="#F8F8FF" />
+            <circle cx="430" cy="200" r="6" fill="#F8F8FF" />
+            <circle cx="410" cy="170" r="4" fill="#F8F8FF" />
+            
+            <!-- Chalky texture lines -->
+            <path fill="none" stroke="#E6E6FA" stroke-width="4" d="M 160 220 L 200 240 M 340 280 L 360 300" />
+        </g>
+    </svg>

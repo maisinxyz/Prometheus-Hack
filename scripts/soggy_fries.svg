@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <!-- Soggy / Drooping Fries -->
+        <g stroke="#DAA520" stroke-width="4" stroke-linecap="round">
+            <!-- Normal Fries -->
+            <path fill="#FFD700" d="M 180 250 L 160 120 L 180 115 L 200 250 Z" />
+            <path fill="#FFD700" d="M 220 250 L 240 90 L 260 95 L 240 250 Z" />
+            <!-- Bent Soggy Fries -->
+            <path fill="#BDB76B" d="M 260 250 L 280 150 Q 320 130 340 180 L 320 190 Q 300 150 270 160 L 250 250 Z" />
+            <path fill="#BDB76B" d="M 300 250 L 320 180 Q 360 200 350 250 L 330 250 Q 340 210 310 200 L 290 250 Z" />
+            <path fill="#FFD700" d="M 150 250 L 110 180 L 130 170 L 170 250 Z" />
+            
+            <!-- Green mold/sogginess -->
+            <circle cx="270" cy="160" r="10" fill="#556B2F" opacity="0.6" />
+            <circle cx="340" cy="220" r="8" fill="#556B2F" opacity="0.6" />
+        </g>
+        
+        <!-- Fry Carton -->
+        <path class="outline" fill="#DC143C" d="M 160 220 Q 250 270 340 220 L 310 440 L 190 440 Z" />
+        <path fill="#B22222" d="M 170 240 Q 250 280 330 240 L 300 430 L 200 430 Z" />
+        
+        <!-- Logo (Yellow Smile/M) -->
+        <path fill="none" stroke="#FFD700" stroke-width="12" stroke-linecap="round" d="M 220 320 Q 250 360 280 320" />
+        
+        <!-- Grease Stains -->
+        <path fill="#800000" opacity="0.3" d="M 180 380 Q 220 350 250 430 L 200 430 Z" />
+        <path fill="#800000" opacity="0.3" d="M 290 280 Q 320 320 280 360 Q 250 300 290 280 Z" />
+        
+        <path class="shadow" d="M 170 240 L 220 260 L 200 430 L 170 430 Z" />
+    </svg>

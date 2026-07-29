@@ -11,6 +11,7 @@ import { LoadingScene } from './scenes/LoadingScene';
 import { CursorManager } from './systems/CursorManager';
 
 import { TitleScene } from './scenes/TitleScene';
+import { SpritesScene } from './scenes/SpritesScene';
 import { HowToPlayOverlay } from './scenes/HowToPlayOverlay';
 import { InteractiveTutorialOverlay } from './scenes/InteractiveTutorialOverlay';
 import { ObjectiveOverlay } from './scenes/ObjectiveOverlay';
@@ -38,6 +39,7 @@ const config: Phaser.Types.Core.GameConfig = {
     GardenScene,
     CommunityGardenScene,
     LoadingScene,
+    SpritesScene,
     HowToPlayOverlay,
     InteractiveTutorialOverlay,
     ObjectiveOverlay

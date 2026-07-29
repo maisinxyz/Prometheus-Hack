@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g>
+            <!-- Wavy twisted tape -->
+            <path class="outline" fill="#FFD700" d="M 50 350 Q 150 150 250 250 T 450 150 L 450 200 Q 350 300 250 200 T 50 400 Z" />
+            <path class="highlight" d="M 60 360 Q 150 180 250 230 T 430 160 L 430 180 Q 350 250 250 210 T 70 380 Z" />
+            
+            <!-- Black diagonal stripes & CAUTION text -->
+            <g fill="#111111" opacity="0.85">
+                <path d="M 90 280 L 120 240 L 140 260 L 110 300 Z" />
+                <path d="M 160 210 L 190 180 L 210 200 L 180 230 Z" />
+                <path d="M 320 210 L 350 190 L 360 210 L 330 230 Z" />
+                <path d="M 400 170 L 420 155 L 430 175 L 410 190 Z" />
+            </g>
+            <text x="210" y="225" font-family="sans-serif" font-size="28" font-weight="bold" fill="#111111" transform="rotate(-15 210 225)">CAUTION</text>
+            
+            <path fill="none" class="outline" stroke="#FFD700" stroke-width="30" d="M 150 400 Q 250 500 350 350 T 450 400" />
+            <text x="260" y="415" font-family="sans-serif" font-size="24" font-weight="bold" fill="#111111" transform="rotate(-20 260 415)">CAUTION</text>
+        </g>
+    </svg>

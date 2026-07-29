@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="translate(0, 30)">
+            <!-- Hat brim -->
+            <path class="outline" fill="#FF8C00" d="M 50 350 Q 250 450 450 350 L 470 370 Q 250 470 30 370 Z" />
+            
+            <!-- Hat Dome -->
+            <path class="outline" fill="#FFA500" d="M 100 350 A 150 150 0 0 1 400 350 Z" />
+            <path fill="#FFD700" d="M 120 345 A 130 130 0 0 1 380 345 Z" />
+            
+            <!-- Dome Ridge -->
+            <path class="outline" fill="#FF8C00" d="M 230 200 L 270 200 L 280 350 L 220 350 Z" />
+            <path class="highlight" d="M 240 210 L 260 210 L 265 345 L 235 345 Z" />
+            
+            <!-- Huge jagged crack -->
+            <path class="outline" fill="none" stroke="#111" stroke-width="8" stroke-linejoin="miter" d="M 150 350 L 170 300 L 155 270 L 190 220" />
+            <path fill="none" stroke="#111" stroke-width="4" stroke-linejoin="miter" d="M 170 300 L 190 320" />
+            
+            <!-- Scuff marks & dirt -->
+            <path fill="none" stroke="#8B4513" stroke-width="6" stroke-linecap="round" d="M 300 250 L 350 280" />
+            <path fill="none" stroke="#8B4513" stroke-width="6" stroke-linecap="round" d="M 330 230 L 370 240" />
+            <circle cx="180" cy="240" r="10" fill="#333" opacity="0.3" />
+            <circle cx="340" cy="300" r="15" fill="#333" opacity="0.3" />
+            
+            <path class="shadow" d="M 100 350 A 150 150 0 0 1 250 200 L 250 350 Z" />
+        </g>
+    </svg>

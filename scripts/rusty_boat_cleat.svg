@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(10 256 256)">
+            <!-- Rope tangled -->
+            <path fill="none" class="outline" stroke="#D2B48C" stroke-width="20" d="M 50 150 Q 200 180 250 250 T 400 380" />
+            
+            <!-- Base of Cleat -->
+            <path class="outline" fill="#5C4033" d="M 180 280 L 320 280 L 340 360 L 160 360 Z" />
+            <path fill="#8B4513" d="M 190 290 L 310 290 L 330 350 L 170 350 Z" />
+            <!-- Base Bolts -->
+            <circle cx="210" cy="320" r="12" class="outline" fill="#3E2723" />
+            <circle cx="290" cy="320" r="12" class="outline" fill="#3E2723" />
+            
+            <!-- Center Post -->
+            <path class="outline" fill="#5C4033" d="M 220 230 L 280 230 L 290 280 L 210 280 Z" />
+            <path fill="#8B4513" d="M 230 240 L 270 240 L 280 270 L 220 270 Z" />
+            
+            <!-- Horns (Top Bar) -->
+            <path class="outline" fill="#5C4033" d="M 80 200 L 420 200 L 380 260 L 120 260 Z" />
+            <path fill="#A0522D" d="M 90 210 L 410 210 L 370 250 L 130 250 Z" />
+            <path class="highlight" d="M 100 215 L 400 215 L 380 225 L 120 225 Z" />
+            
+            <!-- Rust Spots -->
+            <circle cx="150" cy="230" r="15" fill="#D2691E" opacity="0.8" />
+            <path fill="#D2691E" opacity="0.8" d="M 350 220 Q 380 230 370 240 Q 330 240 350 220 Z" />
+            <path fill="#CD5C5C" opacity="0.6" d="M 250 290 L 280 340 L 230 340 Z" />
+            
+            <!-- More Rope over the cleat -->
+            <path fill="none" class="outline" stroke="#DEB887" stroke-width="20" d="M 230 200 Q 260 280 300 250 T 450 150" />
+            <path fill="none" stroke="#8B4513" stroke-width="2" d="M 230 200 Q 260 280 300 250 T 450 150" stroke-dasharray="5 5" />
+        </g>
+    </svg>

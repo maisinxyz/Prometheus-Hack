@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="translate(0, 30)">
+            <!-- Straw -->
+            <path class="outline" fill="#DC143C" stroke-width="12" d="M 280 80 L 230 150" />
+            
+            <!-- Cup Body -->
+            <path class="outline" fill="#F0F8FF" d="M 160 150 L 340 150 Q 350 400 300 420 L 200 420 Q 150 400 160 150 Z" />
+            <path fill="#FFFFFF" d="M 170 160 L 330 160 Q 335 390 290 410 L 210 410 Q 165 390 170 160 Z" />
+            
+            <!-- Coffee Logo / Smudges -->
+            <circle cx="250" cy="250" r="40" fill="#2E8B57" opacity="0.3" />
+            
+            <!-- Algae / Grime -->
+            <path fill="#556B2F" opacity="0.4" d="M 170 300 Q 250 280 310 350 Q 250 420 170 400 Z" />
+            <path fill="#8B4513" opacity="0.3" d="M 280 160 Q 320 250 330 200 Z" />
+
+            <!-- Barnacle 1 -->
+            <path class="outline" fill="#A9A9A9" d="M 160 280 L 190 250 L 210 290 Z" />
+            <circle cx="185" cy="275" r="12" fill="#D3D3D3" />
+            <circle cx="185" cy="275" r="6" fill="#2F4F4F" />
+
+            <!-- Barnacle 2 -->
+            <path class="outline" fill="#A9A9A9" d="M 280 340 L 320 310 L 340 360 L 290 380 Z" />
+            <circle cx="310" cy="345" r="16" fill="#D3D3D3" />
+            <circle cx="310" cy="345" r="8" fill="#2F4F4F" />
+
+            <!-- Barnacle 3 -->
+            <path class="outline" fill="#A9A9A9" d="M 220 370 L 250 350 L 270 380 L 230 400 Z" />
+            <circle cx="245" cy="375" r="12" fill="#D3D3D3" />
+            <circle cx="245" cy="375" r="5" fill="#2F4F4F" />
+
+            <path class="shadow" d="M 170 160 L 220 160 Q 200 300 210 410 L 170 410 Z" />
+            
+            <!-- Crumple Lines -->
+            <path fill="none" stroke="#B0C4DE" stroke-width="4" d="M 180 200 Q 220 220 200 280" />
+            <path fill="none" stroke="#B0C4DE" stroke-width="4" d="M 310 220 L 280 260" />
+        </g>
+    </svg>

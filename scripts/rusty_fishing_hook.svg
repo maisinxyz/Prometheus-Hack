@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(-15 256 256)">
+            <!-- Snapped Line attached -->
+            <path fill="none" stroke="#3CB371" stroke-width="8" stroke-dasharray="10 5" d="M 200 50 Q 250 0 300 80" />
+            <path fill="none" stroke="#2E8B57" stroke-width="4" d="M 200 50 Q 250 0 300 80" />
+
+            <!-- Hook Body -->
+            <path fill="none" class="outline" stroke="#3E2723" stroke-width="30" stroke-linecap="round" d="M 300 120 L 300 350 A 100 100 0 0 0 480 350 L 480 280" />
+            <path fill="none" stroke="#8B4513" stroke-width="20" stroke-linecap="round" d="M 300 125 L 300 350 A 100 100 0 0 0 480 350 L 480 285" />
+            
+            <!-- Hook Eyelet -->
+            <circle cx="300" cy="90" r="30" class="outline" fill="none" stroke-width="25" />
+            <circle cx="300" cy="90" r="30" fill="none" stroke="#8B4513" stroke-width="15" />
+            
+            <!-- Barb -->
+            <path class="outline" fill="#3E2723" d="M 460 300 L 420 340 L 495 270 Z" />
+            <path fill="#A0522D" d="M 460 305 L 435 330 L 485 285 Z" />
+
+            <!-- Rust Details -->
+            <path fill="none" stroke="#D2691E" stroke-width="6" d="M 295 180 L 295 250" />
+            <path fill="none" stroke="#D2691E" stroke-width="8" d="M 300 350 A 100 100 0 0 0 400 440" />
+            <circle cx="300" cy="200" r="6" fill="#FF4500" opacity="0.6" />
+            <circle cx="310" cy="300" r="8" fill="#FF4500" opacity="0.6" />
+            <circle cx="450" cy="380" r="5" fill="#FF4500" opacity="0.6" />
+            
+            <!-- Highlight -->
+            <path fill="none" stroke="#CD853F" stroke-width="5" stroke-linecap="round" d="M 290 140 L 290 320" />
+        </g>
+    </svg>

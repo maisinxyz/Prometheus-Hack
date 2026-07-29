@@ -34,10 +34,22 @@ export class BootScene extends Phaser.Scene {
     this.load.audio('ukelele', 'assets/audio/ukelele.webm');
     this.load.audio('carefree', 'assets/audio/carefree.webm');
 
+    // List of spriteKeys that use SVG instead of PNG
+    const svgSpriteKeys = [
+      'sawdust', 'brick', 'cautiontape', 'emptycementbag', 'rustynails', 'hardhat', 'wood', 'rock',
+      'item_ferry_ticket', 'item_barnacle_cup', 'item_tourist_map', 'item_soggy_fries',
+      'item_pill_foil', 'item_boat_cleat', 'item_life_preserver_piece', 'item_fishing_line',
+      'item_fishing_hook', 'item_barnacle'
+    ];
+
     // 1. Load Items
     for (const item of itemsData) {
       const key = item.spriteKey;
-      this.load.image(key, `assets/sprites/items/${key}.png`);
+      if (svgSpriteKeys.includes(key)) {
+        this.load.svg(key, `assets/sprites/items/${key}.svg`);
+      } else {
+        this.load.image(key, `assets/sprites/items/${key}.png`);
+      }
     }
 
     // Additional textures not bound to a specific item's spriteKey

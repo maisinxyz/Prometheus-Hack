@@ -73,17 +73,7 @@
       "foam_life_preserver_piece",
       "tangled_fishing_line",
       "rusty_fishing_hook",
-      "barnacle_shell",
-      "soggy_boarding_pass",
-      "broken_dock_plank",
-      "crab_shell",
-      "seaweed_clump",
-      "torn_life_vest",
-      "rusty_bolt",
-      "sunscreen_bottle",
-      "fish_and_chips_box",
-      "clam_chowder_cup",
-      "rope_with_buoy"
+      "barnacle_shell"
     ],
     "backgroundKeys": {
       "clean": "venue_ferry_docks_bg_clean",
@@ -129,16 +119,7 @@
       "empty_soylent_bottle",
       "vr_headset_strap",
       "broken_usb_drive",
-      "protein_bar_wrapper",
-      "mechanical_keyboard_switch",
-      "smart_water_bottle",
-      "plastic_cold_brew_cup",
-      "metal_kombucha_cap",
-      "empty_ramen_cup",
-      "laptop_with_battery",
-      "takeout_sushi_container",
-      "boba_tea_cup",
-      "poke_bowl_container"
+      "protein_bar_wrapper"
     ],
     "backgroundKeys": {
       "clean": "venue_tech_startup_bg_clean",
@@ -146,10 +127,26 @@
       "ruined": "venue_tech_startup_bg_ruined"
     },
     "binPositions": [
-      { "x": 600, "y": 900, "scale": 0.5 },
-      { "x": 750, "y": 900, "scale": 0.5 },
-      { "x": 900, "y": 900, "scale": 0.5 },
-      { "x": 1050, "y": 900, "scale": 0.5 }
+      {
+        "x": 600,
+        "y": 900,
+        "scale": 0.5
+      },
+      {
+        "x": 750,
+        "y": 900,
+        "scale": 0.5
+      },
+      {
+        "x": 900,
+        "y": 900,
+        "scale": 0.5
+      },
+      {
+        "x": 1050,
+        "y": 900,
+        "scale": 0.5
+      }
     ],
     "latitude": 40.7405,
     "longitude": -73.9903
@@ -168,17 +165,7 @@
       "glass_bottle",
       "chip_bag",
       "crumpled_newspaper",
-      "discarded_face_mask",
-      "pigeon_feather",
-      "empty_chip_bag",
-      "ticket_receipt",
-      "broken_umbrella_spoke",
-      "coffee_stirrer",
-      "half_eaten_bagel",
-      "subway_sandwich_wrapper",
-      "pizza_slice_on_plate",
-      "deli_coffee_cup",
-      "headphones_in_case"
+      "discarded_face_mask"
     ],
     "backgroundKeys": {
       "clean": "venue_subway_station_bg_clean",
@@ -186,10 +173,26 @@
       "ruined": "venue_subway_station_bg_ruined"
     },
     "binPositions": [
-      { "x": 480, "y": 880, "scale": 0.75 },
-      { "x": 630, "y": 880, "scale": 0.75 },
-      { "x": 1275, "y": 755, "scale": 0.75 },
-      { "x": 1425, "y": 755, "scale": 0.75 }
+      {
+        "x": 480,
+        "y": 880,
+        "scale": 0.75
+      },
+      {
+        "x": 630,
+        "y": 880,
+        "scale": 0.75
+      },
+      {
+        "x": 1275,
+        "y": 755,
+        "scale": 0.75
+      },
+      {
+        "x": 1425,
+        "y": 755,
+        "scale": 0.75
+      }
     ],
     "latitude": 40.7527,
     "longitude": -73.9772
@@ -208,18 +211,7 @@
       "yoga_mat_piece",
       "shoe_box",
       "sweaty_towel_scrap",
-      "empty_preworkout_tub",
-      "torn_yoga_mat",
-      "cracked_shaker_bottle",
-      "used_athletic_tape",
-      "energy_gel_packet",
-      "gym_wipes",
-      "weightlifting_chalk_dust",
-      "broken_combination_lock",
-      "protein_shake_in_cup",
-      "gym_membership_packet",
-      "banana_with_peel",
-      "smoothie_cup_with_straw"
+      "empty_preworkout_tub"
     ],
     "backgroundKeys": {
       "clean": "venue_gym_bg_clean",
@@ -227,10 +219,26 @@
       "ruined": "venue_gym_bg_ruined"
     },
     "binPositions": [
-      { "x": 600, "y": 900, "scale": 0.5 },
-      { "x": 750, "y": 900, "scale": 0.5 },
-      { "x": 900, "y": 900, "scale": 0.5 },
-      { "x": 1050, "y": 900, "scale": 0.5 }
+      {
+        "x": 600,
+        "y": 900,
+        "scale": 0.5
+      },
+      {
+        "x": 750,
+        "y": 900,
+        "scale": 0.5
+      },
+      {
+        "x": 900,
+        "y": 900,
+        "scale": 0.5
+      },
+      {
+        "x": 1050,
+        "y": 900,
+        "scale": 0.5
+      }
     ],
     "latitude": 40.7816,
     "longitude": -73.9786
@@ -249,18 +257,7 @@
       "encyclopedia_page",
       "book_dust_jacket",
       "torn_book_page",
-      "empty_ink_cartridge",
-      "crumpled_study_notes",
-      "pencil_shavings",
-      "library_card_expired",
-      "dust_bunny",
-      "bookmark_scrap",
-      "dried_glue_stick",
-      "highlighter_cap",
-      "library_coffee_cup",
-      "magazine_in_plastic_sleeve",
-      "snack_box_with_crumbs",
-      "cd_audiobook"
+      "empty_ink_cartridge"
     ],
     "backgroundKeys": {
       "clean": "venue_public_library_bg_clean",
@@ -268,10 +265,26 @@
       "ruined": "venue_public_library_bg_ruined"
     },
     "binPositions": [
-      { "x": 480, "y": 860, "scale": 0.75 },
-      { "x": 660, "y": 860, "scale": 0.75 },
-      { "x": 1260, "y": 860, "scale": 0.75 },
-      { "x": 1440, "y": 860, "scale": 0.75 }
+      {
+        "x": 480,
+        "y": 860,
+        "scale": 0.75
+      },
+      {
+        "x": 660,
+        "y": 860,
+        "scale": 0.75
+      },
+      {
+        "x": 1260,
+        "y": 860,
+        "scale": 0.75
+      },
+      {
+        "x": 1440,
+        "y": 860,
+        "scale": 0.75
+      }
     ],
     "latitude": 40.7532,
     "longitude": -73.9822
@@ -290,19 +303,7 @@
       "orange_peel",
       "eraser_shavings",
       "used_paint_palette",
-      "dried_clay_lump",
-      "charcoal_stick_stub",
-      "broken_canvas_frame",
-      "crumpled_sketch_paper",
-      "empty_gesso_bottle",
-      "dried_marker",
-      "empty_spray_paint_can",
-      "dirty_rag",
-      "linoleum_scrap",
-      "paint_tube_with_cap",
-      "sketchbook_with_spiral",
-      "easel_with_canvas",
-      "brush_in_jar"
+      "dried_clay_lump"
     ],
     "backgroundKeys": {
       "clean": "venue_art_studio_bg_clean",
@@ -326,21 +327,7 @@
       "plastic_water_bottle",
       "aluminum_soda_can",
       "paper_straw_wrapper",
-      "plastic_straw",
-      "crumpled_balance_sheet",
-      "empty_espresso_cup",
-      "broken_stapler",
-      "shredded_documents",
-      "empty_salad_dressing_cup",
-      "binder_clip",
-      "leather_portfolio_scrap",
-      "stock_ticker_tape",
-      "cigar_butt",
-      "empty_scotch_glass",
-      "takeout_salad_bowl",
-      "file_folder_with_cd",
-      "briefcase_with_lunch",
-      "business_card_holder"
+      "plastic_straw"
     ],
     "backgroundKeys": {
       "clean": "venue_financial_district_office_bg_clean",
@@ -364,22 +351,7 @@
       "napkin_greasy",
       "apple_core",
       "plastic_water_bottle",
-      "aluminum_soda_can",
-      "paper_straw_wrapper",
-      "plastic_straw",
-      "fallen_tree_branch",
-      "duck_feather",
-      "crumpled_trail_map",
-      "broken_frisbee",
-      "deflated_balloon",
-      "squirrel_chewed_acorn",
-      "wilted_flower_bouquet",
-      "dog_waste_bag",
-      "broken_kite_string",
-      "picnic_sandwich_wrap",
-      "ice_cream_in_wrapper",
-      "water_bottle_with_cap",
-      "bird_seed_bag"
+      "aluminum_soda_can"
     ],
     "backgroundKeys": {
       "clean": "venue_central_park_bg_clean",
@@ -387,10 +359,26 @@
       "ruined": "venue_central_park_bg_ruined"
     },
     "binPositions": [
-      { "x": 75, "y": 880, "scale": 0.72 },
-      { "x": 525, "y": 880, "scale": 0.72 },
-      { "x": 1165, "y": 880, "scale": 0.72 },
-      { "x": 1800, "y": 880, "scale": 0.72 }
+      {
+        "x": 75,
+        "y": 880,
+        "scale": 0.72
+      },
+      {
+        "x": 525,
+        "y": 880,
+        "scale": 0.72
+      },
+      {
+        "x": 1165,
+        "y": 880,
+        "scale": 0.72
+      },
+      {
+        "x": 1800,
+        "y": 880,
+        "scale": 0.72
+      }
     ],
     "latitude": 40.7738,
     "longitude": -73.9708
@@ -409,23 +397,7 @@
       "napkin_greasy",
       "apple_core",
       "plastic_water_bottle",
-      "aluminum_soda_can",
-      "paper_straw_wrapper",
-      "plastic_straw",
-      "tourist_map_pamphlet",
-      "discarded_broadway_flyer",
-      "novelty_foam_finger_scrap",
-      "empty_halal_cart_sauce",
-      "roasted_nuts_paper_bag",
-      "fake_designer_sunglasses",
-      "light_up_toy_broken",
-      "souvenir_snow_globe_shard",
-      "i_love_ny_keychain",
-      "street_vendor_pretzel",
-      "halal_cart_platter",
-      "shopping_bag_with_receipt",
-      "disposable_camera_used",
-      "oversized_soda_cup"
+      "aluminum_soda_can"
     ],
     "backgroundKeys": {
       "clean": "venue_times_square_bg_clean",
@@ -449,22 +421,7 @@
       "cotton_swabs",
       "pill_blister_pack",
       "used_tissue_box",
-      "empty_pill_bottle",
-      "disposable_mask",
-      "paper_patient_gown",
-      "saline_flush_syringe",
-      "hospital_wristband",
-      "tongue_depressor",
-      "medical_mask",
-      "paper_prescription_bag",
-      "used_bandages",
-      "paper_gown",
-      "empty_saline_bag",
-      "pill_bottle_with_cotton",
-      "syringe_in_wrapper",
-      "iv_bag_with_tube",
-      "bandaid_with_wrapper",
-      "thermometer_in_case"
+      "empty_pill_bottle"
     ],
     "backgroundKeys": {
       "clean": "venue_nyc_hospital_bg_clean",
@@ -472,10 +429,26 @@
       "ruined": "venue_nyc_hospital_bg_ruined"
     },
     "binPositions": [
-      { "x": 460, "y": 860, "scale": 0.72 },
-      { "x": 640, "y": 860, "scale": 0.72 },
-      { "x": 1280, "y": 860, "scale": 0.72 },
-      { "x": 1460, "y": 860, "scale": 0.72 }
+      {
+        "x": 460,
+        "y": 860,
+        "scale": 0.72
+      },
+      {
+        "x": 640,
+        "y": 860,
+        "scale": 0.72
+      },
+      {
+        "x": 1280,
+        "y": 860,
+        "scale": 0.72
+      },
+      {
+        "x": 1460,
+        "y": 860,
+        "scale": 0.72
+      }
     ],
     "latitude": 40.789,
     "longitude": -73.953
@@ -494,37 +467,7 @@
       "aluminum_can",
       "half_eaten_hot_dog",
       "hot_dog_bun_scraps",
-      "used_mustard_packet",
-      "ketchup_packet",
-      "sauerkraut_scraps",
-      "pretzel_wrapper",
-      "relish_cup",
-      "paper_food_tray",
-      "soda_cup_lid",
-      "dirty_napkin_pile",
-      "onion_rings_scraps",
-      "foil_hot_dog_wrapper",
-      "plastic_utensil_pack",
-      "wax_paper_liner",
-      "corn_cob",
-      "mustard_packet",
-      "paper_hot_dog_tray",
-      "pretzel_crumbs",
-      "wax_paper_wrapper",
-      "wooden_skewer",
-      "onion_rings_grease_paper",
-      "churro_paper_sleeve",
-      "aluminum_soda_can",
-      "hot_dog_in_foil",
-      "nachos_in_tray",
-      "soda_cup_with_straw",
-      "fries_in_paper_cone",
-      "pretzel_in_bag",
-      "kebab_on_skewer_in_wrapper",
-      "ice_cream_in_cup",
-      "water_bottle_with_label",
-      "cotton_candy_on_stick",
-      "loaded_dog_in_box"
+      "used_mustard_packet"
     ],
     "backgroundKeys": {
       "clean": "venue_hot_dog_bg_clean",
@@ -532,10 +475,26 @@
       "ruined": "venue_hot_dog_bg_ruined"
     },
     "binPositions": [
-      { "x": 1015, "y": 750, "scale": 0.58 },
-      { "x": 1145, "y": 770, "scale": 0.58 },
-      { "x": 1275, "y": 790, "scale": 0.58 },
-      { "x": 1405, "y": 810, "scale": 0.58 }
+      {
+        "x": 1015,
+        "y": 750,
+        "scale": 0.58
+      },
+      {
+        "x": 1145,
+        "y": 770,
+        "scale": 0.58
+      },
+      {
+        "x": 1275,
+        "y": 790,
+        "scale": 0.58
+      },
+      {
+        "x": 1405,
+        "y": 810,
+        "scale": 0.58
+      }
     ],
     "latitude": 40.7308,
     "longitude": -73.9973
@@ -554,30 +513,7 @@
       "soda_fanta_empty",
       "soda_pepsi_empty",
       "foodbox_full",
-      "foodbox_empty",
-      "coffee_sleeve",
-      "cardboard_drink_carrier",
-      "half_eaten_muffin",
-      "banana_peel",
-      "iced_tea_with_lemon",
-      "tea_leaves",
-      "sandwich_crusts",
-      "receipt",
-      "sugar_packet",
-      "stirring_stick",
-      "croissant_crumbs",
-      "milk_carton",
-      "plastic_cup",
-      "paper_bag",
-      "used_coffee_filter",
-      "cookie_crumbs",
-      "jam_packet",
-      "sandwich_in_wrapper",
-      "muffin_in_paper_liner",
-      "coffee_with_sleeve_lid",
-      "smoothie_cup_with_straw",
-      "bagel_in_paper_bag",
-      "tea_bag_in_cup"
+      "foodbox_empty"
     ],
     "backgroundKeys": {
       "clean": "venue_mackenzie_cafe_bg_clean",
@@ -587,10 +523,26 @@
     "latitude": 40.7565,
     "longitude": -73.987,
     "binPositions": [
-      { "x": 340, "y": 870, "scale": 0.72 },
-      { "x": 500, "y": 870, "scale": 0.72 },
-      { "x": 1420, "y": 870, "scale": 0.72 },
-      { "x": 1580, "y": 870, "scale": 0.72 }
+      {
+        "x": 340,
+        "y": 870,
+        "scale": 0.72
+      },
+      {
+        "x": 500,
+        "y": 870,
+        "scale": 0.72
+      },
+      {
+        "x": 1420,
+        "y": 870,
+        "scale": 0.72
+      },
+      {
+        "x": 1580,
+        "y": 870,
+        "scale": 0.72
+      }
     ],
     "spawnZones": {
       "TableZone": {

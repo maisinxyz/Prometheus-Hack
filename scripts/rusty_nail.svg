@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(45 256 256)">
+            <!-- Bent Nail Body -->
+            <path class="outline" fill="#A9A9A9" stroke-linecap="round" d="M 240 100 L 260 100 L 260 300 Q 250 350 280 400 L 270 410 Q 230 350 240 300 Z" />
+            <path fill="#5C4033" d="M 245 100 L 255 100 L 255 300 Q 245 350 272 400 L 268 405 Q 235 350 245 300 Z" />
+            
+            <!-- Nail Head -->
+            <ellipse cx="250" cy="100" rx="30" ry="10" class="outline" fill="#3E2723" />
+            <ellipse cx="250" cy="98" rx="20" ry="5" fill="#CD853F" opacity="0.6" />
+            
+            <!-- Rust Scaling -->
+            <path fill="#D2691E" opacity="0.8" d="M 240 150 L 260 150 L 260 180 L 240 180 Z" />
+            <path fill="#D2691E" opacity="0.8" d="M 240 220 L 260 220 L 260 260 L 240 260 Z" />
+            <circle cx="255" cy="320" r="5" fill="#FF4500" />
+            
+            <path class="highlight" d="M 245 110 L 245 280" stroke="#FFF" stroke-width="2" />
+        </g>
+    </svg>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(-10 256 256)">
+            <!-- Main Brick body -->
+            <path class="outline" fill="#B22222" d="M 100 200 L 300 150 L 400 220 L 400 350 L 250 380 L 80 300 Z" />
+            <path class="highlight" d="M 100 200 L 300 150 L 400 220 L 200 270 Z" />
+            <path class="shadow" d="M 200 270 L 400 220 L 400 350 L 250 380 L 200 270 Z" />
+            
+            <!-- Core Holes -->
+            <ellipse cx="200" cy="200" rx="20" ry="10" transform="rotate(-15 200 200)" fill="#111111" />
+            <ellipse cx="280" cy="210" rx="20" ry="10" transform="rotate(-15 280 210)" fill="#111111" />
+            
+            <!-- Broken jagged edges -->
+            <path class="outline" fill="#CD5C5C" d="M 400 220 L 420 230 L 380 250 L 410 280 L 390 320 L 400 350 L 400 220 Z" />
+            
+            <!-- Brick Texture & Cracks -->
+            <circle cx="150" cy="280" r="3" fill="#000" opacity="0.3" />
+            <circle cx="180" cy="260" r="4" fill="#000" opacity="0.3" />
+            <circle cx="300" cy="300" r="3" fill="#000" opacity="0.3" />
+            <circle cx="340" cy="250" r="5" fill="#000" opacity="0.3" />
+            
+            <path fill="none" stroke="#800000" stroke-width="4" stroke-linecap="round" d="M 100 300 L 150 280 L 180 320" />
+        </g>
+    </svg>

@@ -70,6 +70,41 @@ export class TitleScene extends Phaser.Scene {
       });
     });
 
+    // --- SPRITES BUTTON ---
+    const spritesBtnBg = this.add.rectangle(0, 0, 400, 100, 0x8b5cf6, 1); // Purple
+    spritesBtnBg.setStrokeStyle(4, 0xffffff);
+    
+    const spritesBtnText = this.add.text(0, 0, 'SPRITES', {
+      fontFamily: '"Nunito", sans-serif',
+      fontSize: '48px',
+      color: '#ffffff',
+      fontStyle: 'bold',
+    });
+    spritesBtnText.setOrigin(0.5);
+
+    const spritesBtn = this.add.container(960, 650, [spritesBtnBg, spritesBtnText]);
+    spritesBtn.setSize(400, 100);
+    spritesBtn.setInteractive({ useHandCursor: true });
+
+    spritesBtn.on('pointerover', () => {
+      spritesBtnBg.setFillStyle(0x7c3aed, 1);
+      this.tweens.add({ targets: spritesBtn, scaleX: 1.05, scaleY: 1.05, duration: 100 });
+    });
+
+    spritesBtn.on('pointerout', () => {
+      spritesBtnBg.setFillStyle(0x8b5cf6, 1);
+      this.tweens.add({ targets: spritesBtn, scaleX: 1.0, scaleY: 1.0, duration: 100 });
+    });
+
+    spritesBtn.on('pointerdown', () => {
+      this.tweens.add({
+        targets: spritesBtn, scaleX: 0.95, scaleY: 0.95, duration: 100, yoyo: true,
+        onComplete: () => {
+          this.scene.start('SpritesScene');
+        }
+      });
+    });
+
     // --- DEVELOPER MODE BUTTON (Unlock All) ---
     const devBtnBg = this.add.rectangle(0, 0, 400, 100, 0x3b82f6, 1); // Blue
     devBtnBg.setStrokeStyle(4, 0xffffff);
@@ -82,7 +117,7 @@ export class TitleScene extends Phaser.Scene {
     });
     devBtnText.setOrigin(0.5);
 
-    const devBtn = this.add.container(960, 650, [devBtnBg, devBtnText]);
+    const devBtn = this.add.container(960, 800, [devBtnBg, devBtnText]);
     devBtn.setSize(400, 100);
     devBtn.setInteractive({ useHandCursor: true });
 

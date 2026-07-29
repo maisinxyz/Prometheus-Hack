@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <style>
+      .shadow { fill: rgba(0,0,0,0.25); }
+      .highlight { fill: rgba(255,255,255,0.3); }
+      .outline { stroke: #1a1a1a; stroke-width: 8; stroke-linejoin: round; stroke-linecap: round; }
+    </style>
+  </defs>
+
+        <g transform="rotate(-15 256 256)">
+            <!-- Main Ticket Body -->
+            <path class="outline" fill="#FFD700" d="M 120 150 L 380 150 L 380 350 L 120 350 Z" />
+            <path fill="#FFA500" d="M 130 160 L 370 160 L 370 340 L 130 340 Z" />
+            
+            <!-- Stub tear line -->
+            <path class="outline" fill="none" stroke-dasharray="15,10" d="M 300 150 L 300 350" />
+            
+            <!-- Ticket Details -->
+            <text x="140" y="210" font-family="sans-serif" font-size="32" font-weight="bold" fill="#8B4500">NYC FERRY</text>
+            <text x="140" y="250" font-family="sans-serif" font-size="20" fill="#8B4500">ADULT PASS - ONE WAY</text>
+            
+            <!-- Barcode -->
+            <path stroke="#000" stroke-width="4" d="M 140 280 v 40 M 150 280 v 40 M 158 280 v 40 M 170 280 v 40 M 176 280 v 40 M 182 280 v 40 M 195 280 v 40 M 205 280 v 40 M 215 280 v 40" />
+            
+            <!-- Logo / Seal -->
+            <circle cx="260" cy="200" r="25" class="outline" fill="#1E90FF" />
+            <path fill="#FFF" d="M 245 205 L 275 205 L 260 185 Z" />
+            
+            <!-- Hole punch -->
+            <circle cx="340" cy="250" r="15" fill="#111111" />
+            <circle cx="340" cy="250" r="15" class="shadow" />
+            
+            <!-- Creases -->
+            <path class="highlight" d="M 130 160 L 250 160 L 220 340 L 130 340 Z" />
+            <path fill="none" stroke="#8B4500" stroke-width="2" d="M 180 160 L 170 340" />
+        </g>
+    </svg>
