@@ -44,9 +44,18 @@ export class CommunityGardenScene extends Phaser.Scene {
     // Compost upgrades > 5
     for (let i = 6; i <= compostLvl; i++) pushSpriteVariations('compost', i);
     // Recycling upgrades
-    for (let i = 1; i <= recyclingLvl; i++) pushSpriteVariations('recycling', i);
-    // Plastic upgrades
-    for (let i = 1; i <= plasticLvl; i++) pushSpriteVariations('plastic', i);
+    // Trees (Levels 1-5): Only push the highest unlocked level so they replace themselves
+    const highestTree = Math.min(recyclingLvl, 5);
+    if (highestTree > 0) {
+      pushSpriteVariations('recycling', highestTree);
+    }
+    // Benches, humans, tables, etc. (Levels 6-10)
+    for (let i = 6; i <= recyclingLvl; i++) pushSpriteVariations('recycling', i);
+    // Plastic upgrades (Level 1 pond is replaced by Level 9 sparkly pond)
+    for (let i = 1; i <= plasticLvl; i++) {
+       if (i === 1 && plasticLvl >= 9) continue; // Skip basic pond if sparkly pond unlocked
+       pushSpriteVariations('plastic', i);
+    }
     // Landfill upgrades
     for (let i = 1; i <= landfillLvl; i++) pushSpriteVariations('landfill', i);
 
@@ -221,6 +230,69 @@ export class CommunityGardenScene extends Phaser.Scene {
     uiContainer.appendChild(panel);
     document.body.appendChild(uiContainer);
       
+    // --- Developer Mode HUD ---
+    if (localStorage.getItem('trashdash_dev_mode') === 'true') {
+      const devPanel = document.createElement('div');
+      devPanel.id = 'garden-dev-panel';
+      devPanel.style.position = 'absolute';
+      devPanel.style.top = '20px';
+      devPanel.style.left = '320px'; // Next to the Levels panel
+      devPanel.style.background = 'rgba(220, 38, 38, 0.9)';
+      devPanel.style.padding = '15px';
+      devPanel.style.borderRadius = '8px';
+      devPanel.style.zIndex = '999';
+      devPanel.style.color = 'white';
+      devPanel.style.fontFamily = '"Nunito", sans-serif';
+      devPanel.style.boxShadow = '0 4px 6px rgba(0,0,0,0.3)';
+      devPanel.style.pointerEvents = 'auto'; // allow clicks
+      devPanel.style.width = '250px';
+      
+      devPanel.innerHTML = `
+        <div style="font-weight: bold; margin-bottom: 10px; font-size: 16px;">DEV MODE (Garden)</div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+          <span>Compost</span>
+          <div><button id="dev-garden-compost-down" style="color:black; cursor: pointer; padding: 2px 8px;">-</button> <button id="dev-garden-compost-up" style="color:black; cursor: pointer; padding: 2px 8px;">+</button></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+          <span>Recycling</span>
+          <div><button id="dev-garden-recycling-down" style="color:black; cursor: pointer; padding: 2px 8px;">-</button> <button id="dev-garden-recycling-up" style="color:black; cursor: pointer; padding: 2px 8px;">+</button></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+          <span>Plastic</span>
+          <div><button id="dev-garden-plastic-down" style="color:black; cursor: pointer; padding: 2px 8px;">-</button> <button id="dev-garden-plastic-up" style="color:black; cursor: pointer; padding: 2px 8px;">+</button></div>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+          <span>Landfill</span>
+          <div><button id="dev-garden-landfill-down" style="color:black; cursor: pointer; padding: 2px 8px;">-</button> <button id="dev-garden-landfill-up" style="color:black; cursor: pointer; padding: 2px 8px;">+</button></div>
+        </div>
+      `;
+      uiContainer.appendChild(devPanel);
+
+      const setupDevBtn = (id: string, bin: string, isUp: boolean, increment: number) => {
+        const btn = document.getElementById(id);
+        if (btn) {
+           btn.onclick = () => {
+             let current = this.gardenSystem.getRawCount(bin);
+             const maxLevel = bin === 'landfill' ? 5 : 10;
+             const currentLevel = Math.floor(current / increment);
+             let newLevel = currentLevel + (isUp ? 1 : -1);
+             newLevel = Math.max(0, Math.min(maxLevel, newLevel));
+             this.gardenSystem.setProgress(bin, newLevel * increment);
+             this.scene.restart();
+           };
+        }
+      };
+
+      setupDevBtn('dev-garden-compost-down', 'compost', false, 30);
+      setupDevBtn('dev-garden-compost-up', 'compost', true, 30);
+      setupDevBtn('dev-garden-recycling-down', 'recycling', false, 30);
+      setupDevBtn('dev-garden-recycling-up', 'recycling', true, 30);
+      setupDevBtn('dev-garden-plastic-down', 'plastic', false, 30);
+      setupDevBtn('dev-garden-plastic-up', 'plastic', true, 30);
+      setupDevBtn('dev-garden-landfill-down', 'landfill', false, 50);
+      setupDevBtn('dev-garden-landfill-up', 'landfill', true, 50);
+    }
+    
     // ESC to return to Map
     this.input.keyboard?.on('keydown-ESC', () => {
       this.scene.start('LevelSelectScene');

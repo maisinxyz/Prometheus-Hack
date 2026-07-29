@@ -79,8 +79,8 @@ class ThreeJSServiceSingleton {
   private isActive = false;
   private animationFrameId: number | null = null;
   private mesh: THREE.Mesh | null = null;
-  private sprites: THREE.Sprite[] = [];
-  private binSprites: THREE.Sprite[] = [];
+  private sprites: THREE.Object3D[] = [];
+  private binSprites: THREE.Object3D[] = [];
   private isProceduralVenue = false;
   private occupiedSpots: {x: number, z: number, radius: number}[] = [];
   private currentVenueId: string | null = null;
@@ -1206,17 +1206,19 @@ class ThreeJSServiceSingleton {
   private cleanupSprites() {
     for (const sprite of this.sprites) {
       this.scene.remove(sprite);
-      if (sprite.material) {
-        if (sprite.material.map) sprite.material.map.dispose();
-        sprite.material.dispose();
+      const mesh = sprite as any;
+      if (mesh.material) {
+        if (mesh.material.map) mesh.material.map.dispose();
+        mesh.material.dispose();
       }
     }
     this.sprites = [];
     for (const sprite of this.binSprites) {
       this.scene.remove(sprite);
-      if (sprite.material) {
-        if (sprite.material.map) sprite.material.map.dispose();
-        sprite.material.dispose();
+      const mesh = sprite as any;
+      if (mesh.material) {
+        if (mesh.material.map) mesh.material.map.dispose();
+        mesh.material.dispose();
       }
     }
     this.binSprites = [];
@@ -1225,113 +1227,217 @@ class ThreeJSServiceSingleton {
 
   private loadSprites(spritePaths: string[]) {
     const loader = new THREE.TextureLoader();
+    const pondZoneAngle = Math.PI * 0.25;
     
-    // We reserve an angle for the "pond zone"
-    const pondZoneAngle = Math.PI * 0.25; 
-    
-    spritePaths.forEach((path) => {
-      loader.load(path, (texture) => {
-        texture.colorSpace = THREE.SRGBColorSpace;
-        
-        const filename = path.toLowerCase();
-        
-        // Extract level
-        const levelMatch = filename.match(/_lvl(\d+)\.png/);
-        const level = levelMatch ? parseInt(levelMatch[1], 10) : 1;
-        
-        let isCompost = filename.includes('compost');
-        let isRecycling = filename.includes('recycling');
-        let isPlastic = filename.includes('plastic');
-        let isLandfill = filename.includes('landfill');
-        let isPond = filename.includes('pond') || filename.includes('fish') || filename.includes('cattail');
-        
+    const loadPromises = spritePaths.map(path => {
+      return new Promise<any>((resolve) => {
+        loader.load(path, (texture) => {
+          texture.colorSpace = THREE.SRGBColorSpace;
+          const filename = path.toLowerCase();
+          const levelMatch = filename.match(/_lvl(\d+)\.png/);
+          const level = levelMatch ? parseInt(levelMatch[1], 10) : 1;
+          
+          let type = 'unknown';
+          if (filename.includes('compost')) type = 'compost';
+          else if (filename.includes('recycling')) type = 'recycling';
+          else if (filename.includes('plastic')) type = 'plastic';
+          else if (filename.includes('landfill')) type = 'landfill';
+          
+          resolve({path, texture, type, level});
+        }, undefined, () => resolve(null));
+      });
+    });
+
+    Promise.all(loadPromises).then(results => {
+      const validItems = results.filter(r => r !== null);
+      
+      const ponds: {x: number, z: number}[] = [];
+      const benches: {x: number, z: number}[] = [];
+      const tables: {x: number, z: number}[] = [];
+      
+      const hashString = (str: string) => {
+         let hash = 0;
+         for (let i = 0; i < str.length; i++) hash = Math.imul(31, hash) + str.charCodeAt(i) | 0;
+         return hash;
+      };
+
+      validItems.sort((a, b) => {
+         const getPriority = (item: any) => {
+            if (item.type === 'plastic' && (item.level === 1 || item.level === 9)) return 1;
+            if (item.type === 'recycling' && item.level === 6) return 2;
+            if (item.type === 'recycling' && item.level === 9) return 3;
+            return 10;
+         };
+         const pA = getPriority(a);
+         const pB = getPriority(b);
+         if (pA !== pB) return pA - pB;
+         if (a.level !== b.level) return a.level - b.level;
+         return a.path.localeCompare(b.path);
+      });
+
+      validItems.forEach((item) => {
+        const {path, texture, type, level} = item;
         let numDuplicates = 1;
         let baseSize = 80;
         let requiresCollision = true;
         let collisionRadius = 40;
         let isPondZone = false;
         
-        if (isPond) {
-          numDuplicates = filename.includes('fish') ? 3 : 1;
-          baseSize = filename.includes('fish') ? 15 : 90;
-          requiresCollision = false; // They go in the pond
-          isPondZone = true;
-        } else if (isCompost) {
-          requiresCollision = false; // By default small plants can overlap
+        let anchorToSnapTo: {x: number, z: number}[] | null = null;
+        let yOffset = -30;
+        let randomizeAnchorOffset = false;
+        
+        if (type === 'compost') {
+          requiresCollision = false;
           numDuplicates = 15;
           if (level <= 6) baseSize = 10;
-          else if (level === 7) baseSize = 20;
-          else if (level === 8) baseSize = 25; // Tree sprouts
-          else if (level === 9) { baseSize = 40; numDuplicates = 5; requiresCollision = true; collisionRadius = 25; }
-          else { baseSize = 80; numDuplicates = 2; requiresCollision = true; collisionRadius = 40; } // Large tree/greenhouse
-        } else if (isRecycling) {
+          else if (level === 7) { baseSize = 12; numDuplicates = 10; } // Bushes
+          else if (level === 8) { baseSize = 8; numDuplicates = 8; } // Dragonflies (fewer)
+          else if (level === 9) { baseSize = 8; numDuplicates = 8; } // Butterflies (fewer)
+          else { baseSize = 8; numDuplicates = 20; } // Bees (level 10)
+        } else if (type === 'recycling') {
           numDuplicates = 2;
           requiresCollision = true;
-          if (level <= 5) { baseSize = 40; collisionRadius = 25; }
-          else if (level <= 8) { baseSize = 60; collisionRadius = 35; }
-          else { baseSize = 90; collisionRadius = 50; }
-        } else if (isPlastic) {
+          if (level <= 5) { 
+             numDuplicates = 5; // 5 trees spread far and wide
+             if (level === 1) { baseSize = 10; collisionRadius = 10; }
+             else if (level === 2) { baseSize = 25; collisionRadius = 15; }
+             else if (level === 3) { baseSize = 40; collisionRadius = 25; }
+             else if (level === 4) { baseSize = 50; collisionRadius = 30; }
+             else if (level === 5) { baseSize = 65; collisionRadius = 40; } // Max trees reduced heavily
+          }
+          else if (level === 6) { baseSize = 30; collisionRadius = 20; numDuplicates = 3; }
+          else if (level === 7) { baseSize = 40; collisionRadius = 15; numDuplicates = 3; }
+          else if (level === 8) { 
+             baseSize = 25; requiresCollision = false; anchorToSnapTo = benches; 
+             numDuplicates = 1; yOffset = -22; 
+          }
+          else if (level === 9) { baseSize = 50; collisionRadius = 35; numDuplicates = 2; }
+          else if (level === 10) { 
+             baseSize = 35; requiresCollision = false; anchorToSnapTo = tables; 
+             numDuplicates = 1; yOffset = -20; 
+          }
+        } else if (type === 'plastic') {
           numDuplicates = 2;
           requiresCollision = true;
-          if (level <= 5) { baseSize = 45; collisionRadius = 25; }
-          else if (level <= 8) { baseSize = 65; collisionRadius = 35; }
-          else { baseSize = 90; collisionRadius = 50; }
-        } else if (isLandfill) {
+          if (level === 1 || level === 9) { 
+             baseSize = 120; collisionRadius = 60; isPondZone = true; numDuplicates = 1; yOffset = -35; 
+          }
+          else if (level === 7) { baseSize = 15; requiresCollision = false; numDuplicates = 4; yOffset = 50; }
+          else {
+             anchorToSnapTo = ponds;
+             requiresCollision = false;
+             randomizeAnchorOffset = (level !== 10);
+             if (level === 5) { baseSize = 12; numDuplicates = 5; yOffset = -28; }
+             else if (level === 10) { baseSize = 30; numDuplicates = 1; yOffset = -22; }
+             else { baseSize = 15; numDuplicates = 3; yOffset = -28; }
+          }
+        } else if (type === 'landfill') {
           numDuplicates = 2;
           requiresCollision = true;
-          if (level <= 3) { baseSize = 40; collisionRadius = 25; }
-          else { baseSize = 70; collisionRadius = 40; }
+          if (level === 1) { baseSize = 40; collisionRadius = 25; numDuplicates = 1; }
+          else { baseSize = 15; collisionRadius = 10; numDuplicates = 3; }
         }
 
         for (let i = 0; i < numDuplicates; i++) {
-          const material = new THREE.SpriteMaterial({ map: texture, transparent: true, depthWrite: false });
-          const sprite = new THREE.Sprite(material);
+          // If this is a tree (recycling 1-5), normalize its path string so all levels hash to the exact same seed!
+          let seedPath = path;
+          if (type === 'recycling' && level <= 5) {
+             seedPath = path.replace(/_lvl\d+\.png/, '_lvltree.png');
+          }
+          let prngSeed = hashString(`${seedPath}_${i}`);
+          const random = () => {
+             let t = prngSeed += 0x6D2B79F5;
+             t = Math.imul(t ^ (t >>> 15), t | 1);
+             t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+             return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+          };
+
+          // Use PlaneGeometry instead of Sprite so they act like physical cardboard cutouts that don't spin to track the camera
+          const material = new THREE.MeshBasicMaterial({ map: texture, transparent: true, depthWrite: false, side: THREE.DoubleSide });
+          const geometry = new THREE.PlaneGeometry(1, 1);
+          const sprite = new THREE.Mesh(geometry, material);
           
           const aspect = texture.image.width / texture.image.height;
-          const scaleMod = isCompost ? (0.6 + Math.random() * 0.8) : (0.9 + Math.random() * 0.2);
+          const scaleMod = (type === 'compost') ? (0.6 + random() * 0.8) : (0.9 + random() * 0.2);
           sprite.scale.set(baseSize * aspect * scaleMod, baseSize * scaleMod, 1);
           
           let placed = false;
           let attempts = 0;
-          let angle = 0;
-          let radius = 0;
           let x = 0;
           let z = 0;
           
-          while (!placed && attempts < 20) {
-            attempts++;
-            
-            if (isPondZone) {
-               // cluster around the pond zone
-               angle = pondZoneAngle + (Math.random() - 0.5) * 0.2;
-               radius = 120 + Math.random() * 50;
-            } else {
-               angle = Math.random() * Math.PI * 2;
-               radius = isCompost ? (20 + Math.random() * 430) : (80 + Math.random() * 200);
-            }
-            
-            x = Math.sin(angle) * radius;
-            z = Math.cos(angle) * radius;
-            
-            if (requiresCollision) {
-              let collided = false;
-              for (const spot of this.occupiedSpots) {
-                const dist = Math.sqrt(Math.pow(x - spot.x, 2) + Math.pow(z - spot.z, 2));
-                if (dist < (collisionRadius + spot.radius)) {
-                  collided = true;
-                  break;
-                }
+          if (anchorToSnapTo && anchorToSnapTo.length > 0) {
+             const anchor = anchorToSnapTo[i % anchorToSnapTo.length];
+             if (anchor) {
+               x = anchor.x;
+               z = anchor.z;
+               if (randomizeAnchorOffset) {
+                  x += (random() - 0.5) * 40;
+                  z += (random() - 0.5) * 40;
+               }
+               placed = true;
+             }
+          } else {
+            while (!placed && attempts < 20) {
+              attempts++;
+              
+              let angle = 0;
+              let radius = 0;
+              if (isPondZone) {
+                 angle = pondZoneAngle;
+                 radius = 120;
+              } else {
+                 angle = random() * Math.PI * 2;
+                 let baseRad = 80;
+                 let varyRad = 200;
+                 if (type === 'recycling' && level <= 5) {
+                    baseRad = 80; // Trees (all levels) spread but capped
+                    varyRad = 150;
+                 } else if (type === 'recycling' && level === 6) {
+                    baseRad = 60; // Benches form an inner ring
+                    varyRad = 40;
+                 } else if (type === 'recycling' && level === 9) {
+                    baseRad = 130; // Picnic tables form an outer ring
+                    varyRad = 40;
+                 } else if (type === 'compost') {
+                    if (level === 7 || level === 8) {
+                       baseRad = 120; // Push bushes and dragonflies away from center
+                       varyRad = 150;
+                    } else {
+                       baseRad = 20; varyRad = 300;
+                    }
+                 }
+                 radius = baseRad + random() * varyRad;
               }
-              if (!collided) placed = true;
-            } else {
-              placed = true;
+              
+              x = Math.sin(angle) * radius;
+              z = Math.cos(angle) * radius;
+              
+              if (requiresCollision) {
+                let collided = false;
+                for (const spot of this.occupiedSpots) {
+                  const dist = Math.sqrt(Math.pow(x - spot.x, 2) + Math.pow(z - spot.z, 2));
+                  if (dist < (collisionRadius + spot.radius)) {
+                    collided = true;
+                    break;
+                  }
+                }
+                if (!collided) placed = true;
+              } else {
+                placed = true;
+              }
             }
           }
           
           if (placed) {
             sprite.position.x = x;
-            sprite.position.y = -30; // Constant Y creates flat ground plane
+            sprite.position.y = yOffset + (baseSize / 2); // Shift up by half size since plane origin is center
             sprite.position.z = z;
+            
+            // By leaving rotation at (0,0,0) they face strictly forward (+Z) towards the camera
+            // This prevents them from looking edge-on/distorted when placed on the far X-axis.
+            sprite.rotation.set(0, 0, 0);
             
             this.scene.add(sprite);
             this.sprites.push(sprite);
@@ -1339,10 +1445,12 @@ class ThreeJSServiceSingleton {
             if (requiresCollision) {
               this.occupiedSpots.push({x, z, radius: collisionRadius});
             }
+            
+            if (type === 'plastic' && (level === 1 || level === 9)) ponds.push({x, z});
+            if (type === 'recycling' && level === 6) benches.push({x, z});
+            if (type === 'recycling' && level === 9) tables.push({x, z});
           }
         }
-      }, undefined, (error) => {
-        console.warn(`Failed to load sprite: ${path}`, error);
       });
     });
   }
