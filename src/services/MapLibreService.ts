@@ -30,6 +30,72 @@ class MapLibreServiceSingleton {
   private readonly CENTER_LAT = 40.7580;
 
   /**
+   * Dynamically load the MapLibre GL JS script if the CDN tag in index.html failed.
+   * Tries multiple CDNs for resilience. Returns the maplibregl object or null on failure.
+   */
+  private async loadMapLibreScript(): Promise<any> {
+    const cdnUrls = [
+      {
+        js: 'https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js',
+        css: 'https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css'
+      },
+      {
+        js: 'https://cdn.jsdelivr.net/npm/maplibre-gl@3.6.2/dist/maplibre-gl.js',
+        css: 'https://cdn.jsdelivr.net/npm/maplibre-gl@3.6.2/dist/maplibre-gl.css'
+      },
+      {
+        js: 'https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/3.6.2/maplibre-gl.js',
+        css: 'https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/3.6.2/maplibre-gl.css'
+      }
+    ];
+
+    // Remove any existing broken script tags for maplibre
+    const existing = document.querySelector('script[src*="maplibre-gl"]');
+    if (existing) existing.remove();
+
+    for (const cdn of cdnUrls) {
+      console.log(`MapLibreService: trying CDN ${cdn.js}...`);
+      const result = await this.tryLoadScript(cdn.js, cdn.css);
+      if (result) return result;
+    }
+
+    return null;
+  }
+
+  private tryLoadScript(jsUrl: string, cssUrl: string): Promise<any> {
+    return new Promise((resolve) => {
+      // Ensure the CSS is loaded
+      if (!document.querySelector(`link[href="${cssUrl}"]`)) {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = cssUrl;
+        document.head.appendChild(link);
+      }
+
+      const script = document.createElement('script');
+      script.src = jsUrl;
+      script.onload = () => {
+        console.log(`MapLibreService: loaded from ${jsUrl}`);
+        resolve(window.maplibregl || null);
+      };
+      script.onerror = () => {
+        console.warn(`MapLibreService: failed to load from ${jsUrl}`);
+        script.remove();
+        resolve(null);
+      };
+      document.head.appendChild(script);
+
+      // Timeout after 8 seconds per CDN
+      setTimeout(() => {
+        if (!window.maplibregl) {
+          script.remove();
+          resolve(null);
+        }
+      }, 8000);
+    });
+  }
+
+  /**
    * Create the 3D MapLibre GL JS map instance.
    */
   async createMap(): Promise<void> {
@@ -51,10 +117,15 @@ class MapLibreServiceSingleton {
       return;
     }
 
-    const ml = window.maplibregl;
+    // Ensure maplibregl is loaded — dynamically load if CDN script tag missed
+    let ml = window.maplibregl;
     if (!ml) {
-      console.error('MapLibreService: maplibregl not available on window');
-      return;
+      console.warn('MapLibreService: maplibregl not on window yet, attempting dynamic load...');
+      ml = await this.loadMapLibreScript();
+      if (!ml) {
+        console.error('MapLibreService: Failed to load maplibregl after retries');
+        return;
+      }
     }
 
     // ────────────────────────────────────────────────────────

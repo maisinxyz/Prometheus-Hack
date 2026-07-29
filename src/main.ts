@@ -26,6 +26,7 @@ import { ObjectiveOverlay } from './scenes/ObjectiveOverlay';
 // Initialize Global Custom Cursor
 const cursorManager = new CursorManager();
 cursorManager.init();
+(window as any).cursorManager = cursorManager;
 
 const config: Phaser.Types.Core.GameConfig = {
   ...gameConfig,

@@ -102,10 +102,14 @@ export class LevelSelectScene extends Phaser.Scene {
 
     // 1. Initialize and show the 3D Apple MapKit view behind the canvas
     const isNewMap = !MapLibreService.getMap();
-    await MapLibreService.createMap();
-    MapLibreService.showMap();
-    if (isNewMap) {
-      MapLibreService.flyToGlobal();
+    try {
+      await MapLibreService.createMap();
+      MapLibreService.showMap();
+      if (isNewMap) {
+        MapLibreService.flyToGlobal();
+      }
+    } catch (e) {
+      console.error("MapLibreService failed to initialize:", e);
     }
 
 
@@ -225,10 +229,15 @@ export class LevelSelectScene extends Phaser.Scene {
       }
     };
 
-    if (map.isStyleLoaded()) {
-      setupMapLayers();
+    if (map) {
+      if (map.isStyleLoaded()) {
+        setupMapLayers();
+      } else {
+        map.once('style.load', setupMapLayers);
+      }
     } else {
-      map.once('style.load', setupMapLayers);
+      console.warn("MapLibre map is not available. Skipping map layers and building fallback UI.");
+      this.buildFallbackLevelUI(unlockedCount);
     }
 
     // 4. UI Overlay (HTML) for Total CHI and Future Vision
@@ -858,12 +867,12 @@ export class LevelSelectScene extends Phaser.Scene {
       weatherTab.style.opacity = opacity;
     };
 
-    map.on('movestart', () => {
+    map?.on('movestart', () => {
       clearTimeout(moveTimeout);
       setHudOpacity('0.25');
     });
     
-    map.on('moveend', () => {
+    map?.on('moveend', () => {
       clearTimeout(moveTimeout);
       setHudOpacity('1');
     });
@@ -1259,6 +1268,74 @@ export class LevelSelectScene extends Phaser.Scene {
       levelNodes.forEach(n => n.remove());
       PathOverlayService.removeFromMap();
       MapLibreService.toggleFutureVision(false, 0, 0); // Reset map style
+    });
+  }
+
+  private buildFallbackLevelUI(unlockedCount: number) {
+    const fallbackContainer = document.createElement('div');
+    fallbackContainer.id = 'fallback-level-ui';
+    fallbackContainer.style.position = 'absolute';
+    fallbackContainer.style.top = '50%';
+    fallbackContainer.style.left = '50%';
+    fallbackContainer.style.transform = 'translate(-50%, -50%)';
+    fallbackContainer.style.display = 'flex';
+    fallbackContainer.style.flexDirection = 'column';
+    fallbackContainer.style.gap = '10px';
+    fallbackContainer.style.zIndex = '100';
+    fallbackContainer.style.maxHeight = '80vh';
+    fallbackContainer.style.overflowY = 'auto';
+    fallbackContainer.style.background = 'rgba(0,0,0,0.85)';
+    fallbackContainer.style.padding = '24px';
+    fallbackContainer.style.borderRadius = '16px';
+    fallbackContainer.style.border = '2px solid #4ade80';
+    fallbackContainer.style.boxShadow = '0 10px 25px rgba(0,0,0,0.5)';
+
+    const title = document.createElement('h2');
+    title.innerText = 'Map Offline - Level Select';
+    title.style.color = '#fff';
+    title.style.textAlign = 'center';
+    title.style.margin = '0 0 16px 0';
+    title.style.fontFamily = "'Nunito', sans-serif";
+    fallbackContainer.appendChild(title);
+
+    venuesData.forEach((venue: any, i: number) => {
+      let isUnlocked = false;
+      if (i === 0) {
+        isUnlocked = true;
+      } else {
+        const previousVenueChi = this.chiSystem.getChi((venuesData[i - 1] as any).id);
+        isUnlocked = previousVenueChi >= venue.unlockChiThreshold;
+      }
+
+      const btn = document.createElement('button');
+      btn.innerText = `${i + 1}. ${venue.displayName}` + (!isUnlocked ? ` (Needs ${venue.unlockChiThreshold} CHI)` : '');
+      btn.style.padding = '12px 20px';
+      btn.style.fontSize = '16px';
+      btn.style.borderRadius = '8px';
+      btn.style.border = 'none';
+      btn.style.cursor = isUnlocked ? 'pointer' : 'not-allowed';
+      btn.style.background = isUnlocked ? '#22c55e' : '#4b5563';
+      btn.style.color = '#fff';
+      btn.style.fontFamily = "'Nunito', sans-serif";
+      btn.style.fontWeight = 'bold';
+      btn.style.transition = 'transform 0.2s, background 0.2s';
+
+      if (isUnlocked) {
+        btn.onmouseover = () => { btn.style.background = '#16a34a'; btn.style.transform = 'scale(1.02)'; };
+        btn.onmouseout = () => { btn.style.background = '#22c55e'; btn.style.transform = 'scale(1)'; };
+        btn.addEventListener('click', () => {
+          this.scene.start('LoadingScene', { target: 'SpritesScene', targetData: { venueId: venue.id } });
+        });
+      }
+
+      fallbackContainer.appendChild(btn);
+    });
+
+    document.body.appendChild(fallbackContainer);
+    
+    // Add cleanup
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      fallbackContainer.remove();
     });
   }
 }

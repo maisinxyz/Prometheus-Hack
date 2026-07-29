@@ -148,7 +148,10 @@ export class TrayScene extends Phaser.Scene {
       if (this.venueId === 'construction_site') {
         MapLibreService.hideMap();
       }
+      (window as any).cursorManager?.setMode('bird');
     });
+
+    (window as any).cursorManager?.setMode('grabber');
 
     // Ensure tutorial completion flags are set so gameplay is never blocked
     localStorage.setItem('trashdash_tutorial_complete', 'true');
@@ -504,21 +507,45 @@ export class TrayScene extends Phaser.Scene {
           }
         }
 
-        // Check overlap with each bin
+        // Check overlap with each bin, OR if dropped directly above a bin
         let targetBin: Bin | null = null;
         const itemBounds = item.getBounds();
 
         for (const bin of this.bins) {
           const binBounds = bin.getBounds();
-          if (Phaser.Geom.Rectangle.Overlaps(itemBounds, binBounds)) {
+          const itemCenterX = itemBounds.centerX;
+          const isAboveBin = itemCenterX >= binBounds.left && itemCenterX <= binBounds.right && itemBounds.centerY <= binBounds.bottom;
+          
+          if (Phaser.Geom.Rectangle.Overlaps(itemBounds, binBounds) || isAboveBin) {
             targetBin = bin;
             break;
           }
         }
 
         if (targetBin) {
-          // Resolve the drop
-          this.handleDrop(item, targetBin);
+          const isAboveBin = item.y < targetBin.y - 150;
+          if (isAboveBin) {
+            // It was dropped from high above, make it physically fall into the bin first
+            item.processed = true; // temporarily mark processed so nothing else interacts with it
+            item.disableInteractive();
+            item.setData('isFalling', true);
+            this.tweens.add({
+              targets: item,
+              x: targetBin.x,
+              y: targetBin.y - 50, // Top of the bin
+              duration: Math.max(200, (targetBin.y - item.y) * 0.8), // Dynamic duration based on height
+              ease: 'Quad.easeIn',
+              onUpdate: () => item.syncAttachments(),
+              onComplete: () => {
+                item.processed = false; // unlock for handleDrop
+                item.setData('isFalling', false);
+                this.handleDrop(item, targetBin as Bin);
+              }
+            });
+          } else {
+            // Resolve the drop immediately
+            this.handleDrop(item, targetBin);
+          }
         } else {
           // Trash gravity: item falls to the ground
           const targetGroundY = this.getGroundY(item);
@@ -740,6 +767,7 @@ export class TrayScene extends Phaser.Scene {
   private cleanup(): void {
     if (this.timerEvent) this.timerEvent.remove();
     ThreeJSService.hide();
+    (window as any).cursorManager?.setMode('bird');
   }
 
   public pauseTimer(): void {
@@ -783,6 +811,9 @@ export class TrayScene extends Phaser.Scene {
     if (this.venueId === venuesData[0]?.id) {
       localStorage.setItem('trashdash_tutorial_complete', 'true');
     }
+
+    // Revert cursor back to standard bird/pointer for UI interaction
+    (window as any).cursorManager?.setMode('bird');
 
     // Stop the timer
     if (this.timerEvent) {

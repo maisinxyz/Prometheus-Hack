@@ -6,8 +6,10 @@
     <meta name="description" content="TrashDash: NYC Echo — A recycling sorting game that teaches NYC waste disposal through fast-paced gameplay" />
     <title>TrashDash: NYC Echo</title>
     <!-- MapLibre GL JS -->
-    <link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet" />
-    <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://api.maptiler.com" crossorigin>
+    <link href="https://cdn.jsdelivr.net/npm/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/maplibre-gl@3.6.2/dist/maplibre-gl.js" crossorigin="anonymous"></script>
     
     <!-- Google Fonts: Nunito -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,11 +20,20 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        cursor: none !important;
       }
       body {
         font-family: 'Nunito', sans-serif;
         background: #222;
-        cursor: none;
+        cursor: none !important;
+      }
+      
+      body.show-native-cursor,
+      body.show-native-cursor * {
+        cursor: default !important;
+      }
+      
+      body {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -168,7 +179,7 @@
       }
     </style>
   </head>
-  <body>
+  <body><div id="error-log" style="position:fixed;top:0;left:0;z-index:999999;background:rgba(255,0,0,0.8);color:white;padding:20px;display:none;font-size:20px;pointer-events:none;white-space:pre-wrap;"></div><script>window.addEventListener("error", function(e) { document.getElementById("error-log").style.display = "block"; document.getElementById("error-log").innerText += e.error ? (e.error.message + "\n" + e.error.stack) : e.message; }); window.addEventListener("unhandledrejection", function(e) { document.getElementById("error-log").style.display = "block"; document.getElementById("error-log").innerText += e.reason ? e.reason.stack : e.reason; });</script>
     <div id="mapkit-container"></div>
     <div id="game-container"></div>
     <script type="module" src="/src/main.ts"></script>
