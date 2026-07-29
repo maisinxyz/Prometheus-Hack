@@ -1172,7 +1172,8 @@ class ThreeJSServiceSingleton {
       const venueId = this.currentVenueId || '';
       let defaultTheta = Math.PI / 4;
       if (venueId === 'tech_startup') {
-         defaultTheta = Math.PI / 2.2;
+         const angles = this.getVenueAngles(venueId);
+         defaultTheta = angles.cameraTheta !== undefined ? angles.cameraTheta : (Math.PI / 2.2);
       }
       this.cameraTheta = defaultTheta;
       this.cameraPhi = Math.PI / 2;
