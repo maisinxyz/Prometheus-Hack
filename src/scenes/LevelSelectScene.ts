@@ -477,6 +477,49 @@ export class LevelSelectScene extends Phaser.Scene {
       const landfillProg = (this.gardenSystem.getRawCount('landfill') % 50) / 50 * 100;
 
       const statsContentArea = document.getElementById('stats-content-area');
+      
+      let currName = (venuesData[0] as any).displayName;
+      let currVenueChi = this.chiSystem.getChi((venuesData[0] as any).id);
+      let nextThreshold = (venuesData[1] as any).unlockChiThreshold;
+      let isMaxedOut = false;
+      
+      for (let i = 0; i < venuesData.length; i++) {
+        const venue = venuesData[i] as any;
+        let isUnlocked = false;
+        if (i === 0) {
+          isUnlocked = true;
+        } else {
+          const prevChi = this.chiSystem.getChi((venuesData[i - 1] as any).id);
+          isUnlocked = prevChi >= venue.unlockChiThreshold;
+        }
+        
+        if (isUnlocked) {
+          currName = venue.displayName;
+          currVenueChi = this.chiSystem.getChi(venue.id);
+          if (i + 1 < venuesData.length) {
+            nextThreshold = (venuesData[i + 1] as any).unlockChiThreshold;
+          } else {
+            nextThreshold = currVenueChi;
+            isMaxedOut = true;
+          }
+        }
+      }
+
+      const hud = document.getElementById('current-chi-hud');
+      if (hud) {
+        const safeThreshold = nextThreshold > 0 ? nextThreshold : 100;
+        const fillPercent = isMaxedOut ? 100 : Math.min(100, Math.max(0, (currVenueChi / safeThreshold) * 100));
+        
+        hud.innerHTML = `
+          <div style="color: #fff; font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: bold; text-align: center; margin-bottom: 8px;">
+            ${currName} CHI Progress (${Math.floor(currVenueChi)} / ${isMaxedOut ? 'MAX' : nextThreshold})
+          </div>
+          <div style="width: 100%; height: 12px; background: #222; border-radius: 6px; overflow: hidden;">
+            <div style="width: ${fillPercent}%; height: 100%; background: #FCD34D; box-shadow: 0 0 12px #FCD34D;"></div>
+          </div>
+        `;
+      }
+
       if (statsContentArea) {
         statsContentArea.innerHTML = `
           <div style="color: #facc15; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.8); margin-bottom: 10px;">
@@ -581,8 +624,6 @@ export class LevelSelectScene extends Phaser.Scene {
       </div>
     `;
     document.body.appendChild(uiContainer);
-    updateStatsPanel();
-
     // 4.5 Task 2.5/2.6: Current CHI HUD & Recenter Button
     const currentChiHud = document.createElement('div');
     currentChiHud.id = 'current-chi-hud';
@@ -598,19 +639,11 @@ export class LevelSelectScene extends Phaser.Scene {
     currentChiHud.style.zIndex = '20';
     currentChiHud.style.transition = 'opacity 0.3s ease';
     
-    // Handle math safely
-    const safeThreshold = nextUnlockThreshold > 0 ? nextUnlockThreshold : 100;
-    const fillPercent = Math.min(100, Math.max(0, (currentVenueChi / safeThreshold) * 100));
-    
-    currentChiHud.innerHTML = `
-      <div style="color: #fff; font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: bold; text-align: center; margin-bottom: 8px;">
-        ${currentName} CHI Progress (${Math.floor(currentVenueChi)} / ${nextUnlockThreshold})
-      </div>
-      <div style="width: 100%; height: 12px; background: #222; border-radius: 6px; overflow: hidden;">
-        <div style="width: ${fillPercent}%; height: 100%; background: #FCD34D; box-shadow: 0 0 12px #FCD34D;"></div>
-      </div>
-    `;
+    // innerHTML is populated dynamically by updateStatsPanel()
     document.body.appendChild(currentChiHud);
+    
+    // Call updateStatsPanel here after all HUD elements are added
+    updateStatsPanel();
 
     const recenterBtn = document.createElement('button');
     recenterBtn.id = 'recenter-btn';
