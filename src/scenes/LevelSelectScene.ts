@@ -227,7 +227,7 @@ export class LevelSelectScene extends Phaser.Scene {
     };
 
     const setupMapLayers = () => {
-      PathOverlayService.addToMap(map, unlockedCount);
+      // PathOverlayService.addToMap(map, unlockedCount);
 
       for (let i = 0; i < venuesData.length; i++) {
         const venue = venuesData[i] as any;
@@ -1551,7 +1551,7 @@ export class LevelSelectScene extends Phaser.Scene {
       document.getElementById('codex-overlay')?.remove();
       document.getElementById('dev-panel')?.remove();
       levelNodes.forEach(n => n.remove());
-      PathOverlayService.removeFromMap();
+      // PathOverlayService.removeFromMap();
       MapLibreService.toggleFutureVision(false, 0, 0); // Reset map style
     });
   }
