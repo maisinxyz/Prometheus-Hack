@@ -465,7 +465,7 @@ export class CommunityGardenScene extends Phaser.Scene {
     };
     
     panel.innerHTML = `
-      <div style="font-size: 24px; font-weight: bold; margin-bottom: 16px;">Garden Levels</div>
+      <div style="font-size: 24px; font-weight: bold; margin-bottom: 16px;">Park Levels</div>
       <div style="font-size: 20px; color: #22c55e; margin-bottom: 8px; display: flex; justify-content: space-between;"><span>🍎 Compost: Lvl ${compostLvl}</span> ${getProg(compostRaw, compostLvl, 10, 30)}</div>
       <div style="font-size: 20px; color: ${compostLvl < 5 ? '#555' : '#3b82f6'}; margin-bottom: 8px; display: flex; justify-content: space-between;"><span>♻️ Recycling: ${compostLvl < 5 ? '🔒' : 'Lvl ' + recyclingLvl}</span> ${compostLvl < 5 ? '' : getProg(recyclingRaw, recyclingLvl, 10, 30)}</div>
       <div style="font-size: 20px; color: ${compostLvl < 5 ? '#555' : '#6b7280'}; margin-bottom: 8px; display: flex; justify-content: space-between;"><span>🧴 Plastic: ${compostLvl < 5 ? '🔒' : 'Lvl ' + plasticLvl}</span> ${compostLvl < 5 ? '' : getProg(plasticRaw, plasticLvl, 10, 30)}</div>
@@ -492,7 +492,7 @@ export class CommunityGardenScene extends Phaser.Scene {
       devPanel.style.width = '250px';
       
       devPanel.innerHTML = `
-        <div style="font-weight: bold; margin-bottom: 10px; font-size: 16px;">DEV MODE (Garden)</div>
+        <div style="font-weight: bold; margin-bottom: 10px; font-size: 16px;">DEV MODE (Park)</div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
           <span>Compost</span>
           <div><button id="dev-garden-compost-down" style="color:black; cursor: pointer; padding: 2px 8px;">-</button> <button id="dev-garden-compost-up" style="color:black; cursor: pointer; padding: 2px 8px;">+</button></div>

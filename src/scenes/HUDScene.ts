@@ -153,8 +153,33 @@ export class HUDScene extends Phaser.Scene {
     });
     this.feedbackText.setOrigin(0.5).setDepth(200).setAlpha(0);
 
-    // --- Weather Event Box (Removed per request) ---
-    
+    // --- Weather Event Box ---
+    if (this.weatherName && this.weatherName !== 'Clear Skies') {
+      const weatherBox = document.createElement('div');
+      weatherBox.id = 'hud-weather-box';
+      weatherBox.style.position = 'absolute';
+      weatherBox.style.bottom = '20px';
+      weatherBox.style.right = '20px';
+      weatherBox.style.width = '240px';
+      weatherBox.style.background = `linear-gradient(135deg, ${UI_THEME.primaryGradient[0]}33, ${UI_THEME.primaryGradient[1]}66)`;
+      weatherBox.style.backdropFilter = 'blur(12px)';
+      weatherBox.style.borderRadius = `${UI_THEME.cornerRadius}px`;
+      weatherBox.style.border = `2px solid ${this.weatherColor}`;
+      weatherBox.style.boxShadow = `inset 0 4px 6px rgba(255,255,255,0.2), 0 10px 20px rgba(0,0,0,0.5), 0 0 15px ${this.weatherColor}80`;
+      weatherBox.style.padding = '12px 16px';
+      weatherBox.style.zIndex = '20';
+      weatherBox.style.pointerEvents = 'none';
+
+      weatherBox.innerHTML = `
+        <div style="font-family: 'Nunito', sans-serif; font-size: 14px; color: ${this.weatherColor}; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 4px; text-transform: uppercase;">${this.weatherName}</div>
+        <div style="font-family: 'Nunito', sans-serif; font-size: 12px; color: #cbd5e1; margin-bottom: 0px; line-height: 1.2;">${this.weatherDesc}</div>
+      `;
+      
+      document.body.appendChild(weatherBox);
+      this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+        weatherBox.remove();
+      });
+    }
     // --- Subscribe to game events ---
     gameEvents.on(
       GAME_EVENTS.ITEM_DROPPED,

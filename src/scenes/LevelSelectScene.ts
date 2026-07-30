@@ -153,6 +153,79 @@ export class LevelSelectScene extends Phaser.Scene {
       }
     }
 
+    const checkUnlockSequence = (count: number, name: string, lng: number, lat: number) => {
+      const lastSeenCountStr = localStorage.getItem('trashdash_last_unlocked_count');
+      const lastSeenCount = lastSeenCountStr ? parseInt(lastSeenCountStr, 10) : 1;
+      
+      if (count > lastSeenCount) {
+        try { this.sound.play('chime'); } catch (e) {} // best effort
+        
+        const banner = document.createElement('div');
+        banner.style.position = 'absolute';
+        banner.style.top = '50%';
+        banner.style.left = '50%';
+        banner.style.transform = 'translate(-50%, -50%)';
+        banner.style.background = 'linear-gradient(to bottom, rgba(20,30,40,0.95), rgba(10,15,20,0.98))';
+        banner.style.border = '2px solid #FCD34D';
+        banner.style.color = '#fff';
+        banner.style.padding = '30px 50px';
+        banner.style.borderRadius = '20px';
+        banner.style.textAlign = 'center';
+        banner.style.boxShadow = '0 10px 40px rgba(0,0,0,0.8), 0 0 20px rgba(252, 211, 77, 0.4)';
+        banner.style.zIndex = '9999';
+        
+        banner.innerHTML = `
+          <div style="font-size: 18px; color: #FCD34D; margin-bottom: 10px; font-weight: bold; font-family: 'Nunito', sans-serif;">NEW LOCATION UNLOCKED</div>
+          <div style="font-size: 40px; font-weight: 900; margin-bottom: 25px; font-family: 'Nunito', sans-serif; text-transform: uppercase;">${name}!</div>
+          <button id="banner-ok-btn" style="background: linear-gradient(90deg, #FBBF24, #F59E0B); color: #000; font-weight: 900; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-size: 20px; transition: transform 0.1s ease; outline: none;">AWESOME!</button>
+        `;
+        document.body.appendChild(banner);
+        
+        const okBtn = document.getElementById('banner-ok-btn');
+        if (okBtn) {
+          okBtn.addEventListener('mouseover', () => okBtn.style.transform = 'scale(1.05)');
+          okBtn.addEventListener('mouseout', () => okBtn.style.transform = 'scale(1)');
+          okBtn.addEventListener('click', () => {
+            banner.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            banner.style.opacity = '0';
+            banner.style.transform = 'translate(-50%, -50%) scale(0.9)';
+            setTimeout(() => {
+              banner.remove();
+              
+              if (count === 2 && !localStorage.getItem('trashdash_snapshots_tutorial_done')) {
+                const tutOverlay = document.createElement('div');
+                tutOverlay.id = 'snapshots-tutorial-overlay';
+                tutOverlay.style.position = 'fixed';
+                tutOverlay.style.top = '250px';
+                tutOverlay.style.left = '50%';
+                tutOverlay.style.transform = 'translateX(-50%)';
+                tutOverlay.style.background = 'rgba(20,30,40,0.95)';
+                tutOverlay.style.border = '2px solid #a855f7';
+                tutOverlay.style.color = '#fff';
+                tutOverlay.style.padding = '20px 40px';
+                tutOverlay.style.borderRadius = '16px';
+                tutOverlay.style.fontSize = '24px';
+                tutOverlay.style.fontFamily = '"Nunito", sans-serif';
+                tutOverlay.style.fontWeight = 'bold';
+                tutOverlay.style.zIndex = '9999';
+                tutOverlay.style.textAlign = 'center';
+                tutOverlay.style.boxShadow = '0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(168, 85, 247, 0.4)';
+                tutOverlay.innerHTML = '🎉 Congratulations on unlocking your first new location!<br/><br/>Check out <span style="color: #a855f7">Snapshots</span> (the purple button) and see where it is!';
+                document.body.appendChild(tutOverlay);
+                
+                (window as any)._snapshotsTutorialStep = 1;
+              }
+            }, 300);
+          });
+        }
+
+        MapCameraController.driftToNode(lng, lat, 2000);
+        localStorage.setItem('trashdash_last_unlocked_count', count.toString());
+      } else {
+        MapCameraController.lockOnNode(lng, lat);
+      }
+    };
+
     const setupMapLayers = () => {
       PathOverlayService.addToMap(map, unlockedCount);
 
@@ -192,77 +265,7 @@ export class LevelSelectScene extends Phaser.Scene {
         levelNodes.push(node);
       }
 
-      // Check Unlock Sequence
-      const lastSeenCountStr = localStorage.getItem('trashdash_last_unlocked_count');
-      const lastSeenCount = lastSeenCountStr ? parseInt(lastSeenCountStr, 10) : 1;
-      
-      if (unlockedCount > lastSeenCount) {
-        try { this.sound.play('chime'); } catch (e) {} // best effort
-        
-        const banner = document.createElement('div');
-        banner.style.position = 'absolute';
-        banner.style.top = '50%';
-        banner.style.left = '50%';
-        banner.style.transform = 'translate(-50%, -50%)';
-        banner.style.background = 'linear-gradient(to bottom, rgba(20,30,40,0.95), rgba(10,15,20,0.98))';
-        banner.style.border = '2px solid #FCD34D';
-        banner.style.color = '#fff';
-        banner.style.padding = '30px 50px';
-        banner.style.borderRadius = '20px';
-        banner.style.textAlign = 'center';
-        banner.style.boxShadow = '0 10px 40px rgba(0,0,0,0.8), 0 0 20px rgba(252, 211, 77, 0.4)';
-        banner.style.zIndex = '9999';
-        
-        banner.innerHTML = `
-          <div style="font-size: 18px; color: #FCD34D; margin-bottom: 10px; font-weight: bold; font-family: 'Nunito', sans-serif;">NEW LOCATION UNLOCKED</div>
-          <div style="font-size: 40px; font-weight: 900; margin-bottom: 25px; font-family: 'Nunito', sans-serif; text-transform: uppercase;">${currentName}!</div>
-          <button id="banner-ok-btn" style="background: linear-gradient(90deg, #FBBF24, #F59E0B); color: #000; font-weight: 900; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-size: 20px; transition: transform 0.1s ease; outline: none;">AWESOME!</button>
-        `;
-        document.body.appendChild(banner);
-        
-        const okBtn = document.getElementById('banner-ok-btn');
-        if (okBtn) {
-          okBtn.addEventListener('mouseover', () => okBtn.style.transform = 'scale(1.05)');
-          okBtn.addEventListener('mouseout', () => okBtn.style.transform = 'scale(1)');
-          okBtn.addEventListener('click', () => {
-            banner.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-            banner.style.opacity = '0';
-            banner.style.transform = 'translate(-50%, -50%) scale(0.9)';
-            setTimeout(() => {
-              banner.remove();
-              
-              if (unlockedCount === 2 && !localStorage.getItem('trashdash_snapshots_tutorial_done')) {
-                const tutOverlay = document.createElement('div');
-                tutOverlay.id = 'snapshots-tutorial-overlay';
-                tutOverlay.style.position = 'fixed';
-                tutOverlay.style.top = '250px';
-                tutOverlay.style.left = '50%';
-                tutOverlay.style.transform = 'translateX(-50%)';
-                tutOverlay.style.background = 'rgba(20,30,40,0.95)';
-                tutOverlay.style.border = '2px solid #a855f7';
-                tutOverlay.style.color = '#fff';
-                tutOverlay.style.padding = '20px 40px';
-                tutOverlay.style.borderRadius = '16px';
-                tutOverlay.style.fontSize = '24px';
-                tutOverlay.style.fontFamily = '"Nunito", sans-serif';
-                tutOverlay.style.fontWeight = 'bold';
-                tutOverlay.style.zIndex = '9999';
-                tutOverlay.style.textAlign = 'center';
-                tutOverlay.style.boxShadow = '0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(168, 85, 247, 0.4)';
-                tutOverlay.innerHTML = '🎉 Congratulations on unlocking your first new location!<br/><br/>Check out <span style="color: #a855f7">Snapshots</span> (the purple button) and see where it is!';
-                document.body.appendChild(tutOverlay);
-                
-                (window as any)._snapshotsTutorialStep = 1;
-              }
-            }, 300);
-          });
-        }
-
-        MapCameraController.driftToNode(currentLng, currentLat, 2000);
-        localStorage.setItem('trashdash_last_unlocked_count', unlockedCount.toString());
-      } else {
-        MapCameraController.lockOnNode(currentLng, currentLat);
-      }
+      checkUnlockSequence(unlockedCount, currentName, currentLng, currentLat);
     };
 
     if (map) {
@@ -355,7 +358,7 @@ export class LevelSelectScene extends Phaser.Scene {
 
         const showStep2 = () => {
           returnTut.innerHTML = `
-            <h2 style="margin:0 0 15px 0; color:#4ade80;">Community Garden Levels</h2>
+            <h2 style="margin:0 0 15px 0; color:#4ade80;">Community Park Levels</h2>
             <p style="margin:0 0 20px 0; line-height: 1.5; font-size:18px;">
               For every correct item you place in the trash, it is converted into the UI! 
               <br><br>
@@ -395,28 +398,23 @@ export class LevelSelectScene extends Phaser.Scene {
 
     let weatherName = '';
     let weatherDesc = '';
-    let weatherEffect = '';
     let weatherColor = '#ffffff';
     
     if (totalChi <= maxChi * 0.25) {
       weatherName = 'Smog Day';
       weatherDesc = 'The city is choked with toxic smog.';
-      weatherEffect = 'Visibility severely reduced.';
       weatherColor = '#dc2626'; // red
     } else if (totalChi <= maxChi * 0.5) {
       weatherName = 'Flash Flood';
       weatherDesc = 'Climate change has caused severe flooding.';
-      weatherEffect = 'Trash bobs erratically in the water!';
       weatherColor = '#f59e0b'; // orange
     } else if (totalChi <= maxChi * 0.75) {
       weatherName = 'Clear Skies';
       weatherDesc = 'The environment is stabilizing.';
-      weatherEffect = 'Normal conditions.';
       weatherColor = '#10b981'; // emerald
     } else {
       weatherName = 'Eco-Festival';
       weatherDesc = 'The city celebrates your zero-waste efforts!';
-      weatherEffect = 'Score multiplier x2!';
       weatherColor = '#a855f7'; // purple
     }
 
@@ -499,7 +497,7 @@ export class LevelSelectScene extends Phaser.Scene {
                 Snapshots
               </button>
             </div>
-            <button id="future-btn" style="width: 100%; padding: 6px 0; background: ${weatherColor}; color: white; border: 2px solid #fff; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Nunito', sans-serif; box-shadow: 0 4px 6px rgba(0,0,0,0.3); display: none;">
+            <button id="future-btn" style="width: 100%; padding: 6px 0; background: ${weatherColor}; color: white; border: 2px solid #fff; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Nunito', sans-serif; box-shadow: 0 4px 6px rgba(0,0,0,0.3); display: block;">
               Vision
             </button>
           </div>
@@ -512,6 +510,26 @@ export class LevelSelectScene extends Phaser.Scene {
           populateCodex();
           const codexOverlay = document.getElementById('codex-overlay');
           if (codexOverlay) codexOverlay.style.display = 'flex';
+          
+          if ((window as any)._snapshotsTutorialStep === 1) {
+            const tutOverlay = document.getElementById('snapshots-tutorial-overlay');
+            if (tutOverlay) {
+              tutOverlay.innerHTML = 'Snapshots show the real-world history of these locations!<br/><br/>To unlock a snapshot, you must fulfill the <span style="color: #FCD34D">Total CHI requirements</span> for that area.<br/><br/><button id="tut-ok-1" style="background: #a855f7; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 20px; outline: none; transition: transform 0.1s ease;">OK</button>';
+              tutOverlay.style.top = '50%';
+              tutOverlay.style.transform = 'translate(-50%, -50%)';
+              tutOverlay.style.zIndex = '10000'; // Above codex
+              
+              const okBtn1 = document.getElementById('tut-ok-1');
+              if (okBtn1) {
+                okBtn1.addEventListener('mouseover', () => okBtn1.style.transform = 'scale(1.05)');
+                okBtn1.addEventListener('mouseout', () => okBtn1.style.transform = 'scale(1)');
+                okBtn1.addEventListener('click', () => {
+                   tutOverlay.style.display = 'none';
+                   (window as any)._snapshotsTutorialStep = 2;
+                });
+              }
+            }
+          }
         });
         document.getElementById('future-btn')?.addEventListener('click', () => {
           isFutureVisionActive = !isFutureVisionActive;
@@ -530,7 +548,7 @@ export class LevelSelectScene extends Phaser.Scene {
           if ((window as any)._snapshotsTutorialStep === 3 && isFutureVisionActive) {
              const tutOverlay = document.getElementById('snapshots-tutorial-overlay');
              if (tutOverlay) {
-               tutOverlay.innerHTML = 'This is <span style="color: #3b82f6">Future Vision</span>!<br/><br/>It shows 5 possible futures based on your Total CHI. Improve your future by cleaning up more areas!<br/><br/><span style="color: #dc2626">0-25% CHI</span>: The Drowned City<br/><span style="color: #ea580c">26-50% CHI</span>: The Scorched Earth<br/><span style="color: #9ca3af">51-74% CHI</span>: The Great Smog<br/><span style="color: #16a34a">75-99% CHI</span>: Eco-Utopia<br/><span style="color: #facc15">100% CHI</span>: The Golden Age<br/><br/>To leave Vision, click the Vision button again.<br/><br/><button id="tut-ok-2" style="background: #3b82f6; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 20px; outline: none; transition: transform 0.1s ease;">OK</button>';
+               tutOverlay.innerHTML = `This is <span style="color: #3b82f6">Future Vision</span>!<br/><br/>It shows 5 possible futures based on your Total CHI. Improve your future by cleaning up more areas!<br/><br/><span style="color: #dc2626">0-${Math.floor(maxChi * 0.25)} CHI</span>: The Drowned City<br/><span style="color: #ea580c">${Math.floor(maxChi * 0.25) + 1}-${Math.floor(maxChi * 0.50)} CHI</span>: The Scorched Earth<br/><span style="color: #9ca3af">${Math.floor(maxChi * 0.50) + 1}-${Math.floor(maxChi * 0.74)} CHI</span>: The Great Smog<br/><span style="color: #16a34a">${Math.floor(maxChi * 0.74) + 1}-${maxChi - 1} CHI</span>: Eco-Utopia<br/><span style="color: #facc15">${maxChi} CHI</span>: The Golden Age<br/><br/>To leave Vision, click the Vision button again.<br/><br/><button id="tut-ok-2" style="background: #3b82f6; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 20px; outline: none; transition: transform 0.1s ease;">OK</button>`;
                tutOverlay.style.top = '50%';
                tutOverlay.style.transform = 'translate(-50%, -50%)';
                
@@ -554,7 +572,7 @@ export class LevelSelectScene extends Phaser.Scene {
       <div id="stats-wrapper" style="background: rgba(15,23,42,0.85); backdrop-filter: blur(8px); padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); width: 220px; box-sizing: border-box; position: relative; transition: all 0.3s ease;">
         
         <div id="stats-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; transition: margin 0.3s ease;">
-          <div id="stats-title" style="color: #f1f5f9; font-weight: 800; font-size: 13px; letter-spacing: 0.5px; transition: opacity 0.2s ease;">COMMUNITY GARDEN</div>
+          <div id="stats-title" style="color: #f1f5f9; font-weight: 800; font-size: 13px; letter-spacing: 0.5px; transition: opacity 0.2s ease;">COMMUNITY PARK</div>
           <div id="stats-toggle-btn" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 2px 6px; font-size: 10px; border-radius: 4px; cursor: pointer; font-family: 'Nunito', sans-serif;">Hide</div>
         </div>
 
@@ -1003,15 +1021,14 @@ export class LevelSelectScene extends Phaser.Scene {
     weatherEventContainer.style.borderRadius = `${UI_THEME.cornerRadius}px`;
     weatherEventContainer.style.border = `2px solid ${weatherColor}`;
     weatherEventContainer.style.boxShadow = `inset 0 4px 6px rgba(255,255,255,0.2), 0 10px 20px rgba(0,0,0,0.5), 0 0 15px ${weatherColor}80`;
-    weatherEventContainer.style.padding = '16px';
+    weatherEventContainer.style.padding = '12px 16px';
     weatherEventContainer.style.zIndex = '20';
     weatherEventContainer.style.pointerEvents = 'auto'; // allow clicking close button
     weatherEventContainer.style.transition = 'opacity 0.3s ease';
     weatherEventContainer.innerHTML = `
       <div id="close-weather-btn" style="position: absolute; top: 8px; right: 12px; color: #94a3b8; cursor: pointer; font-size: 18px; font-family: 'Nunito', sans-serif; font-weight: bold; line-height: 1; transition: color 0.2s;">&times;</div>
       <div style="font-family: 'Nunito', sans-serif; font-size: 14px; color: ${weatherColor}; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 4px; text-transform: uppercase; padding-right: 16px;">${weatherName}</div>
-      <div style="font-family: 'Nunito', sans-serif; font-size: 12px; color: #cbd5e1; margin-bottom: 8px; line-height: 1.2;">${weatherDesc}</div>
-      <div style="font-family: 'Nunito', sans-serif; font-size: 11px; color: #f8fafc; font-weight: bold; background: rgba(0,0,0,0.3); padding: 6px 8px; border-radius: 6px; border-left: 2px solid ${weatherColor};">Effect: ${weatherEffect}</div>
+      <div style="font-family: 'Nunito', sans-serif; font-size: 12px; color: #cbd5e1; margin-bottom: 0px; line-height: 1.2;">${weatherDesc}</div>
     `;
     document.body.appendChild(weatherEventContainer);
 
@@ -1244,9 +1261,13 @@ export class LevelSelectScene extends Phaser.Scene {
       }
 
       let unlockedEntries = 0;
-      venuesData.forEach((venue: any) => {
+      venuesData.forEach((venue: any, idx: number) => {
         const venueChi = this.chiSystem.getChi(venue.id);
-        const isMaxed = venueChi >= 100;
+        let requiredChi = 100;
+        if (idx + 1 < venuesData.length) {
+           requiredChi = (venuesData[idx + 1] as any).unlockChiThreshold;
+        }
+        const isMaxed = venueChi >= requiredChi;
         
         const entry = document.createElement('div');
         entry.style.padding = '15px';
@@ -1352,7 +1373,7 @@ export class LevelSelectScene extends Phaser.Scene {
             <div style="font-size: 24px; filter: grayscale(1); opacity: 0.5;">🔒</div>
             <div>
               <div style="color: #64748b; font-weight: bold; font-size: 16px;">${venue.displayName}</div>
-              <div style="color: #475569; font-size: 12px; margin-top: 4px;">Reach 100 CHI to unlock</div>
+              <div style="color: #475569; font-size: 12px; margin-top: 4px;">Reach ${requiredChi} CHI to unlock</div>
             </div>
           `;
         }
@@ -1360,30 +1381,7 @@ export class LevelSelectScene extends Phaser.Scene {
       });
     };
 
-    document.getElementById('codex-btn')?.addEventListener('click', () => {
-      populateCodex();
-      codexOverlay.style.display = 'flex';
-      
-      if ((window as any)._snapshotsTutorialStep === 1) {
-        const tutOverlay = document.getElementById('snapshots-tutorial-overlay');
-        if (tutOverlay) {
-          tutOverlay.innerHTML = 'Snapshots show the real-world history of these locations!<br/><br/>To unlock a snapshot, you must fulfill the <span style="color: #FCD34D">Total CHI requirements</span> (100% completion) for that area.<br/><br/><button id="tut-ok-1" style="background: #a855f7; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 20px; outline: none; transition: transform 0.1s ease;">OK</button>';
-          tutOverlay.style.top = '50%';
-          tutOverlay.style.transform = 'translate(-50%, -50%)';
-          tutOverlay.style.zIndex = '10000'; // Above codex
-          
-          const okBtn1 = document.getElementById('tut-ok-1');
-          if (okBtn1) {
-            okBtn1.addEventListener('mouseover', () => okBtn1.style.transform = 'scale(1.05)');
-            okBtn1.addEventListener('mouseout', () => okBtn1.style.transform = 'scale(1)');
-            okBtn1.addEventListener('click', () => {
-               tutOverlay.style.display = 'none';
-               (window as any)._snapshotsTutorialStep = 2;
-            });
-          }
-        }
-      }
-    });
+    // The codex button listener is now correctly attached inside updateStatsPanel
 
     // --- Developer Mode HUD ---
     if (localStorage.getItem('trashdash_dev_mode') === 'true') {
@@ -1405,7 +1403,7 @@ export class LevelSelectScene extends Phaser.Scene {
         <div style="margin-bottom: 10px;">
           <input type="range" id="dev-chi-slider" min="0" max="${maxChi}" value="${Math.floor(totalChi)}" style="width: 100%;" />
         </div>
-        <div style="font-size: 12px; margin-bottom: 5px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 4px;">Garden Levels</div>
+        <div style="font-size: 12px; margin-bottom: 5px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 4px;">Park Levels</div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
           <span>Compost</span>
           <div><button id="dev-compost-down" style="color:black;">-</button> <button id="dev-compost-up" style="color:black;">+</button></div>
@@ -1481,6 +1479,28 @@ export class LevelSelectScene extends Phaser.Scene {
              updateVisionUI();
            }
         }
+      });
+      
+      slider?.addEventListener('change', (e) => {
+        let newUnlockedCount = 1;
+        let cName = (venuesData[0] as any).displayName;
+        let cLng = (venuesData[0] as any).longitude || -73.9855;
+        let cLat = (venuesData[0] as any).latitude || 40.7580;
+        
+        for (let i = 1; i < venuesData.length; i++) {
+          const v = venuesData[i] as any;
+          const prev = venuesData[i-1] as any;
+          const prevChi = this.chiSystem.getChi(prev.id);
+          if (prevChi >= v.unlockChiThreshold) {
+            newUnlockedCount++;
+            cName = v.displayName;
+            cLng = v.longitude || -73.9855;
+            cLat = v.latitude || 40.7580;
+          } else {
+            break;
+          }
+        }
+        checkUnlockSequence(newUnlockedCount, cName, cLng, cLat);
       });
 
       const setupDevBtn = (id: string, bin: string, isUp: boolean, increment: number) => {

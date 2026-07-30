@@ -165,42 +165,34 @@ export class TrayScene extends Phaser.Scene {
     } else {
       this.startTimer();
     }
-
     const totalChi = this.chiSystem.getTotalChi(venuesData.map(v => v.id));
     const maxChi = venuesData.length * 100;
     
     let weatherName = '';
     let weatherDesc = '';
-    let weatherEffect = '';
     let weatherColor = '#ffffff';
     
     if (totalChi <= maxChi * 0.25) {
       this.currentEventId = 'smog';
       weatherName = 'Smog Day';
       weatherDesc = 'The city is choked with toxic smog.';
-      weatherEffect = 'Visibility severely reduced. Use your pointer to see!';
       weatherColor = '#dc2626'; // red
-      
-      // Removed the visual smog overlay per user request — it now only shows on LevelSelectScene
     } else if (totalChi <= maxChi * 0.5) {
       this.currentEventId = 'flood';
       weatherName = 'Flash Flood';
       weatherDesc = 'Climate change has caused severe flooding.';
-      weatherEffect = 'Trash bobs erratically in the water!';
       weatherColor = '#f59e0b'; // orange
     } else if (totalChi <= maxChi * 0.75) {
       this.currentEventId = 'normal';
       weatherName = 'Clear Skies';
       weatherDesc = 'The environment is stabilizing.';
-      weatherEffect = 'Normal conditions.';
       weatherColor = '#10b981'; // emerald
     } else {
       this.currentEventId = 'festival';
       weatherName = 'Eco-Festival';
       weatherDesc = 'The city celebrates your zero-waste efforts!';
-      weatherEffect = 'Score multiplier x2!';
       weatherColor = '#a855f7'; // purple
-      this.scoreMultiplier = 2;
+      this.scoreMultiplier = 1; // Removed gameplay effect
     }
 
     // Launch HUD overlay scene
@@ -209,7 +201,6 @@ export class TrayScene extends Phaser.Scene {
       venueId: this.venueId,
       weatherName,
       weatherDesc,
-      weatherEffect,
       weatherColor
     });
 
@@ -409,18 +400,6 @@ export class TrayScene extends Phaser.Scene {
       }
 
       this.items.push(item);
-
-      if (this.currentEventId === 'flood') {
-        this.tweens.add({
-          targets: item,
-          y: `-=${10 + Math.random() * 20}`,
-          x: `+=${(Math.random() - 0.5) * 30}`,
-          yoyo: true,
-          repeat: -1,
-          duration: 800 + Math.random() * 600,
-          ease: 'Sine.easeInOut'
-        });
-      }
     }
     
     // Mark items as encountered for the Sprites Encyclopedia

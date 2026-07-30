@@ -65,7 +65,7 @@ export class InteractiveTutorialOverlay extends Phaser.Scene {
     }).setOrigin(0.5, 0.5);
 
     // Clean, technical instruction text
-    this.add.text(centerX, centerY, 
+    this.add.text(centerX, centerY - 20, 
       "You don't HAVE to put these in the Rock Crusher,\nbut if you do, you get a 250 point bonus!", 
       {
         fontFamily: '"Courier New", Courier, monospace',
@@ -76,10 +76,10 @@ export class InteractiveTutorialOverlay extends Phaser.Scene {
       }).setOrigin(0.5, 0.5);
 
     // Visual examples of what to put in the crusher
-    this.add.image(centerX - 120, centerY + 50, 'brick').setDisplaySize(60, 60);
-    this.add.image(centerX - 40, centerY + 50, 'rock').setDisplaySize(60, 60);
-    this.add.text(centerX + 30, centerY + 50, '➡️', { fontSize: '32px' }).setOrigin(0.5);
-    this.add.image(centerX + 110, centerY + 50, 'machine_rock_crusher').setDisplaySize(90, 90);
+    this.add.image(centerX - 120, centerY + 65, 'brick').setDisplaySize(60, 60);
+    this.add.image(centerX - 40, centerY + 65, 'rock').setDisplaySize(60, 60);
+    this.add.text(centerX + 30, centerY + 65, '➡️', { fontSize: '32px' }).setOrigin(0.5);
+    this.add.image(centerX + 110, centerY + 65, 'machine_rock_crusher').setDisplaySize(90, 90);
 
     // Blueprint style button
     const btnWidth = 160;

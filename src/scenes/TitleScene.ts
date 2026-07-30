@@ -102,6 +102,8 @@ export class TitleScene extends Phaser.Scene {
         this.tweens.add({
           targets: newBtn, scaleX: 0.95, scaleY: 0.95, duration: 100, yoyo: true,
           onComplete: () => {
+            const wasDevMode = localStorage.getItem('trashdash_dev_mode') === 'true';
+
             // Delete all save keys
             const keysToRemove = [];
             for (let i = 0; i < localStorage.length; i++) {
@@ -121,6 +123,11 @@ export class TitleScene extends Phaser.Scene {
             }
             sessionKeysToRemove.forEach(k => sessionStorage.removeItem(k));
             
+            if (wasDevMode) {
+               localStorage.setItem('trashdash_dev_mode', 'true');
+               sessionStorage.setItem('trashdash_dev_chi', '0');
+            }
+
             this.scene.start('LevelSelectScene');
           }
         });
@@ -192,18 +199,28 @@ export class TitleScene extends Phaser.Scene {
       this.tweens.add({
         targets: devBtn, scaleX: 0.95, scaleY: 0.95, duration: 100, yoyo: true,
         onComplete: () => {
-          // Unlock all venues by setting high CHI for them
-          const venueIds = [
-            'construction_site', 'ferry_docks', 'tech_startup',
-            'subway_station', 'gym', 'public_library',
-            'art_studio', 'financial_district_office', 'central_park', 'times_square',
-            'nyc_hospital', 'hot_dog_stand', 'mackenzie_cafe'
-          ];
-          venueIds.forEach(id => {
-            sessionStorage.setItem('trashdash_chi_' + id, '100');
-          });
-          sessionStorage.setItem('trashdash_tutorial_complete', 'true');
+          // Restart game state in Dev Mode (0 CHI) to test tutorials
+          const keysToRemove = [];
+          for (let i = 0; i < localStorage.length; i++) {
+             const key = localStorage.key(i);
+             if (key && key.startsWith('trashdash_')) {
+                keysToRemove.push(key);
+             }
+          }
+          keysToRemove.forEach(k => localStorage.removeItem(k));
+
+          const sessionKeysToRemove = [];
+          for (let i = 0; i < sessionStorage.length; i++) {
+             const key = sessionStorage.key(i);
+             if (key && key.startsWith('trashdash_')) {
+                sessionKeysToRemove.push(key);
+             }
+          }
+          sessionKeysToRemove.forEach(k => sessionStorage.removeItem(k));
+
+          localStorage.setItem('trashdash_tutorial_complete', 'false');
           localStorage.setItem('trashdash_dev_mode', 'true');
+          sessionStorage.setItem('trashdash_dev_chi', '0');
           
           this.scene.start('LevelSelectScene');
         }
