@@ -83,9 +83,65 @@ export class SpritesScene extends Phaser.Scene {
     this.containerGroup = this.add.group();
     
     this.renderCurrentVenue();
+
+    // --- Encyclopedia Tutorial for New Games ---
+    if (!localStorage.getItem('trashdash_encyclopedia_tutorial_done')) {
+      const tutOverlay1 = document.createElement('div');
+      tutOverlay1.id = 'encyclopedia-tutorial-1';
+      tutOverlay1.style.position = 'fixed';
+      tutOverlay1.style.top = '140px';
+      tutOverlay1.style.left = '50%';
+      tutOverlay1.style.transform = 'translateX(-50%)';
+      tutOverlay1.style.background = 'rgba(20,30,40,0.95)';
+      tutOverlay1.style.border = '2px solid #3b82f6';
+      tutOverlay1.style.color = '#fff';
+      tutOverlay1.style.padding = '15px 30px';
+      tutOverlay1.style.borderRadius = '16px';
+      tutOverlay1.style.fontSize = '24px';
+      tutOverlay1.style.fontFamily = '"Nunito", sans-serif';
+      tutOverlay1.style.fontWeight = 'bold';
+      tutOverlay1.style.pointerEvents = 'none';
+      tutOverlay1.style.zIndex = '9999';
+      tutOverlay1.style.textAlign = 'center';
+      tutOverlay1.style.boxShadow = '0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(59, 130, 246, 0.4)';
+      tutOverlay1.innerHTML = 'Waste items you have discovered will show up here!';
+      document.body.appendChild(tutOverlay1);
+
+      const tutOverlay2 = document.createElement('div');
+      tutOverlay2.id = 'encyclopedia-tutorial-2';
+      tutOverlay2.style.position = 'fixed';
+      tutOverlay2.style.top = '280px'; 
+      tutOverlay2.style.right = '50px';
+      tutOverlay2.style.background = 'rgba(20,30,40,0.95)';
+      tutOverlay2.style.border = '2px solid #3b82f6';
+      tutOverlay2.style.color = '#fff';
+      tutOverlay2.style.padding = '15px 30px';
+      tutOverlay2.style.borderRadius = '16px';
+      tutOverlay2.style.fontSize = '24px';
+      tutOverlay2.style.fontFamily = '"Nunito", sans-serif';
+      tutOverlay2.style.fontWeight = 'bold';
+      tutOverlay2.style.pointerEvents = 'none';
+      tutOverlay2.style.zIndex = '9999';
+      tutOverlay2.style.textAlign = 'center';
+      tutOverlay2.style.boxShadow = '0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(59, 130, 246, 0.4)';
+      tutOverlay2.innerHTML = 'Click <span style="color: #60a5fa">NEXT LEVEL</span> to see<br/>each level\'s own encyclopedia!';
+      document.body.appendChild(tutOverlay2);
+
+      this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+        tutOverlay1.remove();
+        tutOverlay2.remove();
+      });
+    }
   }
 
   private changePage(delta: number) {
+    if (!localStorage.getItem('trashdash_encyclopedia_tutorial_done')) {
+      localStorage.setItem('trashdash_encyclopedia_tutorial_done', 'true');
+      const t1 = document.getElementById('encyclopedia-tutorial-1');
+      const t2 = document.getElementById('encyclopedia-tutorial-2');
+      if (t1) { t1.style.transition = 'opacity 0.5s'; t1.style.opacity = '0'; setTimeout(() => t1.remove(), 500); }
+      if (t2) { t2.style.transition = 'opacity 0.5s'; t2.style.opacity = '0'; setTimeout(() => t2.remove(), 500); }
+    }
     this.currentVenueIndex += delta;
     if (this.currentVenueIndex < 0) {
       this.currentVenueIndex = venuesData.length - 1;
