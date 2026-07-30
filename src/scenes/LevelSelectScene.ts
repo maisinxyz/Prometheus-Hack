@@ -23,6 +23,9 @@ export class LevelSelectScene extends Phaser.Scene {
   }
 
   async create(): Promise<void> {
+    if ((window as any).cursorManager) {
+      (window as any).cursorManager.setVisible(true);
+    }
     const playlist = [
       { key: 'map_music', title: 'Spring In My Step', artist: 'Silent Partner' },
       { key: 'summer_smile', title: 'Summer Smile', artist: 'Silent Partner' },

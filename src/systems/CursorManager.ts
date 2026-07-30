@@ -3,6 +3,7 @@ export class CursorManager {
   private shaftEl: HTMLElement;
   private isInitialized = false;
   private mode: 'bird' | 'grabber' = 'bird';
+  private hidden = false;
 
   constructor() {
     this.birdEl = document.createElement('div');
@@ -33,6 +34,13 @@ export class CursorManager {
     let lastX = 0;
     
     window.addEventListener('mousemove', (e) => {
+      if (this.hidden) {
+        document.body.classList.add('show-native-cursor');
+        this.birdEl.style.display = 'none';
+        if (this.shaftEl) this.shaftEl.style.display = 'none';
+        return;
+      }
+
       const x = e.clientX;
       const y = e.clientY;
       
@@ -132,6 +140,18 @@ export class CursorManager {
         }
       }
     });
+  }
+
+  public setVisible(visible: boolean) {
+    this.hidden = !visible;
+    if (this.hidden) {
+      document.body.classList.add('show-native-cursor');
+      this.birdEl.style.display = 'none';
+      if (this.shaftEl) this.shaftEl.style.display = 'none';
+    } else {
+      document.body.classList.remove('show-native-cursor');
+      this.birdEl.style.display = 'block';
+    }
   }
 
   public setMode(mode: 'bird' | 'grabber') {
