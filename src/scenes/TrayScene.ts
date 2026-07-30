@@ -111,8 +111,8 @@ export class TrayScene extends Phaser.Scene {
     const currentChi = this.chiSystem.getChi(this.venueId);
     this.currentTier = this.difficultySystem.getTierForChi(currentChi);
 
-    // Track E: Wire timer and item counts to active tier
-    this.roundTimerMs = this.currentTier.trayTimerSec * 1000;
+    // User requested fixed 50s timer for every location
+    this.roundTimerMs = 50000;
     
     // Determine items per tray (Cluster B override: 10-15)
     this.itemsPerTray = Phaser.Math.Between(10, 15);
@@ -153,10 +153,16 @@ export class TrayScene extends Phaser.Scene {
 
     (window as any).cursorManager?.setMode('grabber');
 
-    // Ensure tutorial completion flags are set so gameplay is never blocked
+    // Ensure generic tutorial flag is set
     localStorage.setItem('trashdash_tutorial_complete', 'true');
-    localStorage.setItem('trashdash_interactive_tutorial_complete', 'true');
-    this.startTimer();
+    
+    if (this.venueId === 'construction_site' && !localStorage.getItem('trashdash_interactive_tutorial_complete')) {
+      localStorage.setItem('trashdash_interactive_tutorial_complete', 'true');
+      this.scene.pause();
+      this.scene.launch('InteractiveTutorialOverlay');
+    } else {
+      this.startTimer();
+    }
 
     const totalChi = this.chiSystem.getTotalChi(venuesData.map(v => v.id));
     const maxChi = venuesData.length * 100;
@@ -510,15 +516,28 @@ export class TrayScene extends Phaser.Scene {
         // Check overlap with each bin, OR if dropped directly above a bin
         let targetBin: Bin | null = null;
         const itemBounds = item.getBounds();
+        let maxOverlapArea = 0;
+        let minCenterDist = Infinity;
 
         for (const bin of this.bins) {
           const binBounds = bin.getBounds();
           const itemCenterX = itemBounds.centerX;
           const isAboveBin = itemCenterX >= binBounds.left && itemCenterX <= binBounds.right && itemBounds.centerY <= binBounds.bottom;
           
-          if (Phaser.Geom.Rectangle.Overlaps(itemBounds, binBounds) || isAboveBin) {
-            targetBin = bin;
-            break;
+          if (Phaser.Geom.Rectangle.Overlaps(itemBounds, binBounds)) {
+            const intersection = Phaser.Geom.Rectangle.Intersection(itemBounds, binBounds);
+            const area = intersection.width * intersection.height;
+            if (area > maxOverlapArea) {
+              maxOverlapArea = area;
+              targetBin = bin;
+            }
+          } else if (isAboveBin && maxOverlapArea === 0) {
+            // Only consider isAboveBin if there's no direct physical overlap with any bin yet
+            const dist = Math.abs(itemCenterX - binBounds.centerX);
+            if (dist < minCenterDist) {
+              minCenterDist = dist;
+              targetBin = bin;
+            }
           }
         }
 
@@ -942,8 +961,13 @@ export class TrayScene extends Phaser.Scene {
     // Apply Streak FX
     streakFXManager.playSummaryScreenFX(this, panelX + 160, panelY + 90, streakTier);
 
-    // Continue Button
-    new GlossyButton(this, panelX, panelY + 160, 'CONTINUE', () => {
+    // Play Again & Exit Buttons
+    new GlossyButton(this, panelX - 110, panelY + 160, 'PLAY AGAIN', () => {
+      this.scene.stop('HUDScene');
+      this.scene.start('TrayScene', { venueId: this.venueId });
+    }, 200, 60, UI_THEME.primaryGradient).setDepth(105);
+
+    new GlossyButton(this, panelX + 110, panelY + 160, 'EXIT TO MAP', () => {
       this.scene.stop('HUDScene');
       this.scene.start('LevelSelectScene');
     }, 200, 60, UI_THEME.goldAccent).setDepth(105);

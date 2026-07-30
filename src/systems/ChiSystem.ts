@@ -34,9 +34,17 @@ export class ChiSystem {
       return this.chiMap.get(venueId)!;
     }
 
-    // Check localStorage
+    // Check localStorage (and sessionStorage if in dev mode)
     if (typeof localStorage !== 'undefined') {
-      const stored = localStorage.getItem(ChiSystem.STORAGE_PREFIX + venueId);
+      const isDev = localStorage.getItem('trashdash_dev_mode') === 'true';
+      let stored = isDev ? sessionStorage.getItem(ChiSystem.STORAGE_PREFIX + venueId) : localStorage.getItem(ChiSystem.STORAGE_PREFIX + venueId);
+      
+      // Fallback: If dev mode is active but they have no session data, initialize it with their actual save data so the garden/map loads properly
+      if (isDev && !stored) {
+        stored = localStorage.getItem(ChiSystem.STORAGE_PREFIX + venueId);
+        if (stored !== null) sessionStorage.setItem(ChiSystem.STORAGE_PREFIX + venueId, stored);
+      }
+
       if (stored !== null) {
         const val = parseFloat(stored);
         if (!isNaN(val)) {
@@ -67,7 +75,12 @@ export class ChiSystem {
 
     // Persist
     if (typeof localStorage !== 'undefined') {
-      localStorage.setItem(ChiSystem.STORAGE_PREFIX + venueId, newChi.toString());
+      const isDev = localStorage.getItem('trashdash_dev_mode') === 'true';
+      if (isDev) {
+        sessionStorage.setItem(ChiSystem.STORAGE_PREFIX + venueId, newChi.toString());
+      } else {
+        localStorage.setItem(ChiSystem.STORAGE_PREFIX + venueId, newChi.toString());
+      }
     }
 
     return newChi;

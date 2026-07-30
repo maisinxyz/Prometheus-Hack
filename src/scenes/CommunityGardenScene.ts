@@ -16,6 +16,7 @@ export class CommunityGardenScene extends Phaser.Scene {
   }
 
   create() {
+    localStorage.setItem('trashdash_visited_park', 'true');
     this.gardenSystem = new GardenSystem();
     this.chiSystem = new ChiSystem();
 
@@ -51,11 +52,7 @@ export class CommunityGardenScene extends Phaser.Scene {
     }
     // Benches, humans, tables, etc. (Levels 6-10)
     for (let i = 6; i <= recyclingLvl; i++) pushSpriteVariations('recycling', i);
-    // Plastic upgrades (Level 1 pond is replaced by Level 9 sparkly pond)
-    for (let i = 1; i <= plasticLvl; i++) {
-       if (i === 1 && plasticLvl >= 9) continue; // Skip basic pond if sparkly pond unlocked
-       pushSpriteVariations('plastic', i);
-    }
+    
     // Landfill upgrades
     for (let i = 1; i <= landfillLvl; i++) pushSpriteVariations('landfill', i);
 
@@ -67,15 +64,6 @@ export class CommunityGardenScene extends Phaser.Scene {
 
     // 2D Overlays have been removed so the 360 panoramas can be seen unobstructed.
 
-    // ===== WEATHER OVERLAY =====
-    const totalChi = this.chiSystem.getTotalChi(venuesData.map(v => v.id));
-    const maxChi = venuesData.length * 100;
-    if (totalChi <= maxChi * 0.25) {
-      this.add.text(960, 100, 'Warning: Severe Smog in the City', { fontSize: '32px', color: '#ff4444', fontStyle: 'bold' }).setOrigin(0.5);
-    } else if (totalChi > maxChi * 0.75) {
-      this.add.text(960, 100, 'Eco-Festival Active! The garden is thriving.', { fontSize: '32px', color: '#fbbf24', fontStyle: 'bold' }).setOrigin(0.5);
-    }
-
     // ===== HTML DOM UI (Aligns perfectly to the window edge) =====
     const uiContainer = document.createElement('div');
     uiContainer.id = 'garden-scene-ui';
@@ -85,6 +73,252 @@ export class CommunityGardenScene extends Phaser.Scene {
     uiContainer.style.zIndex = '100';
     uiContainer.style.pointerEvents = 'none';
     this.sys.game.canvas.style.display = 'block';
+
+    // ===== PARK RADIO (Music Player) =====
+    const radioContainer = document.createElement('div');
+    radioContainer.id = 'park-radio-ui';
+    radioContainer.style.position = 'fixed';
+    radioContainer.style.bottom = '20px';
+    radioContainer.style.left = '20px';
+    radioContainer.style.zIndex = '100';
+    radioContainer.style.backgroundColor = 'rgba(20, 30, 40, 0.8)';
+    radioContainer.style.border = '1px solid rgba(74, 222, 128, 0.4)';
+    radioContainer.style.borderRadius = '12px';
+    radioContainer.style.padding = '15px';
+    radioContainer.style.color = '#fff';
+    radioContainer.style.fontFamily = 'Arial, sans-serif';
+    radioContainer.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.5)';
+    radioContainer.style.backdropFilter = 'blur(8px)';
+    radioContainer.style.display = 'flex';
+    radioContainer.style.flexDirection = 'column';
+    radioContainer.style.gap = '10px';
+    radioContainer.style.pointerEvents = 'auto'; // allow clicks
+    radioContainer.style.width = '320px';
+
+    const titleRow = document.createElement('div');
+    titleRow.style.display = 'flex';
+    titleRow.style.justifyContent = 'space-between';
+    titleRow.style.alignItems = 'center';
+
+    const radioTitle = document.createElement('h3');
+    radioTitle.innerText = '📻 Park Radio';
+    radioTitle.style.margin = '0';
+    radioTitle.style.color = '#4ade80';
+    radioTitle.style.fontSize = '18px';
+    titleRow.appendChild(radioTitle);
+
+    let unlockedCount = Math.min(plasticLvl, 10);
+
+    const playBtn = document.createElement('button');
+    playBtn.innerText = '▶ Play';
+    playBtn.style.padding = '4px 12px';
+    playBtn.style.backgroundColor = '#10b981';
+    playBtn.style.color = '#fff';
+    playBtn.style.border = 'none';
+    playBtn.style.borderRadius = '6px';
+    playBtn.style.cursor = 'pointer';
+    playBtn.style.fontWeight = 'bold';
+    playBtn.disabled = (unlockedCount === 0);
+    titleRow.appendChild(playBtn);
+
+    radioContainer.appendChild(titleRow);
+
+    const songSelect = document.createElement('select');
+    songSelect.style.width = '100%';
+    songSelect.style.padding = '8px';
+    songSelect.style.borderRadius = '6px';
+    songSelect.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+    songSelect.style.color = '#fff';
+    songSelect.style.border = '1px solid rgba(255, 255, 255, 0.2)';
+    songSelect.style.outline = 'none';
+    songSelect.style.cursor = 'pointer';
+
+    const songs = [
+      { id: 'plastic_lvl_1', name: 'River Flows In You - Yiruma' },
+      { id: 'plastic_lvl_2', name: 'Time To Love - October' },
+      { id: 'plastic_lvl_3', name: 'Star Tea Party - Hui Che' },
+      { id: 'plastic_lvl_4', name: 'Idea 22 - Gibran Alcocer' },
+      { id: 'plastic_lvl_5', name: 'Kiss The Rain - Yiruma' },
+      { id: 'plastic_lvl_6', name: 'Icarus - Tony Ann' },
+      { id: 'plastic_lvl_7', name: 'Snowfall - Øneheart x reidenshi' },
+      { id: 'plastic_lvl_8', name: 'Summer - Joe Hisaishi' },
+      { id: 'plastic_lvl_9', name: 'Cherry Blossom - October' },
+      { id: 'plastic_lvl_10', name: 'Canon in D - Pachelbel' }
+    ];
+
+    if (unlockedCount === 0) {
+      const opt = document.createElement('option');
+      opt.innerText = 'No songs unlocked yet...';
+      opt.disabled = true;
+      songSelect.appendChild(opt);
+    } else {
+      for (let i = 0; i < unlockedCount; i++) {
+        const opt = document.createElement('option');
+        opt.value = `/assets/audio/${songs[i].id}.m4a`;
+        opt.innerText = `${i+1}. ${songs[i].name}`;
+        songSelect.appendChild(opt);
+      }
+    }
+    radioContainer.appendChild(songSelect);
+
+    // Load persisted state
+    const savedSong = sessionStorage.getItem('radio_song');
+    const savedTime = parseFloat(sessionStorage.getItem('radio_time') || '0');
+    const savedVol = parseFloat(sessionStorage.getItem('radio_vol') || '0.5');
+    const savedLoop = sessionStorage.getItem('radio_loop') !== 'false';
+    const savedPlaying = sessionStorage.getItem('radio_playing') === 'true';
+
+    const controlRow = document.createElement('div');
+    controlRow.style.display = 'flex';
+    controlRow.style.gap = '10px';
+    controlRow.style.alignItems = 'center';
+
+    const repeatBtn = document.createElement('button');
+    repeatBtn.innerText = '↻';
+    repeatBtn.style.padding = '8px';
+    repeatBtn.style.backgroundColor = 'transparent';
+    repeatBtn.style.border = 'none';
+    repeatBtn.style.cursor = 'pointer';
+    repeatBtn.style.fontSize = '18px';
+    repeatBtn.style.transition = 'text-shadow 0.2s';
+    repeatBtn.style.outline = 'none'; // prevents blue focus ring on click
+    
+    // Add volume slider
+    const volSlider = document.createElement('input');
+    volSlider.type = 'range';
+    volSlider.min = '0';
+    volSlider.max = '1';
+    volSlider.step = '0.05';
+    volSlider.value = savedVol.toString();
+    volSlider.style.flex = '1';
+
+    controlRow.appendChild(volSlider);
+    controlRow.appendChild(repeatBtn);
+
+    radioContainer.appendChild(controlRow);
+
+    const progressRow = document.createElement('div');
+    progressRow.style.display = 'flex';
+    progressRow.style.gap = '10px';
+    progressRow.style.alignItems = 'center';
+    progressRow.style.fontSize = '12px';
+    progressRow.style.fontFamily = 'monospace';
+
+    const timeElapsed = document.createElement('span');
+    timeElapsed.innerText = '0:00';
+    
+    const seekBar = document.createElement('input');
+    seekBar.type = 'range';
+    seekBar.min = '0';
+    seekBar.max = '100';
+    seekBar.value = '0';
+    seekBar.style.flex = '1';
+
+    const timeRemaining = document.createElement('span');
+    timeRemaining.innerText = '-:--';
+
+    progressRow.appendChild(timeElapsed);
+    progressRow.appendChild(seekBar);
+    progressRow.appendChild(timeRemaining);
+
+    radioContainer.appendChild(progressRow);
+
+    const audioElement = document.createElement('audio');
+    audioElement.id = 'park-radio-audio';
+    audioElement.loop = savedLoop;
+    audioElement.volume = savedVol;
+
+    if (savedSong && unlockedCount > 0) {
+      songSelect.value = savedSong;
+      audioElement.src = savedSong;
+    }
+
+    const updateRepeatUI = () => {
+      if (audioElement.loop) {
+        repeatBtn.style.textShadow = '0 0 10px #4ade80';
+        repeatBtn.style.color = '#4ade80';
+      } else {
+        repeatBtn.style.textShadow = 'none';
+        repeatBtn.style.color = '#fff';
+      }
+    };
+    updateRepeatUI();
+
+    repeatBtn.onclick = () => {
+      audioElement.loop = !audioElement.loop;
+      updateRepeatUI();
+    };
+
+    volSlider.oninput = (e: any) => { audioElement.volume = parseFloat(e.target.value); };
+
+    const updatePlayUI = () => {
+      if (audioElement.paused) {
+        playBtn.innerText = '▶ Play';
+        playBtn.style.backgroundColor = '#10b981';
+      } else {
+        playBtn.innerText = '⏸ Pause';
+        playBtn.style.backgroundColor = '#f59e0b';
+      }
+    };
+
+    playBtn.onclick = () => {
+      if (audioElement.paused) {
+        if (!audioElement.src || !audioElement.src.includes(songSelect.value)) {
+          audioElement.src = songSelect.value;
+        }
+        audioElement.play().catch(e => console.warn('Autoplay prevented:', e));
+      } else {
+        audioElement.pause();
+      }
+      updatePlayUI();
+    };
+
+    songSelect.onchange = () => {
+      audioElement.src = songSelect.value;
+      if (!audioElement.paused || savedPlaying) {
+        audioElement.play().catch(e => console.warn('Autoplay prevented:', e));
+      }
+      updatePlayUI();
+    };
+
+    const formatTime = (secs: number) => {
+      if (isNaN(secs) || secs < 0) return '0:00';
+      const m = Math.floor(secs / 60);
+      const s = Math.floor(secs % 60);
+      return `${m}:${s.toString().padStart(2, '0')}`;
+    };
+
+    let isSeeking = false;
+    seekBar.onmousedown = () => isSeeking = true;
+    seekBar.onmouseup = () => isSeeking = false;
+    seekBar.oninput = (e: any) => {
+      if (audioElement.duration) {
+        audioElement.currentTime = (parseFloat(e.target.value) / 100) * audioElement.duration;
+      }
+    };
+
+    audioElement.ontimeupdate = () => {
+      if (!audioElement.duration) return;
+      if (!isSeeking) {
+        seekBar.value = ((audioElement.currentTime / audioElement.duration) * 100).toString();
+      }
+      timeElapsed.innerText = formatTime(audioElement.currentTime);
+      timeRemaining.innerText = '-' + formatTime(audioElement.duration - audioElement.currentTime);
+    };
+
+    audioElement.onloadedmetadata = () => {
+      if (audioElement.src.includes(savedSong || '') && savedTime > 0) {
+        audioElement.currentTime = savedTime;
+      }
+    };
+
+    if (savedPlaying && savedSong && unlockedCount > 0) {
+      audioElement.play().catch(e => console.warn('Autoplay prevented:', e));
+      updatePlayUI();
+    }
+
+    document.body.appendChild(radioContainer);
+    document.body.appendChild(audioElement);
 
     // ===== SUMMARY MODAL =====
     let unseenUpgrades: string[] = [];
@@ -216,16 +450,26 @@ export class CommunityGardenScene extends Phaser.Scene {
     panel.style.border = '2px solid #444';
     panel.style.borderRadius = '16px';
     panel.style.padding = '20px';
-    panel.style.width = '280px';
+    panel.style.width = '340px';
     panel.style.color = '#fff';
     panel.style.fontFamily = '"Nunito", sans-serif';
     
+    const compostRaw = this.gardenSystem.getRawCount('compost');
+    const recyclingRaw = this.gardenSystem.getRawCount('recycling');
+    const plasticRaw = this.gardenSystem.getRawCount('plastic');
+    const landfillRaw = this.gardenSystem.getRawCount('landfill');
+
+    const getProg = (raw: number, level: number, maxLvl: number, inc: number) => {
+      if (level >= maxLvl) return `<span style="font-size: 16px; opacity: 0.8; margin-left: 8px;">(MAX)</span>`;
+      return `<span style="font-size: 16px; opacity: 0.8; margin-left: 8px;">(${raw % inc}/${inc})</span>`;
+    };
+    
     panel.innerHTML = `
       <div style="font-size: 24px; font-weight: bold; margin-bottom: 16px;">Garden Levels</div>
-      <div style="font-size: 20px; color: #22c55e; margin-bottom: 8px;">🍎 Compost: Lvl ${compostLvl}</div>
-      <div style="font-size: 20px; color: ${compostLvl < 5 ? '#555' : '#3b82f6'}; margin-bottom: 8px;">♻️ Recycling: ${compostLvl < 5 ? '🔒' : 'Lvl ' + recyclingLvl}</div>
-      <div style="font-size: 20px; color: ${compostLvl < 5 ? '#555' : '#6b7280'}; margin-bottom: 8px;">🧴 Plastic: ${compostLvl < 5 ? '🔒' : 'Lvl ' + plasticLvl}</div>
-      <div style="font-size: 20px; color: ${compostLvl < 5 ? '#555' : '#a8a29e'};">🗑️ Landfill: ${compostLvl < 5 ? '🔒' : 'Lvl ' + landfillLvl}</div>
+      <div style="font-size: 20px; color: #22c55e; margin-bottom: 8px; display: flex; justify-content: space-between;"><span>🍎 Compost: Lvl ${compostLvl}</span> ${getProg(compostRaw, compostLvl, 10, 30)}</div>
+      <div style="font-size: 20px; color: ${compostLvl < 5 ? '#555' : '#3b82f6'}; margin-bottom: 8px; display: flex; justify-content: space-between;"><span>♻️ Recycling: ${compostLvl < 5 ? '🔒' : 'Lvl ' + recyclingLvl}</span> ${compostLvl < 5 ? '' : getProg(recyclingRaw, recyclingLvl, 10, 30)}</div>
+      <div style="font-size: 20px; color: ${compostLvl < 5 ? '#555' : '#6b7280'}; margin-bottom: 8px; display: flex; justify-content: space-between;"><span>🧴 Plastic: ${compostLvl < 5 ? '🔒' : 'Lvl ' + plasticLvl}</span> ${compostLvl < 5 ? '' : getProg(plasticRaw, plasticLvl, 10, 30)}</div>
+      <div style="font-size: 20px; color: ${compostLvl < 5 ? '#555' : '#a8a29e'}; display: flex; justify-content: space-between;"><span>🗑️ Landfill: ${compostLvl < 5 ? '🔒' : 'Lvl ' + landfillLvl}</span> ${compostLvl < 5 ? '' : getProg(landfillRaw, landfillLvl, 5, 50)}</div>
     `;
     uiContainer.appendChild(panel);
     document.body.appendChild(uiContainer);
@@ -236,7 +480,7 @@ export class CommunityGardenScene extends Phaser.Scene {
       devPanel.id = 'garden-dev-panel';
       devPanel.style.position = 'absolute';
       devPanel.style.top = '20px';
-      devPanel.style.left = '320px'; // Next to the Levels panel
+      devPanel.style.left = '380px'; // Next to the widened Levels panel
       devPanel.style.background = 'rgba(220, 38, 38, 0.9)';
       devPanel.style.padding = '15px';
       devPanel.style.borderRadius = '8px';
@@ -299,6 +543,22 @@ export class CommunityGardenScene extends Phaser.Scene {
     });
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      const radio = document.getElementById('park-radio-ui');
+      const audio = document.getElementById('park-radio-audio') as HTMLAudioElement;
+      
+      if (audio) {
+         // Save state
+         sessionStorage.setItem('radio_song', songSelect.value);
+         sessionStorage.setItem('radio_time', audio.currentTime.toString());
+         sessionStorage.setItem('radio_vol', audio.volume.toString());
+         sessionStorage.setItem('radio_loop', audio.loop.toString());
+         sessionStorage.setItem('radio_playing', (!audio.paused).toString());
+         
+         audio.pause();
+         audio.remove();
+      }
+      if (radio) radio.remove();
+
       uiContainer.remove();
       ThreeJSService.hide();
     });

@@ -35,11 +35,11 @@ export class TitleScene extends Phaser.Scene {
     });
     title.setOrigin(0.5);
 
-    // --- PLAY BUTTON (Fresh Start) ---
+    // --- CONTINUE BUTTON ---
     const playBtnBg = this.add.rectangle(0, 0, 400, 100, 0x22C55E, 1);
     playBtnBg.setStrokeStyle(4, 0xffffff);
     
-    const playBtnText = this.add.text(0, 0, 'PLAY', {
+    const playBtnText = this.add.text(0, 0, 'CONTINUE', {
       fontFamily: '"Nunito", sans-serif',
       fontSize: '48px',
       color: '#ffffff',
@@ -47,7 +47,7 @@ export class TitleScene extends Phaser.Scene {
     });
     playBtnText.setOrigin(0.5);
 
-    const playBtn = this.add.container(960, 500, [playBtnBg, playBtnText]);
+    const playBtn = this.add.container(960, 420, [playBtnBg, playBtnText]);
     playBtn.setSize(400, 100);
     playBtn.setInteractive({ useHandCursor: true });
 
@@ -65,9 +65,57 @@ export class TitleScene extends Phaser.Scene {
       this.tweens.add({
         targets: playBtn, scaleX: 0.95, scaleY: 0.95, duration: 100, yoyo: true,
         onComplete: () => {
+          localStorage.removeItem('trashdash_dev_mode');
           this.scene.start('LevelSelectScene');
         }
       });
+    });
+
+    // --- NEW GAME BUTTON (Wipes Save) ---
+    const newBtnBg = this.add.rectangle(0, 0, 400, 100, 0xef4444, 1); // Red
+    newBtnBg.setStrokeStyle(4, 0xffffff);
+    
+    const newBtnText = this.add.text(0, 0, 'NEW GAME', {
+      fontFamily: '"Nunito", sans-serif',
+      fontSize: '48px',
+      color: '#ffffff',
+      fontStyle: 'bold',
+    });
+    newBtnText.setOrigin(0.5);
+
+    const newBtn = this.add.container(960, 550, [newBtnBg, newBtnText]);
+    newBtn.setSize(400, 100);
+    newBtn.setInteractive({ useHandCursor: true });
+
+    newBtn.on('pointerover', () => {
+      newBtnBg.setFillStyle(0xdc2626, 1);
+      this.tweens.add({ targets: newBtn, scaleX: 1.05, scaleY: 1.05, duration: 100 });
+    });
+
+    newBtn.on('pointerout', () => {
+      newBtnBg.setFillStyle(0xef4444, 1);
+      this.tweens.add({ targets: newBtn, scaleX: 1.0, scaleY: 1.0, duration: 100 });
+    });
+
+    newBtn.on('pointerdown', () => {
+      if (confirm("Are you sure you want to start a new game? This will erase all your Chi and garden progress!")) {
+        this.tweens.add({
+          targets: newBtn, scaleX: 0.95, scaleY: 0.95, duration: 100, yoyo: true,
+          onComplete: () => {
+            // Delete all save keys
+            const keysToRemove = [];
+            for (let i = 0; i < localStorage.length; i++) {
+               const key = localStorage.key(i);
+               if (key && key.startsWith('trashdash_')) {
+                  keysToRemove.push(key);
+               }
+            }
+            keysToRemove.forEach(k => localStorage.removeItem(k));
+            
+            this.scene.start('LevelSelectScene');
+          }
+        });
+      }
     });
 
     // --- SPRITES BUTTON ---
@@ -82,7 +130,7 @@ export class TitleScene extends Phaser.Scene {
     });
     spritesBtnText.setOrigin(0.5);
 
-    const spritesBtn = this.add.container(960, 650, [spritesBtnBg, spritesBtnText]);
+    const spritesBtn = this.add.container(960, 680, [spritesBtnBg, spritesBtnText]);
     spritesBtn.setSize(400, 100);
     spritesBtn.setInteractive({ useHandCursor: true });
 
@@ -117,7 +165,7 @@ export class TitleScene extends Phaser.Scene {
     });
     devBtnText.setOrigin(0.5);
 
-    const devBtn = this.add.container(960, 800, [devBtnBg, devBtnText]);
+    const devBtn = this.add.container(960, 810, [devBtnBg, devBtnText]);
     devBtn.setSize(400, 100);
     devBtn.setInteractive({ useHandCursor: true });
 

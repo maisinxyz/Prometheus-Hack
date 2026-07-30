@@ -201,26 +201,36 @@ export class LevelSelectScene extends Phaser.Scene {
         
         const banner = document.createElement('div');
         banner.style.position = 'absolute';
-        banner.style.top = '180px';
+        banner.style.top = '50%';
         banner.style.left = '50%';
-        banner.style.transform = 'translateX(-50%)';
-        banner.style.background = 'linear-gradient(to bottom, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 40%, rgba(255,255,255,0) 40%, rgba(255,255,255,0) 100%), linear-gradient(90deg, #FBBF24, #F59E0B)';
+        banner.style.transform = 'translate(-50%, -50%)';
+        banner.style.background = 'linear-gradient(to bottom, rgba(20,30,40,0.95), rgba(10,15,20,0.98))';
+        banner.style.border = '2px solid #FCD34D';
         banner.style.color = '#fff';
-        banner.style.padding = '15px 40px';
-        banner.style.borderRadius = '30px';
-        banner.style.fontWeight = 'bold';
-        banner.style.fontSize = '24px';
-        banner.style.textShadow = '0 2px 4px rgba(0,0,0,0.5)';
-        banner.style.boxShadow = 'inset 0 4px 0 rgba(255,255,255,0.2), 0 10px 20px rgba(0,0,0,0.5)';
-        banner.style.zIndex = '100';
-        banner.textContent = `New Level Unlocked: ${currentName}!`;
+        banner.style.padding = '30px 50px';
+        banner.style.borderRadius = '20px';
+        banner.style.textAlign = 'center';
+        banner.style.boxShadow = '0 10px 40px rgba(0,0,0,0.8), 0 0 20px rgba(252, 211, 77, 0.4)';
+        banner.style.zIndex = '9999';
+        
+        banner.innerHTML = `
+          <div style="font-size: 18px; color: #FCD34D; margin-bottom: 10px; font-weight: bold; font-family: 'Nunito', sans-serif;">NEW LOCATION UNLOCKED</div>
+          <div style="font-size: 40px; font-weight: 900; margin-bottom: 25px; font-family: 'Nunito', sans-serif; text-transform: uppercase;">${currentName}!</div>
+          <button id="banner-ok-btn" style="background: linear-gradient(90deg, #FBBF24, #F59E0B); color: #000; font-weight: 900; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-size: 20px; transition: transform 0.1s ease; outline: none;">AWESOME!</button>
+        `;
         document.body.appendChild(banner);
         
-        setTimeout(() => {
-          banner.style.transition = 'opacity 0.5s ease';
-          banner.style.opacity = '0';
-          setTimeout(() => banner.remove(), 500);
-        }, 2500);
+        const okBtn = document.getElementById('banner-ok-btn');
+        if (okBtn) {
+          okBtn.addEventListener('mouseover', () => okBtn.style.transform = 'scale(1.05)');
+          okBtn.addEventListener('mouseout', () => okBtn.style.transform = 'scale(1)');
+          okBtn.addEventListener('click', () => {
+            banner.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+            banner.style.opacity = '0';
+            banner.style.transform = 'translate(-50%, -50%) scale(0.9)';
+            setTimeout(() => banner.remove(), 300);
+          });
+        }
 
         MapCameraController.driftToNode(currentLng, currentLat, 2000);
         localStorage.setItem('trashdash_last_unlocked_count', unlockedCount.toString());
@@ -234,6 +244,119 @@ export class LevelSelectScene extends Phaser.Scene {
         setupMapLayers();
       } else {
         map.once('style.load', setupMapLayers);
+      }
+
+      // --- Map Controls Tutorial for New Games ---
+      if (!localStorage.getItem('trashdash_map_tutorial_done')) {
+        const tutOverlay = document.createElement('div');
+        tutOverlay.id = 'map-tutorial-overlay';
+        tutOverlay.style.position = 'fixed';
+        tutOverlay.style.top = '250px';
+        tutOverlay.style.left = '50%';
+        tutOverlay.style.transform = 'translateX(-50%)';
+        tutOverlay.style.background = 'rgba(20,30,40,0.95)';
+        tutOverlay.style.border = '2px solid #3b82f6';
+        tutOverlay.style.color = '#fff';
+        tutOverlay.style.padding = '20px 40px';
+        tutOverlay.style.borderRadius = '16px';
+        tutOverlay.style.fontSize = '24px';
+        tutOverlay.style.fontFamily = '"Nunito", sans-serif';
+        tutOverlay.style.fontWeight = 'bold';
+        tutOverlay.style.pointerEvents = 'none';
+        tutOverlay.style.zIndex = '9999';
+        tutOverlay.style.textAlign = 'center';
+        tutOverlay.style.boxShadow = '0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(59, 130, 246, 0.4)';
+        tutOverlay.innerHTML = '🖱️ Hold <span style="color: #4ade80">Left-Click</span> and drag to move around the map!';
+        document.body.appendChild(tutOverlay);
+
+        let step = 1;
+        const onLeftDrag = () => {
+          if (step !== 1) return;
+          step = 2;
+          tutOverlay.innerHTML = '🖱️ Hold <span style="color: #60a5fa">Right-Click</span> and drag to change perspectives!';
+          map.off('dragstart', onLeftDrag);
+        };
+
+        const onRightDrag = () => {
+          if (step !== 2) return;
+          step = 3;
+          tutOverlay.innerHTML = '🖱️ Use your <span style="color: #f472b6">Scroll Wheel</span> to zoom in and out!';
+          map.off('pitchstart', onRightDrag);
+          map.off('rotatestart', onRightDrag);
+          map.off('contextmenu', onRightDrag);
+        };
+
+        const onScrollZoom = () => {
+          if (step !== 3) return;
+          step = 4;
+          tutOverlay.innerHTML = '🖱️ Click on <span style="color: #fcd34d">Construction Zone</span> to begin your first cleanup!';
+          localStorage.setItem('trashdash_map_tutorial_done', 'true');
+          map.off('zoomstart', onScrollZoom);
+        };
+
+        map.on('dragstart', onLeftDrag);
+        map.on('pitchstart', onRightDrag);
+        map.on('rotatestart', onRightDrag);
+        map.on('contextmenu', onRightDrag);
+        map.on('zoomstart', onScrollZoom);
+      } else if (localStorage.getItem('trashdash_interactive_tutorial_complete') === 'true' && !localStorage.getItem('trashdash_map_return_tutorial_done')) {
+        const returnTut = document.createElement('div');
+        returnTut.id = 'map-return-tutorial';
+        returnTut.style.position = 'fixed';
+        returnTut.style.top = '150px';
+        returnTut.style.left = '50%';
+        returnTut.style.transform = 'translateX(-50%)';
+        returnTut.style.background = 'rgba(20,30,40,0.95)';
+        returnTut.style.border = '2px solid #facc15';
+        returnTut.style.color = '#fff';
+        returnTut.style.padding = '20px 40px';
+        returnTut.style.borderRadius = '16px';
+        returnTut.style.fontSize = '20px';
+        returnTut.style.fontFamily = '"Nunito", sans-serif';
+        returnTut.style.zIndex = '9999';
+        returnTut.style.textAlign = 'center';
+        returnTut.style.boxShadow = '0 10px 30px rgba(0,0,0,0.8)';
+        returnTut.style.maxWidth = '600px';
+
+        const showStep1 = () => {
+          returnTut.innerHTML = `
+            <h2 style="margin:0 0 15px 0; color:#facc15;">Great Job on your first cleanup!</h2>
+            <p style="margin:0 0 20px 0; line-height: 1.5;">You need to gain enough <span style="color:#60a5fa; font-weight:bold;">CHI</span> to unlock the next level! Your CHI progress is shown at the bottom of the screen.</p>
+            <button id="tut-ok-1" style="background:#facc15; color:#000; font-weight:bold; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; font-size:18px; outline:none;">OK</button>
+          `;
+          document.getElementById('tut-ok-1')?.addEventListener('click', showStep2);
+        };
+
+        const showStep2 = () => {
+          returnTut.innerHTML = `
+            <h2 style="margin:0 0 15px 0; color:#4ade80;">Community Garden Levels</h2>
+            <p style="margin:0 0 20px 0; line-height: 1.5; font-size:18px;">
+              For every correct item you place in the trash, it is converted into the UI! 
+              <br><br>
+              As you sort items into <span style="color:#34D399;">Compost</span>, <span style="color:#3b82f6;">Recycling</span>, <span style="color:#9ca3af;">Landfill</span>, and <span style="color:#FBBF24;">Plastic</span>, your Community Park levels up!
+              <br><br>
+              Check out the Community Park now by clicking the "Park" button on the left!
+            </p>
+          `;
+          
+          const checkPark = setInterval(() => {
+            if (localStorage.getItem('trashdash_visited_park') === 'true') {
+              clearInterval(checkPark);
+              returnTut.remove();
+              localStorage.setItem('trashdash_map_return_tutorial_done', 'true');
+            }
+          }, 500);
+          
+          this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => clearInterval(checkPark));
+        };
+
+        if (localStorage.getItem('trashdash_visited_park') === 'true') {
+          // If they already visited the park somehow, skip the tutorial entirely
+          localStorage.setItem('trashdash_map_return_tutorial_done', 'true');
+        } else {
+          document.body.appendChild(returnTut);
+          showStep1();
+        }
       }
     } else {
       console.warn("MapLibre map is not available. Skipping map layers and building fallback UI.");
@@ -305,20 +428,29 @@ export class LevelSelectScene extends Phaser.Scene {
     const plasticProg = (this.gardenSystem.getRawCount('plastic') % 30) / 30 * 100;
     const landfillProg = (this.gardenSystem.getRawCount('landfill') % 50) / 50 * 100;
 
-    const renderBar = (name: string, lvl: number, prog: number, locked: boolean, color: string) => `
+    const renderBar = (name: string, lvl: number, prog: number, locked: boolean, color: string, rawCount: number, increment: number, maxLvl: number) => {
+      let progText = "";
+      if (!locked) {
+        if (lvl >= maxLvl) progText = ` <span style="font-size: 9px; opacity: 0.7; margin-left: 4px;">(MAX)</span>`;
+        else progText = ` <span style="font-size: 9px; opacity: 0.7; margin-left: 4px;">(${rawCount % increment}/${increment})</span>`;
+      }
+      return `
       <div style="margin-bottom: 8px;">
         <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #f8fafc; font-weight: 700; margin-bottom: 4px;">
           <div style="display: flex; align-items: center; gap: 6px;">
             <div style="width: 8px; height: 8px; border-radius: 50%; background: ${color}; box-shadow: 0 0 4px ${color};"></div>
             <span>${name}</span>
           </div>
-          <span style="color: #cbd5e1;">${locked ? '🔒 Needs Lvl 5' : `Lvl ${lvl}`}</span>
+          <div style="display: flex; align-items: center;">
+             <span style="color: #cbd5e1;">${locked ? '🔒 Needs Lvl 5' : `Lvl ${lvl}`}</span>
+             ${progText}
+          </div>
         </div>
         <div style="width: 100%; height: 4px; background: rgba(0,0,0,0.4); border-radius: 2px; overflow: hidden;">
           <div style="width: ${prog}%; height: 100%; background: ${locked ? '#475569' : color}; border-radius: 2px;"></div>
         </div>
       </div>
-    `;
+    `};
 
     uiContainer.innerHTML = `
       <div id="stats-wrapper" style="background: rgba(15,23,42,0.85); backdrop-filter: blur(8px); padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); width: 220px; box-sizing: border-box; position: relative; transition: all 0.3s ease;">
@@ -333,10 +465,10 @@ export class LevelSelectScene extends Phaser.Scene {
             Total CHI: ${Math.floor(totalChi)} / ${maxChi}
           </div>
           
-          ${renderBar('Compost', compostLvl, compostProg, false, '#34D399')}
-          ${renderBar('Recycling', this.gardenSystem.getRecyclingLevel(), recyclingProg, isLocked, '#3b82f6')}
-          ${renderBar('Plastic', this.gardenSystem.getPlasticLevel(), plasticProg, isLocked, '#FBBF24')}
-          ${renderBar('Landfill', this.gardenSystem.getLandfillLevel(), landfillProg, isLocked, '#9ca3af')}
+          ${renderBar('Compost', compostLvl, compostProg, false, '#34D399', this.gardenSystem.getRawCount('compost'), 30, 10)}
+          ${renderBar('Recycling', this.gardenSystem.getRecyclingLevel(), recyclingProg, isLocked, '#3b82f6', this.gardenSystem.getRawCount('recycling'), 30, 10)}
+          ${renderBar('Plastic', this.gardenSystem.getPlasticLevel(), plasticProg, isLocked, '#FBBF24', this.gardenSystem.getRawCount('plastic'), 30, 10)}
+          ${renderBar('Landfill', this.gardenSystem.getLandfillLevel(), landfillProg, isLocked, '#9ca3af', this.gardenSystem.getRawCount('landfill'), 50, 5)}
 
           <div style="display: flex; gap: 4px; width: 100%; box-sizing: border-box; margin-top: 10px; flex-direction: column;">
             <div style="display: flex; gap: 4px; width: 100%;">
@@ -1252,6 +1384,8 @@ export class LevelSelectScene extends Phaser.Scene {
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       document.getElementById('level-select-styles')?.remove();
       document.getElementById('level-select-ui')?.remove();
+      document.getElementById('map-tutorial-overlay')?.remove();
+      document.getElementById('map-return-tutorial')?.remove();
       document.getElementById('smog-overlay')?.remove();
       document.getElementById('future-desc-box')?.remove();
       document.getElementById('map-weather-event')?.remove();

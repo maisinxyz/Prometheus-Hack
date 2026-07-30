@@ -31,7 +31,15 @@ export class GardenSystem {
   }
 
   private loadProgress(): void {
-    const saved = localStorage.getItem(GardenSystem.PROGRESS_KEY);
+    const isDev = localStorage.getItem('trashdash_dev_mode') === 'true';
+    let saved = isDev ? sessionStorage.getItem(GardenSystem.PROGRESS_KEY) : localStorage.getItem(GardenSystem.PROGRESS_KEY);
+    
+    // Fallback: If dev mode is active but no session data exists, clone from localStorage
+    if (isDev && !saved) {
+      saved = localStorage.getItem(GardenSystem.PROGRESS_KEY);
+      if (saved) sessionStorage.setItem(GardenSystem.PROGRESS_KEY, saved);
+    }
+
     if (saved) {
       try {
         this.progress = { ...this.progress, ...JSON.parse(saved) };
@@ -96,23 +104,34 @@ export class GardenSystem {
 
   private getUpgradeDescription(track: string, level: number): string {
     if (track === 'compost') {
-      if (level <= 6) return 'Wildflowers blossomed!';
-      if (level === 7) return 'New bushes grew!';
-      if (level === 8) return 'Tree sprouts appeared!';
-      if (level === 9) return 'Large plants have grown!';
-      if (level === 10) return 'A giant greenhouse tree blossomed!';
-      return 'More plants grew!';
+      if (level <= 3) return 'Fresh grass and small flowers sprouted!';
+      if (level <= 6) return 'Beautiful wildflowers are blooming!';
+      if (level <= 8) return 'Butterflies have migrated to the garden!';
+      return 'The garden flora is thriving wildly!';
     } else if (track === 'recycling') {
-      if (level <= 5) return 'New recycling bins were added!';
-      if (level <= 8) return 'Recycling centers expanded!';
-      return 'Massive recycling facilities were built!';
+      if (level === 1) return 'A tiny tree sapling was planted!';
+      if (level <= 4) return 'The park trees are growing taller!';
+      if (level === 5) return 'The trees have fully matured!';
+      if (level === 6) return 'Park benches have been installed!';
+      if (level === 7) return 'Street lamps now illuminate the park!';
+      if (level === 8) return 'People are relaxing on the park benches!';
+      if (level === 9) return 'Picnic tables have been set up!';
+      if (level === 10) return 'Families are enjoying the picnic tables!';
+      return 'The park infrastructure expanded!';
     } else if (track === 'plastic') {
-      if (level <= 5) return 'Recycled plastic benches appeared!';
-      if (level <= 8) return 'Plastic upcycling structures were built!';
-      return 'A large plastic processing facility appeared!';
+      const plasticSongs = [
+        'River Flows In You', 'Time To Love', 'Star Tea Party', 'Idea 22',
+        'Kiss The Rain', 'Icarus', 'Snowfall', 'Summer', 'Cherry Blossom', 'Canon in D'
+      ];
+      if (level >= 1 && level <= 10) {
+        return `Unlocked song: ${plasticSongs[level - 1]}!`;
+      }
+      return 'A new musical track has been unlocked!';
     } else if (track === 'landfill') {
-      if (level <= 3) return 'Landfill reduction efforts started!';
-      return 'Major landfill clearing completed!';
+      if (level === 1) return 'The official park sign has been erected!';
+      if (level <= 5) return 'Cute dogs are playing in the park!';
+      if (level <= 10) return 'Squirrels and wildlife have moved in!';
+      return 'More animals have appeared!';
     }
     return 'New upgrades appeared!';
   }
@@ -165,7 +184,12 @@ export class GardenSystem {
   }
 
   private saveProgress(): void {
-    localStorage.setItem(GardenSystem.PROGRESS_KEY, JSON.stringify(this.progress));
+    const isDev = localStorage.getItem('trashdash_dev_mode') === 'true';
+    if (isDev) {
+      sessionStorage.setItem(GardenSystem.PROGRESS_KEY, JSON.stringify(this.progress));
+    } else {
+      localStorage.setItem(GardenSystem.PROGRESS_KEY, JSON.stringify(this.progress));
+    }
   }
 
   public addProgress(binId: string, amount: number): void {

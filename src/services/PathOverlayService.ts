@@ -112,6 +112,12 @@ class PathOverlayServiceSingleton {
       features
     };
 
+    const source = this.map.getSource('candy-crush-path');
+    if (source) {
+      source.setData(geojson);
+      return; // Layers already exist, just updated the data
+    }
+
     this.map.addSource('candy-crush-path', {
       type: 'geojson',
       data: geojson,

@@ -75,10 +75,16 @@ export class InteractiveTutorialOverlay extends Phaser.Scene {
         lineSpacing: 12,
       }).setOrigin(0.5, 0.5);
 
+    // Visual examples of what to put in the crusher
+    this.add.image(centerX - 120, centerY + 50, 'brick').setDisplaySize(60, 60);
+    this.add.image(centerX - 40, centerY + 50, 'rock').setDisplaySize(60, 60);
+    this.add.text(centerX + 30, centerY + 50, '➡️', { fontSize: '32px' }).setOrigin(0.5);
+    this.add.image(centerX + 110, centerY + 50, 'machine_rock_crusher').setDisplaySize(90, 90);
+
     // Blueprint style button
     const btnWidth = 160;
     const btnHeight = 40;
-    const btnY = centerY + 90;
+    const btnY = centerY + 130;
     
     const btnBg = this.add.graphics();
     btnBg.lineStyle(2, 0xffffff, 1);
@@ -115,7 +121,7 @@ export class InteractiveTutorialOverlay extends Phaser.Scene {
         if (trayScene.sys.isPaused()) {
           this.scene.resume('TrayScene');
         }
-        if (trayScene.resumeTimer) trayScene.resumeTimer();
+        if (trayScene.startTimer) trayScene.startTimer();
       }
       this.scene.stop();
     });

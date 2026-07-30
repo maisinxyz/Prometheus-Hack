@@ -1256,7 +1256,6 @@ class ThreeJSServiceSingleton {
 
       const validItems = items.filter(r => r !== null);
       
-      const ponds: {x: number, z: number}[] = [];
       const benches: {x: number, z: number}[] = [];
       const tables: {x: number, z: number}[] = [];
       
@@ -1268,10 +1267,12 @@ class ThreeJSServiceSingleton {
 
       validItems.sort((a, b) => {
          const getPriority = (item: any) => {
-            if (item.type === 'plastic' && (item.level === 1 || item.level === 9)) return 1;
-            if (item.type === 'recycling') return 10;
+            if (item.type === 'recycling') {
+               // Street lamps (level 7) should process after benches (6) and tables (9) so it can anchor to all of them
+               if (item.level === 7) return 10.5;
+               return 10;
+            }
             if (item.type === 'compost') return 11;
-            if (item.type === 'plastic') return 12;
             if (item.type === 'landfill') return 13;
             return 20;
          };
@@ -1316,7 +1317,17 @@ class ThreeJSServiceSingleton {
              else { baseSize = 70; collisionRadius = 40; }
           }
           else if (level === 6) { baseSize = 22; collisionRadius = 60; numDuplicates = 3; }
-          else if (level === 7) { baseSize = 60; collisionRadius = 15; numDuplicates = 3; }
+          else if (level === 7) { 
+             baseSize = 60; 
+             requiresCollision = false; 
+             if (benches.length > 0) {
+                 anchorToSnapTo = benches;
+                 numDuplicates = benches.length;
+             } else {
+                 numDuplicates = 3;
+             }
+             randomizeAnchorOffset = false;
+          }
           else if (level === 8) { 
              baseSize = 25; requiresCollision = false; anchorToSnapTo = benches; 
              numDuplicates = 1; yOffset = path.includes('2recycling') ? -28 : -22; 
@@ -1326,25 +1337,17 @@ class ThreeJSServiceSingleton {
              baseSize = 35; requiresCollision = false; anchorToSnapTo = tables; 
              numDuplicates = 1; yOffset = -28; 
           }
-        } else if (type === 'plastic') {
-          numDuplicates = 2;
-          requiresCollision = true;
-          if (level === 1 || level === 9) { 
-             baseSize = 120; collisionRadius = 110; isPondZone = true; numDuplicates = 1; yOffset = -35; 
-          }
-          else if (level === 7) { baseSize = 15; requiresCollision = false; numDuplicates = 4; yOffset = 50; }
-          else {
-             anchorToSnapTo = ponds;
-             requiresCollision = false;
-             randomizeAnchorOffset = (level !== 10);
-             if (level === 5) { baseSize = 12; numDuplicates = 5; yOffset = -28; }
-             else if (level === 10) { baseSize = 30; numDuplicates = 1; yOffset = -22; }
-             else { baseSize = 15; numDuplicates = 3; yOffset = -28; }
-          }
         } else if (type === 'landfill') {
           numDuplicates = 1;
           requiresCollision = true;
-          if (level === 1) { baseSize = 30; collisionRadius = 12; numDuplicates = 1; }
+          if (level === 1) { 
+             baseSize = 25; 
+             requiresCollision = false; 
+             // Spawn exactly in front of the camera, far enough away so it doesn't clip
+             anchorToSnapTo = [{x: 0, z: -80}];
+             numDuplicates = 1;
+             randomizeAnchorOffset = false;
+          }
           else { baseSize = 12; collisionRadius = 8; numDuplicates = 2; }
         }
 
@@ -1401,7 +1404,14 @@ class ThreeJSServiceSingleton {
                   z += (random() - 0.5) * 40;
                }
                
-               if (anchorToSnapTo === benches) {
+               if (type === 'recycling' && level === 7) {
+                  const dist = Math.sqrt(x*x + z*z);
+                  if (dist > 0) {
+                     // Shift sideways so the lamp is next to the bench/table, not inside it
+                     x += (z / dist) * 22;
+                     z -= (x / dist) * 22;
+                  }
+               } else if (anchorToSnapTo === benches) {
                   const dist = Math.sqrt(x*x + z*z);
                   if (dist > 0) {
                      x += (x / dist) * 4;
@@ -1480,7 +1490,6 @@ class ThreeJSServiceSingleton {
               this.occupiedSpots.push({x, z, radius: collisionRadius});
             }
             
-            if (type === 'plastic' && (level === 1 || level === 9)) ponds.push({x, z});
             if (type === 'recycling' && level === 6) benches.push({x, z});
             if (type === 'recycling' && level === 9) tables.push({x, z});
           }
