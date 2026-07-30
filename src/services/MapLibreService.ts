@@ -691,7 +691,7 @@ class MapLibreServiceSingleton {
       // Tier 2: The Scorched Earth (26-50%)
       this.map.setPaintProperty('3d-buildings', 'fill-extrusion-color', [
         'interpolate', ['linear'], ['get', 'render_height'],
-        0, '#fefce8', 40, '#fef08a', 120, '#fde047', 300, '#eab308'
+        0, '#fdba74', 40, '#f97316', 120, '#ea580c', 300, '#9a3412'
       ]);
       document.getElementById('mapkit-container')!.style.filter = 'brightness(1.2) contrast(1.2) saturate(1.5) sepia(0.4)';
       
