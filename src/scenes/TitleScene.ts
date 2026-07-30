@@ -122,9 +122,9 @@ export class TitleScene extends Phaser.Scene {
     const spritesBtnBg = this.add.rectangle(0, 0, 400, 100, 0x8b5cf6, 1); // Purple
     spritesBtnBg.setStrokeStyle(4, 0xffffff);
     
-    const spritesBtnText = this.add.text(0, 0, 'SPRITES', {
+    const spritesBtnText = this.add.text(0, 0, 'WASTE ENCYCLOPEDIA', {
       fontFamily: '"Nunito", sans-serif',
-      fontSize: '48px',
+      fontSize: '32px',
       color: '#ffffff',
       fontStyle: 'bold',
     });

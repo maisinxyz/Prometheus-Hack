@@ -35,7 +35,7 @@ class MetaGameController {
 
   private onRoundEnded(payload: { totalScore: number; accuracyPct: number; venueId: string }): void {
     // D.2: Update CHI
-    this.chiSystem.updateChi(payload.venueId, payload.accuracyPct);
+    this.chiSystem.updateChi(payload.venueId, payload.totalScore);
     
     // D.4: Update decay state
     this.venueDecayState.registerRound(payload.venueId, payload.accuracyPct);

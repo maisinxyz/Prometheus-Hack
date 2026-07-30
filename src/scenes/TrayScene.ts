@@ -872,7 +872,7 @@ export class TrayScene extends Phaser.Scene {
     }).setOrigin(0.5).setDepth(103);
 
     // CHI Gained Bar
-    const chiGained = computeChiGain(accuracyPct);
+    const chiGained = computeChiGain(this.roundScore);
     const totalChi = metaGameController.chiSystem.getChi(this.venueId);
     this.add.text(panelX, panelY - 100, `CHI GAINED: +${Math.round(chiGained)}`, {
       fontFamily: '"Nunito", sans-serif',
@@ -906,7 +906,7 @@ export class TrayScene extends Phaser.Scene {
       ease: 'Cubic.easeOut',
       onUpdate: (tween) => {
         const val = tween.getValue();
-        const fillPct = Math.min(1, val / 15); // Assume 15 is max possible gain
+        const fillPct = Math.min(1, val / Math.max(1, chiGained)); // Scale to the amount gained
         fillGraphics.clear();
         if (fillPct > 0) {
           fillGraphics.fillStyle(Phaser.Display.Color.HexStringToColor(UI_THEME.primaryGradient[0]).color, 1);
