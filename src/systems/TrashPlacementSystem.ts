@@ -77,7 +77,7 @@ export class TrashPlacementSystem {
         
         // For stacks and fences, we want to snap to the top/edge of the zone and jitter slightly,
         // rather than full scatter.
-        if (targetZoneName.includes('Stack') || targetZoneName.includes('Pile') || targetZoneName.includes('Sawhorse') || targetZoneName.includes('Table')) {
+        if (targetZoneName.includes('Stack') || targetZoneName.includes('Pile') || targetZoneName.includes('Sawhorse') || targetZoneName.includes('Table') || targetZoneName.includes('Bench') || targetZoneName.includes('Counter') || targetZoneName.includes('Desk')) {
           // Snap near the top of the stack surface
           finalY = targetZone.y + Phaser.Math.Between(0, Math.min(40, targetZone.height / 2));
         } else {

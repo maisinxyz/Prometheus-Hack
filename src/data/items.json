@@ -926,6 +926,9 @@
     "componentIds": [],
     "venueIds": [
       "tech_startup"
+    ],
+    "allowedZones": [
+      "FloorZone"
     ]
   },
   {
@@ -948,6 +951,10 @@
     "componentIds": [],
     "venueIds": [
       "tech_startup"
+    ],
+    "allowedZones": [
+      "LoungeZone",
+      "DeskZone"
     ]
   },
   {
@@ -959,6 +966,9 @@
     "componentIds": [],
     "venueIds": [
       "tech_startup"
+    ],
+    "allowedZones": [
+      "DeskZone"
     ]
   },
   {
@@ -970,6 +980,10 @@
     "componentIds": [],
     "venueIds": [
       "tech_startup"
+    ],
+    "allowedZones": [
+      "DeskZone",
+      "FloorZone"
     ]
   },
   {
@@ -992,6 +1006,9 @@
     "componentIds": [],
     "venueIds": [
       "tech_startup"
+    ],
+    "allowedZones": [
+      "DeskZone"
     ]
   },
   {
@@ -3524,6 +3541,10 @@
     "venueIds": [
       "tech_startup"
     ],
+    "allowedZones": [
+      "DeskZone",
+      "FloorZone"
+    ],
     "emoji": "🔋"
   },
   {
@@ -3535,6 +3556,9 @@
     "componentIds": [],
     "venueIds": [
       "tech_startup"
+    ],
+    "allowedZones": [
+      "DeskZone"
     ],
     "emoji": "🍼"
   },
@@ -3548,6 +3572,9 @@
     "venueIds": [
       "tech_startup"
     ],
+    "allowedZones": [
+      "LoungeZone"
+    ],
     "emoji": "🥽"
   },
   {
@@ -3560,6 +3587,9 @@
     "venueIds": [
       "tech_startup"
     ],
+    "allowedZones": [
+      "DeskZone"
+    ],
     "emoji": "💾"
   },
   {
@@ -3571,6 +3601,10 @@
     "componentIds": [],
     "venueIds": [
       "tech_startup"
+    ],
+    "allowedZones": [
+      "DeskZone",
+      "BreakroomTableZone"
     ],
     "emoji": "🍫"
   },

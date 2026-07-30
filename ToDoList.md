@@ -194,6 +194,7 @@ DONE!!!
 TODO:
 - FIX PLACEMENTS OF ALL SPRITES!
 - WORK ON DEVPOST SUBMISSION
+- Make the sprites page look better and also make it os that there is a silloughette of the item and all of the trash items are categorized into the type of trash (Which bins it goes into.) The colors on the bin is the colors you use for the silhouette. Moreover, the silloughette should ONLY show up as the item AFTER the user has encountered that item. If they haven't encountered it yet, it should just be the silloughette rather than the graphic. If they have encountered the item, it should show the actual sprite.
 
 
 

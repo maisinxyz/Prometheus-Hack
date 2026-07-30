@@ -371,7 +371,8 @@ export class TrayScene extends Phaser.Scene {
       const placement = placements[i]!;
       const itemDef = chosenItems[i]!;
       
-      const item = new TrashItem(this, placement.x, placement.y, itemDef, this.currentTier.visualCuesActive);
+      const itemScale = (venueData as any).itemScale || 1;
+      const item = new TrashItem(this, placement.x, placement.y, itemDef, this.currentTier.visualCuesActive, itemScale);
       item.baseX = placement.x;
       item.baseY = placement.y;
       

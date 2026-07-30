@@ -50,7 +50,8 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
     x: number, 
     y: number, 
     itemDef: TrashItemDef,
-    visualCuesActive: boolean = false
+    visualCuesActive: boolean = false,
+    itemScale: number = 1
   ) {
     super(scene, x, y, itemDef.spriteKey);
 
@@ -76,7 +77,7 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
       this.displayHeight = 80;
       this.scaleX = this.scaleY;
     }
-    const targetScale = this.scaleX === Infinity || isNaN(this.scaleX) ? 1 : this.scaleX;
+    const targetScale = (this.scaleX === Infinity || isNaN(this.scaleX) ? 1 : this.scaleX) * itemScale;
 
     // Set depth so items render above crusher (depth 20) and bins (depth 35)
     this.setDepth(100);
