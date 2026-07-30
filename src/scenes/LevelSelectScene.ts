@@ -177,11 +177,11 @@ export class LevelSelectScene extends Phaser.Scene {
         banner.innerHTML = `
           <div style="font-size: 18px; color: #FCD34D; margin-bottom: 10px; font-weight: bold; font-family: 'Nunito', sans-serif;">NEW LOCATION UNLOCKED</div>
           <div style="font-size: 40px; font-weight: 900; margin-bottom: 25px; font-family: 'Nunito', sans-serif; text-transform: uppercase;">${name}!</div>
-          <button id="banner-ok-btn" style="background: linear-gradient(90deg, #FBBF24, #F59E0B); color: #000; font-weight: 900; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-size: 20px; transition: transform 0.1s ease; outline: none;">AWESOME!</button>
+          <button style="background: linear-gradient(90deg, #FBBF24, #F59E0B); color: #000; font-weight: 900; border: none; padding: 12px 30px; border-radius: 25px; cursor: pointer; font-size: 20px; transition: transform 0.1s ease; outline: none;">AWESOME!</button>
         `;
         document.body.appendChild(banner);
         
-        const okBtn = document.getElementById('banner-ok-btn');
+        const okBtn = banner.querySelector('button');
         if (okBtn) {
           okBtn.addEventListener('mouseover', () => okBtn.style.transform = 'scale(1.05)');
           okBtn.addEventListener('mouseout', () => okBtn.style.transform = 'scale(1)');
@@ -399,24 +399,43 @@ export class LevelSelectScene extends Phaser.Scene {
     let weatherName = '';
     let weatherDesc = '';
     let weatherColor = '#ffffff';
+
+    const updateWeatherState = () => {
+      if (totalChi <= maxChi * 0.25) {
+        weatherName = 'Smog Day';
+        weatherDesc = 'The city is choked with toxic smog.';
+        weatherColor = '#dc2626'; // red
+      } else if (totalChi <= maxChi * 0.5) {
+        weatherName = 'Flash Flood';
+        weatherDesc = 'Climate change has caused severe flooding.';
+        weatherColor = '#f59e0b'; // orange
+      } else if (totalChi <= maxChi * 0.75) {
+        weatherName = 'Clear Skies';
+        weatherDesc = 'The environment is stabilizing.';
+        weatherColor = '#10b981'; // emerald
+      } else {
+        weatherName = 'Eco-Festival';
+        weatherDesc = 'The city celebrates your zero-waste efforts!';
+        weatherColor = '#a855f7'; // purple
+      }
+
+      const weatherContainer = document.getElementById('map-weather-event');
+      if (weatherContainer) {
+        weatherContainer.style.border = `2px solid ${weatherColor}`;
+        weatherContainer.style.boxShadow = `inset 0 4px 6px rgba(255,255,255,0.2), 0 10px 20px rgba(0,0,0,0.5), 0 0 15px ${weatherColor}80`;
+        const titleEl = weatherContainer.querySelector('div:nth-child(2)') as HTMLElement;
+        const descEl = weatherContainer.querySelector('div:nth-child(3)') as HTMLElement;
+        if (titleEl) {
+           titleEl.style.color = weatherColor;
+           titleEl.textContent = weatherName;
+        }
+        if (descEl) {
+           descEl.textContent = weatherDesc;
+        }
+      }
+    };
     
-    if (totalChi <= maxChi * 0.25) {
-      weatherName = 'Smog Day';
-      weatherDesc = 'The city is choked with toxic smog.';
-      weatherColor = '#dc2626'; // red
-    } else if (totalChi <= maxChi * 0.5) {
-      weatherName = 'Flash Flood';
-      weatherDesc = 'Climate change has caused severe flooding.';
-      weatherColor = '#f59e0b'; // orange
-    } else if (totalChi <= maxChi * 0.75) {
-      weatherName = 'Clear Skies';
-      weatherDesc = 'The environment is stabilizing.';
-      weatherColor = '#10b981'; // emerald
-    } else {
-      weatherName = 'Eco-Festival';
-      weatherDesc = 'The city celebrates your zero-waste efforts!';
-      weatherColor = '#a855f7'; // purple
-    }
+    updateWeatherState();
 
     const uiContainer = document.createElement('div');
     uiContainer.id = 'level-select-ui';
@@ -469,6 +488,9 @@ export class LevelSelectScene extends Phaser.Scene {
     `};
 
     const updateStatsPanel = () => {
+      totalChi = this.chiSystem.getTotalChi(venuesData.map((v: any) => v.id));
+      updateWeatherState();
+      
       const compostLvl = this.gardenSystem.getCompostLevel();
       const isLocked = compostLvl < 5;
       const compostProg = (this.gardenSystem.getRawCount('compost') % 30) / 30 * 100;
