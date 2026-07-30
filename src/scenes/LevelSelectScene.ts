@@ -390,7 +390,7 @@ export class LevelSelectScene extends Phaser.Scene {
     }
 
     // 4. UI Overlay (HTML) for Total CHI and Future Vision
-    const totalChi = this.chiSystem.getTotalChi(venuesData.map(v => v.id));
+    let totalChi = this.chiSystem.getTotalChi(venuesData.map(v => v.id));
     const maxChi = venuesData.length * 100;
 
     let weatherName = '';
@@ -446,14 +446,6 @@ export class LevelSelectScene extends Phaser.Scene {
     `;
     document.head.appendChild(styleEl);
     
-    
-    const compostLvl = this.gardenSystem.getCompostLevel();
-    const isLocked = compostLvl < 5;
-    const compostProg = (this.gardenSystem.getRawCount('compost') % 30) / 30 * 100;
-    const recyclingProg = (this.gardenSystem.getRawCount('recycling') % 30) / 30 * 100;
-    const plasticProg = (this.gardenSystem.getRawCount('plastic') % 30) / 30 * 100;
-    const landfillProg = (this.gardenSystem.getRawCount('landfill') % 50) / 50 * 100;
-
     const renderBar = (name: string, lvl: number, prog: number, locked: boolean, color: string, rawCount: number, increment: number, maxLvl: number) => {
       let progText = "";
       if (!locked) {
@@ -473,20 +465,22 @@ export class LevelSelectScene extends Phaser.Scene {
           </div>
         </div>
         <div style="width: 100%; height: 4px; background: rgba(0,0,0,0.4); border-radius: 2px; overflow: hidden;">
-          <div style="width: ${prog}%; height: 100%; background: ${locked ? '#475569' : color}; border-radius: 2px;"></div>
+          <div style="width: ${prog}%; height: 100%; background: #22c55e; border-radius: 2px;"></div>
         </div>
       </div>
     `};
 
-    uiContainer.innerHTML = `
-      <div id="stats-wrapper" style="background: rgba(15,23,42,0.85); backdrop-filter: blur(8px); padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); width: 220px; box-sizing: border-box; position: relative; transition: all 0.3s ease;">
-        
-        <div id="stats-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; transition: margin 0.3s ease;">
-          <div id="stats-title" style="color: #f1f5f9; font-weight: 800; font-size: 13px; letter-spacing: 0.5px; transition: opacity 0.2s ease;">COMMUNITY GARDEN</div>
-          <div id="stats-toggle-btn" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 2px 6px; font-size: 10px; border-radius: 4px; cursor: pointer; font-family: 'Nunito', sans-serif;">Hide</div>
-        </div>
+    const updateStatsPanel = () => {
+      const compostLvl = this.gardenSystem.getCompostLevel();
+      const isLocked = compostLvl < 5;
+      const compostProg = (this.gardenSystem.getRawCount('compost') % 30) / 30 * 100;
+      const recyclingProg = (this.gardenSystem.getRawCount('recycling') % 30) / 30 * 100;
+      const plasticProg = (this.gardenSystem.getRawCount('plastic') % 30) / 30 * 100;
+      const landfillProg = (this.gardenSystem.getRawCount('landfill') % 50) / 50 * 100;
 
-        <div id="stats-content-area" style="transition: max-height 0.3s ease, opacity 0.3s ease; max-height: 800px; opacity: 1; overflow: hidden;">
+      const statsContentArea = document.getElementById('stats-content-area');
+      if (statsContentArea) {
+        statsContentArea.innerHTML = `
           <div style="color: #facc15; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: bold; text-shadow: 0 1px 2px rgba(0,0,0,0.8); margin-bottom: 10px;">
             Total CHI: ${Math.floor(totalChi)} / ${maxChi}
           </div>
@@ -498,21 +492,78 @@ export class LevelSelectScene extends Phaser.Scene {
 
           <div style="display: flex; gap: 4px; width: 100%; box-sizing: border-box; margin-top: 10px; flex-direction: column;">
             <div style="display: flex; gap: 4px; width: 100%;">
-              <button id="future-btn" style="flex: 1; background: rgba(37,99,235,0.8); color: #ffffff; border: 1px solid rgba(255,255,255,0.1); padding: 6px 2px; font-size: 10px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: transform 0.1s ease;">
-                Vision
+              <button id="garden-btn" style="flex: 1; padding: 6px 0; background: #22c55e; color: white; border: 2px solid #fff; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Nunito', sans-serif; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+                Visit Park
               </button>
-              <button id="garden-btn" style="flex: 1; background: rgba(15,157,116,0.8); color: #ffffff; border: 1px solid rgba(255,255,255,0.1); padding: 6px 2px; font-size: 10px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: transform 0.1s ease;">
-                Park
+              <button id="codex-btn" style="flex: 1; padding: 6px 0; background: #8b5cf6; color: white; border: 2px solid #fff; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Nunito', sans-serif; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
+                Snapshots
               </button>
             </div>
-            <button id="codex-btn" style="width: 100%; background: rgba(147,51,234,0.8); color: #ffffff; border: 1px solid rgba(255,255,255,0.1); padding: 6px 2px; font-size: 10px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: transform 0.1s ease;">
-              Snapshots
+            <button id="future-btn" style="width: 100%; padding: 6px 0; background: ${weatherColor}; color: white; border: 2px solid #fff; border-radius: 8px; font-weight: bold; cursor: pointer; font-family: 'Nunito', sans-serif; box-shadow: 0 4px 6px rgba(0,0,0,0.3); display: none;">
+              Vision
             </button>
           </div>
+        `;
+        
+        document.getElementById('garden-btn')?.addEventListener('click', () => {
+          this.scene.start('LoadingScene', { target: 'CommunityGardenScene' });
+        });
+        document.getElementById('codex-btn')?.addEventListener('click', () => {
+          populateCodex();
+          const codexOverlay = document.getElementById('codex-overlay');
+          if (codexOverlay) codexOverlay.style.display = 'flex';
+        });
+        document.getElementById('future-btn')?.addEventListener('click', () => {
+          isFutureVisionActive = !isFutureVisionActive;
+          MapLibreService.toggleFutureVision(isFutureVisionActive, totalChi, maxChi);
+          
+          const overlay = document.getElementById('smog-overlay');
+          const box = document.getElementById('future-desc-box');
+          if (overlay && box) {
+            overlay.style.display = isFutureVisionActive ? 'block' : 'none';
+            box.style.display = isFutureVisionActive ? 'block' : 'none';
+            if (isFutureVisionActive) {
+               updateVisionUI();
+            }
+          }
+
+          if ((window as any)._snapshotsTutorialStep === 3 && isFutureVisionActive) {
+             const tutOverlay = document.getElementById('snapshots-tutorial-overlay');
+             if (tutOverlay) {
+               tutOverlay.innerHTML = 'This is <span style="color: #3b82f6">Future Vision</span>!<br/><br/>It shows 5 possible futures based on your Total CHI. Improve your future by cleaning up more areas!<br/><br/><span style="color: #dc2626">0-25% CHI</span>: The Drowned City<br/><span style="color: #ea580c">26-50% CHI</span>: The Scorched Earth<br/><span style="color: #9ca3af">51-74% CHI</span>: The Great Smog<br/><span style="color: #16a34a">75-99% CHI</span>: Eco-Utopia<br/><span style="color: #facc15">100% CHI</span>: The Golden Age<br/><br/>To leave Vision, click the Vision button again.<br/><br/><button id="tut-ok-2" style="background: #3b82f6; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 20px; outline: none; transition: transform 0.1s ease;">OK</button>';
+               tutOverlay.style.top = '50%';
+               tutOverlay.style.transform = 'translate(-50%, -50%)';
+               
+               const okBtn2 = document.getElementById('tut-ok-2');
+               if (okBtn2) {
+                 okBtn2.addEventListener('mouseover', () => okBtn2.style.transform = 'scale(1.05)');
+                 okBtn2.addEventListener('mouseout', () => okBtn2.style.transform = 'scale(1)');
+                 okBtn2.addEventListener('click', () => {
+                    tutOverlay.remove();
+                    (window as any)._snapshotsTutorialStep = 0;
+                    localStorage.setItem('trashdash_snapshots_tutorial_done', 'true');
+                 });
+               }
+             }
+          }
+        });
+      }
+    };
+
+    uiContainer.innerHTML = `
+      <div id="stats-wrapper" style="background: rgba(15,23,42,0.85); backdrop-filter: blur(8px); padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); width: 220px; box-sizing: border-box; position: relative; transition: all 0.3s ease;">
+        
+        <div id="stats-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; transition: margin 0.3s ease;">
+          <div id="stats-title" style="color: #f1f5f9; font-weight: 800; font-size: 13px; letter-spacing: 0.5px; transition: opacity 0.2s ease;">COMMUNITY GARDEN</div>
+          <div id="stats-toggle-btn" style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 2px 6px; font-size: 10px; border-radius: 4px; cursor: pointer; font-family: 'Nunito', sans-serif;">Hide</div>
+        </div>
+
+        <div id="stats-content-area" style="transition: max-height 0.3s ease, opacity 0.3s ease; max-height: 800px; opacity: 1; overflow: hidden;">
         </div>
       </div>
     `;
     document.body.appendChild(uiContainer);
+    updateStatsPanel();
 
     // 4.5 Task 2.5/2.6: Current CHI HUD & Recenter Button
     const currentChiHud = document.createElement('div');
@@ -939,19 +990,6 @@ export class LevelSelectScene extends Phaser.Scene {
       }
     });
 
-    document.getElementById('garden-btn')?.addEventListener('click', () => {
-      const pList = (this as any).playlist;
-      const tIdx = (this as any).currentTrackIndex;
-      if (pList && pList[tIdx]) {
-        const music = this.sound.get(pList[tIdx].key) as Phaser.Sound.WebAudioSound;
-        if (music && music.isPlaying) {
-          localStorage.setItem('musicSeek', music.seek.toString());
-          music.pause();
-        }
-      }
-      this.scene.start('LoadingScene', { target: 'CommunityGardenScene', targetData: {} });
-    });
-
     const weatherEventContainer = document.createElement('div');
     weatherEventContainer.id = 'map-weather-event';
     weatherEventContainer.style.position = 'absolute';
@@ -1068,76 +1106,47 @@ export class LevelSelectScene extends Phaser.Scene {
     document.body.appendChild(descBox);
 
     let isFutureVisionActive = false;
-    document.getElementById('future-btn')!.addEventListener('click', () => {
-      isFutureVisionActive = !isFutureVisionActive;
-      MapLibreService.toggleFutureVision(isFutureVisionActive, totalChi, maxChi);
-      const btn = document.getElementById('future-btn')!;
-      if (isFutureVisionActive) {
-        const percent = maxChi > 0 ? (totalChi / maxChi) : 0;
-        descBox.style.display = 'block';
 
-        if (percent <= 0.25) {
-          btn.style.background = '#dc2626'; // red
-          smogOverlay.style.background = 'linear-gradient(to bottom, rgba(50, 40, 30, 0.4) 0%, rgba(30, 25, 20, 0.2) 100%)';
-          smogOverlay.style.backdropFilter = 'grayscale(0.5) contrast(1.1)';
-          smogOverlay.style.opacity = '1';
-          descBox.style.border = '2px solid #dc2626';
-          descBox.innerHTML = '<strong style="color:#dc2626; font-size: 24px;">Year 2076: The Drowned City</strong><br/><br/>Decades of unchecked waste, overflowing landfills, and polluted waterways have decimated New York City. A thick, toxic gray-brown smog chokes the air permanently. Even worse, the rising global temperatures have triggered a catastrophic sea level rise! Watch as a sludge of toxic ocean water rises up to swallow the streets. This is the bleak future of inaction.';
-        } else if (percent <= 0.50) {
-          btn.style.background = '#ea580c'; // orange
-          smogOverlay.style.background = 'linear-gradient(to bottom, rgba(255, 200, 100, 0.15) 0%, rgba(255, 150, 50, 0.1) 100%)';
-          smogOverlay.style.backdropFilter = 'saturate(1.2)';
-          smogOverlay.style.opacity = '1';
-          descBox.style.border = '2px solid #ea580c';
-          descBox.innerHTML = '<strong style="color:#ea580c; font-size: 24px;">Year 2076: The Scorched Earth</strong><br/><br/>You stopped the oceans from rising, but failed to stop global warming. The rivers ran completely dry, leaving cracked dirt in their wake. An unrelenting heatwave bakes the city under a blinding, scorching sun. The city has become an uninhabitable concrete desert.';
-        } else if (percent <= 0.74) {
-          btn.style.background = '#4b5563'; // gray
-          smogOverlay.style.background = 'linear-gradient(to bottom, rgba(100, 100, 80, 0.5) 0%, rgba(80, 80, 60, 0.3) 100%)';
-          smogOverlay.style.backdropFilter = 'blur(1px) sepia(0.3)';
-          smogOverlay.style.opacity = '1';
-          descBox.style.border = '2px solid #9ca3af';
-          descBox.innerHTML = `<strong style="color:#9ca3af; font-size: 24px;">Year 2076: The Great Smog</strong><br/><br/>The oceans didn't rise, and the rivers didn't dry up, but the air is barely breathable. Decades of industrial waste have choked the sky in a thick, yellowish-gray fog. The city is sterile, dull, and lifeless. Humanity survives, but at a miserable, suffocating cost.`;
-        } else if (percent < 1.0) {
-          btn.style.background = '#16a34a'; // green
-          smogOverlay.style.background = 'linear-gradient(to bottom, rgba(150, 255, 200, 0.2) 0%, rgba(100, 200, 255, 0.1) 100%)';
-          smogOverlay.style.backdropFilter = 'saturate(1.2)';
-          smogOverlay.style.opacity = '1';
-          descBox.style.border = '2px solid #16a34a';
-          descBox.innerHTML = '<strong style="color:#16a34a; font-size: 24px;">Year 2076: Eco-Utopia</strong><br/><br/>Your incredible dedication to recycling and zero-waste initiatives has transformed New York City. The air is pristine, urban forests thrive among the skyscrapers, and the rivers are crystal clear. You have saved the city from environmental collapse.';
-        } else {
-          btn.style.background = '#ca8a04'; // gold
-          smogOverlay.style.background = 'linear-gradient(to bottom, rgba(255, 215, 0, 0.1) 0%, rgba(255, 150, 0, 0.05) 100%)';
-          smogOverlay.style.backdropFilter = 'saturate(1.3) contrast(1.1)';
-          smogOverlay.style.opacity = '1';
-          descBox.style.border = '2px solid #facc15';
-          descBox.innerHTML = `<strong style="color:#facc15; font-size: 24px; text-shadow: 0 0 5px rgba(250,204,21,0.5);">Year 2076: The Golden Age</strong><br/><br/>A flawless, perfect equilibrium. You didn't just save the city—you elevated it into a beacon of environmental perfection for the rest of the world to follow. The air is perfectly pure, the water sparkles, and humanity thrives in perfect harmony with nature.`;
-        }
-      } else {
-        btn.style.background = '#2563eb';
-        smogOverlay.style.opacity = '0';
-        descBox.style.display = 'none';
-      }
+    const updateVisionUI = () => {
+      const percent = maxChi > 0 ? (totalChi / maxChi) : 0;
+      const descBox = document.getElementById('future-desc-box');
+      const smogOverlay = document.getElementById('smog-overlay');
+      const btn = document.getElementById('future-btn');
       
-      if ((window as any)._snapshotsTutorialStep === 3 && isFutureVisionActive) {
-         const tutOverlay = document.getElementById('snapshots-tutorial-overlay');
-         if (tutOverlay) {
-           tutOverlay.innerHTML = 'This is <span style="color: #3b82f6">Future Vision</span>!<br/><br/>It shows 5 possible futures based on your Total CHI. Improve your future by cleaning up more areas!<br/><br/><span style="color: #dc2626">0-25% CHI</span>: The Drowned City<br/><span style="color: #ea580c">26-50% CHI</span>: The Scorched Earth<br/><span style="color: #9ca3af">51-74% CHI</span>: The Great Smog<br/><span style="color: #16a34a">75-99% CHI</span>: Eco-Utopia<br/><span style="color: #facc15">100% CHI</span>: The Golden Age<br/><br/>To leave Vision, click the Vision button again.<br/><br/><button id="tut-ok-2" style="background: #3b82f6; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 20px; outline: none; transition: transform 0.1s ease;">OK</button>';
-           tutOverlay.style.top = '50%';
-           tutOverlay.style.transform = 'translate(-50%, -50%)';
-           
-           const okBtn2 = document.getElementById('tut-ok-2');
-           if (okBtn2) {
-             okBtn2.addEventListener('mouseover', () => okBtn2.style.transform = 'scale(1.05)');
-             okBtn2.addEventListener('mouseout', () => okBtn2.style.transform = 'scale(1)');
-             okBtn2.addEventListener('click', () => {
-                tutOverlay.remove();
-                (window as any)._snapshotsTutorialStep = 0;
-                localStorage.setItem('trashdash_snapshots_tutorial_done', 'true');
-             });
-           }
-         }
+      if (!descBox || !smogOverlay || !btn) return;
+      
+      if (percent <= 0.25) {
+        btn.style.background = '#dc2626';
+        smogOverlay.style.background = 'linear-gradient(to bottom, rgba(50, 40, 30, 0.4) 0%, rgba(30, 25, 20, 0.2) 100%)';
+        smogOverlay.style.backdropFilter = 'grayscale(0.5) contrast(1.1)';
+        descBox.style.border = '2px solid #dc2626';
+        descBox.innerHTML = '<strong style="color:#dc2626; font-size: 24px;">Year 2076: The Drowned City</strong><br/><br/>Decades of unchecked waste, overflowing landfills, and polluted waterways have decimated New York City. A thick, toxic gray-brown smog chokes the air permanently. Even worse, the rising global temperatures have triggered a catastrophic sea level rise! Watch as a sludge of toxic ocean water rises up to swallow the streets. This is the bleak future of inaction.';
+      } else if (percent <= 0.50) {
+        btn.style.background = '#ea580c';
+        smogOverlay.style.background = 'linear-gradient(to bottom, rgba(255, 200, 100, 0.15) 0%, rgba(255, 150, 50, 0.1) 100%)';
+        smogOverlay.style.backdropFilter = 'saturate(1.2)';
+        descBox.style.border = '2px solid #ea580c';
+        descBox.innerHTML = '<strong style="color:#ea580c; font-size: 24px;">Year 2076: The Scorched Earth</strong><br/><br/>You stopped the oceans from rising, but failed to stop global warming. The rivers ran completely dry, leaving cracked dirt in their wake. An unrelenting heatwave bakes the city under a blinding, scorching sun. The city has become an uninhabitable concrete desert.';
+      } else if (percent <= 0.74) {
+        btn.style.background = '#4b5563';
+        smogOverlay.style.background = 'linear-gradient(to bottom, rgba(100, 100, 80, 0.5) 0%, rgba(80, 80, 60, 0.3) 100%)';
+        smogOverlay.style.backdropFilter = 'blur(1px) sepia(0.3)';
+        descBox.style.border = '2px solid #9ca3af';
+        descBox.innerHTML = '<strong style="color:#9ca3af; font-size: 24px;">Year 2076: The Great Smog</strong><br/><br/>The oceans didn\'t rise, and the rivers didn\'t dry up, but the air is barely breathable. Decades of industrial waste have choked the sky in a thick, yellowish-gray fog. The city is sterile, dull, and lifeless. Humanity survives, but at a miserable, suffocating cost.';
+      } else if (percent < 1.0) {
+        btn.style.background = '#16a34a';
+        smogOverlay.style.background = 'linear-gradient(to bottom, rgba(150, 255, 200, 0.2) 0%, rgba(100, 200, 255, 0.1) 100%)';
+        smogOverlay.style.backdropFilter = 'saturate(1.2)';
+        descBox.style.border = '2px solid #16a34a';
+        descBox.innerHTML = '<strong style="color:#16a34a; font-size: 24px;">Year 2076: Eco-Utopia</strong><br/><br/>Your incredible dedication to recycling and zero-waste initiatives has transformed New York City. The air is pristine, urban forests thrive among the skyscrapers, and the rivers are crystal clear. You have saved the city from environmental collapse.';
+      } else {
+        btn.style.background = '#ca8a04';
+        smogOverlay.style.background = 'linear-gradient(to bottom, rgba(255, 215, 0, 0.1) 0%, rgba(255, 150, 0, 0.05) 100%)';
+        smogOverlay.style.backdropFilter = 'saturate(1.3) contrast(1.1)';
+        descBox.style.border = '2px solid #facc15';
+        descBox.innerHTML = '<strong style="color:#facc15; font-size: 24px; text-shadow: 0 0 5px rgba(250,204,21,0.5);">Year 2076: The Golden Age</strong><br/><br/>A flawless, perfect equilibrium. You didn\'t just save the city—you elevated it into a beacon of environmental perfection for the rest of the world to follow. The air is perfectly pure, the water sparkles, and humanity thrives in perfect harmony with nature.';
       }
-    });
+    };
 
     // --- Time Machine Codex UI ---
     const codexOverlay = document.createElement('div');
@@ -1393,7 +1402,9 @@ export class LevelSelectScene extends Phaser.Scene {
       devPanel.innerHTML = `
         <div style="font-weight: bold; margin-bottom: 10px; font-size: 16px;">DEV MODE</div>
         <div style="font-size: 12px; margin-bottom: 2px;">Total CHI: <span id="dev-chi-val">${Math.floor(totalChi)}</span> / ${maxChi}</div>
-        <input type="range" id="dev-chi-slider" min="0" max="${maxChi}" value="${Math.floor(totalChi)}" style="width: 100%; margin-bottom: 10px;" />
+        <div style="margin-bottom: 10px;">
+          <input type="range" id="dev-chi-slider" min="0" max="${maxChi}" value="${Math.floor(totalChi)}" style="width: 100%;" />
+        </div>
         <div style="font-size: 12px; margin-bottom: 5px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 4px;">Garden Levels</div>
         <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
           <span>Compost</span>
@@ -1418,17 +1429,58 @@ export class LevelSelectScene extends Phaser.Scene {
       const valLabel = document.getElementById('dev-chi-val');
       
       slider?.addEventListener('input', (e) => {
-        if (valLabel) valLabel.textContent = (e.target as HTMLInputElement).value;
-      });
+        const val = (e.target as HTMLInputElement).value;
+        if (valLabel) valLabel.textContent = val;
 
-      slider?.addEventListener('change', (e) => {
-        let remainingChi = parseInt((e.target as HTMLInputElement).value, 10);
-        venuesData.forEach(v => {
+        let remainingChi = parseInt(val, 10);
+        let newTotalChi = 0;
+        
+        venuesData.forEach((v: any) => {
           const venueChi = Math.max(0, Math.min(100, remainingChi));
-          localStorage.setItem('trashdash_chi_' + v.id, venueChi.toString());
+          
+          const isDev = localStorage.getItem('trashdash_dev_mode') === 'true';
+          if (isDev) {
+            sessionStorage.setItem('trashdash_chi_' + v.id, venueChi.toString()); // Force dev mode storage update
+          } else {
+            localStorage.setItem('trashdash_chi_' + v.id, venueChi.toString());
+          }
+          
+          (this.chiSystem as any).chiMap.set(v.id, venueChi); // Force in-memory update for fast sync
+          
           remainingChi -= venueChi;
+          newTotalChi += venueChi;
         });
-        this.scene.restart();
+        
+        totalChi = newTotalChi;
+        updateStatsPanel(); // Trigger the HTML update
+
+        let newUnlockedCount = 1;
+        for (let i = 1; i < venuesData.length; i++) {
+          const v = venuesData[i] as any;
+          const prev = venuesData[i-1] as any;
+          const prevChi = this.chiSystem.getChi(prev.id);
+          if (prevChi >= v.unlockChiThreshold) {
+            newUnlockedCount++;
+          } else {
+            break;
+          }
+        }
+        
+        levelNodes.forEach((node, i) => {
+          let state = NodeState.LOCKED;
+          if (i < newUnlockedCount) {
+             state = (i === newUnlockedCount - 1) ? NodeState.CURRENT : NodeState.UNLOCKED;
+          }
+          node.updateState(state);
+        });
+        
+        if (map) {
+           PathOverlayService.addToMap(map, newUnlockedCount);
+           if (isFutureVisionActive) {
+             MapLibreService.toggleFutureVision(true, totalChi, maxChi);
+             updateVisionUI();
+           }
+        }
       });
 
       const setupDevBtn = (id: string, bin: string, isUp: boolean, increment: number) => {
@@ -1439,7 +1491,7 @@ export class LevelSelectScene extends Phaser.Scene {
           let newLevel = currentLevel + (isUp ? 1 : -1);
           newLevel = Math.max(0, Math.min(maxLevel, newLevel));
           this.gardenSystem.setProgress(bin, newLevel * increment);
-          this.scene.restart();
+          updateStatsPanel(); // Live update the UI
         });
       };
 

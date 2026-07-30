@@ -111,6 +111,15 @@ export class TitleScene extends Phaser.Scene {
                }
             }
             keysToRemove.forEach(k => localStorage.removeItem(k));
+
+            const sessionKeysToRemove = [];
+            for (let i = 0; i < sessionStorage.length; i++) {
+               const key = sessionStorage.key(i);
+               if (key && key.startsWith('trashdash_')) {
+                  sessionKeysToRemove.push(key);
+               }
+            }
+            sessionKeysToRemove.forEach(k => sessionStorage.removeItem(k));
             
             this.scene.start('LevelSelectScene');
           }
@@ -191,9 +200,9 @@ export class TitleScene extends Phaser.Scene {
             'nyc_hospital', 'hot_dog_stand', 'mackenzie_cafe'
           ];
           venueIds.forEach(id => {
-            localStorage.setItem('trashdash_chi_' + id, '100');
+            sessionStorage.setItem('trashdash_chi_' + id, '100');
           });
-          localStorage.setItem('trashdash_tutorial_complete', 'true');
+          sessionStorage.setItem('trashdash_tutorial_complete', 'true');
           localStorage.setItem('trashdash_dev_mode', 'true');
           
           this.scene.start('LevelSelectScene');

@@ -689,13 +689,21 @@ export class TrayScene extends Phaser.Scene {
         this.comboSystem.getCombo()
       );
 
+      // Add Crusher Bonus
+      let displayText = `+${result.pointsAwarded}`;
+      if (item.itemDef.id === 'concrete_chunk') {
+         this.roundScore += 250;
+         displayText = `+${result.pointsAwarded + 250}\nCrusher Bonus!`;
+      }
+
       // Floating animation
-      const text = this.add.text(bin.x, bin.y - 50, '+Bonus!', {
+      const text = this.add.text(bin.x, bin.y - 50, displayText, {
         fontFamily: '"Nunito", sans-serif',
         fontSize: '32px',
         color: '#22c55e',
         stroke: '#000000',
-        strokeThickness: 4
+        strokeThickness: 4,
+        align: 'center'
       }).setOrigin(0.5).setDepth(100);
       this.tweens.add({
         targets: text,

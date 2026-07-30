@@ -66,7 +66,7 @@ export class InteractiveTutorialOverlay extends Phaser.Scene {
 
     // Clean, technical instruction text
     this.add.text(centerX, centerY, 
-      "Some items are too big for regular bins.\nDrag them into the Rock Crusher first.", 
+      "You don't HAVE to put these in the Rock Crusher,\nbut if you do, you get a 250 point bonus!", 
       {
         fontFamily: '"Courier New", Courier, monospace',
         fontSize: '20px',
