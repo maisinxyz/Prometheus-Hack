@@ -362,9 +362,9 @@ export class LevelSelectScene extends Phaser.Scene {
             <p style="margin:0 0 20px 0; line-height: 1.5; font-size:18px;">
               For every correct item you place in the trash, it is converted into the UI! 
               <br><br>
-              As you sort items into <span style="color:#34D399;">Compost</span>, <span style="color:#3b82f6;">Recycling</span>, <span style="color:#9ca3af;">Landfill</span>, and <span style="color:#FBBF24;">Plastic</span>, your Community Park levels up!
+              As you sort items into <span style="color:#34D399;">Compost</span>, <span style="color:#3b82f6;">Recycling</span>, <span style="color:#9ca3af;">Landfill</span>, and <span style="color:#FBBF24;">Plastic</span>, your Community Park levels up! Note that your <span style="color:#34D399; font-weight:bold;">Compost</span> must be at least Level 5 before the other bins are unlocked and their changes are applied.
               <br><br>
-              Check out the Community Park now by clicking the "Park" button on the left!
+              Check out the Community Park now by clicking the "Visit Park" button on the left!
             </p>
           `;
           
