@@ -65,7 +65,7 @@ export class TrashPlacementSystem {
         targetZone = { x: 150, y: 730, width: 1620, height: 150 };
       }
 
-      let maxAttempts = 30;
+      let maxAttempts = 100;
       let safeSpawnFound = false;
       let finalX = 0;
       let finalY = 0;
@@ -77,11 +77,11 @@ export class TrashPlacementSystem {
         
         // For stacks and fences, we want to snap to the top/edge of the zone and jitter slightly,
         // rather than full scatter.
-        if (targetZoneName.includes('Stack') || targetZoneName.includes('Pile') || targetZoneName.includes('Sawhorse') || targetZoneName.includes('Table') || targetZoneName.includes('Bench') || targetZoneName.includes('Counter') || targetZoneName.includes('Desk')) {
-          // Snap near the top of the stack surface
+        if (targetZoneName.includes('Stack') || targetZoneName.includes('Pile') || targetZoneName.includes('Sawhorse')) {
+          // Snap near the top of the stack surface for things actually stacked
           finalY = targetZone.y + Phaser.Math.Between(0, Math.min(40, targetZone.height / 2));
         } else {
-          // Normal scatter over the full zone (e.g., GroundZone)
+          // Normal scatter over the full zone for desks, counters, benches, and floors
           finalY = Phaser.Math.Between(targetZone.y + ITEM_HEIGHT/2, targetZone.y + targetZone.height - ITEM_HEIGHT/2);
         }
         
