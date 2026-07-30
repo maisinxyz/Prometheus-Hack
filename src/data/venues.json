@@ -22,6 +22,7 @@
     "longitude": -73.9465,
     "sceneLatitude": 40.635,
     "sceneLongitude": -74.225,
+    "itemScale": 1.25,
     "binPositions": [
       {
         "x": 830,
@@ -46,16 +47,34 @@
     ],
     "spawnZones": {
       "GroundZone": {
-        "x": 100,
-        "y": 700,
-        "width": 1400,
-        "height": 200
+        "x": 50,
+        "y": 900,
+        "width": 500,
+        "height": 100
       },
-      "AirZone": {
-        "x": 100,
-        "y": 200,
-        "width": 1720,
-        "height": 400
+      "BrickPileZone": {
+        "x": 1370,
+        "y": 900,
+        "width": 500,
+        "height": 100
+      },
+      "LumberStackZone": {
+        "x": 50,
+        "y": 900,
+        "width": 500,
+        "height": 100
+      },
+      "SawhorseZone": {
+        "x": 1370,
+        "y": 900,
+        "width": 500,
+        "height": 100
+      },
+      "FenceLineZone": {
+        "x": 50,
+        "y": 900,
+        "width": 500,
+        "height": 100
       }
     }
   },
@@ -84,26 +103,52 @@
     "longitude": -74.0132,
     "binPositions": [
       {
-        "x": 2200,
+        "x": 600,
         "y": 800,
         "scale": 0.55
       },
       {
-        "x": 2700,
+        "x": 750,
         "y": 800,
         "scale": 0.55
       },
       {
-        "x": 3200,
+        "x": 900,
         "y": 800,
         "scale": 0.55
       },
       {
-        "x": 3700,
+        "x": 1050,
         "y": 800,
         "scale": 0.55
       }
-    ]
+    ],
+    "spawnZones": {
+      "DeckZone": {
+        "x": 100,
+        "y": 850,
+        "width": 1720,
+        "height": 200
+      },
+      "BenchZone": {
+        "x": 100,
+        "y": 800,
+        "width": 1720,
+        "height": 250
+      },
+      "BoothCounterZone": {
+        "x": 100,
+        "y": 850,
+        "width": 1720,
+        "height": 200
+      },
+      "RailingZone": {
+        "x": 100,
+        "y": 750,
+        "width": 1720,
+        "height": 250
+      }
+    }
   },
   {
     "id": "tech_startup",
@@ -125,6 +170,32 @@
       "clean": "venue_tech_startup_bg_clean",
       "grimy": "venue_tech_startup_bg_grimy",
       "ruined": "venue_tech_startup_bg_ruined"
+    },
+    "spawnZones": {
+      "FloorZone": {
+        "x": 1250,
+        "y": 950,
+        "width": 600,
+        "height": 100
+      },
+      "DeskZone": {
+        "x": 350,
+        "y": 950,
+        "width": 250,
+        "height": 100
+      },
+      "BreakroomTableZone": {
+        "x": 1250,
+        "y": 950,
+        "width": 600,
+        "height": 100
+      },
+      "LoungeZone": {
+        "x": 350,
+        "y": 950,
+        "width": 250,
+        "height": 100
+      }
     },
     "binPositions": [
       {

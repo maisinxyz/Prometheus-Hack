@@ -26,6 +26,8 @@ import { GlossyButton } from '../entities/GlossyButton';
 import { perfectStreakSystem } from '../systems/PerfectStreakSystem';
 import { computeChiGain } from '../systems/ChiSystem';
 import { streakFXManager } from '../systems/StreakFXManager';
+import { TrashPlacementSystem } from '../systems/TrashPlacementSystem';
+import { metaGameController } from '../systems/MetaGameController';
 
 /**
  * TrayScene — Core disposal loop.
@@ -353,103 +355,77 @@ export class TrayScene extends Phaser.Scene {
     // Pick random items for this tray (10-15 as requested)
     this.itemsPerTray = Phaser.Math.Between(10, 15);
     const selectedPool = [...pool].sort(() => Math.random() - 0.5);
-
+    const chosenItems = [];
     for (let i = 0; i < this.itemsPerTray; i++) {
-      const itemDef = selectedPool[i % selectedPool.length]!;
+      chosenItems.push(selectedPool[i % selectedPool.length]!);
+    }
 
-      let maxAttempts = 20;
-      let safeSpawnFound = false;
+    const venueSpawnZones = venueData.spawnZones as Record<string, {x: number, y: number, width: number, height: number}> | undefined;
+    
+    // Existing obstacles: Bins + Crusher
+    const obstacles: Phaser.Geom.Rectangle[] = [];
+    for (const bin of this.bins) {
+      obstacles.push(bin.getBounds());
+    }
+    if (this.crusher) {
+      obstacles.push(this.crusher.getBounds());
+    }
 
-      // Extract valid zones based on allowedZones
-      let validZones: any[] = [];
-      const venueSpawnZones = venueData.spawnZones as Record<string, {x: number, y: number, width: number, height: number}> | undefined;
+    // Generate placements using the shared engine
+    const placements = TrashPlacementSystem.generatePlacements(chosenItems, venueSpawnZones || {}, obstacles);
+
+    for (let i = 0; i < placements.length; i++) {
+      const placement = placements[i]!;
+      const itemDef = chosenItems[i]!;
       
-      if (venueSpawnZones && itemDef.allowedZones && itemDef.allowedZones.length > 0) {
-        for (const zoneName of itemDef.allowedZones) {
-          if (venueSpawnZones[zoneName]) {
-            validZones.push(venueSpawnZones[zoneName]);
-          }
-        }
+      const itemScale = (venueData as any).itemScale || 1;
+      const item = new TrashItem(this, placement.x, placement.y, itemDef, this.currentTier.visualCuesActive, itemScale);
+      item.baseX = placement.x;
+      item.baseY = placement.y;
+      
+      // We set depth based on generated placement + base to stay in front of background elements
+      item.setDepth(100 + placement.depth); 
+      item.setRotation(placement.rotation);
+      
+      // Animate drop or hop
+      if (placement.zone !== 'GroundZone' || venueSpawnZones) {
+        // Natural surface spawn: small hop or already resting
+        item.y -= 10;
+        this.tweens.add({
+          targets: item,
+          y: placement.y,
+          duration: Phaser.Math.Between(150, 300),
+          ease: 'Sine.easeOut'
+        });
+      } else {
+        // Default drop-in spawn
+        item.y -= 50;
+        this.tweens.add({
+          targets: item,
+          y: placement.y,
+          duration: Phaser.Math.Between(400, 700),
+          ease: 'Quad.easeOut'
+        });
       }
 
-      while (maxAttempts > 0 && !safeSpawnFound) {
-        let x, y;
-        
-        if (validZones.length > 0) {
-          // Pick a random valid zone
-          const zone = validZones[Phaser.Math.Between(0, validZones.length - 1)];
-          x = Phaser.Math.Between(zone.x, zone.x + zone.width);
-          y = Phaser.Math.Between(zone.y, zone.y + zone.height);
-        } else {
-          // Scatter items on the floor area
-          const padding = 150;
-          x = Phaser.Math.Between(padding, 1920 - padding);
-          y = Phaser.Math.Between(730, 880);
-        }
+      this.items.push(item);
 
-        // Estimate item bounds (assuming approx 100x100 size for safety)
-        const spawnRect = new Phaser.Geom.Rectangle(x - 50, y - 50, 100, 100);
-
-        let overlapping = false;
-
-        // Check bins
-        for (const bin of this.bins) {
-          if (Phaser.Geom.Rectangle.Overlaps(spawnRect, bin.getBounds())) {
-            overlapping = true;
-            break;
-          }
-        }
-
-        // Check crusher
-        if (!overlapping && this.crusher) {
-          if (Phaser.Geom.Rectangle.Overlaps(spawnRect, this.crusher.getBounds())) {
-            overlapping = true;
-          }
-        }
-
-        if (!overlapping) {
-          safeSpawnFound = true;
-          const item = new TrashItem(this, x, y, itemDef, this.currentTier.visualCuesActive);
-          item.baseX = x;
-          item.baseY = y;
-          item.setDepth(100); // Always in front of crusher (20) and bins (35)
-          
-          if (validZones.length > 0) {
-            // Natural surface spawn: small hop or already resting
-            item.y -= 10;
-            this.tweens.add({
-              targets: item,
-              y: y,
-              duration: Phaser.Math.Between(150, 300),
-              ease: 'Sine.easeOut'
-            });
-          } else {
-            // Default drop-in spawn
-            item.y -= 50;
-            this.tweens.add({
-              targets: item,
-              y: y,
-              duration: Phaser.Math.Between(400, 700),
-              ease: 'Quad.easeOut'
-            });
-          }
-
-          this.items.push(item);
-
-          if (this.currentEventId === 'flood') {
-            this.tweens.add({
-              targets: item,
-              y: `-=${10 + Math.random() * 20}`,
-              x: `+=${(Math.random() - 0.5) * 30}`,
-              yoyo: true,
-              repeat: -1,
-              duration: 800 + Math.random() * 600,
-              ease: 'Sine.easeInOut'
-            });
-          }
-        }
-        maxAttempts--;
+      if (this.currentEventId === 'flood') {
+        this.tweens.add({
+          targets: item,
+          y: `-=${10 + Math.random() * 20}`,
+          x: `+=${(Math.random() - 0.5) * 30}`,
+          yoyo: true,
+          repeat: -1,
+          duration: 800 + Math.random() * 600,
+          ease: 'Sine.easeInOut'
+        });
       }
+    }
+    
+    // Mark items as encountered for the Sprites Encyclopedia
+    if (chosenItems.length > 0) {
+      metaGameController.encounteredItemsSystem.markEncountered(chosenItems.map(i => i.id));
     }
   }
 
@@ -633,12 +609,16 @@ export class TrayScene extends Phaser.Scene {
     );
   }
 
-  /** Calculate the ground Y position for an item to land on */
   private getGroundY(item: TrashItem): number {
     const venueData = venuesData.find(v => v.id === this.venueId);
-    if (venueData && venueData.spawnZones && venueData.spawnZones.GroundZone) {
-      const gz = venueData.spawnZones.GroundZone;
-      return gz.y + gz.height - (item.displayHeight / 2);
+    let maxGround = 860;
+    if (venueData && venueData.spawnZones) {
+      for (const key in venueData.spawnZones) {
+        const zone = (venueData.spawnZones as any)[key];
+        const bottom = zone.y + zone.height;
+        if (bottom > maxGround) maxGround = bottom;
+      }
+      return maxGround - (item.displayHeight / 2);
     }
     return 860;
   }

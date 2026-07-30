@@ -1173,8 +1173,9 @@ class ThreeJSServiceSingleton {
       const venueId = this.currentVenueId || '';
       let defaultTheta = Math.PI / 4;
       if (venueId === 'tech_startup') {
-         const angles = this.getVenueAngles(venueId);
-         defaultTheta = angles.cameraTheta !== undefined ? angles.cameraTheta : (Math.PI / 2.2);
+         defaultTheta = Math.PI / 2.2;
+      } else if (venueId === 'ferry_docks') {
+         defaultTheta = -0.59;
       }
       this.cameraTheta = defaultTheta;
       this.cameraPhi = Math.PI / 2;
@@ -1572,7 +1573,7 @@ class ThreeJSServiceSingleton {
     // Positive = right of center, negative = left
     const venueAngles: Record<string, { startAngle: number, spacing: number, groundY: number, scale?: number, cameraTheta?: number }> = {
       construction_site:          { startAngle: 3.75, spacing: 0.12, groundY: -3 },
-      ferry_docks:                { startAngle:  2.55,  spacing: 0.09, groundY: -4.5, scale: 0.85 },
+      ferry_docks:                { startAngle:  2.55,  spacing: 0.09, groundY: -4.5, scale: 0.85, cameraTheta: -0.59 },
       tech_startup:               { startAngle: 4.2, spacing: 0.21, groundY: -20, scale: 2.1, cameraTheta: Math.PI / 2.2 },
       subway_station:             { startAngle: 8.5, spacing: 0.18, groundY: -10, scale: 1.8 },
       gym:                        { startAngle: -0.25, spacing: 0.12, groundY: -18 },

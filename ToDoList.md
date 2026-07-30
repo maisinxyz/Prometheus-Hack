@@ -145,7 +145,7 @@ Levels:
   - [ ] used_tissue_box
   - [ ] empty_pill_bottle
 
-- [ ] **Hot Dog Stand (hot_dog_stand)**
+- [X] **Hot Dog Stand (hot_dog_stand)**
   - [ ] paper_plate
   - [ ] plastic_fork
   - [ ] food_scraps
@@ -157,7 +157,7 @@ Levels:
   - [ ] hot_dog_bun_scraps
   - [ ] used_mustard_packet
 
-- [ ] **Mackenzie Cafe (mackenzie_cafe)**
+- [X] **Mackenzie Cafe (mackenzie_cafe)**
   - [ ] coffee_cup
   - [ ] coffee_cup_lid
   - [ ] napkin_clean
@@ -187,6 +187,14 @@ Please adhere to the following strict requirements:
 Here is the list of trash items:
 
 
+DONE!!!
+
+
+
+TODO:
+- FIX PLACEMENTS OF ALL SPRITES!
+- WORK ON DEVPOST SUBMISSION
+- Make the sprites page look better and also make it os that there is a silloughette of the item and all of the trash items are categorized into the type of trash (Which bins it goes into.) The colors on the bin is the colors you use for the silhouette. Moreover, the silloughette should ONLY show up as the item AFTER the user has encountered that item. If they haven't encountered it yet, it should just be the silloughette rather than the graphic. If they have encountered the item, it should show the actual sprite.
 
 
 
@@ -201,4 +209,4 @@ Please adhere to the following strict requirements:
    - Heavy or organic items (like discarded food or large debris) align naturally with grass, dirt, or ground-level geometry.
    - Prevent impossible configurations (e.g., objects floating in mid-air, clipping through solid structures, or sitting halfway inside a bench asset).
 3. Collision & Snapping System: Include an automated collision/snapping pass that anchors item coordinates to the nearest valid surface boundary, adjusting the Y-axis (or depth plane) to match the surface elevation and adding slight rotation/jitter for natural scatter.
-4. Output & Integration: Provide clean, well-documented C++ code that takes a background scene layout and a list of trash items, processes their spatial anchors, and outputs the final transformed coordinates or a rendered composite scene file. Use standard C++ libraries and efficient data structures.
+4. Output & Integration: Provide clean, well-documented code that takes a background scene layout and a list of trash items, processes their spatial anchors, and outputs the final transformed coordinates or a rendered composite scene file. Use standard libraries and efficient data structures.

@@ -814,7 +814,8 @@
       "construction_site"
     ],
     "allowedZones": [
-      "GroundZone"
+      "GroundZone",
+      "SawhorseZone"
     ]
   },
   {
@@ -828,7 +829,8 @@
       "construction_site"
     ],
     "allowedZones": [
-      "GroundZone"
+      "GroundZone",
+      "BrickPileZone"
     ]
   },
   {
@@ -840,6 +842,10 @@
     "componentIds": [],
     "venueIds": [
       "construction_site"
+    ],
+    "allowedZones": [
+      "GroundZone",
+      "FenceLineZone"
     ]
   },
   {
@@ -853,7 +859,8 @@
       "construction_site"
     ],
     "allowedZones": [
-      "GroundZone"
+      "GroundZone",
+      "BrickPileZone"
     ]
   },
   {
@@ -867,7 +874,8 @@
       "construction_site"
     ],
     "allowedZones": [
-      "GroundZone"
+      "GroundZone",
+      "LumberStackZone"
     ]
   },
   {
@@ -881,7 +889,10 @@
       "construction_site"
     ],
     "allowedZones": [
-      "GroundZone"
+      "GroundZone",
+      "LumberStackZone",
+      "BrickPileZone",
+      "SawhorseZone"
     ]
   },
   {
@@ -915,6 +926,9 @@
     "componentIds": [],
     "venueIds": [
       "tech_startup"
+    ],
+    "allowedZones": [
+      "FloorZone"
     ]
   },
   {
@@ -937,6 +951,10 @@
     "componentIds": [],
     "venueIds": [
       "tech_startup"
+    ],
+    "allowedZones": [
+      "LoungeZone",
+      "DeskZone"
     ]
   },
   {
@@ -948,6 +966,9 @@
     "componentIds": [],
     "venueIds": [
       "tech_startup"
+    ],
+    "allowedZones": [
+      "DeskZone"
     ]
   },
   {
@@ -959,6 +980,10 @@
     "componentIds": [],
     "venueIds": [
       "tech_startup"
+    ],
+    "allowedZones": [
+      "DeskZone",
+      "FloorZone"
     ]
   },
   {
@@ -981,6 +1006,9 @@
     "componentIds": [],
     "venueIds": [
       "tech_startup"
+    ],
+    "allowedZones": [
+      "DeskZone"
     ]
   },
   {
@@ -992,6 +1020,10 @@
     "componentIds": [],
     "venueIds": [
       "ferry_docks"
+    ],
+    "allowedZones": [
+      "DeckZone",
+      "BoothCounterZone"
     ]
   },
   {
@@ -1003,6 +1035,9 @@
     "componentIds": [],
     "venueIds": [
       "ferry_docks"
+    ],
+    "allowedZones": [
+      "RailingZone"
     ]
   },
   {
@@ -1014,6 +1049,10 @@
     "componentIds": [],
     "venueIds": [
       "ferry_docks"
+    ],
+    "allowedZones": [
+      "BenchZone",
+      "DeckZone"
     ]
   },
   {
@@ -1025,6 +1064,9 @@
     "componentIds": [],
     "venueIds": [
       "ferry_docks"
+    ],
+    "allowedZones": [
+      "DeckZone"
     ]
   },
   {
@@ -1036,6 +1078,9 @@
     "componentIds": [],
     "venueIds": [
       "ferry_docks"
+    ],
+    "allowedZones": [
+      "BenchZone"
     ]
   },
   {
@@ -1047,6 +1092,9 @@
     "componentIds": [],
     "venueIds": [
       "ferry_docks"
+    ],
+    "allowedZones": [
+      "RailingZone"
     ]
   },
   {
@@ -1058,6 +1106,9 @@
     "componentIds": [],
     "venueIds": [
       "ferry_docks"
+    ],
+    "allowedZones": [
+      "RailingZone"
     ]
   },
   {
@@ -1069,6 +1120,9 @@
     "componentIds": [],
     "venueIds": [
       "ferry_docks"
+    ],
+    "allowedZones": [
+      "RailingZone"
     ]
   },
   {
@@ -1800,7 +1854,8 @@
     ],
     "emoji": "🧱",
     "allowedZones": [
-      "GroundZone"
+      "GroundZone",
+      "BrickPileZone"
     ]
   },
   {
@@ -3486,6 +3541,10 @@
     "venueIds": [
       "tech_startup"
     ],
+    "allowedZones": [
+      "DeskZone",
+      "FloorZone"
+    ],
     "emoji": "🔋"
   },
   {
@@ -3497,6 +3556,9 @@
     "componentIds": [],
     "venueIds": [
       "tech_startup"
+    ],
+    "allowedZones": [
+      "DeskZone"
     ],
     "emoji": "🍼"
   },
@@ -3510,6 +3572,9 @@
     "venueIds": [
       "tech_startup"
     ],
+    "allowedZones": [
+      "LoungeZone"
+    ],
     "emoji": "🥽"
   },
   {
@@ -3522,6 +3587,9 @@
     "venueIds": [
       "tech_startup"
     ],
+    "allowedZones": [
+      "DeskZone"
+    ],
     "emoji": "💾"
   },
   {
@@ -3533,6 +3601,10 @@
     "componentIds": [],
     "venueIds": [
       "tech_startup"
+    ],
+    "allowedZones": [
+      "DeskZone",
+      "BreakroomTableZone"
     ],
     "emoji": "🍫"
   },
@@ -5305,6 +5377,9 @@
     "venueIds": [
       "ferry_docks"
     ],
+    "allowedZones": [
+      "RailingZone"
+    ],
     "emoji": "🪝"
   },
   {
@@ -5317,6 +5392,9 @@
     "venueIds": [
       "ferry_docks"
     ],
+    "allowedZones": [
+      "RailingZone"
+    ],
     "emoji": "🎣"
   },
   {
@@ -5328,6 +5406,9 @@
     "componentIds": [],
     "venueIds": [
       "ferry_docks"
+    ],
+    "allowedZones": [
+      "RailingZone"
     ],
     "emoji": "🐚"
   },
@@ -5860,7 +5941,8 @@
     ],
     "emoji": "🪵",
     "allowedZones": [
-      "GroundZone"
+      "GroundZone",
+      "LumberStackZone"
     ]
   },
   {
