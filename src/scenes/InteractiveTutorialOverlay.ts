@@ -115,13 +115,40 @@ export class InteractiveTutorialOverlay extends Phaser.Scene {
     });
 
     hitZone.on('pointerdown', () => {
-      // Resume the TrayScene (properly checks for existence since isActive() is false when paused)
       const trayScene = this.scene.get('TrayScene') as any;
-      if (trayScene) {
-        if (trayScene.sys.isPaused()) {
-          this.scene.resume('TrayScene');
-        }
-        if (trayScene.startTimer) trayScene.startTimer();
+      
+      const camTut = document.createElement('div');
+      camTut.style.position = 'absolute';
+      camTut.style.top = '50%';
+      camTut.style.left = '50%';
+      camTut.style.transform = 'translate(-50%, -50%)';
+      camTut.style.background = 'rgba(20,30,40,0.95)';
+      camTut.style.border = '2px solid #3b82f6';
+      camTut.style.color = '#fff';
+      camTut.style.padding = '20px 40px';
+      camTut.style.borderRadius = '16px';
+      camTut.style.fontSize = '24px';
+      camTut.style.fontFamily = '"Nunito", sans-serif';
+      camTut.style.fontWeight = 'bold';
+      camTut.style.zIndex = '9999';
+      camTut.style.textAlign = 'center';
+      camTut.style.boxShadow = '0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(59, 130, 246, 0.4)';
+      camTut.innerHTML = 'Hint: You can <b>Right-Click, Hold, and Drag</b> to rotate the camera around the location!<br/><br/><button id="cam-tut-ok" style="background: #3b82f6; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 20px; outline: none; transition: transform 0.1s ease;">GOT IT!</button>';
+      document.body.appendChild(camTut);
+      
+      const okBtn = document.getElementById('cam-tut-ok');
+      if (okBtn) {
+         okBtn.addEventListener('mouseover', () => okBtn.style.transform = 'scale(1.05)');
+         okBtn.addEventListener('mouseout', () => okBtn.style.transform = 'scale(1)');
+         okBtn.addEventListener('click', () => {
+            camTut.remove();
+            if (trayScene) {
+              if (trayScene.sys.isPaused()) {
+                this.scene.resume('TrayScene');
+              }
+              if (trayScene.startTimer) trayScene.startTimer();
+            }
+         });
       }
       this.scene.stop();
     });

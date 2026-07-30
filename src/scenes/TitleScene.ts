@@ -135,17 +135,7 @@ export class TitleScene extends Phaser.Scene {
       this.scene.start('SpritesScene');
     });
 
-    this.createMenuButton(150, 620, 'Developer Mode (Unlock All)', () => {
-      const venueIds = [
-        'construction_site', 'ferry_docks', 'tech_startup',
-        'subway_station', 'gym', 'public_library',
-        'art_studio', 'financial_district_office', 'central_park', 'times_square',
-        'nyc_hospital', 'hot_dog_stand', 'mackenzie_cafe'
-      ];
-      venueIds.forEach(id => {
-        sessionStorage.setItem('trashdash_chi_' + id, '100');
-      });
-      sessionStorage.setItem('trashdash_tutorial_complete', 'true');
+    this.createMenuButton(150, 620, 'Developer Mode', () => {
       localStorage.setItem('trashdash_dev_mode', 'true');
       this.scene.start('LevelSelectScene');
     });

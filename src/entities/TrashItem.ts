@@ -107,8 +107,15 @@ export class TrashItem extends Phaser.GameObjects.Sprite {
     this.labelText.setScale(0);
 
     scene.tweens.add({
-      targets: [this, this.labelText],
+      targets: this,
       scale: targetScale,
+      duration: UI_THEME.popInDuration,
+      ease: 'Back.easeOut'
+    });
+    
+    scene.tweens.add({
+      targets: this.labelText,
+      scale: 1,
       duration: UI_THEME.popInDuration,
       ease: 'Back.easeOut'
     });
