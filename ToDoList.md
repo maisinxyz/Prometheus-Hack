@@ -145,7 +145,7 @@ Levels:
   - [ ] used_tissue_box
   - [ ] empty_pill_bottle
 
-- [ ] **Hot Dog Stand (hot_dog_stand)**
+- [X] **Hot Dog Stand (hot_dog_stand)**
   - [ ] paper_plate
   - [ ] plastic_fork
   - [ ] food_scraps
@@ -157,7 +157,7 @@ Levels:
   - [ ] hot_dog_bun_scraps
   - [ ] used_mustard_packet
 
-- [ ] **Mackenzie Cafe (mackenzie_cafe)**
+- [X] **Mackenzie Cafe (mackenzie_cafe)**
   - [ ] coffee_cup
   - [ ] coffee_cup_lid
   - [ ] napkin_clean

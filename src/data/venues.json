@@ -48,14 +48,32 @@
       "GroundZone": {
         "x": 100,
         "y": 700,
-        "width": 1400,
+        "width": 1720,
         "height": 200
       },
-      "AirZone": {
+      "BrickPileZone": {
+        "x": 300,
+        "y": 550,
+        "width": 250,
+        "height": 100
+      },
+      "LumberStackZone": {
+        "x": 1300,
+        "y": 600,
+        "width": 250,
+        "height": 80
+      },
+      "SawhorseZone": {
+        "x": 800,
+        "y": 550,
+        "width": 200,
+        "height": 50
+      },
+      "FenceLineZone": {
         "x": 100,
-        "y": 200,
+        "y": 400,
         "width": 1720,
-        "height": 400
+        "height": 150
       }
     }
   },
@@ -103,7 +121,33 @@
         "y": 800,
         "scale": 0.55
       }
-    ]
+    ],
+    "spawnZones": {
+      "DeckZone": {
+        "x": 100,
+        "y": 700,
+        "width": 1720,
+        "height": 200
+      },
+      "BenchZone": {
+        "x": 400,
+        "y": 550,
+        "width": 600,
+        "height": 100
+      },
+      "BoothCounterZone": {
+        "x": 1300,
+        "y": 400,
+        "width": 250,
+        "height": 80
+      },
+      "RailingZone": {
+        "x": 100,
+        "y": 800,
+        "width": 1720,
+        "height": 150
+      }
+    }
   },
   {
     "id": "tech_startup",
