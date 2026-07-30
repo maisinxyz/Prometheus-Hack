@@ -199,29 +199,7 @@ export class TitleScene extends Phaser.Scene {
       this.tweens.add({
         targets: devBtn, scaleX: 0.95, scaleY: 0.95, duration: 100, yoyo: true,
         onComplete: () => {
-          // Restart game state in Dev Mode (0 CHI) to test tutorials
-          const keysToRemove = [];
-          for (let i = 0; i < localStorage.length; i++) {
-             const key = localStorage.key(i);
-             if (key && key.startsWith('trashdash_')) {
-                keysToRemove.push(key);
-             }
-          }
-          keysToRemove.forEach(k => localStorage.removeItem(k));
-
-          const sessionKeysToRemove = [];
-          for (let i = 0; i < sessionStorage.length; i++) {
-             const key = sessionStorage.key(i);
-             if (key && key.startsWith('trashdash_')) {
-                sessionKeysToRemove.push(key);
-             }
-          }
-          sessionKeysToRemove.forEach(k => sessionStorage.removeItem(k));
-
-          localStorage.setItem('trashdash_tutorial_complete', 'false');
           localStorage.setItem('trashdash_dev_mode', 'true');
-          sessionStorage.setItem('trashdash_dev_chi', '0');
-          
           this.scene.start('LevelSelectScene');
         }
       });
