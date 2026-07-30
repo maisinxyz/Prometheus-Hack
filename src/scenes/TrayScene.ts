@@ -492,26 +492,18 @@ export class TrayScene extends Phaser.Scene {
         // Check overlap with each bin, OR if dropped directly above a bin
         let targetBin: Bin | null = null;
         const itemBounds = item.getBounds();
-        let maxOverlapArea = 0;
-        let minCenterDist = Infinity;
+        let minDistance = Infinity;
 
         for (const bin of this.bins) {
           const binBounds = bin.getBounds();
           const itemCenterX = itemBounds.centerX;
           const isAboveBin = itemCenterX >= binBounds.left && itemCenterX <= binBounds.right && itemBounds.centerY <= binBounds.bottom;
           
-          if (Phaser.Geom.Rectangle.Overlaps(itemBounds, binBounds)) {
-            const intersection = Phaser.Geom.Rectangle.Intersection(itemBounds, binBounds);
-            const area = intersection.width * intersection.height;
-            if (area > maxOverlapArea) {
-              maxOverlapArea = area;
-              targetBin = bin;
-            }
-          } else if (isAboveBin && maxOverlapArea === 0) {
-            // Only consider isAboveBin if there's no direct physical overlap with any bin yet
-            const dist = Math.abs(itemCenterX - binBounds.centerX);
-            if (dist < minCenterDist) {
-              minCenterDist = dist;
+          if (Phaser.Geom.Rectangle.Overlaps(itemBounds, binBounds) || isAboveBin) {
+            // Find distance from item center to bin center
+            const dist = Phaser.Math.Distance.Between(itemCenterX, itemBounds.centerY, binBounds.centerX, binBounds.centerY);
+            if (dist < minDistance) {
+              minDistance = dist;
               targetBin = bin;
             }
           }

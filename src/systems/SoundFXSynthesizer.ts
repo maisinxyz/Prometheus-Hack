@@ -94,15 +94,15 @@ export class SoundFXSynthesizer {
     if (!this.ctx) return;
     const t = this.ctx.currentTime;
     
-    // Retro "boop" (square wave pitch drop)
+    // Retro "boop" (triangle wave pitch drop for softer sound)
     const osc = this.ctx.createOscillator();
-    osc.type = 'square';
+    osc.type = 'triangle';
     osc.frequency.setValueAtTime(300, t);
     osc.frequency.exponentialRampToValueAtTime(100, t + 0.1);
     
     const gain = this.ctx.createGain();
     gain.gain.setValueAtTime(0, t);
-    gain.gain.linearRampToValueAtTime(0.5 * weight, t + 0.01);
+    gain.gain.linearRampToValueAtTime(0.3 * weight, t + 0.01);
     gain.gain.exponentialRampToValueAtTime(0.01, t + 0.15);
     
     osc.connect(gain).connect(this.ctx.destination);
@@ -125,7 +125,7 @@ export class SoundFXSynthesizer {
     
     const gain = this.ctx.createGain();
     gain.gain.setValueAtTime(0, t);
-    gain.gain.linearRampToValueAtTime(0.6 * weight, t + 0.01);
+    gain.gain.linearRampToValueAtTime(0.3 * weight, t + 0.01);
     gain.gain.exponentialRampToValueAtTime(0.01, t + 0.08);
     
     noise.connect(filter).connect(gain).connect(this.ctx.destination);
@@ -149,7 +149,7 @@ export class SoundFXSynthesizer {
     
     const gain = this.ctx.createGain();
     gain.gain.setValueAtTime(0, t);
-    gain.gain.linearRampToValueAtTime(1.0 * weight, t + 0.02);
+    gain.gain.linearRampToValueAtTime(0.4 * weight, t + 0.02);
     gain.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
     
     noise.connect(filter).connect(gain).connect(this.ctx.destination);
@@ -168,12 +168,12 @@ export class SoundFXSynthesizer {
     
     const filter = this.ctx.createBiquadFilter();
     filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(2000, t);
-    filter.frequency.exponentialRampToValueAtTime(300, t + 0.15);
+    filter.frequency.setValueAtTime(800, t);
+    filter.frequency.exponentialRampToValueAtTime(200, t + 0.15);
     
     const gain = this.ctx.createGain();
     gain.gain.setValueAtTime(0, t);
-    gain.gain.linearRampToValueAtTime(1.2 * weight, t + 0.01);
+    gain.gain.linearRampToValueAtTime(0.5 * weight, t + 0.01);
     gain.gain.exponentialRampToValueAtTime(0.01, t + 0.2);
     
     noise.connect(filter).connect(gain).connect(this.ctx.destination);
@@ -186,26 +186,26 @@ export class SoundFXSynthesizer {
     if (!this.ctx) return;
     const t = this.ctx.currentTime;
     
-    // Retro "machine rumble" (sawtooth with LFO)
+    // Retro "machine rumble" (triangle with LFO)
     const osc = this.ctx.createOscillator();
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(60, t);
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(40, t);
     osc.frequency.linearRampToValueAtTime(30, t + 0.4);
     
     // Add rapid amplitude modulation to simulate gears
     const amOsc = this.ctx.createOscillator();
-    amOsc.type = 'square';
+    amOsc.type = 'sine';
     amOsc.frequency.value = 25; // 25Hz chatter
     
     const amGain = this.ctx.createGain();
-    amGain.gain.value = 0.8;
+    amGain.gain.value = 0.5;
     amOsc.connect(amGain.gain);
     amOsc.start(t);
     amOsc.stop(t + 0.5);
     
     const masterGain = this.ctx.createGain();
     masterGain.gain.setValueAtTime(0, t);
-    masterGain.gain.linearRampToValueAtTime(1.5, t + 0.05); // Very loud
+    masterGain.gain.linearRampToValueAtTime(0.15, t + 0.05); // Much softer
     masterGain.gain.exponentialRampToValueAtTime(0.01, t + 0.5);
     
     osc.connect(amGain);
@@ -221,15 +221,15 @@ export class SoundFXSynthesizer {
     if (!this.ctx) return;
     const t = this.ctx.currentTime;
     
-    // Classic 8-bit wrong answer buzz
+    // Classic 8-bit wrong answer buzz (softened)
     const osc = this.ctx.createOscillator();
-    osc.type = 'sawtooth';
+    osc.type = 'triangle';
     osc.frequency.setValueAtTime(120, t);
     osc.frequency.linearRampToValueAtTime(100, t + 0.2);
     
     const gain = this.ctx.createGain();
     gain.gain.setValueAtTime(0, t);
-    gain.gain.linearRampToValueAtTime(0.5, t + 0.02);
+    gain.gain.linearRampToValueAtTime(0.15, t + 0.02);
     gain.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
     
     osc.connect(gain).connect(this.ctx.destination);

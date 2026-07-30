@@ -228,7 +228,33 @@ export class LevelSelectScene extends Phaser.Scene {
             banner.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
             banner.style.opacity = '0';
             banner.style.transform = 'translate(-50%, -50%) scale(0.9)';
-            setTimeout(() => banner.remove(), 300);
+            setTimeout(() => {
+              banner.remove();
+              
+              if (unlockedCount === 2 && !localStorage.getItem('trashdash_snapshots_tutorial_done')) {
+                const tutOverlay = document.createElement('div');
+                tutOverlay.id = 'snapshots-tutorial-overlay';
+                tutOverlay.style.position = 'fixed';
+                tutOverlay.style.top = '250px';
+                tutOverlay.style.left = '50%';
+                tutOverlay.style.transform = 'translateX(-50%)';
+                tutOverlay.style.background = 'rgba(20,30,40,0.95)';
+                tutOverlay.style.border = '2px solid #a855f7';
+                tutOverlay.style.color = '#fff';
+                tutOverlay.style.padding = '20px 40px';
+                tutOverlay.style.borderRadius = '16px';
+                tutOverlay.style.fontSize = '24px';
+                tutOverlay.style.fontFamily = '"Nunito", sans-serif';
+                tutOverlay.style.fontWeight = 'bold';
+                tutOverlay.style.zIndex = '9999';
+                tutOverlay.style.textAlign = 'center';
+                tutOverlay.style.boxShadow = '0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(168, 85, 247, 0.4)';
+                tutOverlay.innerHTML = '🎉 Congratulations on unlocking your first new location!<br/><br/>Check out <span style="color: #a855f7">Snapshots</span> (the purple button) and see where it is!';
+                document.body.appendChild(tutOverlay);
+                
+                (window as any)._snapshotsTutorialStep = 1;
+              }
+            }, 300);
           });
         }
 
@@ -1091,6 +1117,26 @@ export class LevelSelectScene extends Phaser.Scene {
         smogOverlay.style.opacity = '0';
         descBox.style.display = 'none';
       }
+      
+      if ((window as any)._snapshotsTutorialStep === 3 && isFutureVisionActive) {
+         const tutOverlay = document.getElementById('snapshots-tutorial-overlay');
+         if (tutOverlay) {
+           tutOverlay.innerHTML = 'This is <span style="color: #3b82f6">Future Vision</span>!<br/><br/>It shows 5 possible futures based on your Total CHI. Improve your future by cleaning up more areas!<br/><br/><span style="color: #dc2626">0-25% CHI</span>: The Drowned City<br/><span style="color: #ea580c">26-50% CHI</span>: The Scorched Earth<br/><span style="color: #9ca3af">51-74% CHI</span>: The Great Smog<br/><span style="color: #16a34a">75-99% CHI</span>: Eco-Utopia<br/><span style="color: #facc15">100% CHI</span>: The Golden Age<br/><br/>To leave Vision, click the Vision button again.<br/><br/><button id="tut-ok-2" style="background: #3b82f6; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 20px; outline: none; transition: transform 0.1s ease;">OK</button>';
+           tutOverlay.style.top = '50%';
+           tutOverlay.style.transform = 'translate(-50%, -50%)';
+           
+           const okBtn2 = document.getElementById('tut-ok-2');
+           if (okBtn2) {
+             okBtn2.addEventListener('mouseover', () => okBtn2.style.transform = 'scale(1.05)');
+             okBtn2.addEventListener('mouseout', () => okBtn2.style.transform = 'scale(1)');
+             okBtn2.addEventListener('click', () => {
+                tutOverlay.remove();
+                (window as any)._snapshotsTutorialStep = 0;
+                localStorage.setItem('trashdash_snapshots_tutorial_done', 'true');
+             });
+           }
+         }
+      }
     });
 
     // --- Time Machine Codex UI ---
@@ -1151,6 +1197,19 @@ export class LevelSelectScene extends Phaser.Scene {
     closeCodexBtn.style.cursor = 'pointer';
     closeCodexBtn.onclick = () => {
       codexOverlay.style.display = 'none';
+      
+      if ((window as any)._snapshotsTutorialStep === 2) {
+        const tutOverlay = document.getElementById('snapshots-tutorial-overlay');
+        if (tutOverlay) {
+          tutOverlay.style.display = 'block';
+          tutOverlay.style.top = '250px';
+          tutOverlay.style.transform = 'translateX(-50%)';
+          tutOverlay.style.border = '2px solid #3b82f6';
+          tutOverlay.style.boxShadow = '0 10px 30px rgba(0,0,0,0.8), 0 0 20px rgba(59, 130, 246, 0.4)';
+          tutOverlay.innerHTML = 'Now, check out <span style="color: #3b82f6">Vision</span> (the blue button) and see what it is!';
+          (window as any)._snapshotsTutorialStep = 3;
+        }
+      }
     };
     codexDetails.appendChild(closeCodexBtn);
 
@@ -1295,6 +1354,26 @@ export class LevelSelectScene extends Phaser.Scene {
     document.getElementById('codex-btn')?.addEventListener('click', () => {
       populateCodex();
       codexOverlay.style.display = 'flex';
+      
+      if ((window as any)._snapshotsTutorialStep === 1) {
+        const tutOverlay = document.getElementById('snapshots-tutorial-overlay');
+        if (tutOverlay) {
+          tutOverlay.innerHTML = 'Snapshots show the real-world history of these locations!<br/><br/>To unlock a snapshot, you must fulfill the <span style="color: #FCD34D">Total CHI requirements</span> (100% completion) for that area.<br/><br/><button id="tut-ok-1" style="background: #a855f7; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 20px; outline: none; transition: transform 0.1s ease;">OK</button>';
+          tutOverlay.style.top = '50%';
+          tutOverlay.style.transform = 'translate(-50%, -50%)';
+          tutOverlay.style.zIndex = '10000'; // Above codex
+          
+          const okBtn1 = document.getElementById('tut-ok-1');
+          if (okBtn1) {
+            okBtn1.addEventListener('mouseover', () => okBtn1.style.transform = 'scale(1.05)');
+            okBtn1.addEventListener('mouseout', () => okBtn1.style.transform = 'scale(1)');
+            okBtn1.addEventListener('click', () => {
+               tutOverlay.style.display = 'none';
+               (window as any)._snapshotsTutorialStep = 2;
+            });
+          }
+        }
+      }
     });
 
     // --- Developer Mode HUD ---
