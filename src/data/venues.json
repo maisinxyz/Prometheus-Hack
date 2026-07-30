@@ -125,28 +125,28 @@
     ],
     "spawnZones": {
       "DeckZone": {
-        "x": 50,
-        "y": 900,
-        "width": 500,
-        "height": 100
+        "x": 100,
+        "y": 850,
+        "width": 1720,
+        "height": 200
       },
       "BenchZone": {
-        "x": 1370,
-        "y": 900,
-        "width": 500,
-        "height": 100
+        "x": 100,
+        "y": 800,
+        "width": 1720,
+        "height": 250
       },
       "BoothCounterZone": {
-        "x": 50,
-        "y": 900,
-        "width": 500,
-        "height": 100
+        "x": 100,
+        "y": 850,
+        "width": 1720,
+        "height": 200
       },
       "RailingZone": {
-        "x": 1370,
-        "y": 900,
-        "width": 500,
-        "height": 100
+        "x": 100,
+        "y": 750,
+        "width": 1720,
+        "height": 250
       }
     }
   },
@@ -173,27 +173,27 @@
     },
     "spawnZones": {
       "FloorZone": {
-        "x": 1370,
-        "y": 900,
-        "width": 500,
+        "x": 1250,
+        "y": 950,
+        "width": 600,
         "height": 100
       },
       "DeskZone": {
-        "x": 50,
-        "y": 900,
-        "width": 500,
+        "x": 350,
+        "y": 950,
+        "width": 250,
         "height": 100
       },
       "BreakroomTableZone": {
-        "x": 1370,
-        "y": 900,
-        "width": 500,
+        "x": 1250,
+        "y": 950,
+        "width": 600,
         "height": 100
       },
       "LoungeZone": {
-        "x": 50,
-        "y": 900,
-        "width": 500,
+        "x": 350,
+        "y": 950,
+        "width": 250,
         "height": 100
       }
     },

@@ -27,6 +27,7 @@ import { perfectStreakSystem } from '../systems/PerfectStreakSystem';
 import { computeChiGain } from '../systems/ChiSystem';
 import { streakFXManager } from '../systems/StreakFXManager';
 import { TrashPlacementSystem } from '../systems/TrashPlacementSystem';
+import { metaGameController } from '../systems/MetaGameController';
 
 /**
  * TrayScene — Core disposal loop.
@@ -415,6 +416,11 @@ export class TrayScene extends Phaser.Scene {
         });
       }
     }
+    
+    // Mark items as encountered for the Sprites Encyclopedia
+    if (chosenItems.length > 0) {
+      metaGameController.encounteredItemsSystem.markEncountered(chosenItems.map(i => i.id));
+    }
   }
 
   /**
@@ -584,12 +590,16 @@ export class TrayScene extends Phaser.Scene {
     );
   }
 
-  /** Calculate the ground Y position for an item to land on */
   private getGroundY(item: TrashItem): number {
     const venueData = venuesData.find(v => v.id === this.venueId);
-    if (venueData && venueData.spawnZones && venueData.spawnZones.GroundZone) {
-      const gz = venueData.spawnZones.GroundZone;
-      return gz.y + gz.height - (item.displayHeight / 2);
+    let maxGround = 860;
+    if (venueData && venueData.spawnZones) {
+      for (const key in venueData.spawnZones) {
+        const zone = (venueData.spawnZones as any)[key];
+        const bottom = zone.y + zone.height;
+        if (bottom > maxGround) maxGround = bottom;
+      }
+      return maxGround - (item.displayHeight / 2);
     }
     return 860;
   }
