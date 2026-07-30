@@ -223,30 +223,17 @@ export class LevelNode {
     
     this.el.appendChild(badgeWrapper);
 
-    // Current Marker bobbing arrow
     if (isCurrent) {
-      const arrow = document.createElement('div');
-      arrow.textContent = '▼';
-      arrow.style.color = '#FCD34D'; // bright yellow
-      arrow.style.fontSize = '32px';
-      arrow.style.textShadow = '0 2px 4px rgba(0,0,0,0.5)';
-      arrow.style.position = 'absolute';
-      arrow.style.top = '-40px';
-      arrow.style.left = '50%';
-      arrow.style.transform = 'translateX(-50%)';
-      arrow.style.zIndex = '4';
-      
-      arrow.animate([
-        { top: '-40px' },
-        { top: '-50px' },
-        { top: '-40px' }
+      // Animate the entire node jumping to highlight it is ready
+      badgeWrapper.animate([
+        { transform: 'translateY(0px)' },
+        { transform: 'translateY(-15px)' },
+        { transform: 'translateY(0px)' }
       ], {
         duration: 1000,
         iterations: Infinity,
         easing: 'ease-in-out'
       });
-      
-      this.el.appendChild(arrow);
     }
   }
 }
