@@ -187,6 +187,13 @@ Please adhere to the following strict requirements:
 Here is the list of trash items:
 
 
+DONE!!!
+
+
+
+TODO:
+- FIX PLACEMENTS OF ALL SPRITES!
+- WORK ON DEVPOST SUBMISSION
 
 
 
@@ -201,4 +208,4 @@ Please adhere to the following strict requirements:
    - Heavy or organic items (like discarded food or large debris) align naturally with grass, dirt, or ground-level geometry.
    - Prevent impossible configurations (e.g., objects floating in mid-air, clipping through solid structures, or sitting halfway inside a bench asset).
 3. Collision & Snapping System: Include an automated collision/snapping pass that anchors item coordinates to the nearest valid surface boundary, adjusting the Y-axis (or depth plane) to match the surface elevation and adding slight rotation/jitter for natural scatter.
-4. Output & Integration: Provide clean, well-documented C++ code that takes a background scene layout and a list of trash items, processes their spatial anchors, and outputs the final transformed coordinates or a rendered composite scene file. Use standard C++ libraries and efficient data structures.
+4. Output & Integration: Provide clean, well-documented code that takes a background scene layout and a list of trash items, processes their spatial anchors, and outputs the final transformed coordinates or a rendered composite scene file. Use standard libraries and efficient data structures.
