@@ -104,8 +104,8 @@ export class TrayScene extends Phaser.Scene {
     this.scoringSystem = new ScoringSystem();
     this.comboSystem = new ComboSystem();
     this.particleFX = new ParticleFXManager(this);
-    this.chiSystem = new ChiSystem();
-    this.venueDecayState = new VenueDecayState();
+    this.chiSystem = metaGameController.chiSystem;
+    this.venueDecayState = metaGameController.venueDecayState;
     this.difficultySystem = new DifficultySystem();
     this.gardenSystem = new GardenSystem();
 
@@ -826,15 +826,12 @@ export class TrayScene extends Phaser.Scene {
       : 0;
 
     // Emit round-ended event for Tracks C and D
+    // MetaGameController listens and calls updateChi + registerRound
     gameEvents.emit(GAME_EVENTS.ROUND_ENDED, {
       totalScore: this.roundScore,
       accuracyPct,
       venueId: this.venueId,
     });
-
-    // Track D: Meta-game updates
-    this.chiSystem.updateChi(this.venueId, accuracyPct);
-    this.venueDecayState.registerRound(this.venueId, accuracyPct);
 
     // Disable all remaining items
     for (const item of this.items) {
@@ -884,10 +881,18 @@ export class TrayScene extends Phaser.Scene {
 
     // CHI Gained Bar
     const chiGained = computeChiGain(accuracyPct);
-    this.add.text(panelX, panelY - 80, `CHI GAINED: +${chiGained}`, {
+    const totalChi = metaGameController.chiSystem.getChi(this.venueId);
+    this.add.text(panelX, panelY - 100, `CHI GAINED: +${Math.round(chiGained)}`, {
       fontFamily: '"Nunito", sans-serif',
       fontSize: '24px',
       color: UI_THEME.primaryGradient[1],
+      fontStyle: 'bold'
+    }).setOrigin(0.5).setDepth(103);
+
+    this.add.text(panelX, panelY - 70, `TOTAL CHI: ${Math.round(totalChi)}`, {
+      fontFamily: '"Nunito", sans-serif',
+      fontSize: '18px',
+      color: '#94a3b8',
       fontStyle: 'bold'
     }).setOrigin(0.5).setDepth(103);
 

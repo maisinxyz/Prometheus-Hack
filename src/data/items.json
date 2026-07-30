@@ -8,6 +8,22 @@
     "componentIds": [],
     "venueIds": [
       "mackenzie_cafe"
+    ],
+    "allowedZones": [
+      "TableZone",
+      "CounterZone",
+      "DeskZone",
+      "BenchZone",
+      "FloorLeftZone",
+      "FloorRightZone",
+      "SidewalkLeft",
+      "SidewalkRight",
+      "SidewalkCenter",
+      "HallwayFloorLeft",
+      "HallwayFloorCenter",
+      "HallwayFloorRight",
+      "DeckZone",
+      "BoothCounterZone"
     ]
   },
   {
@@ -19,6 +35,22 @@
     "componentIds": [],
     "venueIds": [
       "mackenzie_cafe"
+    ],
+    "allowedZones": [
+      "TableZone",
+      "CounterZone",
+      "DeskZone",
+      "BenchZone",
+      "FloorLeftZone",
+      "FloorRightZone",
+      "SidewalkLeft",
+      "SidewalkRight",
+      "SidewalkCenter",
+      "HallwayFloorLeft",
+      "HallwayFloorCenter",
+      "HallwayFloorRight",
+      "DeckZone",
+      "BoothCounterZone"
     ]
   },
   {
@@ -30,6 +62,22 @@
     "componentIds": [],
     "venueIds": [
       "mackenzie_cafe"
+    ],
+    "allowedZones": [
+      "TableZone",
+      "CounterZone",
+      "DeskZone",
+      "BenchZone",
+      "FloorLeftZone",
+      "FloorRightZone",
+      "SidewalkLeft",
+      "SidewalkRight",
+      "SidewalkCenter",
+      "HallwayFloorLeft",
+      "HallwayFloorCenter",
+      "HallwayFloorRight",
+      "DeckZone",
+      "BoothCounterZone"
     ]
   },
   {
@@ -43,7 +91,20 @@
       "mackenzie_cafe"
     ],
     "allowedZones": [
-      "TableZone"
+      "TableZone",
+      "CounterZone",
+      "DeskZone",
+      "BenchZone",
+      "FloorLeftZone",
+      "FloorRightZone",
+      "SidewalkLeft",
+      "SidewalkRight",
+      "SidewalkCenter",
+      "HallwayFloorLeft",
+      "HallwayFloorCenter",
+      "HallwayFloorRight",
+      "DeckZone",
+      "BoothCounterZone"
     ]
   },
   {
@@ -57,7 +118,20 @@
       "mackenzie_cafe"
     ],
     "allowedZones": [
-      "TableZone"
+      "TableZone",
+      "CounterZone",
+      "DeskZone",
+      "BenchZone",
+      "FloorLeftZone",
+      "FloorRightZone",
+      "SidewalkLeft",
+      "SidewalkRight",
+      "SidewalkCenter",
+      "HallwayFloorLeft",
+      "HallwayFloorCenter",
+      "HallwayFloorRight",
+      "DeckZone",
+      "BoothCounterZone"
     ]
   },
   {
@@ -72,7 +146,20 @@
     ],
     "allowedZones": [
       "TableZone",
-      "GroundZone"
+      "GroundZone",
+      "CounterZone",
+      "DeskZone",
+      "BenchZone",
+      "FloorLeftZone",
+      "FloorRightZone",
+      "SidewalkLeft",
+      "SidewalkRight",
+      "SidewalkCenter",
+      "HallwayFloorLeft",
+      "HallwayFloorCenter",
+      "HallwayFloorRight",
+      "DeckZone",
+      "BoothCounterZone"
     ]
   },
   {
@@ -87,7 +174,20 @@
     ],
     "allowedZones": [
       "TableZone",
-      "GroundZone"
+      "GroundZone",
+      "CounterZone",
+      "DeskZone",
+      "BenchZone",
+      "FloorLeftZone",
+      "FloorRightZone",
+      "SidewalkLeft",
+      "SidewalkRight",
+      "SidewalkCenter",
+      "HallwayFloorLeft",
+      "HallwayFloorCenter",
+      "HallwayFloorRight",
+      "DeckZone",
+      "BoothCounterZone"
     ]
   },
   {
@@ -99,6 +199,22 @@
     "componentIds": [],
     "venueIds": [
       "mackenzie_cafe"
+    ],
+    "allowedZones": [
+      "TableZone",
+      "CounterZone",
+      "DeskZone",
+      "BenchZone",
+      "FloorLeftZone",
+      "FloorRightZone",
+      "SidewalkLeft",
+      "SidewalkRight",
+      "SidewalkCenter",
+      "HallwayFloorLeft",
+      "HallwayFloorCenter",
+      "HallwayFloorRight",
+      "DeckZone",
+      "BoothCounterZone"
     ]
   },
   {
@@ -110,6 +226,22 @@
     "componentIds": [],
     "venueIds": [
       "mackenzie_cafe"
+    ],
+    "allowedZones": [
+      "TableZone",
+      "CounterZone",
+      "DeskZone",
+      "BenchZone",
+      "FloorLeftZone",
+      "FloorRightZone",
+      "SidewalkLeft",
+      "SidewalkRight",
+      "SidewalkCenter",
+      "HallwayFloorLeft",
+      "HallwayFloorCenter",
+      "HallwayFloorRight",
+      "DeckZone",
+      "BoothCounterZone"
     ]
   },
   {
@@ -143,6 +275,22 @@
     "componentIds": [],
     "venueIds": [
       "mackenzie_cafe"
+    ],
+    "allowedZones": [
+      "TableZone",
+      "CounterZone",
+      "DeskZone",
+      "BenchZone",
+      "FloorLeftZone",
+      "FloorRightZone",
+      "SidewalkLeft",
+      "SidewalkRight",
+      "SidewalkCenter",
+      "HallwayFloorLeft",
+      "HallwayFloorCenter",
+      "HallwayFloorRight",
+      "DeckZone",
+      "BoothCounterZone"
     ]
   },
   {
@@ -154,6 +302,22 @@
     "componentIds": [],
     "venueIds": [
       "mackenzie_cafe"
+    ],
+    "allowedZones": [
+      "TableZone",
+      "CounterZone",
+      "DeskZone",
+      "BenchZone",
+      "FloorLeftZone",
+      "FloorRightZone",
+      "SidewalkLeft",
+      "SidewalkRight",
+      "SidewalkCenter",
+      "HallwayFloorLeft",
+      "HallwayFloorCenter",
+      "HallwayFloorRight",
+      "DeckZone",
+      "BoothCounterZone"
     ]
   },
   {
@@ -310,6 +474,12 @@
     "componentIds": [],
     "venueIds": [
       "nyc_hospital"
+    ],
+    "allowedZones": [
+      "HallwayFloorLeft",
+      "HallwayFloorCenter",
+      "HallwayFloorRight",
+      "CounterZone"
     ]
   },
   {
@@ -321,6 +491,11 @@
     "componentIds": [],
     "venueIds": [
       "nyc_hospital"
+    ],
+    "allowedZones": [
+      "HallwayFloorLeft",
+      "HallwayFloorCenter",
+      "HallwayFloorRight"
     ]
   },
   {
@@ -343,6 +518,12 @@
     "componentIds": [],
     "venueIds": [
       "nyc_hospital"
+    ],
+    "allowedZones": [
+      "HallwayFloorLeft",
+      "HallwayFloorCenter",
+      "HallwayFloorRight",
+      "CounterZone"
     ]
   },
   {
@@ -365,6 +546,12 @@
     "componentIds": [],
     "venueIds": [
       "nyc_hospital"
+    ],
+    "allowedZones": [
+      "HallwayFloorLeft",
+      "HallwayFloorCenter",
+      "HallwayFloorRight",
+      "CounterZone"
     ]
   },
   {
@@ -558,6 +745,11 @@
     "componentIds": [],
     "venueIds": [
       "gym"
+    ],
+    "allowedZones": [
+      "BenchZone",
+      "FloorLeftZone",
+      "FloorRightZone"
     ]
   },
   {
@@ -569,6 +761,11 @@
     "componentIds": [],
     "venueIds": [
       "gym"
+    ],
+    "allowedZones": [
+      "BenchZone",
+      "FloorLeftZone",
+      "FloorRightZone"
     ]
   },
   {
@@ -580,6 +777,11 @@
     "componentIds": [],
     "venueIds": [
       "gym"
+    ],
+    "allowedZones": [
+      "BenchZone",
+      "FloorLeftZone",
+      "FloorRightZone"
     ]
   },
   {
@@ -592,6 +794,11 @@
     "venueIds": [
       "gym"
     ],
+    "allowedZones": [
+      "BenchZone",
+      "FloorLeftZone",
+      "FloorRightZone"
+    ],
     "emoji": "🍌"
   },
   {
@@ -603,6 +810,10 @@
     "componentIds": [],
     "venueIds": [
       "gym"
+    ],
+    "allowedZones": [
+      "FloorLeftZone",
+      "FloorRightZone"
     ]
   },
   {
@@ -614,6 +825,11 @@
     "componentIds": [],
     "venueIds": [
       "gym"
+    ],
+    "allowedZones": [
+      "BenchZone",
+      "FloorLeftZone",
+      "FloorRightZone"
     ]
   },
   {
@@ -625,6 +841,10 @@
     "componentIds": [],
     "venueIds": [
       "gym"
+    ],
+    "allowedZones": [
+      "FloorLeftZone",
+      "FloorRightZone"
     ]
   },
   {
@@ -636,6 +856,10 @@
     "componentIds": [],
     "venueIds": [
       "gym"
+    ],
+    "allowedZones": [
+      "FloorLeftZone",
+      "FloorRightZone"
     ]
   },
   {
@@ -2506,7 +2730,23 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🥫"
+    "emoji": "🥫",
+    "allowedZones": [
+      "TableZone",
+      "CounterZone",
+      "DeskZone",
+      "BenchZone",
+      "FloorLeftZone",
+      "FloorRightZone",
+      "SidewalkLeft",
+      "SidewalkRight",
+      "SidewalkCenter",
+      "HallwayFloorLeft",
+      "HallwayFloorCenter",
+      "HallwayFloorRight",
+      "DeckZone",
+      "BoothCounterZone"
+    ]
   },
   {
     "id": "hot_dog_in_foil",
@@ -4267,7 +4507,23 @@
     "isComposite": false,
     "componentIds": [],
     "venueIds": [],
-    "emoji": "🍽️"
+    "emoji": "🍽️",
+    "allowedZones": [
+      "TableZone",
+      "CounterZone",
+      "DeskZone",
+      "BenchZone",
+      "FloorLeftZone",
+      "FloorRightZone",
+      "SidewalkLeft",
+      "SidewalkRight",
+      "SidewalkCenter",
+      "HallwayFloorLeft",
+      "HallwayFloorCenter",
+      "HallwayFloorRight",
+      "DeckZone",
+      "BoothCounterZone"
+    ]
   },
   {
     "id": "deli_coffee_cup",
@@ -5225,7 +5481,23 @@
     "venueIds": [
       "central_park"
     ],
-    "emoji": "🍎"
+    "emoji": "🍎",
+    "allowedZones": [
+      "TableZone",
+      "CounterZone",
+      "DeskZone",
+      "BenchZone",
+      "FloorLeftZone",
+      "FloorRightZone",
+      "SidewalkLeft",
+      "SidewalkRight",
+      "SidewalkCenter",
+      "HallwayFloorLeft",
+      "HallwayFloorCenter",
+      "HallwayFloorRight",
+      "DeckZone",
+      "BoothCounterZone"
+    ]
   },
   {
     "id": "picnic_sandwich_wrap",
@@ -6027,7 +6299,23 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🌭"
+    "emoji": "🌭",
+    "allowedZones": [
+      "TableZone",
+      "CounterZone",
+      "DeskZone",
+      "BenchZone",
+      "FloorLeftZone",
+      "FloorRightZone",
+      "SidewalkLeft",
+      "SidewalkRight",
+      "SidewalkCenter",
+      "HallwayFloorLeft",
+      "HallwayFloorCenter",
+      "HallwayFloorRight",
+      "DeckZone",
+      "BoothCounterZone"
+    ]
   },
   {
     "id": "hot_dog_bun_scraps",
@@ -6039,7 +6327,23 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🍞"
+    "emoji": "🍞",
+    "allowedZones": [
+      "TableZone",
+      "CounterZone",
+      "DeskZone",
+      "BenchZone",
+      "FloorLeftZone",
+      "FloorRightZone",
+      "SidewalkLeft",
+      "SidewalkRight",
+      "SidewalkCenter",
+      "HallwayFloorLeft",
+      "HallwayFloorCenter",
+      "HallwayFloorRight",
+      "DeckZone",
+      "BoothCounterZone"
+    ]
   },
   {
     "id": "used_mustard_packet",
@@ -6051,7 +6355,23 @@
     "venueIds": [
       "hot_dog_stand"
     ],
-    "emoji": "🟡"
+    "emoji": "🟡",
+    "allowedZones": [
+      "TableZone",
+      "CounterZone",
+      "DeskZone",
+      "BenchZone",
+      "FloorLeftZone",
+      "FloorRightZone",
+      "SidewalkLeft",
+      "SidewalkRight",
+      "SidewalkCenter",
+      "HallwayFloorLeft",
+      "HallwayFloorCenter",
+      "HallwayFloorRight",
+      "DeckZone",
+      "BoothCounterZone"
+    ]
   },
   {
     "id": "ketchup_packet",

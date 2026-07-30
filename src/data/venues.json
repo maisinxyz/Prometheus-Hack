@@ -311,6 +311,26 @@
         "scale": 0.5
       }
     ],
+    "spawnZones": {
+      "FloorLeftZone": {
+        "x": 50,
+        "y": 920,
+        "width": 500,
+        "height": 120
+      },
+      "FloorRightZone": {
+        "x": 1200,
+        "y": 920,
+        "width": 650,
+        "height": 120
+      },
+      "BenchZone": {
+        "x": 50,
+        "y": 870,
+        "width": 400,
+        "height": 80
+      }
+    },
     "latitude": 40.7816,
     "longitude": -73.9786
   },
@@ -404,6 +424,48 @@
       "clean": "venue_financial_district_office_bg_clean",
       "grimy": "venue_financial_district_office_bg_grimy",
       "ruined": "venue_financial_district_office_bg_ruined"
+    },
+    "binPositions": [
+      {
+        "x": 600,
+        "y": 900,
+        "scale": 0.55
+      },
+      {
+        "x": 760,
+        "y": 900,
+        "scale": 0.55
+      },
+      {
+        "x": 920,
+        "y": 900,
+        "scale": 0.55
+      },
+      {
+        "x": 1080,
+        "y": 900,
+        "scale": 0.55
+      }
+    ],
+    "spawnZones": {
+      "FloorLeftZone": {
+        "x": 50,
+        "y": 920,
+        "width": 480,
+        "height": 120
+      },
+      "FloorRightZone": {
+        "x": 1200,
+        "y": 920,
+        "width": 650,
+        "height": 120
+      },
+      "DeskZone": {
+        "x": 100,
+        "y": 880,
+        "width": 400,
+        "height": 80
+      }
     },
     "latitude": 40.707,
     "longitude": -74.011
@@ -521,6 +583,32 @@
         "scale": 0.72
       }
     ],
+    "spawnZones": {
+      "HallwayFloorLeft": {
+        "x": 50,
+        "y": 900,
+        "width": 350,
+        "height": 130
+      },
+      "HallwayFloorCenter": {
+        "x": 700,
+        "y": 900,
+        "width": 520,
+        "height": 130
+      },
+      "HallwayFloorRight": {
+        "x": 1520,
+        "y": 900,
+        "width": 350,
+        "height": 130
+      },
+      "CounterZone": {
+        "x": 100,
+        "y": 850,
+        "width": 300,
+        "height": 80
+      }
+    },
     "latitude": 40.789,
     "longitude": -73.953
   },
@@ -567,6 +655,32 @@
         "scale": 0.58
       }
     ],
+    "spawnZones": {
+      "SidewalkLeft": {
+        "x": 50,
+        "y": 920,
+        "width": 400,
+        "height": 120
+      },
+      "SidewalkCenter": {
+        "x": 500,
+        "y": 920,
+        "width": 450,
+        "height": 120
+      },
+      "SidewalkRight": {
+        "x": 1500,
+        "y": 920,
+        "width": 380,
+        "height": 120
+      },
+      "CounterZone": {
+        "x": 600,
+        "y": 850,
+        "width": 300,
+        "height": 70
+      }
+    },
     "latitude": 40.7308,
     "longitude": -73.9973
   },
