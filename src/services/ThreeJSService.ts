@@ -84,6 +84,7 @@ class ThreeJSServiceSingleton {
   private isProceduralVenue = false;
   private occupiedSpots: {x: number, z: number, radius: number}[] = [];
   private currentVenueId: string | null = null;
+  private currentLoadId: number = 0;
   
   // Post-processing
   private composer: EffectComposer | null = null;
@@ -1226,12 +1227,14 @@ class ThreeJSServiceSingleton {
   }
 
   private loadSprites(spritePaths: string[]) {
+    const loadId = Date.now() + Math.random();
+    this.currentLoadId = loadId;
     const loader = new THREE.TextureLoader();
     const pondZoneAngle = Math.PI * 0.25;
     
     const loadPromises = spritePaths.map(path => {
       return new Promise<any>((resolve) => {
-        loader.load(path, (texture) => {
+        loader.load(`${path}?v=${Date.now()}`, (texture) => {
           texture.colorSpace = THREE.SRGBColorSpace;
           const filename = path.toLowerCase();
           const levelMatch = filename.match(/_lvl(\d+)\.png/);
@@ -1248,8 +1251,10 @@ class ThreeJSServiceSingleton {
       });
     });
 
-    Promise.all(loadPromises).then(results => {
-      const validItems = results.filter(r => r !== null);
+    Promise.all(loadPromises).then(items => {
+      if (this.currentLoadId !== loadId) return; // Abort if a newer load has started
+
+      const validItems = items.filter(r => r !== null);
       
       const ponds: {x: number, z: number}[] = [];
       const benches: {x: number, z: number}[] = [];
@@ -1264,9 +1269,11 @@ class ThreeJSServiceSingleton {
       validItems.sort((a, b) => {
          const getPriority = (item: any) => {
             if (item.type === 'plastic' && (item.level === 1 || item.level === 9)) return 1;
-            if (item.type === 'recycling' && item.level === 6) return 2;
-            if (item.type === 'recycling' && item.level === 9) return 3;
-            return 10;
+            if (item.type === 'recycling') return 10;
+            if (item.type === 'compost') return 11;
+            if (item.type === 'plastic') return 12;
+            if (item.type === 'landfill') return 13;
+            return 20;
          };
          const pA = getPriority(a);
          const pB = getPriority(b);
@@ -1275,6 +1282,8 @@ class ThreeJSServiceSingleton {
          return a.path.localeCompare(b.path);
       });
 
+      let benchIndex = 0;
+      let tableIndex = 0;
       validItems.forEach((item) => {
         const {path, texture, type, level} = item;
         let numDuplicates = 1;
@@ -1291,7 +1300,7 @@ class ThreeJSServiceSingleton {
           requiresCollision = false;
           numDuplicates = 15;
           if (level <= 6) baseSize = 10;
-          else if (level === 7) { baseSize = 12; numDuplicates = 10; } // Bushes
+          else if (level === 7) { baseSize = 12; numDuplicates = 10; requiresCollision = true; collisionRadius = 15; } // Bushes
           else if (level === 8) { baseSize = 8; numDuplicates = 8; } // Dragonflies (fewer)
           else if (level === 9) { baseSize = 8; numDuplicates = 8; } // Butterflies (fewer)
           else { baseSize = 8; numDuplicates = 20; } // Bees (level 10)
@@ -1300,28 +1309,28 @@ class ThreeJSServiceSingleton {
           requiresCollision = true;
           if (level <= 5) { 
              numDuplicates = 5; // 5 trees spread far and wide
-             if (level === 1) { baseSize = 10; collisionRadius = 10; }
-             else if (level === 2) { baseSize = 25; collisionRadius = 15; }
-             else if (level === 3) { baseSize = 40; collisionRadius = 25; }
-             else if (level === 4) { baseSize = 50; collisionRadius = 30; }
-             else if (level === 5) { baseSize = 65; collisionRadius = 40; } // Max trees reduced heavily
+             if (level === 1) { baseSize = 10; collisionRadius = 40; }
+             else if (level === 2) { baseSize = 25; collisionRadius = 40; }
+             else if (level === 3) { baseSize = 40; collisionRadius = 40; }
+             else if (level === 4) { baseSize = 50; collisionRadius = 40; }
+             else { baseSize = 70; collisionRadius = 40; }
           }
-          else if (level === 6) { baseSize = 30; collisionRadius = 20; numDuplicates = 3; }
-          else if (level === 7) { baseSize = 40; collisionRadius = 15; numDuplicates = 3; }
+          else if (level === 6) { baseSize = 22; collisionRadius = 60; numDuplicates = 3; }
+          else if (level === 7) { baseSize = 60; collisionRadius = 15; numDuplicates = 3; }
           else if (level === 8) { 
              baseSize = 25; requiresCollision = false; anchorToSnapTo = benches; 
-             numDuplicates = 1; yOffset = -22; 
+             numDuplicates = 1; yOffset = path.includes('2recycling') ? -28 : -22; 
           }
-          else if (level === 9) { baseSize = 50; collisionRadius = 35; numDuplicates = 2; }
+          else if (level === 9) { baseSize = 25; collisionRadius = 45; numDuplicates = 2; }
           else if (level === 10) { 
              baseSize = 35; requiresCollision = false; anchorToSnapTo = tables; 
-             numDuplicates = 1; yOffset = -20; 
+             numDuplicates = 1; yOffset = -28; 
           }
         } else if (type === 'plastic') {
           numDuplicates = 2;
           requiresCollision = true;
           if (level === 1 || level === 9) { 
-             baseSize = 120; collisionRadius = 60; isPondZone = true; numDuplicates = 1; yOffset = -35; 
+             baseSize = 120; collisionRadius = 110; isPondZone = true; numDuplicates = 1; yOffset = -35; 
           }
           else if (level === 7) { baseSize = 15; requiresCollision = false; numDuplicates = 4; yOffset = 50; }
           else {
@@ -1333,10 +1342,10 @@ class ThreeJSServiceSingleton {
              else { baseSize = 15; numDuplicates = 3; yOffset = -28; }
           }
         } else if (type === 'landfill') {
-          numDuplicates = 2;
+          numDuplicates = 1;
           requiresCollision = true;
-          if (level === 1) { baseSize = 40; collisionRadius = 25; numDuplicates = 1; }
-          else { baseSize = 15; collisionRadius = 10; numDuplicates = 3; }
+          if (level === 1) { baseSize = 30; collisionRadius = 12; numDuplicates = 1; }
+          else { baseSize = 12; collisionRadius = 8; numDuplicates = 2; }
         }
 
         for (let i = 0; i < numDuplicates; i++) {
@@ -1344,6 +1353,9 @@ class ThreeJSServiceSingleton {
           let seedPath = path;
           if (type === 'recycling' && level <= 5) {
              seedPath = path.replace(/_lvl\d+\.png/, '_lvltree.png');
+          } else if (type === 'recycling' && level === 9) {
+             seedPath += '_v2';
+             if (i === 0) seedPath += '_alt';
           }
           let prngSeed = hashString(`${seedPath}_${i}`);
           const random = () => {
@@ -1358,6 +1370,10 @@ class ThreeJSServiceSingleton {
           const geometry = new THREE.PlaneGeometry(1, 1);
           const sprite = new THREE.Mesh(geometry, material);
           
+          if (type === 'recycling' && (level === 8 || level === 10)) {
+             sprite.renderOrder = 10;
+          }
+          
           const aspect = texture.image.width / texture.image.height;
           const scaleMod = (type === 'compost') ? (0.6 + random() * 0.8) : (0.9 + random() * 0.2);
           sprite.scale.set(baseSize * aspect * scaleMod, baseSize * scaleMod, 1);
@@ -1368,7 +1384,15 @@ class ThreeJSServiceSingleton {
           let z = 0;
           
           if (anchorToSnapTo && anchorToSnapTo.length > 0) {
-             const anchor = anchorToSnapTo[i % anchorToSnapTo.length];
+             let anchorIdx = i % anchorToSnapTo.length;
+             if (anchorToSnapTo === benches) {
+                anchorIdx = benchIndex % anchorToSnapTo.length;
+                benchIndex++;
+             } else if (anchorToSnapTo === tables) {
+                anchorIdx = tableIndex % anchorToSnapTo.length;
+                tableIndex++;
+             }
+             const anchor = anchorToSnapTo[anchorIdx];
              if (anchor) {
                x = anchor.x;
                z = anchor.z;
@@ -1376,10 +1400,25 @@ class ThreeJSServiceSingleton {
                   x += (random() - 0.5) * 40;
                   z += (random() - 0.5) * 40;
                }
+               
+               if (anchorToSnapTo === benches) {
+                  const dist = Math.sqrt(x*x + z*z);
+                  if (dist > 0) {
+                     x += (x / dist) * 4;
+                     z += (z / dist) * 4;
+                  }
+               } else if (anchorToSnapTo === tables) {
+                  const dist = Math.sqrt(x*x + z*z);
+                  if (dist > 0) {
+                     x -= (x / dist) * 3;
+                     z -= (z / dist) * 3;
+                  }
+               }
+               
                placed = true;
              }
           } else {
-            while (!placed && attempts < 20) {
+            while (!placed && attempts < 50) {
               attempts++;
               
               let angle = 0;
@@ -1392,19 +1431,17 @@ class ThreeJSServiceSingleton {
                  let baseRad = 80;
                  let varyRad = 200;
                  if (type === 'recycling' && level <= 5) {
-                    baseRad = 80; // Trees (all levels) spread but capped
                     varyRad = 150;
                  } else if (type === 'compost') {
                     if (level === 7 || level === 8) {
-                       baseRad = 120; // Push bushes and dragonflies away from center
-                       varyRad = 150;
+                       baseRad = 120; varyRad = 150;
                     } else {
                        baseRad = 20; varyRad = 300;
                     }
                  }
                  radius = baseRad + random() * varyRad;
               }
-              
+
               x = Math.sin(angle) * radius;
               z = Math.cos(angle) * radius;
               
@@ -1431,6 +1468,10 @@ class ThreeJSServiceSingleton {
             
             // Make them face the center of the world (but stand perfectly straight up)
             sprite.lookAt(new THREE.Vector3(0, sprite.position.y, 0));
+            
+            if (type === 'recycling' && (level === 6 || level === 8)) {
+              sprite.rotateY(Math.PI);
+            }
             
             this.scene.add(sprite);
             this.sprites.push(sprite);
