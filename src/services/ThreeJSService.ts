@@ -1602,7 +1602,7 @@ class ThreeJSServiceSingleton {
       financial_district_office:  { startAngle: -0.25, spacing: 0.12, groundY: -18 },
       times_square:               { startAngle: -0.25, spacing: 0.12, groundY: -18 },
       hot_dog_stand:              { startAngle: -0.25, spacing: 0.12, groundY: -18 },
-      central_park:               { startAngle: -0.25, spacing: 0.12, groundY: -4.5, scale: 0.85 },
+      central_park:               { startAngle: -0.70, spacing: 0.09, groundY: -5.5, scale: 1.05 },
       nyc_hospital:               { startAngle: 5.0, spacing: 0.18, groundY: -10, scale: 1.5 },
       mackenzie_cafe:             { startAngle: -0.25, spacing: 0.12, groundY: -18 },
       public_library:             { startAngle: -0.25, spacing: 0.12, groundY: -18 },

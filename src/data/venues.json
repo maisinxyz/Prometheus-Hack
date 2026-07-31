@@ -488,24 +488,6 @@
       "grimy": "venue_central_park_bg_grimy",
       "ruined": "venue_central_park_bg_ruined"
     },
-    "binPositions": [
-      {
-        "binId": "recycling",
-        "preset": "far_left"
-      },
-      {
-        "binId": "compost",
-        "preset": "left_outer"
-      },
-      {
-        "binId": "landfill",
-        "preset": "right_outer"
-      },
-      {
-        "binId": "plastic",
-        "preset": "far_right"
-      }
-    ],
     "latitude": 40.7738,
     "longitude": -73.9708
   },

@@ -98,7 +98,7 @@ export class HUDScene extends Phaser.Scene {
     };
 
     // --- Top-Right Settings / Help ---
-    const topY = 70;
+    const topY = 130;
     const width = 1920;
     
     // Help button removed to avoid overlapping with SCORE
