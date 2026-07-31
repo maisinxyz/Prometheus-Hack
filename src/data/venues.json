@@ -4,14 +4,11 @@
     "displayName": "Construction Site",
     "unlockChiThreshold": 0,
     "itemPoolIds": [
-      "clean_sawdust_pile",
+      "concrete_chunk",
       "broken_brick_piece",
       "yellow_caution_tape",
-      "cement_mix_bag",
-      "rusty_nail",
-      "cracked_hard_hat",
       "wood_scrap",
-      "drywall_scrap"
+      "cement_mix_bag"
     ],
     "backgroundKeys": {
       "clean": "venue_construction_site_bg_clean",
@@ -493,24 +490,20 @@
     },
     "binPositions": [
       {
-        "x": 75,
-        "y": 880,
-        "scale": 0.72
+        "binId": "recycling",
+        "preset": "far_left"
       },
       {
-        "x": 525,
-        "y": 880,
-        "scale": 0.72
+        "binId": "compost",
+        "preset": "left_outer"
       },
       {
-        "x": 1165,
-        "y": 880,
-        "scale": 0.72
+        "binId": "landfill",
+        "preset": "right_outer"
       },
       {
-        "x": 1800,
-        "y": 880,
-        "scale": 0.72
+        "binId": "plastic",
+        "preset": "far_right"
       }
     ],
     "latitude": 40.7738,

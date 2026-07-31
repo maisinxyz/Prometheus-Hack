@@ -98,15 +98,15 @@ export class HUDScene extends Phaser.Scene {
     };
 
     // --- Top-Right Settings / Help ---
-    const topY = 120;
+    const topY = 70;
     const width = 1920;
     
     // Help button removed to avoid overlapping with SCORE
 
     // --- Score display (top-right) ---
-    this.scoreGlow = this.add.graphics({ x: 1780, y: 120 }).setDepth(185);
-    createPill(1780, 120, 240, 60);
-    this.scoreText = this.add.text(1780, 120, 'SCORE: 0', {
+    this.scoreGlow = this.add.graphics({ x: 1720, y: topY }).setDepth(185);
+    createPill(1720, topY, 260, 60);
+    this.scoreText = this.add.text(1720, topY, 'SCORE: 0', {
       fontFamily: '"Nunito", sans-serif',
       fontSize: '28px',
       color: '#ffffff',
@@ -121,9 +121,9 @@ export class HUDScene extends Phaser.Scene {
     streakFXManager.applyHUDStyle(this, this.scoreGlow, initialTier, this.scoreGlow);
 
     // --- Combo display (top-left) ---
-    this.comboPill = createPill(140, 120, 240, 60);
+    this.comboPill = createPill(180, topY, 240, 60);
     this.comboPill.setAlpha(0); // Hide initially
-    this.comboText = this.add.text(140, 120, '', {
+    this.comboText = this.add.text(180, topY, '', {
       fontFamily: '"Nunito", sans-serif',
       fontSize: '28px',
       color: '#ffffff',
@@ -133,8 +133,8 @@ export class HUDScene extends Phaser.Scene {
     this.comboText.setOrigin(0.5).setDepth(200);
 
     // --- Timer display (top-center) ---
-    createPill(960, 120, 200, 70);
-    this.timerText = this.add.text(960, 120, '', {
+    createPill(960, topY, 200, 60);
+    this.timerText = this.add.text(960, topY, '', {
       fontFamily: '"Nunito", sans-serif',
       fontSize: '36px',
       color: '#ffffff',
@@ -264,6 +264,12 @@ export class HUDScene extends Phaser.Scene {
   }
 
   update(): void {
+    if (this.venueId === 'construction_site') {
+      this.timerText.setText('NO LIMIT');
+      this.timerText.setColor('#38BDF8');
+      return;
+    }
+
     // Update timer countdown every frame
     const elapsed = Date.now() - this.startTimeMs;
     const remaining = Math.max(0, this.roundTimerMs - elapsed);

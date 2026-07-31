@@ -17,8 +17,12 @@ export const VenueSchema = z.object({
   latitude: z.number().optional(),
   longitude: z.number().optional(),
   binPositions: z.array(z.object({
-    x: z.number(),
-    y: z.number(),
+    binId: z.string().optional(),
+    preset: z.string().optional(),
+    angleDegrees: z.number().optional(),
+    groundY: z.number().optional(),
+    x: z.number().optional(),
+    y: z.number().optional(),
     scale: z.number().optional()
   })).optional(),
   spawnZones: z.record(z.string(), z.object({

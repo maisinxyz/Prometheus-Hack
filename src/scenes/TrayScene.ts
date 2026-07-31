@@ -347,12 +347,17 @@ export class TrayScene extends Phaser.Scene {
 
     if (pool.length === 0) return;
 
-    // Pick random items for this tray (10-15 as requested)
-    this.itemsPerTray = Phaser.Math.Between(10, 15);
-    const selectedPool = [...pool].sort(() => Math.random() - 0.5);
+    // Pick items for this tray (5 for tutorial/construction_site, 10-15 for other levels)
     const chosenItems = [];
-    for (let i = 0; i < this.itemsPerTray; i++) {
-      chosenItems.push(selectedPool[i % selectedPool.length]!);
+    if (this.venueId === 'construction_site' || pool.length <= 5) {
+      this.itemsPerTray = pool.length;
+      chosenItems.push(...pool);
+    } else {
+      this.itemsPerTray = Phaser.Math.Between(10, 15);
+      const selectedPool = [...pool].sort(() => Math.random() - 0.5);
+      for (let i = 0; i < this.itemsPerTray; i++) {
+        chosenItems.push(selectedPool[i % selectedPool.length]!);
+      }
     }
 
     const venueSpawnZones = venueData.spawnZones as Record<string, {x: number, y: number, width: number, height: number}> | undefined;
@@ -769,6 +774,9 @@ export class TrayScene extends Phaser.Scene {
 
   /** Start the round countdown timer */
   private startTimer(): void {
+    if (this.venueId === 'construction_site') {
+      return; // No time limit for the tutorial level
+    }
     this.roundStartTimeMs = Date.now();
     this.timerEvent = this.time.delayedCall(this.roundTimerMs, () => {
       if (!this.roundEnded) {
@@ -863,7 +871,7 @@ export class TrayScene extends Phaser.Scene {
     }).setOrigin(0.5).setDepth(1003);
 
     // CHI Gained Bar
-    const chiGained = computeChiGain(this.roundScore);
+    const chiGained = computeChiGain(accuracyPct);
     const totalChi = metaGameController.chiSystem.getChi(this.venueId);
     this.add.text(panelX, panelY - 100, `CHI GAINED: +${Math.round(chiGained)}`, {
       fontFamily: '"Nunito", sans-serif',
@@ -873,11 +881,11 @@ export class TrayScene extends Phaser.Scene {
     }).setOrigin(0.5).setDepth(1003);
 
     this.add.text(panelX, panelY - 70, `TOTAL CHI: ${Math.round(totalChi)}`, {
-        fontFamily: '"Nunito", sans-serif',
-        fontSize: '16px',
-        color: '#fcd34d', // yellow-300
-        fontStyle: 'bold'
-      }).setOrigin(0.5).setDepth(1003);
+      fontFamily: '"Nunito", sans-serif',
+      fontSize: '18px',
+      color: '#fcd34d', // yellow-300
+      fontStyle: 'bold'
+    }).setOrigin(0.5).setDepth(1003);
 
     const barWidth = 400;
     const barHeight = 24;
@@ -955,11 +963,9 @@ export class TrayScene extends Phaser.Scene {
         
         // Update invisible Phaser bins to track the 3D world bins
         for (let i = 0; i < this.bins.length; i++) {
-          const bin = this.bins[i];
-          // Use the world position from the 3D bin mesh if available
-          const meshWorldPos = threeService.binSprites && threeService.binSprites[i]
-            ? threeService.binSprites[i].worldPosition
-            : null;
+          const bin = this.bins[i]!;
+          // Use the world position from the 3D bin mesh matched by binDef.id
+          const meshWorldPos = (threeService as any).getBinMeshPosition ? (threeService as any).getBinMeshPosition(bin.binDef.id) : null;
           
           if (meshWorldPos) {
             (bin as any).worldPosition = meshWorldPos;

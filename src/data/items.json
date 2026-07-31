@@ -1044,7 +1044,7 @@
   },
   {
     "id": "broken_brick_piece",
-    "displayName": "Broken Brick Piece",
+    "displayName": "Brick",
     "spriteKey": "brick",
     "correctBinId": "landfill",
     "isComposite": false,
@@ -1059,9 +1059,9 @@
   },
   {
     "id": "yellow_caution_tape",
-    "displayName": "Yellow Caution Tape",
+    "displayName": "Caution Tape",
     "spriteKey": "cautiontape",
-    "correctBinId": "landfill",
+    "correctBinId": "plastic",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [
@@ -1074,7 +1074,7 @@
   },
   {
     "id": "cement_mix_bag",
-    "displayName": "Cement Mix Bag",
+    "displayName": "Empty Concrete Bag",
     "spriteKey": "emptycementbag",
     "correctBinId": "landfill",
     "isComposite": false,
@@ -2096,7 +2096,7 @@
   },
   {
     "id": "concrete_chunk",
-    "displayName": "Concrete Chunk",
+    "displayName": "Rock",
     "spriteKey": "rockshattered",
     "correctBinId": "landfill",
     "isComposite": false,
@@ -6203,9 +6203,9 @@
   },
   {
     "id": "wood_scrap",
-    "displayName": "Wood Scrap",
+    "displayName": "Wood Plank",
     "spriteKey": "wood",
-    "correctBinId": "compost",
+    "correctBinId": "recycling",
     "isComposite": false,
     "componentIds": [],
     "venueIds": [

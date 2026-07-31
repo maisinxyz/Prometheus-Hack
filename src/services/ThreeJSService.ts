@@ -12,6 +12,7 @@ import {
   VenuePropDef,
   VenueMaterialDef,
 } from '../config/venueEnvironments';
+import venuesData from '../data/venues.json';
 
 /**
  * Vignette shader for post-processing (darkens corners to draw eye center).
@@ -70,6 +71,24 @@ const TEXTURE_VENUE_IDS = [
 /** Procedural (Stylized PBR) venue IDs */
 const PROCEDURAL_VENUE_IDS = [];
 
+/** Named landmark presets for venues */
+export const VENUE_LANDMARKS: Record<string, Record<string, { angleDegrees: number; groundY?: number }>> = {
+  central_park: {
+    far_left:           { angleDegrees: -45, groundY: -4.5 },
+    left_outer:         { angleDegrees: -35, groundY: -4.5 },
+    left_bench_left:    { angleDegrees: -25, groundY: -4.5 },
+    left_bench_right:   { angleDegrees: -5,  groundY: -4.5 },
+    right_bench_left:   { angleDegrees: 5,   groundY: -4.5 },
+    right_bench_right:  { angleDegrees: 25,  groundY: -4.5 },
+    right_outer:        { angleDegrees: 35,  groundY: -4.5 },
+    far_right:          { angleDegrees: 45,  groundY: -4.5 },
+    grass_left:         { angleDegrees: -15, groundY: -10.0 },
+    grass_center:       { angleDegrees: 0,   groundY: -10.0 },
+    grass_right:        { angleDegrees: 15,  groundY: -10.0 },
+    behind_player:      { angleDegrees: 180, groundY: -4.5 },
+  }
+};
+
 class ThreeJSServiceSingleton {
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
@@ -81,6 +100,7 @@ class ThreeJSServiceSingleton {
   private mesh: THREE.Mesh | null = null;
   private sprites: THREE.Object3D[] = [];
   private binSprites: THREE.Object3D[] = [];
+  private binMap: Map<string, THREE.Object3D> = new Map();
   private isProceduralVenue = false;
   private occupiedSpots: {x: number, z: number, radius: number}[] = [];
   private currentVenueId: string | null = null;
@@ -1518,6 +1538,7 @@ class ThreeJSServiceSingleton {
     // Clear old bins
     this.binSprites.forEach(s => this.scene?.remove(s));
     this.binSprites = [];
+    this.binMap.clear();
     
     const textureLoader = new THREE.TextureLoader();
     
@@ -1571,7 +1592,7 @@ class ThreeJSServiceSingleton {
 
     // Per-venue angular offsets (theta in radians from initial camera direction)
     // Positive = right of center, negative = left
-    const venueAngles: Record<string, { startAngle: number, spacing: number, groundY: number, scale?: number, cameraTheta?: number }> = {
+    const venueAngles: Record<string, { startAngle: number, spacing: number, groundY: number, scale?: number, cameraTheta?: number, customAngles?: number[] }> = {
       construction_site:          { startAngle: 3.75, spacing: 0.12, groundY: -3 },
       ferry_docks:                { startAngle:  2.55,  spacing: 0.09, groundY: -4.5, scale: 0.85, cameraTheta: -0.59 },
       tech_startup:               { startAngle: 4.2, spacing: 0.21, groundY: -20, scale: 2.1, cameraTheta: Math.PI / 2.2 },
@@ -1581,7 +1602,7 @@ class ThreeJSServiceSingleton {
       financial_district_office:  { startAngle: -0.25, spacing: 0.12, groundY: -18 },
       times_square:               { startAngle: -0.25, spacing: 0.12, groundY: -18 },
       hot_dog_stand:              { startAngle: -0.25, spacing: 0.12, groundY: -18 },
-      central_park:               { startAngle: -0.25, spacing: 0.12, groundY: -18 },
+      central_park:               { startAngle: -0.25, spacing: 0.12, groundY: -4.5, scale: 0.85 },
       nyc_hospital:               { startAngle: 5.0, spacing: 0.18, groundY: -10, scale: 1.5 },
       mackenzie_cafe:             { startAngle: -0.25, spacing: 0.12, groundY: -18 },
       public_library:             { startAngle: -0.25, spacing: 0.12, groundY: -18 },
@@ -1623,34 +1644,46 @@ class ThreeJSServiceSingleton {
         const uniformWidth = uniformHeight * aspect;
         mesh.scale.set(uniformWidth, uniformHeight, 1);
         
-        // Place directly using spherical coordinates - no Phaser mapping distortion!
-        const theta = angles.startAngle + index * angles.spacing;
+        // Resolve position using Landmark Presets or Degree specifications from venues.json
+        const venueData = (venuesData as any[]).find((v: any) => v.id === venueId);
+        const binPosDefs = venueData?.binPositions as Array<any> | undefined;
+        const binPos = binPosDefs?.find((p: any) => p.binId === b.id) || binPosDefs?.[index];
+
+        let theta: number;
+        let groundY = angles.groundY;
+
+        if (binPos?.preset && VENUE_LANDMARKS[venueId]?.[binPos.preset]) {
+          const landmark = VENUE_LANDMARKS[venueId][binPos.preset]!;
+          theta = landmark.angleDegrees * (Math.PI / 180);
+          if (landmark.groundY !== undefined) groundY = landmark.groundY;
+        } else if (binPos?.angleDegrees !== undefined) {
+          theta = binPos.angleDegrees * (Math.PI / 180);
+          if (binPos.groundY !== undefined) groundY = binPos.groundY;
+        } else if (angles.customAngles && index < angles.customAngles.length) {
+          theta = angles.customAngles[index];
+        } else {
+          theta = angles.startAngle + index * angles.spacing;
+        }
+
         mesh.position.x = Math.sin(theta) * radius;
         mesh.position.z = Math.cos(theta) * radius;
-        if (venueId === 'ferry_docks') {
-          let customYOffset = 0;
-          if (b.id === 'recycling') {
-            customYOffset = 0.6 * venueScale; // Lift the blue bin slightly
-          }
-          mesh.position.y = angles.groundY + (uniformHeight - (10.0 * venueScale)) / 2.0 + customYOffset;
-          // Face the camera's vertical axis so they stand perfectly straight up without leaning backwards
-          mesh.lookAt(new THREE.Vector3(0, mesh.position.y, 0));
-        } else if (venueId === 'tech_startup') {
-          mesh.position.y = angles.groundY;
-          mesh.lookAt(new THREE.Vector3(0, mesh.position.y, 0));
-        } else {
-          mesh.position.y = angles.groundY;
-          // Face the camera's vertical axis so they stand perfectly straight up
-          mesh.lookAt(new THREE.Vector3(0, mesh.position.y, 0));
-        }
+        mesh.position.y = groundY;
+        mesh.lookAt(new THREE.Vector3(0, mesh.position.y, 0));
         
         // Store world position for Phaser hitbox sync
         mesh.worldPosition = mesh.position.clone();
+        (mesh as any).binId = b.id;
         
         this.scene!.add(mesh);
         this.binSprites.push(mesh);
+        this.binMap.set(b.id, mesh);
       });
     });
+  }
+
+  getBinMeshPosition(binId: string): THREE.Vector3 | null {
+    const mesh = this.binMap.get(binId);
+    return mesh ? ((mesh as any).worldPosition || mesh.position) : null;
   }
 
   // Convert 3D world coordinate to Phaser 1920x1080 screen coordinates

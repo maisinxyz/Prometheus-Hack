@@ -12,10 +12,16 @@ const CHI_PARTIAL_RATE = 0.15;
 
 /**
  * Compute the CHI gain from a single round.
- * The user wants CHI gained to be exactly equal to the score gained.
+ * Formula per Step 1:
+ * - 100% accuracy = 15 CHI
+ * - 50%-99% accuracy = (accuracyPct - 50) * 0.15 CHI
+ * - <= 50% accuracy = 0 CHI
  */
-export function computeChiGain(roundScore: number): number {
-  return Math.max(0, roundScore);
+export function computeChiGain(accuracyPct: number): number {
+  if (accuracyPct >= 100) {
+    return CHI_GAIN_PERFECT;
+  }
+  return Math.max(0, (accuracyPct - 50) * CHI_PARTIAL_RATE);
 }
 
 export class ChiSystem {
@@ -57,12 +63,12 @@ export class ChiSystem {
   }
 
   /**
-   * Updates CHI based on round score.
+   * Updates CHI based on round accuracy percentage.
    */
-  updateChi(venueId: string, roundScore: number): number {
+  updateChi(venueId: string, accuracyPct: number): number {
     const currentChi = this.getChi(venueId);
 
-    const gain = computeChiGain(roundScore);
+    const gain = computeChiGain(accuracyPct);
     let newChi = currentChi + gain;
 
     this.chiMap.set(venueId, newChi);
