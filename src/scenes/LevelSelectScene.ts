@@ -251,18 +251,16 @@ export class LevelSelectScene extends Phaser.Scene {
           index: i,
           state,
           onClick: (id: string) => {
-            if (isUnlocked) {
-              const pList = (this as any).playlist;
-              const tIdx = (this as any).currentTrackIndex;
-              if (pList && pList[tIdx]) {
-                const music = this.sound.get(pList[tIdx].key) as Phaser.Sound.WebAudioSound;
-                if (music && music.isPlaying) {
-                  localStorage.setItem('musicSeek', music.seek.toString());
-                  music.pause();
-                }
+            const pList = (this as any).playlist;
+            const tIdx = (this as any).currentTrackIndex;
+            if (pList && pList[tIdx]) {
+              const music = this.sound.get(pList[tIdx].key) as Phaser.Sound.WebAudioSound;
+              if (music && music.isPlaying) {
+                localStorage.setItem('musicSeek', music.seek.toString());
+                music.pause();
               }
-              this.scene.start('LoadingScene', { target: 'TrayScene', targetData: { venueId: id } });
             }
+            this.scene.start('LoadingScene', { target: 'TrayScene', targetData: { venueId: id } });
           }
         });
         levelNodes.push(node);
@@ -572,6 +570,15 @@ export class LevelSelectScene extends Phaser.Scene {
         `;
         
         document.getElementById('garden-btn')?.addEventListener('click', () => {
+          const pList = (this as any).playlist;
+          const tIdx = (this as any).currentTrackIndex;
+          if (pList && pList[tIdx]) {
+            const music = this.sound.get(pList[tIdx].key) as Phaser.Sound.WebAudioSound;
+            if (music && music.isPlaying) {
+              localStorage.setItem('musicSeek', music.seek.toString());
+              music.pause();
+            }
+          }
           this.scene.start('LoadingScene', { target: 'CommunityGardenScene' });
         });
         document.getElementById('codex-btn')?.addEventListener('click', () => {

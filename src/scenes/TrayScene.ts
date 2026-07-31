@@ -326,6 +326,10 @@ export class TrayScene extends Phaser.Scene {
     if (TrayScene.THREE_D_VENUE_IDS.includes(this.venueId)) {
       const mappedBins = this.bins.map(b => ({ id: b.binDef.id, phaserBin: b }));
       (ThreeJSService as any).sync3DBins(mappedBins, this);
+      
+      // Immediately force an update so that the invisible 2D bins snap to their new 3D positions
+      // BEFORE spawnItems() is called. This guarantees items avoid the 3D bins!
+      this.update(0, 0);
     }
   }
 
@@ -827,7 +831,7 @@ export class TrayScene extends Phaser.Scene {
   private showRoundSummary(accuracyPct: number): void {
     // Dim background
     const overlay = this.add.rectangle(960, 540, 1920, 1080, 0x000000, 0.7);
-    overlay.setDepth(100);
+    overlay.setDepth(1000);
 
     // Premium Panel Background
     const panelWidth = 600;
@@ -838,7 +842,7 @@ export class TrayScene extends Phaser.Scene {
     const shadow = this.add.graphics();
     shadow.fillStyle(0x000000, 0.5);
     shadow.fillRoundedRect(panelX - panelWidth / 2 + 10, panelY - panelHeight / 2 + 10, panelWidth, panelHeight, UI_THEME.cornerRadius);
-    shadow.setDepth(101);
+    shadow.setDepth(1001);
 
     const bgGraphics = this.add.graphics();
     const bgTop = Phaser.Display.Color.HexStringToColor('#1f2937').color;
@@ -847,7 +851,7 @@ export class TrayScene extends Phaser.Scene {
     bgGraphics.fillRoundedRect(panelX - panelWidth / 2, panelY - panelHeight / 2, panelWidth, panelHeight, UI_THEME.cornerRadius);
     bgGraphics.lineStyle(4, Phaser.Display.Color.HexStringToColor(UI_THEME.goldAccent[0]).color, 0.8);
     bgGraphics.strokeRoundedRect(panelX - panelWidth / 2, panelY - panelHeight / 2, panelWidth, panelHeight, UI_THEME.cornerRadius);
-    bgGraphics.setDepth(102);
+    bgGraphics.setDepth(1002);
 
     // Title
     this.add.text(panelX, panelY - 170, 'ROUND COMPLETE', {
@@ -856,7 +860,7 @@ export class TrayScene extends Phaser.Scene {
       color: '#ffffff',
       fontStyle: 'bold',
       shadow: { offsetX: 0, offsetY: 2, color: 'rgba(0,0,0,0.8)', blur: 4, fill: true }
-    }).setOrigin(0.5).setDepth(103);
+    }).setOrigin(0.5).setDepth(1003);
 
     // CHI Gained Bar
     const chiGained = computeChiGain(this.roundScore);
@@ -866,26 +870,26 @@ export class TrayScene extends Phaser.Scene {
       fontSize: '24px',
       color: UI_THEME.primaryGradient[1],
       fontStyle: 'bold'
-    }).setOrigin(0.5).setDepth(103);
+    }).setOrigin(0.5).setDepth(1003);
 
     this.add.text(panelX, panelY - 70, `TOTAL CHI: ${Math.round(totalChi)}`, {
-      fontFamily: '"Nunito", sans-serif',
-      fontSize: '18px',
-      color: '#94a3b8',
-      fontStyle: 'bold'
-    }).setOrigin(0.5).setDepth(103);
+        fontFamily: '"Nunito", sans-serif',
+        fontSize: '16px',
+        color: '#fcd34d', // yellow-300
+        fontStyle: 'bold'
+      }).setOrigin(0.5).setDepth(1003);
 
     const barWidth = 400;
     const barHeight = 24;
     const barY = panelY - 40;
     
     // Bar Background
-    const barBg = this.add.graphics().setDepth(103);
+    const barBg = this.add.graphics().setDepth(1003);
     barBg.fillStyle(0x374151, 1);
     barBg.fillRoundedRect(panelX - barWidth / 2, barY - barHeight / 2, barWidth, barHeight, barHeight / 2);
 
     // Animated Bar Fill
-    const fillGraphics = this.add.graphics().setDepth(104);
+    const fillGraphics = this.add.graphics().setDepth(1004);
     this.tweens.addCounter({
       from: 0,
       to: chiGained,
@@ -906,10 +910,10 @@ export class TrayScene extends Phaser.Scene {
     const accColor = accuracyPct >= 50 ? '#22C55E' : '#EF4444';
     this.add.text(panelX, panelY + 30, `ACCURACY: ${accuracyPct}%`, {
       fontFamily: '"Nunito", sans-serif',
-      fontSize: '28px',
-      color: accColor,
+      fontSize: '18px',
+      color: '#cbd5e1',
       fontStyle: 'bold'
-    }).setOrigin(0.5).setDepth(103);
+    }).setOrigin(0.5).setDepth(1003);
 
     // Streak System
     const currentStreak = perfectStreakSystem.getCurrentStreak();
@@ -920,7 +924,7 @@ export class TrayScene extends Phaser.Scene {
       fontSize: '24px',
       color: '#ffffff',
       fontStyle: 'bold'
-    }).setOrigin(0.5).setDepth(103);
+    }).setOrigin(0.5).setDepth(1003);
 
     // Apply Streak FX
     streakFXManager.playSummaryScreenFX(this, panelX + 160, panelY + 90, streakTier);
@@ -929,12 +933,12 @@ export class TrayScene extends Phaser.Scene {
     new GlossyButton(this, panelX - 110, panelY + 160, 'PLAY AGAIN', () => {
       this.scene.stop('HUDScene');
       this.scene.start('TrayScene', { venueId: this.venueId });
-    }, 200, 60, UI_THEME.primaryGradient).setDepth(105);
+    }, 200, 60, UI_THEME.primaryGradient).setDepth(1005);
 
     new GlossyButton(this, panelX + 110, panelY + 160, 'EXIT TO MAP', () => {
       this.scene.stop('HUDScene');
       this.scene.start('LevelSelectScene');
-    }, 200, 60, UI_THEME.goldAccent).setDepth(105);
+    }, 200, 60, UI_THEME.goldAccent).setDepth(1005);
   }
 
   /** Clean up when leaving scene */
